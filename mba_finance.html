@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Management — PGDM Term III</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F5F0;--surface:#fff;--surface2:#F0EDE6;
+  --text:#1C1C2E;--muted:#6B6882;
+  --accent:#B8860B;--accent-l:#F5EDD5;
+  --green:#1E6B4A;--green-l:#D4EDDA;
+  --red:#C0392B;--red-l:#FADBD8;
+  --blue:#1A4B8C;--blue-l:#D6E4F7;
+  --border:#E0DAD0;--radius:12px;
+  --sw:268px;
+  --sh:0 2px 20px rgba(28,28,46,.08);
+  --shh:0 6px 30px rgba(28,28,46,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:15px;line-height:1.72}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:var(--sw);height:100vh;background:var(--text);overflow-y:auto;z-index:100;display:flex;flex-direction:column;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.sb-head{padding:26px 22px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-head h1{font-family:'Cormorant Garamond',serif;color:#fff;font-size:1.28rem;font-weight:600;line-height:1.3}
+.sb-head p{color:rgba(255,255,255,.38);font-size:.68rem;margin-top:3px;letter-spacing:.09em;text-transform:uppercase}
+.sb-body{flex:1;padding:10px 0}
+.nav-group{margin-bottom:2px}
+.nav-grp-label{padding:10px 22px 4px;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.25);font-weight:500}
+.nav-item{display:flex;align-items:center;gap:11px;padding:8px 22px;cursor:pointer;color:rgba(255,255,255,.5);font-size:.78rem;font-weight:400;transition:all .18s;text-decoration:none;border-left:3px solid transparent}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.05)}
+.nav-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(184,134,11,.08);font-weight:500}
+.nav-num{background:rgba(255,255,255,.08);border-radius:4px;padding:1px 5px;font-family:'Fira Code',monospace;font-size:.66rem;min-width:24px;text-align:center;flex-shrink:0}
+.nav-item.active .nav-num{background:rgba(184,134,11,.25);color:var(--accent)}
+.sb-foot{padding:13px 22px;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.22);font-size:.68rem}
+
+/* PROGRESS */
+.prog-track{position:fixed;top:0;left:var(--sw);right:0;height:2px;background:var(--border);z-index:200}
+.prog-fill{height:100%;background:var(--accent);width:0%;transition:width .15s}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;max-width:1040px}
+.module{padding:52px 64px 64px;border-bottom:1px solid var(--border)}
+.module:last-child{border-bottom:none}
+.mod-tag{font-family:'Fira Code',monospace;font-size:.66rem;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:7px;font-weight:500}
+.module h2{font-family:'Cormorant Garamond',serif;font-size:2.15rem;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:4px}
+.mod-sub{color:var(--muted);font-size:.87rem;margin-bottom:36px;font-weight:300}
+.module h3{font-family:'Cormorant Garamond',serif;font-size:1.28rem;font-weight:600;color:var(--text);margin:30px 0 11px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.module h4{font-size:.82rem;font-weight:600;color:var(--text);margin:18px 0 7px;letter-spacing:.05em;text-transform:uppercase}
+.module p{color:var(--text);margin-bottom:13px;font-weight:300}
+.module ul,.module ol{padding-left:18px;margin-bottom:13px}
+.module li{margin-bottom:5px;font-weight:300}
+
+/* FORMULA */
+.fbox{background:var(--text);color:#e6e2f0;border-radius:var(--radius);padding:16px 22px;margin:14px 0;font-family:'Fira Code',monospace;font-size:.84rem;line-height:1.9;border-left:4px solid var(--accent)}
+.fbox .fl{font-family:'Jost',sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.13em;color:var(--accent);margin-bottom:6px;display:block;font-weight:500}
+.fbox span{color:var(--accent);font-weight:500}
+.fbox .rule{color:#a0ecc8;font-weight:500}
+
+/* CALLOUTS */
+.callout{border-radius:var(--radius);padding:13px 16px;margin:14px 0;display:flex;gap:11px;align-items:flex-start;font-size:.86rem;font-weight:400}
+.ci{font-size:1.05rem;flex-shrink:0;margin-top:1px}
+.ct{background:var(--accent-l);border-left:3px solid var(--accent)}
+.cw{background:var(--red-l);border-left:3px solid var(--red)}
+.ci2{background:var(--blue-l);border-left:3px solid var(--blue)}
+.cg{background:var(--green-l);border-left:3px solid var(--green)}
+
+/* TABLE */
+.ct2{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:.83rem;border-radius:var(--radius);overflow:hidden;box-shadow:var(--sh)}
+.ct2 th{background:var(--text);color:#fff;padding:10px 15px;text-align:left;font-weight:500;font-size:.76rem;letter-spacing:.06em;text-transform:uppercase}
+.ct2 td{padding:9px 15px;border-bottom:1px solid var(--border);vertical-align:top;font-weight:300}
+.ct2 tr:nth-child(even) td{background:var(--surface2)}
+.ct2 tr:last-child td{border-bottom:none}
+.ct2 td:first-child{font-weight:500;color:var(--text)}
+
+/* CARDS */
+.card{background:var(--surface);border-radius:var(--radius);padding:26px 30px;margin:22px 0;box-shadow:var(--sh);border:1px solid var(--border)}
+.card h4{font-family:'Cormorant Garamond',serif;font-size:1.08rem;font-weight:600;margin:0 0 18px;text-transform:none;letter-spacing:0;color:var(--text);border-bottom:1px solid var(--border);padding-bottom:10px}
+
+/* FORM */
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:16px}
+.ff label{display:block;font-size:.69rem;font-weight:500;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.ff input,.ff select{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:7px;font-family:'Jost',sans-serif;font-size:.86rem;color:var(--text);background:var(--bg);transition:border-color .18s;outline:none}
+.ff input:focus,.ff select:focus{border-color:var(--accent)}
+.btn{background:var(--text);color:#fff;border:none;padding:9px 22px;border-radius:7px;font-family:'Jost',sans-serif;font-size:.83rem;font-weight:500;cursor:pointer;transition:all .18s;letter-spacing:.04em}
+.btn:hover{background:var(--accent);transform:translateY(-1px);box-shadow:var(--shh)}
+.res{background:var(--accent-l);border:1px solid var(--accent);border-radius:7px;padding:13px 16px;margin-top:14px;font-size:.88rem;display:none}
+.res.show{display:block}
+.rv{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:700;color:var(--accent);display:block}
+.rl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.rb{font-size:.81rem;color:var(--muted);margin-top:7px;font-family:'Fira Code',monospace}
+.rg{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.ri{background:var(--surface);padding:11px 13px;border-radius:7px}
+.ri .v{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:600;color:var(--text)}
+.ri .v.pos{color:var(--green)} .ri .v.neg{color:var(--red)}
+.ri .l{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+
+/* TABS */
+.tabs{display:flex;gap:3px;background:var(--surface2);padding:3px;border-radius:9px;margin-bottom:18px;width:fit-content;flex-wrap:wrap}
+.tb{padding:6px 14px;border:none;border-radius:6px;font-family:'Jost',sans-serif;font-size:.77rem;font-weight:400;cursor:pointer;transition:all .18s;color:var(--muted);background:transparent}
+.tb.active{background:var(--surface);color:var(--text);box-shadow:var(--sh);font-weight:500}
+.tc{display:none} .tc.active{display:block}
+
+/* QUIZ */
+.quiz{background:var(--surface);border-radius:var(--radius);padding:24px 28px;margin:22px 0;box-shadow:var(--sh);border:1px solid var(--border)}
+.qq{font-size:.9rem;font-weight:500;margin-bottom:14px}
+.qo-wrap{display:flex;flex-direction:column;gap:7px}
+.qo{padding:9px 14px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;font-size:.83rem;transition:all .18s;font-weight:300}
+.qo:hover{border-color:var(--accent);background:var(--accent-l)}
+.qo.correct{border-color:var(--green);background:var(--green-l);color:var(--green);font-weight:500;pointer-events:none}
+.qo.wrong{border-color:var(--red);background:var(--red-l);color:var(--red);pointer-events:none}
+.qo.disabled{pointer-events:none}
+.qfb{margin-top:10px;font-size:.83rem;padding:9px 13px;border-radius:6px;display:none}
+.qfb.show{display:block}
+
+/* STEPS */
+.steps{display:flex;gap:0;flex-wrap:wrap;margin:14px 0}
+.step{background:var(--surface);border:1px solid var(--border);padding:11px 14px;flex:1;min-width:120px;text-align:center;position:relative;font-size:.8rem}
+.step:not(:last-child)::after{content:'→';position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:1rem;z-index:1;background:var(--bg);padding:0 2px}
+.step .sn{font-family:'Fira Code',monospace;font-size:.62rem;color:var(--accent);margin-bottom:3px}
+.step .st{font-weight:500;font-size:.82rem}
+
+/* BADGE */
+.badge{display:inline-block;padding:1px 8px;border-radius:20px;font-size:.66rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;margin-left:5px}
+.bg{background:var(--green-l);color:var(--green)}
+.br{background:var(--red-l);color:var(--red)}
+.ba{background:var(--accent-l);color:var(--accent)}
+.bb{background:var(--blue-l);color:var(--blue)}
+
+/* SLIDER */
+.slrow{display:flex;align-items:center;gap:12px;margin:7px 0}
+.slrow label{font-size:.76rem;color:var(--muted);min-width:110px;text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.slrow input[type=range]{flex:1;accent-color:var(--accent)}
+.slrow .sv{font-family:'Fira Code',monospace;font-size:.83rem;min-width:60px;text-align:right;color:var(--text)}
+
+/* WACC BAR */
+.wbar{display:flex;height:28px;border-radius:7px;overflow:hidden;margin:10px 0}
+.wseg{display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:500;color:#fff;transition:all .35s}
+
+/* 2-COLUMN GRID */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+/* AMORTIZATION TABLE */
+#amort-wrap{overflow-x:auto;margin-top:12px}
+#amort-wrap table{width:100%;font-size:.78rem;border-collapse:collapse}
+#amort-wrap th{background:var(--text);color:#fff;padding:7px 12px;text-align:right;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase}
+#amort-wrap th:first-child{text-align:left}
+#amort-wrap td{padding:6px 12px;border-bottom:1px solid var(--border);text-align:right;font-family:'Fira Code',monospace;font-size:.78rem}
+#amort-wrap td:first-child{text-align:left;font-family:'Jost',sans-serif;font-weight:500}
+#amort-wrap tr:nth-child(even) td{background:var(--surface2)}
+
+/* CANVAS */
+canvas{border-radius:7px;display:block;max-width:100%}
+
+@media(max-width:820px){.sidebar{width:200px}.main{margin-left:200px}.module{padding:36px 28px 44px}}
+@media(max-width:600px){.sidebar{display:none}.main{margin-left:0}.module{padding:28px 18px 36px}.prog-track{left:0}}
+</style>
+</head>
+<body>
+
+<div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sb-head">
+    <h1>Financial Management</h1>
+    <p>PGDM · Term III · 2025–27</p>
+  </div>
+  <nav class="sb-body">
+    <div class="nav-group">
+      <div class="nav-grp-label">Foundations</div>
+      <a class="nav-item active" href="#m1"><span class="nav-num">01</span>FM Foundations</a>
+      <a class="nav-item" href="#m2"><span class="nav-num">02</span>Time Value of Money</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-grp-label">Investment Decisions</div>
+      <a class="nav-item" href="#m3"><span class="nav-num">03</span>Capital Budgeting</a>
+      <a class="nav-item" href="#m4"><span class="nav-num">04</span>Depreciation Tax Shield</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-grp-label">Valuation</div>
+      <a class="nav-item" href="#m5"><span class="nav-num">05</span>Bond &amp; Share Valuation</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-grp-label">Working Capital</div>
+      <a class="nav-item" href="#m6"><span class="nav-num">06</span>Working Capital Mgmt</a>
+      <a class="nav-item" href="#m7"><span class="nav-num">07</span>Receivables Management</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-grp-label">Financing Decisions</div>
+      <a class="nav-item" href="#m8"><span class="nav-num">08</span>Leverage</a>
+      <a class="nav-item" href="#m9"><span class="nav-num">09</span>Cost of Capital</a>
+      <a class="nav-item" href="#m10"><span class="nav-num">10</span>Dividend Theory</a>
+      <a class="nav-item" href="#m11"><span class="nav-num">11</span>Valuation &amp; Financing</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-grp-label">Markets</div>
+      <a class="nav-item" href="#m12"><span class="nav-num">12</span>Capital Markets</a>
+    </div>
+  </nav>
+  <div class="sb-foot">Great Lakes · Gurgaon</div>
+</aside>
+
+<main class="main">
+
+<!-- ══════════════════════════════════
+  MODULE 1 — FM FOUNDATIONS
+══════════════════════════════════ -->
+<section class="module" id="m1">
+  <div class="mod-tag">Module 01 · Sessions 1</div>
+  <h2>Financial Management Foundations</h2>
+  <p class="mod-sub">Core financial decisions, goals of the firm, and the agency problem.</p>
+
+  <h3>What is Corporate Finance?</h3>
+  <p>Corporate finance deals with management of funds and cash flows to achieve organisational goals. It answers four fundamental questions:</p>
+  <ol>
+    <li>How to take <strong>long-term investment decisions</strong>? → Capital Budgeting</li>
+    <li>How to <strong>raise funds</strong>? → Capital Structure</li>
+    <li>How to <strong>manage short-term assets</strong>? → Working Capital</li>
+    <li>What should be the <strong>dividend policy</strong>? → Profit Distribution</li>
+  </ol>
+
+  <h3>Four Key Financial Decisions</h3>
+  <p>Each decision maps directly to a part of the balance sheet:</p>
+  <table class="ct2">
+    <tr><th>Decision</th><th>Question</th><th>Balance Sheet Impact</th></tr>
+    <tr><td>Capital Budgeting</td><td>What long-term investments to choose?</td><td>Fixed Assets (LHS)</td></tr>
+    <tr><td>Capital Structure</td><td>How to raise funds for investments?</td><td>Long-term Debt + Equity (RHS)</td></tr>
+    <tr><td>Working Capital</td><td>How to manage short-term assets?</td><td>Current Assets &amp; Current Liabilities</td></tr>
+    <tr><td>Dividend Decision</td><td>How to distribute profits?</td><td>Retained Earnings → Equity (RHS)</td></tr>
+  </table>
+
+  <div class="callout ct">
+    <span class="ci">💡</span>
+    <div><strong>Balance Sheet Memory Aid:</strong> Left side = Uses of funds (assets). Right side = Sources of funds (liabilities + equity). Every financial decision either affects what you OWN or how you OWED it.</div>
+  </div>
+
+  <h3>Goal of Financial Management</h3>
+  <p>Two candidates are discussed:</p>
+
+  <h4>Option A — Profit Maximisation</h4>
+  <p>Seems useful as a performance measure, but has serious limitations:</p>
+  <table class="ct2">
+    <tr><th>Limitation</th><th>Why It's a Problem</th><th>Example</th></tr>
+    <tr><td>Vague Concept</td><td>PBT? PAT? EPS? Short-term or long-term?</td><td>Accounting manipulation can inflate profits</td></tr>
+    <tr><td>Ignores Time Value</td><td>Treats ₹1 earned in Year 1 = ₹1 in Year 5</td><td>A project paying back late seems equal to one paying early</td></tr>
+    <tr><td>Ignores Risk</td><td>Does not account for uncertainty of earnings</td><td>A risky project and a safe one both "earn" ₹10L</td></tr>
+  </table>
+
+  <div class="callout cw">
+    <span class="ci">⚠️</span>
+    <div><strong>PAT vs EPS Trap (from slide):</strong> Firm A: 10,000 shares, PAT = ₹1,00,000, EPS = ₹10. Issues 10,000 new shares returning only 5% (₹50,000). New PAT = ₹1,50,000 — looks great! But EPS = ₹1,50,000 / 20,000 = ₹7.50. <strong>Profit rose; shareholder value fell.</strong></div>
+  </div>
+
+  <h4>Option B — Shareholders' Wealth Maximisation (SWM) ✓</h4>
+  <p>Maximise the present market value of equity by focusing on long-term, risk-adjusted cash flows. This is the accepted goal.</p>
+  <table class="ct2">
+    <tr><th>Why SWM Wins</th><th>Detail</th></tr>
+    <tr><td>Considers Time Value</td><td>Uses PV / NPV framework; cash flows are discounted</td></tr>
+    <tr><td>Accounts for Risk</td><td>Higher risk → higher required return → lower PV</td></tr>
+    <tr><td>Clear Decision Rule</td><td>Accept decisions with NPV &gt; 0</td></tr>
+    <tr><td>Long-term Focus</td><td>Aligns with survival, growth, and sustainability</td></tr>
+  </table>
+
+  <div class="fbox">
+    <span class="fl">SWM Decision Rule</span>
+    Accept if NPV &gt; 0   →   <span class="rule">creates value</span>
+    Reject if NPV &lt; 0   →   destroys value
+    Firm Value = PV of all future free cash flows discounted at risk-adjusted rate
+  </div>
+
+  <h3>Agency Problem</h3>
+  <p>An <em>agency relationship</em> exists when one party (the <strong>principal</strong>) hires another (the <strong>agent</strong>) to act on their behalf.</p>
+  <table class="ct2">
+    <tr><th>Role</th><th>Party</th><th>Goal</th></tr>
+    <tr><td>Principal</td><td>Shareholders</td><td>Maximise share price / firm value</td></tr>
+    <tr><td>Agent</td><td>Managers</td><td>May prioritise salary, perks, power, job security</td></tr>
+  </table>
+
+  <div class="callout cw">
+    <span class="ci">⚠️</span>
+    <div><strong>The Conflict:</strong> Managers may take decisions that benefit themselves at the expense of shareholders — empire building, excessive risk aversion, short-termism, or avoiding value-creating but job-threatening decisions.</div>
+  </div>
+
+  <div class="callout ci2">
+    <span class="ci">ℹ️</span>
+    <div><strong>Solutions to Agency Problem:</strong> Executive stock options / ESOPs (align manager + shareholder goals), board oversight, independent directors, performance-linked pay, takeover threat, and regulatory disclosure requirements.</div>
+  </div>
+
+  <!-- Interactive: EPS Impact Simulator -->
+  <div class="card">
+    <h4>⚙️ PAT vs EPS Impact Simulator</h4>
+    <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px">Demonstrate how issuing new shares can raise PAT but destroy EPS.</p>
+    <div class="fg">
+      <div class="ff"><label>Current Shares</label><input id="ep-sh" type="number" value="10000"></div>
+      <div class="ff"><label>Current PAT (₹)</label><input id="ep-pat" type="number" value="100000"></div>
+      <div class="ff"><label>New Shares Issued</label><input id="ep-nsh" type="number" value="10000"></div>
+      <div class="ff"><label>Return on New Capital (%)</label><input id="ep-ret" type="number" value="5" step=".5"></div>
+    </div>
+    <button class="btn" onclick="calcEPS()">Analyse</button>
+    <div class="res" id="eps-res">
+      <div class="rg" id="eps-grid"></div>
+      <div id="eps-verdict" style="margin-top:12px;padding:10px;border-radius:7px;font-size:.87rem"></div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="qq">Q: A firm's EBIT rises from ₹5L to ₹6L — a 20% jump. If DOL = 2, what caused the change in EBIT, and if DFL = 1.5, what is the % change in EPS?</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qf1')">a) Sales rose 20%; EPS rose 20%</div>
+      <div class="qo" onclick="checkQ(this,false,'qf1')">b) Sales rose 10%; EPS rose 20%</div>
+      <div class="qo" onclick="checkQ(this,true,'qf1')">c) Sales rose 10%; EPS rose 30%</div>
+      <div class="qo" onclick="checkQ(this,false,'qf1')">d) Sales rose 20%; EPS rose 40%</div>
+    </div>
+    <div class="qfb cg" id="qf1-fb">✓ DOL = %ΔEBIT/%ΔSales → 2 = 20/%ΔSales → Sales rose 10%. DFL = %ΔEPS/%ΔEBIT → 1.5 × 20% = <strong>30% rise in EPS</strong>.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 2 — TIME VALUE OF MONEY
+══════════════════════════════════ -->
+<section class="module" id="m2">
+  <div class="mod-tag">Module 02 · Sessions 2–4</div>
+  <h2>Time Value of Money</h2>
+  <p class="mod-sub">Compounding and discounting — the engine of all financial valuation.</p>
+
+  <h3>Why Does Money Have Time Value?</h3>
+  <ul>
+    <li><strong>Preference for present consumption</strong> — people prefer to consume now rather than later.</li>
+    <li><strong>Investment opportunity</strong> — money today can be deployed to earn returns.</li>
+    <li><strong>Inflation</strong> — reduces the purchasing power of future money.</li>
+  </ul>
+
+  <div class="callout ct">
+    <span class="ci">💡</span>
+    <div><strong>Three core principles (from slides):</strong> (1) Money has time value. (2) Financial decisions involve a risk-return trade-off. (3) Cash flows are more relevant than accounting profits.</div>
+  </div>
+
+  <h3>Future Value — Single Amount</h3>
+  <p>Compounding: interest earned in each period is reinvested.</p>
+  <div class="fbox">
+    <span class="fl">Future Value — Single Lump Sum</span>
+    FV = PV × (1 + i)ⁿ
+       = PV × <span>CVF(i, n)</span>       ← Compound Value Factor
+    <br>
+    Example: ₹1,000 at 10% for 3 years → FV = 1000 × 1.331 = <span>₹1,331</span>
+  </div>
+
+  <h3>Future Value — Ordinary Annuity</h3>
+  <p>Equal cash flows at the <em>end</em> of each period.</p>
+  <div class="fbox">
+    <span class="fl">FV of Annuity (Ordinary)</span>
+    FVA = A × [(1+i)ⁿ − 1] / i
+         = A × <span>CVAF(i, n)</span>      ← Compound Value Annuity Factor
+    <br>
+    Example: ₹1,000/year for 5 years at 10% → FVA = 1000 × 6.105 = <span>₹6,105</span>
+    Practice: ₹5,000/year for 4 years at 6% → ₹21,873
+  </div>
+
+  <h3>Future Value — Annuity Due</h3>
+  <p>Payments are made at the <em>beginning</em> of each period — earns one extra period of interest.</p>
+  <div class="fbox">
+    <span class="fl">FV of Annuity Due</span>
+    FVA(due) = FVA(ordinary) × (1 + i)
+    <br>
+    Example: ₹5,000 at start of each year for 4 years at 6%
+    = 21,873 × 1.06 = <span>₹23,185</span>
+  </div>
+
+  <h3>Present Value — Single Amount</h3>
+  <p>Discounting: the inverse of compounding. Converts a future amount into today's value.</p>
+  <div class="fbox">
+    <span class="fl">Present Value — Single Amount</span>
+    PV = FV / (1 + i)ⁿ  =  FV × [1/(1+i)ⁿ]
+       = FV × <span>PVF(i, n)</span>        ← PV Factor (Discount Factor)
+    <br>
+    Example: ₹1,000 after 6 years at 10% → PV = 1000 × 0.5645 = <span>₹565</span>
+  </div>
+
+  <h3>Present Value — Annuity</h3>
+  <div class="fbox">
+    <span class="fl">PV of Ordinary Annuity</span>
+    PVA = A × [1 − (1+i)⁻ⁿ] / i
+         = A × <span>PVAF(i, n)</span>       ← PV Annuity Factor
+    <br>
+    Example: ₹1,000/year for 3 years at 10%
+    = 1000 × 2.4869 = <span>₹2,487</span>
+    <br>
+    Loan Example: Loan = ₹10,000, rate = 9%, 3 years → Instalment = <span>₹3,951</span>
+  </div>
+
+  <h3>Special Annuities &amp; Perpetuities</h3>
+  <div class="fbox">
+    <span class="fl">Present Value of a Perpetuity (Infinite Constant Cash Flow)</span>
+    PV = A / i
+    Example: ₹10,000/year at 10% → PV = <span>₹1,00,000</span>
+  </div>
+  <div class="fbox">
+    <span class="fl">Present Value of a Growing Perpetuity (Condition: i &gt; g)</span>
+    PV = A / (i − g)
+    Example: D = ₹10, g = 8%, i = 10% → PV = 10 / (0.10 − 0.08) = <span>₹540</span>
+  </div>
+  <div class="fbox">
+    <span class="fl">PV of Annuity Due</span>
+    PVA(due) = PVA(ordinary) × (1 + i)
+  </div>
+  <div class="fbox">
+    <span class="fl">PV of Growing Annuity</span>
+    PV = A × [1 − ((1+g)/(1+i))ⁿ] / (i − g)
+  </div>
+
+  <h3>Intra-Year Compounding &amp; Effective Interest Rate</h3>
+  <p>When interest compounds more than once per year, the <em>effective</em> rate exceeds the nominal rate.</p>
+  <div class="fbox">
+    <span class="fl">Effective Interest Rate (EIR) / EAR</span>
+    EIR = (1 + r/m)ᵐ − 1
+    <br>
+    Example (13% nominal):
+    Half-yearly (m=2) → 13.42%   Quarterly (m=4) → 13.65%
+    Monthly (m=12) → 13.80%      Weekly (m=52) → 13.86%
+    Continuous (m→∞): EIR = eʳ − 1
+  </div>
+
+  <table class="ct2">
+    <tr><th>Concept</th><th>Formula</th><th>Factor Name</th><th>Slide Example</th></tr>
+    <tr><td>FV — Single</td><td>PV × (1+i)ⁿ</td><td>CVF(i,n)</td><td>₹1,000→₹1,331 @ 10%, 3yr</td></tr>
+    <tr><td>FV — Annuity</td><td>A × CVAF</td><td>CVAF(i,n)</td><td>₹5,000×4yr @ 6% = ₹21,873</td></tr>
+    <tr><td>FV — Annuity Due</td><td>FVA × (1+i)</td><td>—</td><td>₹5,000×4yr @ 6% = ₹23,185</td></tr>
+    <tr><td>PV — Single</td><td>FV × (1+i)⁻ⁿ</td><td>PVF(i,n)</td><td>₹1,000 @ 6yr, 10% = ₹565</td></tr>
+    <tr><td>PV — Annuity</td><td>A × PVAF</td><td>PVAF(i,n)</td><td>₹1,000×3yr @ 10% = ₹2,487</td></tr>
+    <tr><td>Perpetuity PV</td><td>A / i</td><td>—</td><td>₹10,000 @ 10% = ₹1,00,000</td></tr>
+    <tr><td>Growing Perp PV</td><td>A / (i−g)</td><td>—</td><td>₹10, g=8%, i=10% = ₹540</td></tr>
+  </table>
+
+  <h3>Loan Amortisation</h3>
+  <p>Each EMI payment has two components: <strong>Interest</strong> (on outstanding balance) and <strong>Principal repayment</strong>. As time passes, interest component decreases and principal repayment increases.</p>
+
+  <div class="card">
+    <h4>⚙️ TVM Master Calculator</h4>
+    <div class="tabs">
+      <button class="tb active" onclick="switchTab('tvm','ls')">Lump Sum</button>
+      <button class="tb" onclick="switchTab('tvm','ann')">Annuity</button>
+      <button class="tb" onclick="switchTab('tvm','perp')">Perpetuity</button>
+      <button class="tb" onclick="switchTab('tvm','eir')">EIR</button>
+      <button class="tb" onclick="switchTab('tvm','amort')">Amortisation</button>
+    </div>
+
+    <!-- Lump Sum -->
+    <div id="tvm-ls" class="tc active">
+      <div class="fg">
+        <div class="ff"><label>PV (₹) — leave 0 to solve</label><input id="ls-pv" type="number" value="0"></div>
+        <div class="ff"><label>FV (₹) — leave 0 to solve</label><input id="ls-fv" type="number" value="0"></div>
+        <div class="ff"><label>Rate per period i (%)</label><input id="ls-r" type="number" value="10" step=".1"></div>
+        <div class="ff"><label>Periods n</label><input id="ls-n" type="number" value="5"></div>
+        <div class="ff"><label>Solve for</label><select id="ls-sol"><option value="fv">Future Value</option><option value="pv">Present Value</option><option value="r">Interest Rate</option><option value="n">Periods</option></select></div>
+      </div>
+      <button class="btn" onclick="calcLS()">Calculate</button>
+      <div class="res" id="ls-res"><span class="rl" id="ls-lbl"></span><span class="rv" id="ls-val"></span><div class="rb" id="ls-rb"></div></div>
+    </div>
+
+    <!-- Annuity -->
+    <div id="tvm-ann" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Payment PMT (₹)</label><input id="an-pmt" type="number" value="5000"></div>
+        <div class="ff"><label>Rate i (%)</label><input id="an-r" type="number" value="10" step=".1"></div>
+        <div class="ff"><label>Periods n</label><input id="an-n" type="number" value="5"></div>
+        <div class="ff"><label>Type</label><select id="an-t"><option value="ord">Ordinary (end-of-period)</option><option value="due">Annuity Due (start-of-period)</option></select></div>
+      </div>
+      <button class="btn" onclick="calcAnn()">Calculate PV &amp; FV</button>
+      <div class="res" id="ann-res">
+        <div class="rg" id="ann-grid"></div>
+      </div>
+    </div>
+
+    <!-- Perpetuity -->
+    <div id="tvm-perp" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Cash Flow A (₹)</label><input id="pp-a" type="number" value="10000"></div>
+        <div class="ff"><label>Discount Rate i (%)</label><input id="pp-i" type="number" value="10" step=".1"></div>
+        <div class="ff"><label>Growth Rate g (%) — 0 = plain</label><input id="pp-g" type="number" value="0" step=".1"></div>
+      </div>
+      <button class="btn" onclick="calcPerp()">Calculate PV</button>
+      <div class="res" id="perp-res"><span class="rl" id="perp-lbl"></span><span class="rv" id="perp-val"></span><div class="rb" id="perp-rb"></div></div>
+    </div>
+
+    <!-- EIR -->
+    <div id="tvm-eir" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Nominal Rate r (%)</label><input id="eir-r" type="number" value="13" step=".1"></div>
+        <div class="ff"><label>Compounding Frequency m</label><select id="eir-m"><option value="1">Annual (m=1)</option><option value="2">Semi-annual (m=2)</option><option value="4">Quarterly (m=4)</option><option value="12" selected>Monthly (m=12)</option><option value="52">Weekly (m=52)</option><option value="365">Daily (m=365)</option><option value="0">Continuous</option></select></div>
+      </div>
+      <button class="btn" onclick="calcEIR()">Calculate EIR</button>
+      <div class="res" id="eir-res"><span class="rl">Effective Interest Rate (EIR)</span><span class="rv" id="eir-val"></span><div class="rb" id="eir-rb"></div></div>
+    </div>
+
+    <!-- Amortisation -->
+    <div id="tvm-amort" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Loan Amount (₹)</label><input id="am-loan" type="number" value="10000"></div>
+        <div class="ff"><label>Annual Interest Rate (%)</label><input id="am-r" type="number" value="9" step=".1"></div>
+        <div class="ff"><label>Tenure (years)</label><input id="am-n" type="number" value="3"></div>
+      </div>
+      <button class="btn" onclick="calcAmort()">Generate Schedule</button>
+      <div class="res" id="amort-res">
+        <div class="rg" id="amort-top"></div>
+        <div id="amort-wrap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="qq">Q: (From slides) A company needs ₹50 lakh in 7 years. How much must it invest annually at 12% (end of year)?</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qt1')">a) ₹5,00,000</div>
+      <div class="qo" onclick="checkQ(this,false,'qt1')">b) ₹6,50,000</div>
+      <div class="qo" onclick="checkQ(this,true,'qt1')">c) ≈ ₹4,96,000</div>
+      <div class="qo" onclick="checkQ(this,false,'qt1')">d) ₹7,14,285</div>
+    </div>
+    <div class="qfb cg" id="qt1-fb">✓ CVAF(12%,7) = 10.089. Annuity = 50,00,000 / 10.089 ≈ <strong>₹4,96,000/year</strong></div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 3 — CAPITAL BUDGETING
+══════════════════════════════════ -->
+<section class="module" id="m3">
+  <div class="mod-tag">Module 03 · Sessions 7–8</div>
+  <h2>Capital Budgeting</h2>
+  <p class="mod-sub">Evaluating long-term investment decisions to maximise shareholder wealth.</p>
+
+  <h3>What is Capital Budgeting?</h3>
+  <p>Capital budgeting involves investment in long-term assets — large, often irreversible decisions. The goal is to maximise shareholder wealth by selecting only value-creating projects.</p>
+
+  <div class="steps">
+    <div class="step"><div class="sn">STEP 1</div><div class="st">Estimate Cash Flows</div></div>
+    <div class="step"><div class="sn">STEP 2</div><div class="st">Estimate Required Return</div></div>
+    <div class="step"><div class="sn">STEP 3</div><div class="st">Apply Evaluation Techniques</div></div>
+    <div class="step"><div class="sn">STEP 4</div><div class="st">Make Accept/Reject Decision</div></div>
+  </div>
+
+  <h3>Evaluation Techniques</h3>
+
+  <h4>1 — Payback Period</h4>
+  <p>Time taken to recover the initial investment from cash inflows.</p>
+  <div class="fbox">
+    <span class="fl">Payback Period</span>
+    PBP = Year before full recovery + (Unrecovered amount / CF in that year)
+    <span class="rule">Accept if PBP ≤ Target cutoff</span>
+    Limitations: ignores TVM; ignores all CFs after payback period
+  </div>
+
+  <h4>2 — Accounting Rate of Return (ARR)</h4>
+  <div class="fbox">
+    <span class="fl">ARR</span>
+    ARR = Average Annual Net Profit (after dep &amp; tax) / Average Investment × 100
+    Average Investment = (Initial Cost + Salvage Value) / 2
+    Limitations: based on accounting profit, not cash flow; ignores TVM
+  </div>
+
+  <h4>3 — Discounted Payback</h4>
+  <p>Same as payback but uses discounted (PV) cash flows. Overcomes TVM limitation but still ignores CFs after recovery.</p>
+
+  <h4>4 — Net Present Value (NPV) ⭐</h4>
+  <div class="fbox">
+    <span class="fl">Net Present Value</span>
+    NPV = Σ [CFₜ / (1+k)ᵗ] − C₀
+    <span class="rule">Accept if NPV &gt; 0 | Reject if NPV &lt; 0</span>
+    Advantages: considers TVM; uses full cash flows; aligns with wealth maximization
+    Reinvestment assumption: cash flows reinvested at cost of capital k
+  </div>
+
+  <h4>5 — Profitability Index (PI)</h4>
+  <div class="fbox">
+    <span class="fl">Profitability Index</span>
+    PI = PV of Future Cash Flows / Initial Investment
+       = 1 + (NPV / C₀)
+    <span class="rule">Accept if PI ≥ 1</span>
+    Use for capital rationing: rank projects by PI when budget is constrained
+  </div>
+
+  <h4>6 — Internal Rate of Return (IRR)</h4>
+  <div class="fbox">
+    <span class="fl">IRR — Rate where NPV = 0</span>
+    0 = Σ [CFₜ / (1+IRR)ᵗ] − C₀
+    <span class="rule">Accept if IRR ≥ Required return k</span>
+    Reinvestment assumption: cash flows reinvested at IRR itself (less realistic)
+  </div>
+  <div class="fbox">
+    <span class="fl">IRR — Interpolation Method</span>
+    IRR = rl + [NPVl / (NPVl − NPVh)] × (rh − rl)
+    where rl = lower rate (positive NPV), rh = higher rate (negative NPV)
+  </div>
+
+  <h3>NPV vs IRR Relationship</h3>
+  <table class="ct2">
+    <tr><th>Condition</th><th>NPV</th><th>IRR vs k</th></tr>
+    <tr><td>Project is profitable</td><td>NPV &gt; 0</td><td>IRR &gt; k</td></tr>
+    <tr><td>Break-even point</td><td>NPV = 0</td><td>IRR = k</td></tr>
+    <tr><td>Project destroys value</td><td>NPV &lt; 0</td><td>IRR &lt; k</td></tr>
+  </table>
+
+  <h3>Conflicts Between NPV &amp; IRR</h3>
+  <p>Conflicts arise when projects are mutually exclusive. Causes of conflict:</p>
+  <ul>
+    <li><strong>Different cash flow timing</strong> — one project pays early, another late.</li>
+    <li><strong>Different project lives</strong> — different duration changes NPV profile.</li>
+    <li><strong>Different investment sizes</strong> — a small project can have a high IRR but small NPV.</li>
+  </ul>
+
+  <div class="callout cw">
+    <span class="ci">⚠️</span>
+    <div><strong>Key exam insight (from slides):</strong> For mutually exclusive projects, <strong>always prefer NPV over IRR</strong>. NPV maximises absolute shareholder wealth. IRR can give misleading rankings when project scales differ. Also: IRR can be <em>multiple</em> for non-conventional cash flows (sign changes &gt;1).</div>
+  </div>
+
+  <table class="ct2">
+    <tr><th>Technique</th><th>Decision Rule</th><th>TVM?</th><th>Weakness</th></tr>
+    <tr><td>Payback Period</td><td>PBP ≤ Cutoff</td><td>No ✗</td><td>Ignores post-payback CFs; no TVM</td></tr>
+    <tr><td>ARR</td><td>ARR ≥ Target</td><td>No ✗</td><td>Uses accounting profit, not CFs</td></tr>
+    <tr><td>Discounted Payback</td><td>DPBP ≤ Cutoff</td><td>Yes ✓</td><td>Still ignores post-payback CFs</td></tr>
+    <tr><td>NPV ⭐</td><td>NPV ≥ 0</td><td>Yes ✓</td><td>Needs accurate discount rate</td></tr>
+    <tr><td>PI</td><td>PI ≥ 1</td><td>Yes ✓</td><td>Issues with mutually exclusive projects</td></tr>
+    <tr><td>IRR</td><td>IRR ≥ k</td><td>Yes ✓</td><td>Multiple IRRs; reinvestment assumption</td></tr>
+  </table>
+
+  <!-- Capital Budgeting Calculator -->
+  <div class="card">
+    <h4>⚙️ Capital Budgeting Evaluator</h4>
+    <div class="fg">
+      <div class="ff"><label>Initial Investment C₀ (₹)</label><input id="cb-c0" type="number" value="100000"></div>
+      <div class="ff"><label>Discount Rate k (%)</label><input id="cb-k" type="number" value="12" step=".1"></div>
+      <div class="ff"><label>Salvage Value (₹)</label><input id="cb-sv" type="number" value="0"></div>
+    </div>
+    <div class="ff" style="margin-bottom:14px">
+      <label>Annual Cash Flows (₹, comma-separated by year)</label>
+      <input id="cb-cfs" type="text" value="30000,35000,40000,35000,30000" style="width:100%">
+    </div>
+    <button class="btn" onclick="calcCB()">Evaluate All Methods</button>
+    <div class="res" id="cb-res">
+      <div class="rg" id="cb-grid"></div>
+      <div id="cb-schedule" style="margin-top:14px;font-family:'Fira Code',monospace;font-size:.79rem;color:var(--muted)"></div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="qq">Q: Project A (costs ₹1L, earns high early CFs) has IRR = 18%. Project B (costs ₹2L, earns late large CFs) has IRR = 15%. Both are at k = 12%. Which should you choose?</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qcb1')">a) Project A — higher IRR</div>
+      <div class="qo" onclick="checkQ(this,true,'qcb1')">b) Calculate NPV for both and pick higher NPV</div>
+      <div class="qo" onclick="checkQ(this,false,'qcb1')">c) Both acceptable as both IRR &gt; k</div>
+      <div class="qo" onclick="checkQ(this,false,'qcb1')">d) IRR and NPV will always agree</div>
+    </div>
+    <div class="qfb cg" id="qcb1-fb">✓ For mutually exclusive projects, always use NPV. Different sizes and timing can make IRR rankings misleading. The project with higher NPV creates more shareholder wealth.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 4 — DEPRECIATION TAX SHIELD
+══════════════════════════════════ -->
+<section class="module" id="m4">
+  <div class="mod-tag">Module 04 · Session 9</div>
+  <h2>Depreciation Tax Shield</h2>
+  <p class="mod-sub">How depreciation, though non-cash, increases actual cash flow by reducing tax liability.</p>
+
+  <h3>What is a Depreciation Tax Shield?</h3>
+  <p>Depreciation is a <em>non-cash expense</em>. It does not involve actual cash outflow — yet it reduces <strong>taxable income</strong>, thereby reducing the tax paid. The resulting tax saving is the <strong>Depreciation Tax Shield (DTS)</strong>.</p>
+
+  <div class="fbox">
+    <span class="fl">Depreciation Tax Shield</span>
+    DTS = Depreciation × Tax Rate
+    <br>
+    Cash Flow = PAT + Depreciation        ← Method 1
+    Cash Flow = OPAT + DTS               ← Method 2 (both give same result)
+    where OPAT = Operating Profit After Tax (without depreciation deducted)
+  </div>
+
+  <h3>Numerical Example (from slide)</h3>
+  <table class="ct2">
+    <tr><th>Item</th><th>Without Depreciation</th><th>With Depreciation (₹20,000)</th></tr>
+    <tr><td>Revenue</td><td>₹2,00,000</td><td>₹2,00,000</td></tr>
+    <tr><td>Operating Expenses</td><td>₹80,000</td><td>₹80,000</td></tr>
+    <tr><td>Depreciation</td><td>—</td><td>₹20,000</td></tr>
+    <tr><td>PBT</td><td>₹1,20,000</td><td>₹1,00,000</td></tr>
+    <tr><td>Tax @ 40%</td><td>₹48,000</td><td>₹40,000</td></tr>
+    <tr><td>PAT</td><td>₹72,000</td><td>₹60,000</td></tr>
+    <tr><td><strong>Cash Flow</strong></td><td>₹72,000</td><td>₹60,000 + ₹20,000 = <strong>₹80,000</strong></td></tr>
+  </table>
+
+  <h4>Verify with Method 2:</h4>
+  <div class="fbox">
+    <span class="fl">Method 2 Verification</span>
+    OPAT = ₹1,20,000 × (1 − 0.40) = ₹72,000
+    DTS  = ₹20,000 × 0.40 = ₹8,000
+    Cash Flow = ₹72,000 + ₹8,000 = <span>₹80,000 ✓</span>
+  </div>
+
+  <div class="callout cg">
+    <span class="ci">✅</span>
+    <div><strong>Key Insight (from slides):</strong> Depreciation does not directly affect cash. It <em>reduces taxes</em>, which increases actual cash flow. This is why DTS is a significant benefit in capital budgeting — it improves project cash flows without any real outflow.</div>
+  </div>
+
+  <h3>Why This Matters in Capital Budgeting</h3>
+  <p>When evaluating a project's cash flows, you must use <strong>after-tax cash flows</strong>. Depreciation reduces taxes, so correctly accounting for it increases the project's computed cash flows, which can make otherwise marginal projects viable.</p>
+
+  <div class="callout ct">
+    <span class="ci">💡</span>
+    <div><strong>Exam Shortcut:</strong> Annual After-Tax CF = (Revenue − Cash Costs)(1 − t) + Dep × t<br>= EBIT(1−t) + Dep<br>= PAT + Dep. Always add back depreciation after tax calculation.</div>
+  </div>
+
+  <!-- DTS Calculator -->
+  <div class="card">
+    <h4>⚙️ Depreciation Tax Shield Calculator</h4>
+    <div class="fg">
+      <div class="ff"><label>Revenue (₹)</label><input id="dt-rev" type="number" value="200000"></div>
+      <div class="ff"><label>Operating Expenses (₹)</label><input id="dt-exp" type="number" value="80000"></div>
+      <div class="ff"><label>Depreciation (₹)</label><input id="dt-dep" type="number" value="20000"></div>
+      <div class="ff"><label>Tax Rate (%)</label><input id="dt-tax" type="number" value="40" step="1"></div>
+    </div>
+    <button class="btn" onclick="calcDTS()">Calculate</button>
+    <div class="res" id="dts-res">
+      <div class="rg" id="dts-grid"></div>
+      <div class="rb" id="dts-note" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="qq">Q: A machine costs ₹1,00,000 with 5-year life, zero salvage, straight-line depreciation. Tax = 35%. What is the annual DTS?</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qdts1')">a) ₹20,000</div>
+      <div class="qo" onclick="checkQ(this,true,'qdts1')">b) ₹7,000</div>
+      <div class="qo" onclick="checkQ(this,false,'qdts1')">c) ₹35,000</div>
+      <div class="qo" onclick="checkQ(this,false,'qdts1')">d) ₹13,000</div>
+    </div>
+    <div class="qfb cg" id="qdts1-fb">✓ Annual Dep = ₹1,00,000 / 5 = ₹20,000. DTS = 20,000 × 0.35 = <strong>₹7,000 per year</strong>.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 5 — BOND & SHARE VALUATION
+══════════════════════════════════ -->
+<section class="module" id="m5">
+  <div class="mod-tag">Module 05 · Sessions 5–6</div>
+  <h2>Bond &amp; Share Valuation</h2>
+  <p class="mod-sub">Intrinsic value of fixed-income and equity securities using discounted cash flow models.</p>
+
+  <h3>Types of Value (from slides)</h3>
+  <table class="ct2">
+    <tr><th>Type</th><th>Meaning</th></tr>
+    <tr><td>Book Value</td><td>Historical accounting value (assets − liabilities per share)</td></tr>
+    <tr><td>Replacement Value</td><td>Cost to replace assets at current prices</td></tr>
+    <tr><td>Liquidation Value</td><td>Amount realised if firm is wound up and assets sold</td></tr>
+    <tr><td>Going Concern Value</td><td>Value assuming business continues (usually &gt; liquidation)</td></tr>
+    <tr><td>Market Value</td><td>Current price in the market — what investors will pay</td></tr>
+  </table>
+
+  <h3>Bond Valuation</h3>
+  <p>A bond's value = PV of all future coupons + PV of face value at maturity, discounted at YTM (required return).</p>
+  <div class="fbox">
+    <span class="fl">Bond Price — With Maturity</span>
+    P = C × PVAF(r, n) + F × PVF(r, n)
+    where C = Annual coupon = Face Value × Coupon Rate
+    <br>
+    If P &gt; Market Price → Bond is <span>Undervalued</span> (buy)
+    If P &lt; Market Price → Bond is <span style="color:#e88">Overvalued</span> (avoid)
+  </div>
+  <div class="fbox">
+    <span class="fl">Bond Types</span>
+    Bonds with maturity: standard coupon + face value at end
+    Pure discount bonds (zero coupon): only face value at maturity, no coupons
+    Perpetual bonds: coupons forever, no maturity → P = C / r
+  </div>
+  <div class="fbox">
+    <span class="fl">Semi-Annual Bonds — Adjust as follows</span>
+    Rate → r/2    Periods → n × 2    Coupon → C/2
+  </div>
+  <div class="fbox">
+    <span class="fl">Approximate YTM (from slides)</span>
+    YTM ≈ [C + (F − P) / n] / [(F + P) / 2]
+  </div>
+
+  <h3>Bond Yields</h3>
+  <table class="ct2">
+    <tr><th>Yield</th><th>Formula</th><th>Meaning</th></tr>
+    <tr><td>Current Yield</td><td>Annual Coupon / Market Price</td><td>Annual income as % of current price</td></tr>
+    <tr><td>YTM</td><td>IRR of bond cash flows</td><td>Total return if held to maturity</td></tr>
+    <tr><td>Yield to Call (YTC)</td><td>IRR using call price &amp; call date</td><td>Return if bond redeemed early at call price</td></tr>
+  </table>
+
+  <table class="ct2">
+    <tr><th>Situation</th><th>Price vs Par</th><th>Coupon vs YTM</th></tr>
+    <tr><td>Par Bond</td><td>P = Face Value</td><td>Coupon = YTM</td></tr>
+    <tr><td>Premium Bond</td><td>P &gt; Face Value</td><td>Coupon &gt; YTM</td></tr>
+    <tr><td>Discount Bond</td><td>P &lt; Face Value</td><td>Coupon &lt; YTM</td></tr>
+  </table>
+
+  <h3>Share Valuation</h3>
+  <p>Ordinary shares have no fixed dividends. Value depends on expected dividends, expected selling price, and required return (ke).</p>
+
+  <div class="fbox">
+    <span class="fl">1-Year Holding Model (from slides)</span>
+    P₀ = (D₁ + P₁) / (1 + ke)
+    Example: D=₹2, P₁=₹21, ke=15% → P₀ = 23/1.15 = <span>₹20</span>
+  </div>
+  <div class="fbox">
+    <span class="fl">Constant Growth Model — Gordon (from slides)</span>
+    P₀ = D₁ / (ke − g)    where D₁ = D₀ × (1+g)
+    Growth rate: g = b × ROE    (b = retention ratio)
+    ke = D₁/P₀ + g   ← implied required return
+    Example: D=₹3.7, g=8%, ke=12% → P₀ = 3.7/0.04 = <span>₹100 (if D₁=4)</span>
+  </div>
+  <div class="fbox">
+    <span class="fl">Two-Stage Growth Model (from slides)</span>
+    Phase 1: High growth rate g₁ for years 1 to n → PV each dividend
+    Phase 2: Stable growth g₂ forever → Terminal value at year n = Dₙ₊₁/(ke−g₂)
+    P₀ = Σ[Dₜ/(1+ke)ᵗ] + Terminal Value/(1+ke)ⁿ
+    Slide example result → <span>₹51.30</span>
+  </div>
+
+  <!-- Bond & Share Calculator -->
+  <div class="card">
+    <h4>⚙️ Bond &amp; Share Valuation Calculator</h4>
+    <div class="tabs">
+      <button class="tb active" onclick="switchTab('val','bond')">Bond Price</button>
+      <button class="tb" onclick="switchTab('val','ytm')">Approx YTM</button>
+      <button class="tb" onclick="switchTab('val','gordon')">Gordon Model</button>
+      <button class="tb" onclick="switchTab('val','2stage')">Two-Stage</button>
+    </div>
+
+    <div id="val-bond" class="tc active">
+      <div class="fg">
+        <div class="ff"><label>Face Value F (₹)</label><input id="bd-f" type="number" value="1000"></div>
+        <div class="ff"><label>Coupon Rate (%)</label><input id="bd-cr" type="number" value="10" step=".1"></div>
+        <div class="ff"><label>Required Return / YTM (%)</label><input id="bd-r" type="number" value="12" step=".1"></div>
+        <div class="ff"><label>Years to Maturity n</label><input id="bd-n" type="number" value="5"></div>
+        <div class="ff"><label>Type</label><select id="bd-type"><option value="mat">With Maturity</option><option value="perp">Perpetual</option><option value="zc">Zero Coupon</option></select></div>
+        <div class="ff"><label>Frequency</label><select id="bd-freq"><option value="1">Annual</option><option value="2">Semi-annual</option></select></div>
+      </div>
+      <button class="btn" onclick="calcBond()">Price Bond</button>
+      <div class="res" id="bond-res"><div class="rg" id="bond-grid"></div></div>
+    </div>
+
+    <div id="val-ytm" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Face Value F (₹)</label><input id="yt-f" type="number" value="1000"></div>
+        <div class="ff"><label>Market Price P (₹)</label><input id="yt-p" type="number" value="950"></div>
+        <div class="ff"><label>Annual Coupon C (₹)</label><input id="yt-c" type="number" value="100"></div>
+        <div class="ff"><label>Years to Maturity n</label><input id="yt-n" type="number" value="5"></div>
+      </div>
+      <button class="btn" onclick="calcYTM()">Estimate YTM</button>
+      <div class="res" id="ytm-res"><span class="rl">Approximate YTM</span><span class="rv" id="ytm-val"></span><div class="rb" id="ytm-rb"></div></div>
+    </div>
+
+    <div id="val-gordon" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Current Dividend D₀ (₹)</label><input id="gd-d0" type="number" value="3.7" step=".1"></div>
+        <div class="ff"><label>Growth Rate g (%)</label><input id="gd-g" type="number" value="8" step=".1"></div>
+        <div class="ff"><label>Required Return ke (%)</label><input id="gd-ke" type="number" value="12" step=".1"></div>
+      </div>
+      <button class="btn" onclick="calcGordon()">Value Share</button>
+      <div class="res" id="gordon-res"><div class="rg" id="gordon-grid"></div></div>
+    </div>
+
+    <div id="val-2stage" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Current Dividend D₀ (₹)</label><input id="ts-d0" type="number" value="5" step=".1"></div>
+        <div class="ff"><label>High-growth Rate g₁ (%)</label><input id="ts-g1" type="number" value="15" step=".1"></div>
+        <div class="ff"><label>High-growth Years n</label><input id="ts-n" type="number" value="5"></div>
+        <div class="ff"><label>Stable Growth Rate g₂ (%)</label><input id="ts-g2" type="number" value="6" step=".1"></div>
+        <div class="ff"><label>Required Return ke (%)</label><input id="ts-ke" type="number" value="12" step=".1"></div>
+      </div>
+      <button class="btn" onclick="calcTwoStage()">Value Share</button>
+      <div class="res" id="ts-res"><div class="rg" id="ts-grid"></div><div class="rb" id="ts-table" style="margin-top:10px"></div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 6 — WORKING CAPITAL
+══════════════════════════════════ -->
+<section class="module" id="m6">
+  <div class="mod-tag">Module 06 · Session 10</div>
+  <h2>Working Capital Management</h2>
+  <p class="mod-sub">Managing short-term assets and liabilities to ensure liquidity and operational efficiency.</p>
+
+  <h3>Meaning &amp; Objective</h3>
+  <p><strong>Gross Working Capital (GWC)</strong> = Total Current Assets. <strong>Net Working Capital (NWC)</strong> = Current Assets − Current Liabilities. The objective is to maintain an <em>optimal level</em> — not too high (idle funds) and not too low (liquidity risk). WCM is short-term, repetitive, and requires continuous management.</p>
+
+  <div class="callout ct">
+    <span class="ci">💡</span>
+    <div><strong>Key Decisions in WCM (from slides):</strong> (1) How much working capital to maintain? (2) How to finance it — short-term vs long-term funds?</div>
+  </div>
+
+  <h3>Determinants of Working Capital</h3>
+  <table class="ct2">
+    <tr><th>Factor</th><th>How It Affects WC</th></tr>
+    <tr><td>Nature of industry</td><td>Manufacturing needs more WC than services; trading needs moderate</td></tr>
+    <tr><td>Scale of operations</td><td>Larger scale → larger WC requirement</td></tr>
+    <tr><td>Production cycle</td><td>Longer production cycle → more WIP → more WC</td></tr>
+    <tr><td>Seasonality</td><td>Seasonal industries need higher peak WC; lower off-season</td></tr>
+    <tr><td>Market conditions</td><td>Competitive markets → extended credit → higher debtors</td></tr>
+    <tr><td>Growth plans</td><td>Expanding firms need more WC to support growth</td></tr>
+  </table>
+
+  <h3>Operating Cycle &amp; Cash Conversion Cycle</h3>
+  <p>The <strong>Operating Cycle</strong> is the time taken to convert raw materials into cash through sales.</p>
+
+  <div class="steps">
+    <div class="step"><div class="sn">RM</div><div class="st">Raw Material Storage</div></div>
+    <div class="step"><div class="sn">WIP</div><div class="st">Work in Progress</div></div>
+    <div class="step"><div class="sn">FG</div><div class="st">Finished Goods</div></div>
+    <div class="step"><div class="sn">SALES</div><div class="st">Debtors Collection</div></div>
+    <div class="step"><div class="sn">CASH</div><div class="st">Cash Received</div></div>
+  </div>
+
+  <div class="fbox">
+    <span class="fl">Operating Cycle &amp; Cash Conversion Cycle</span>
+    OC = RM Days + WIP Days + FG Days + Debtors Days
+    CCC = OC − Creditors (Payables) Days
+    <br>
+    RM Days      = (RM Stock / RM Consumed) × 365
+    WIP Days     = (WIP Stock / COGP) × 365
+    FG Days      = (FG Stock / COGS) × 365
+    Debtors Days = (Debtors / Credit Sales) × 365
+    Creditors Days = (Creditors / Credit Purchases) × 365
+  </div>
+
+  <h3>Working Capital Policies</h3>
+  <table class="ct2">
+    <tr><th>Policy</th><th>CA Level</th><th>Financing</th><th>Risk-Return</th></tr>
+    <tr><td>Conservative</td><td>High — excess liquidity buffers</td><td>Long-term dominant</td><td>Low risk, lower return</td></tr>
+    <tr><td>Aggressive</td><td>Low — lean assets</td><td>Short-term dominant</td><td>High risk, higher return</td></tr>
+    <tr><td>Moderate / Hedging</td><td>Matched to actual needs</td><td>Maturity matched</td><td>Balanced</td></tr>
+  </table>
+
+  <div class="callout ci2">
+    <span class="ci">ℹ️</span>
+    <div><strong>Hedging / Maturity Matching Principle:</strong> Permanent current assets (like base inventory) should be financed by long-term funds. Temporary / seasonal current assets should be financed by short-term funds. This minimises funding risk.</div>
+  </div>
+
+  <!-- Operating Cycle Calculator -->
+  <div class="card">
+    <h4>⚙️ Operating Cycle &amp; CCC Calculator</h4>
+    <div class="fg">
+      <div class="ff"><label>RM Storage (days)</label><input id="wc-rm" type="number" value="30"></div>
+      <div class="ff"><label>WIP Stage (days)</label><input id="wc-wip" type="number" value="15"></div>
+      <div class="ff"><label>FG Storage (days)</label><input id="wc-fg" type="number" value="20"></div>
+      <div class="ff"><label>Debtors Collection (days)</label><input id="wc-db" type="number" value="45"></div>
+      <div class="ff"><label>Creditors Payment (days)</label><input id="wc-cr" type="number" value="30"></div>
+    </div>
+    <button class="btn" onclick="calcWC()">Calculate</button>
+    <div class="res" id="wc-res">
+      <div class="rg" id="wc-grid"></div>
+      <canvas id="wc-canvas" height="56" style="margin-top:14px"></canvas>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 7 — RECEIVABLES MANAGEMENT
+══════════════════════════════════ -->
+<section class="module" id="m7">
+  <div class="mod-tag">Module 07 · Session 10 (cont.)</div>
+  <h2>Receivables Management</h2>
+  <p class="mod-sub">Optimising credit policy to balance sales growth against collection risk and cost.</p>
+
+  <h3>Objective</h3>
+  <p>Receivables arise from credit sales. The goal is to increase sales and profits while controlling the cost of risk. This requires finding the optimal credit policy through a <strong>cost-benefit trade-off</strong>.</p>
+
+  <table class="ct2">
+    <tr><th>Benefits of Extending Credit</th><th>Costs of Extending Credit</th></tr>
+    <tr><td>Higher sales → Higher contribution margin</td><td>Collection costs (staff, follow-up, legal)</td></tr>
+    <tr><td>Competitive advantage</td><td>Default / bad debt risk</td></tr>
+    <tr><td>Customer loyalty</td><td>Opportunity cost of funds blocked in debtors</td></tr>
+  </table>
+
+  <h3>Credit Policy Framework</h3>
+  <table class="ct2">
+    <tr><th>Component</th><th>Description</th><th>Decision</th></tr>
+    <tr><td>Credit Standards</td><td>Minimum criteria for granting credit</td><td>Who gets credit? (Use 5Cs)</td></tr>
+    <tr><td>Credit Period</td><td>Length of time buyer has to pay</td><td>30, 45, or 60 days?</td></tr>
+    <tr><td>Credit Terms</td><td>Discount &amp; net period offered</td><td>e.g., "2/10 Net 30"</td></tr>
+    <tr><td>Collection Policy</td><td>Procedures for overdue accounts</td><td>Aggressiveness level</td></tr>
+  </table>
+
+  <div class="fbox">
+    <span class="fl">5 Cs of Credit</span>
+    Character  — willingness to pay (payment history, reputation)
+    Capacity   — ability to pay (cash flow, income stability)
+    Capital    — financial strength (net worth, assets)
+    Collateral — security offered
+    Conditions — macroeconomic and industry environment
+  </div>
+
+  <div class="fbox">
+    <span class="fl">Credit Terms — "2/10 Net 30" (from slides)</span>
+    2% discount if paid within 10 days
+    Otherwise, full payment due in 30 days
+    <br>
+    Annualised Cost of NOT taking discount:
+    = [d / (1−d)] × [365 / (Net Period − Discount Period)]
+    = [2/98] × [365/20] = 0.0204 × 18.25 ≈ <span>37.2% p.a.</span>
+    → Very expensive to forgo the discount!
+  </div>
+
+  <div class="callout ct">
+    <span class="ci">💡</span>
+    <div><strong>Liberal vs Strict Credit Policy:</strong><br>
+    Liberal credit → More sales + more bad debts + more blocked funds<br>
+    Strict credit → Fewer bad debts + less sales + competitive disadvantage<br>
+    Optimal policy = where marginal benefit of extra sales = marginal cost of extra risk.</div>
+  </div>
+
+  <h3>Debtors Investment &amp; Incremental Analysis</h3>
+  <div class="fbox">
+    <span class="fl">Investment in Debtors</span>
+    Investment = (Total Cost / 365) × Collection Period
+    <br>
+    Incremental Benefit = ΔSales × Contribution Margin Ratio
+    Incremental Cost = ΔInvestment in Debtors × Opportunity Cost Rate
+    <span class="rule">Relax policy only if ΔBenefit &gt; ΔCost</span>
+  </div>
+
+  <h3>Ageing Schedule</h3>
+  <table class="ct2">
+    <tr><th>Age Bucket</th><th>Amount (₹)</th><th>% of Total</th><th>Status</th></tr>
+    <tr><td>0–30 days</td><td>2,00,000</td><td>50%</td><td>Current <span class="badge bg">OK</span></td></tr>
+    <tr><td>31–60 days</td><td>1,00,000</td><td>25%</td><td>Monitor <span class="badge ba">Watch</span></td></tr>
+    <tr><td>61–90 days</td><td>60,000</td><td>15%</td><td>Overdue <span class="badge ba">Follow up</span></td></tr>
+    <tr><td>91+ days</td><td>40,000</td><td>10%</td><td>Bad debt risk <span class="badge br">Alert</span></td></tr>
+  </table>
+
+  <div class="callout cw">
+    <span class="ci">⚠️</span>
+    <div><strong>Factoring vs Discounting:</strong> In <em>factoring</em>, the factor buys the receivables (risk fully transferred). In <em>bill discounting</em>, the bank advances funds against the bill but the firm retains bad-debt risk ("with recourse").</div>
+  </div>
+
+  <!-- Credit Policy Evaluator -->
+  <div class="card">
+    <h4>⚙️ Credit Policy Change Evaluator</h4>
+    <div class="fg">
+      <div class="ff"><label>Current Sales (₹)</label><input id="cp-s0" type="number" value="1000000"></div>
+      <div class="ff"><label>Proposed Sales (₹)</label><input id="cp-s1" type="number" value="1200000"></div>
+      <div class="ff"><label>Variable Cost Ratio (%)</label><input id="cp-vc" type="number" value="70"></div>
+      <div class="ff"><label>Current Collection (days)</label><input id="cp-d0" type="number" value="30"></div>
+      <div class="ff"><label>Proposed Collection (days)</label><input id="cp-d1" type="number" value="45"></div>
+      <div class="ff"><label>Bad Debt on New Sales (%)</label><input id="cp-bd" type="number" value="2" step=".1"></div>
+      <div class="ff"><label>Opportunity Cost k (%)</label><input id="cp-k" type="number" value="15" step=".1"></div>
+    </div>
+    <button class="btn" onclick="calcCP()">Evaluate Policy</button>
+    <div class="res" id="cp-res">
+      <div class="rg" id="cp-grid"></div>
+      <div id="cp-verdict" style="margin-top:12px;padding:10px;border-radius:7px;font-size:.88rem"></div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="qq">Q: A firm offers "2/10, Net 30". What is the annualised cost of NOT taking the discount?</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qrm1')">a) 12% p.a.</div>
+      <div class="qo" onclick="checkQ(this,false,'qrm1')">b) 24% p.a.</div>
+      <div class="qo" onclick="checkQ(this,true,'qrm1')">c) ≈ 37.2% p.a.</div>
+      <div class="qo" onclick="checkQ(this,false,'qrm1')">d) 18% p.a.</div>
+    </div>
+    <div class="qfb cg" id="qrm1-fb">✓ = [2/98] × [365/(30−10)] = 0.0204 × 18.25 ≈ <strong>37.2% p.a.</strong> Very expensive to forgo!</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 8 — LEVERAGE
+══════════════════════════════════ -->
+<section class="module" id="m8">
+  <div class="mod-tag">Module 08 · Session 11</div>
+  <h2>Leverage</h2>
+  <p class="mod-sub">Measuring how fixed costs amplify the sensitivity of profits and EPS to changes in sales.</p>
+
+  <h3>Degree of Operating Leverage (DOL)</h3>
+  <p>DOL measures how sensitive EBIT is to a change in sales. High fixed costs → high DOL.</p>
+  <div class="fbox">
+    <span class="fl">DOL</span>
+    DOL = % Change in EBIT / % Change in Sales
+        = Contribution / EBIT
+        = (S − VC) / (S − VC − FC)
+    <br>
+    Behaviour (from slides):
+    → At break-even point: EBIT = 0 → DOL is <span>infinite</span>
+    → As sales increase beyond break-even: DOL decreases
+  </div>
+
+  <h3>Degree of Financial Leverage (DFL)</h3>
+  <p>DFL measures how sensitive EPS is to a change in EBIT. More debt → higher interest → higher DFL.</p>
+  <div class="fbox">
+    <span class="fl">DFL</span>
+    DFL = % Change in EPS / % Change in EBIT
+        = EBIT / (EBIT − Interest)
+        = EBIT / EBT
+  </div>
+
+  <h3>Degree of Total (Combined) Leverage (DTL)</h3>
+  <div class="fbox">
+    <span class="fl">DTL</span>
+    DTL = DOL × DFL
+        = Contribution / EBT
+        = (S − VC) / (EBIT − Interest)
+    <br>
+    Chain: Sales → [DOL] → EBIT → [DFL] → EPS → [DTL] = full chain
+    <br>
+    EPS Change Formula (from slides):
+    EPS₁ = EPS₀ × [1 + (DTL × % ΔSales)]
+  </div>
+
+  <table class="ct2">
+    <tr><th>Leverage</th><th>Risk Type</th><th>High When</th><th>Impact</th></tr>
+    <tr><td>DOL</td><td>Operating / Business Risk</td><td>High fixed costs</td><td>Sales ↑ 10% → EBIT ↑ 10×DOL%</td></tr>
+    <tr><td>DFL</td><td>Financial Risk</td><td>High debt (interest)</td><td>EBIT ↑ 10% → EPS ↑ 10×DFL%</td></tr>
+    <tr><td>DTL</td><td>Total Risk</td><td>Both high FC &amp; debt</td><td>Sales ↑ 10% → EPS ↑ 10×DTL%</td></tr>
+  </table>
+
+  <div class="callout cw">
+    <span class="ci">⚠️</span>
+    <div><strong>High DTL = double-edged sword:</strong> A small rise in sales causes a large rise in EPS (good). But a small drop in sales causes a sharp fall in EPS — even threatening the firm's ability to service debt.</div>
+  </div>
+
+  <h3>EBIT-EPS Indifference Analysis</h3>
+  <p>At what EBIT level are two financing plans (e.g., all-equity vs. debt+equity) equally attractive in terms of EPS?</p>
+  <div class="fbox">
+    <span class="fl">Indifference Point</span>
+    (EBIT* − I₁)(1−t)/N₁ = (EBIT* − I₂)(1−t)/N₂
+    If Expected EBIT &gt; EBIT* → <span>Debt plan gives higher EPS</span>
+    If Expected EBIT &lt; EBIT* → <span>Equity plan gives higher EPS</span>
+  </div>
+
+  <!-- Leverage Calculator -->
+  <div class="card">
+    <h4>⚙️ Leverage &amp; EBIT-EPS Calculator</h4>
+    <div class="tabs">
+      <button class="tb active" onclick="switchTab('lev','dol')">DOL / DFL / DTL</button>
+      <button class="tb" onclick="switchTab('lev','ebit')">EBIT-EPS Indifference</button>
+    </div>
+
+    <div id="lev-dol" class="tc active">
+      <div class="fg">
+        <div class="ff"><label>Sales (₹)</label><input id="lv-s" type="number" value="500000"></div>
+        <div class="ff"><label>Variable Costs (₹)</label><input id="lv-vc" type="number" value="300000"></div>
+        <div class="ff"><label>Fixed Operating Costs (₹)</label><input id="lv-fc" type="number" value="80000"></div>
+        <div class="ff"><label>Interest Expense (₹)</label><input id="lv-int" type="number" value="20000"></div>
+        <div class="ff"><label>Tax Rate (%)</label><input id="lv-tax" type="number" value="30"></div>
+      </div>
+      <button class="btn" onclick="calcLev()">Calculate</button>
+      <div class="res" id="lev-res">
+        <div class="rg" id="lev-grid"></div>
+        <div class="rb" id="lev-income" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <div id="lev-ebit" class="tc">
+      <div class="two-col">
+        <div>
+          <p style="font-size:.8rem;font-weight:600;margin-bottom:8px">PLAN A (e.g. All Equity)</p>
+          <div class="ff" style="margin-bottom:8px"><label>Interest I₁ (₹)</label><input id="pa-i" type="number" value="0"></div>
+          <div class="ff"><label>Shares N₁</label><input id="pa-n" type="number" value="10000"></div>
+        </div>
+        <div>
+          <p style="font-size:.8rem;font-weight:600;margin-bottom:8px">PLAN B (e.g. Debt + Equity)</p>
+          <div class="ff" style="margin-bottom:8px"><label>Interest I₂ (₹)</label><input id="pb-i" type="number" value="30000"></div>
+          <div class="ff"><label>Shares N₂</label><input id="pb-n" type="number" value="6000"></div>
+        </div>
+      </div>
+      <div class="ff" style="margin-top:10px"><label>Tax Rate (%)</label><input id="ep-t" type="number" value="30" style="width:160px"></div>
+      <button class="btn" onclick="calcEBITeq()" style="margin-top:12px">Find Indifference EBIT</button>
+      <div class="res" id="ebit-res">
+        <span class="rl">Indifference EBIT (EBIT*)</span>
+        <span class="rv" id="ebit-val"></span>
+        <div class="rb" id="ebit-note"></div>
+        <canvas id="ebit-canvas" height="230" style="margin-top:14px;border-radius:7px"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="qq">Q: Sales = ₹10L, VC = ₹6L, FC = ₹2L, Interest = ₹50K. Calculate DOL and DFL.</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qlev1')">a) DOL = 1.5, DFL = 1.25</div>
+      <div class="qo" onclick="checkQ(this,true,'qlev1')">b) DOL = 2.0, DFL = 1.25</div>
+      <div class="qo" onclick="checkQ(this,false,'qlev1')">c) DOL = 2.5, DFL = 1.5</div>
+      <div class="qo" onclick="checkQ(this,false,'qlev1')">d) DOL = 2.0, DFL = 2.0</div>
+    </div>
+    <div class="qfb cg" id="qlev1-fb">✓ Contribution = 10−6 = ₹4L. EBIT = 4−2 = ₹2L. EBT = 2−0.5 = ₹1.5L.<br>DOL = 4/2 = <strong>2.0</strong>. DFL = 2/1.5 = <strong>1.33 ≈ 1.33</strong>. DTL = 2 × 1.33 = 2.67.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 9 — COST OF CAPITAL
+══════════════════════════════════ -->
+<section class="module" id="m9">
+  <div class="mod-tag">Module 09</div>
+  <h2>Cost of Capital</h2>
+  <p class="mod-sub">The minimum return a firm must earn on its investments to satisfy all capital providers.</p>
+
+  <h3>Significance</h3>
+  <p>The cost of capital (k) serves as: (1) the <em>hurdle rate</em> in capital budgeting decisions, (2) the <em>discount rate</em> in firm valuation, and (3) a basis for evaluating financing alternatives in capital structure decisions.</p>
+
+  <h3>Component Costs</h3>
+  <div class="fbox">
+    <span class="fl">Cost of Debt (Kd) — Always use After-Tax cost</span>
+    Approximate Kd = [C + (F−Nd)/n] / [(F+Nd)/2] × (1−t)
+    Perpetual Debt: Kd = I(1−t) / Nd
+    Note: Debt is the only source where the cost is tax-deductible
+  </div>
+  <div class="fbox">
+    <span class="fl">Cost of Equity — Gordon / DDM Approach</span>
+    Ke = D₁/P₀ + g      (dividend yield + growth)
+  </div>
+  <div class="fbox">
+    <span class="fl">Cost of Equity — CAPM</span>
+    Ke = Rf + β × (Rm − Rf)
+    where (Rm − Rf) = Market Risk Premium
+    β &lt; 1 → less risky than market | β = 1 → same risk | β &gt; 1 → more risky
+  </div>
+  <div class="fbox">
+    <span class="fl">Cost of Preference Shares (Kp)</span>
+    Kp = [D + (F−Np)/n] / [(F+Np)/2]
+    Preference dividends are NOT tax-deductible
+  </div>
+  <div class="fbox">
+    <span class="fl">Weighted Average Cost of Capital (WACC)</span>
+    WACC = Ke×(E/V) + Kd(1−t)×(D/V) + Kp×(P/V)
+    where V = E + D + P = Total firm value
+    <span class="rule">Use MARKET VALUE weights (not book value)</span>
+  </div>
+
+  <table class="ct2">
+    <tr><th>Component</th><th>Tax Deductible?</th><th>Key Formula</th></tr>
+    <tr><td>Debt (Kd)</td><td>Yes — after-tax cost = Kd×(1−t)</td><td>YTM × (1−t)</td></tr>
+    <tr><td>Equity (Ke)</td><td>No</td><td>CAPM or DDM</td></tr>
+    <tr><td>Preference (Kp)</td><td>No</td><td>Dividend / Net Issue Price</td></tr>
+    <tr><td>Retained Earnings (Kr)</td><td>No (opportunity cost)</td><td>≈ Ke (no flotation cost)</td></tr>
+  </table>
+
+  <div class="callout cw">
+    <span class="ci">⚠️</span>
+    <div><strong>Book vs Market Value Weights:</strong> Market value weights are theoretically superior and reflect current cost of capital. Book value weights are a fallback when market values are unavailable. Most exam questions specify which to use.</div>
+  </div>
+
+  <!-- WACC Calculator -->
+  <div class="card">
+    <h4>⚙️ WACC &amp; CAPM Calculator</h4>
+    <div class="tabs">
+      <button class="tb active" onclick="switchTab('coc','wacc')">WACC</button>
+      <button class="tb" onclick="switchTab('coc','capm')">CAPM</button>
+    </div>
+
+    <div id="coc-wacc" class="tc active">
+      <div class="fg">
+        <div class="ff"><label>Equity Market Value (₹)</label><input id="wc-e" type="number" value="6000000"></div>
+        <div class="ff"><label>Cost of Equity Ke (%)</label><input id="wc-ke" type="number" value="15" step=".1"></div>
+        <div class="ff"><label>Debt Market Value (₹)</label><input id="wc-d" type="number" value="3000000"></div>
+        <div class="ff"><label>Cost of Debt Kd (pre-tax %) </label><input id="wc-kd" type="number" value="12" step=".1"></div>
+        <div class="ff"><label>Preference Market Value (₹)</label><input id="wc-p" type="number" value="0"></div>
+        <div class="ff"><label>Cost of Pref Kp (%)</label><input id="wc-kp" type="number" value="10" step=".1"></div>
+        <div class="ff"><label>Tax Rate (%)</label><input id="wc-t" type="number" value="30"></div>
+      </div>
+      <button class="btn" onclick="calcWACC()">Calculate WACC</button>
+      <div class="res" id="wacc-res">
+        <div class="rg" id="wacc-grid"></div>
+        <div class="wbar" id="wacc-bar" style="margin-top:12px"></div>
+        <div id="wacc-legend" style="display:flex;gap:12px;margin-top:5px;font-size:.71rem;color:var(--muted);flex-wrap:wrap"></div>
+        <div class="rb" id="wacc-detail" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <div id="coc-capm" class="tc">
+      <div class="fg">
+        <div class="ff"><label>Risk-Free Rate Rf (%)</label><input id="cap-rf" type="number" value="6.5" step=".1"></div>
+        <div class="ff"><label>Market Return Rm (%)</label><input id="cap-rm" type="number" value="13" step=".1"></div>
+        <div class="ff"><label>Beta β</label><input id="cap-b" type="number" value="1.2" step=".01"></div>
+      </div>
+      <button class="btn" onclick="calcCAPM()">Calculate Ke</button>
+      <div class="res" id="capm-res">
+        <span class="rl">Required Return on Equity</span>
+        <span class="rv" id="capm-val"></span>
+        <div class="rb" id="capm-rb"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 10 — DIVIDEND THEORY
+══════════════════════════════════ -->
+<section class="module" id="m10">
+  <div class="mod-tag">Module 10</div>
+  <h2>Dividend Theory</h2>
+  <p class="mod-sub">Does dividend policy affect firm value? Walter, Gordon &amp; Modigliani-Miller debate.</p>
+
+  <h3>Three Schools of Thought</h3>
+  <table class="ct2">
+    <tr><th>Theory</th><th>Proponent</th><th>Position</th><th>Key Assumption</th></tr>
+    <tr><td>Walter's Model</td><td>Walter (1956)</td><td>Dividends matter — depends on r vs Ke</td><td>Retained earnings as only finance source</td></tr>
+    <tr><td>Gordon's Model</td><td>Gordon (1962)</td><td>Dividends increase value (bird-in-hand)</td><td>Investors prefer certain income now</td></tr>
+    <tr><td>MM Irrelevance</td><td>Modigliani &amp; Miller (1961)</td><td>Dividends don't affect value</td><td>Perfect capital markets</td></tr>
+  </table>
+
+  <div class="fbox">
+    <span class="fl">Walter's Model — Share Price Formula</span>
+    P = [D + (r/Ke)(E − D)] / Ke
+    r = internal return on investment | Ke = cost of equity
+    E = EPS | D = DPS | (E−D) = retained earnings per share
+    <br>
+    Decision Rule:
+    r &gt; Ke → Growth firm   → Retain earnings → Higher P (lower payout is better)
+    r = Ke → Normal firm   → Policy irrelevant
+    r &lt; Ke → Declining firm → Distribute all → Higher P (100% payout is better)
+  </div>
+
+  <div class="fbox">
+    <span class="fl">Gordon's Model — Share Price Formula</span>
+    P₀ = E(1−b) / (Ke − br)
+    b = retention ratio | (1−b) = payout ratio | br = g (growth rate)
+    Equivalent to: P₀ = D₁ / (Ke − g)
+  </div>
+
+  <div class="fbox">
+    <span class="fl">MM Model — Value Irrelevance</span>
+    P₀ = (P₁ + D₁) / (1 + Ke)
+    P₁ = P₀(1+Ke) − D₁
+    If D₁ ↑ by ₹1, P₁ falls by ₹1 → shareholder wealth unchanged
+    Firm value depends ONLY on investment decisions, not dividend decisions
+    Limitations: requires perfect markets (no taxes, no transaction costs, no info asymmetry)
+  </div>
+
+  <div class="callout ci2">
+    <span class="ci">ℹ️</span>
+    <div><strong>Signalling Effect (real world):</strong> MM holds in perfect markets. In practice, dividend cuts signal bad news → stock price falls. Dividend increases signal management confidence → stock rises. This is why firms maintain stable dividends even when earnings fluctuate.</div>
+  </div>
+
+  <h3>Dividend Policies in Practice</h3>
+  <table class="ct2">
+    <tr><th>Policy</th><th>Description</th><th>Advantage</th><th>Disadvantage</th></tr>
+    <tr><td>Constant DPS</td><td>Fixed ₹ dividend regardless of earnings</td><td>Certainty for investors</td><td>Doesn't track earnings; may deplete reserves</td></tr>
+    <tr><td>Constant Payout Ratio</td><td>Fixed % of earnings as dividend</td><td>Tied to performance</td><td>Dividend fluctuates; hard to plan</td></tr>
+    <tr><td>Stable + Extra</td><td>Low regular + bonus in good years</td><td>Flexible and predictable</td><td>Signals may confuse market</td></tr>
+    <tr><td>Residual Policy</td><td>Pay only after all investments funded</td><td>Maximises reinvestment</td><td>Irregular; perceived as no-growth signal</td></tr>
+  </table>
+
+  <!-- Walter's Model Calculator -->
+  <div class="card">
+    <h4>⚙️ Walter's Model — Share Price</h4>
+    <div class="fg">
+      <div class="ff"><label>EPS (₹)</label><input id="wt-e" type="number" value="10" step=".1"></div>
+      <div class="ff"><label>DPS (₹)</label><input id="wt-d" type="number" value="6" step=".1"></div>
+      <div class="ff"><label>Internal Return r (%)</label><input id="wt-r" type="number" value="15" step=".1"></div>
+      <div class="ff"><label>Cost of Equity Ke (%)</label><input id="wt-ke" type="number" value="12" step=".1"></div>
+    </div>
+    <button class="btn" onclick="calcWalter()">Calculate</button>
+    <div class="res" id="wt-res">
+      <div class="rg" id="wt-grid"></div>
+      <div id="wt-verdict" style="margin-top:10px;padding:10px;border-radius:7px;font-size:.87rem"></div>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <div class="qq">Q: Under Walter's model, r = 8%, Ke = 12%. Optimal dividend policy?</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qdiv1')">a) Retain all earnings</div>
+      <div class="qo" onclick="checkQ(this,true,'qdiv1')">b) Distribute 100% as dividend</div>
+      <div class="qo" onclick="checkQ(this,false,'qdiv1')">c) 50% payout</div>
+      <div class="qo" onclick="checkQ(this,false,'qdiv1')">d) Irrelevant</div>
+    </div>
+    <div class="qfb cg" id="qdiv1-fb">✓ r (8%) &lt; Ke (12%) → Firm earns less on retained earnings than shareholders can earn elsewhere. → <strong>Distribute all</strong> earnings. P is maximised at 100% payout.</div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 11 — VALUATION & FINANCING
+══════════════════════════════════ -->
+<section class="module" id="m11">
+  <div class="mod-tag">Module 11</div>
+  <h2>Valuation &amp; Capital Structure</h2>
+  <p class="mod-sub">Does capital structure affect firm value? NI, NOI, Traditional, and MM approaches.</p>
+
+  <h3>Capital Structure Theories</h3>
+  <table class="ct2">
+    <tr><th>Theory</th><th>Core Argument</th><th>Optimal Structure?</th></tr>
+    <tr><td>NI Approach</td><td>More debt → lower WACC → higher firm value</td><td>100% debt</td></tr>
+    <tr><td>NOI Approach</td><td>WACC stays constant; overall capitalisation rate fixed</td><td>No optimal — structure irrelevant</td></tr>
+    <tr><td>Traditional Approach</td><td>Moderate debt reduces WACC to an optimal point, then rises</td><td>Yes — a range of optimal leverage</td></tr>
+    <tr><td>MM (No Tax)</td><td>Capital structure irrelevant in perfect markets</td><td>No optimal</td></tr>
+    <tr><td>MM (With Tax)</td><td>Debt tax shield adds value; VL = VU + tD</td><td>100% debt (theoretical)</td></tr>
+    <tr><td>Trade-off Theory</td><td>Tax shield benefit vs. financial distress cost</td><td>Yes — balances two forces</td></tr>
+    <tr><td>Pecking Order</td><td>Firms prefer internal &gt; debt &gt; equity (info asymmetry)</td><td>No fixed optimal</td></tr>
+  </table>
+
+  <div class="fbox">
+    <span class="fl">MM Proposition I — No Tax (Capital Structure Irrelevance)</span>
+    VL = VU     (Levered firm value = Unlevered firm value)
+    Assumptions: perfect markets, no taxes, no bankruptcy costs, homogeneous expectations
+  </div>
+  <div class="fbox">
+    <span class="fl">MM Proposition I — With Corporate Tax</span>
+    VL = VU + tD     (t = tax rate, D = market value of debt)
+    PV of Tax Shield = tD  (for perpetual debt)
+  </div>
+  <div class="fbox">
+    <span class="fl">MM Proposition II — Cost of Equity Rises with Leverage</span>
+    Without tax:  Ke = Ko + (Ko − Kd) × (D/E)
+    With tax:     Ke = Ko + (Ko − Kd)(1−t) × (D/E)
+    As leverage ↑, Ke rises to compensate equity holders for higher financial risk
+    But WACC stays constant (no tax) or falls (with tax due to shield)
+  </div>
+  <div class="fbox">
+    <span class="fl">Trade-off Theory — Optimal Leverage</span>
+    VL = VU + PV(Tax Shield) − PV(Financial Distress Costs)
+    Optimal when: marginal benefit of tax shield = marginal cost of distress
+  </div>
+
+  <div class="callout ct">
+    <span class="ci">💡</span>
+    <div><strong>NI vs NOI Exam Shortcut:</strong><br>
+    NI: Ke &amp; Kd both constant → WACC falls as D↑ → Use max debt.<br>
+    NOI: WACC constant (rises in Ke exactly offsets cheaper debt) → V is independent.<br>
+    Traditional: WACC falls then rises → There is a U-shaped WACC curve → Optimal leverage exists.</div>
+  </div>
+
+  <!-- MM Calculator -->
+  <div class="card">
+    <h4>⚙️ MM Tax Shield &amp; Firm Value</h4>
+    <div class="fg">
+      <div class="ff"><label>Unlevered Firm Value VU (₹)</label><input id="mm-vu" type="number" value="1000000"></div>
+      <div class="ff"><label>Market Value of Debt D (₹)</label><input id="mm-d" type="number" value="400000"></div>
+      <div class="ff"><label>Tax Rate t (%)</label><input id="mm-t" type="number" value="30"></div>
+      <div class="ff"><label>Unlevered Cost Ko (%)</label><input id="mm-ko" type="number" value="15"></div>
+      <div class="ff"><label>Cost of Debt Kd (%)</label><input id="mm-kd" type="number" value="10"></div>
+    </div>
+    <button class="btn" onclick="calcMM()">Calculate</button>
+    <div class="res" id="mm-res">
+      <div class="rg" id="mm-grid"></div>
+      <div class="rb" id="mm-note" style="margin-top:10px"></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════
+  MODULE 12 — CAPITAL MARKETS
+══════════════════════════════════ -->
+<section class="module" id="m12">
+  <div class="mod-tag">Module 12</div>
+  <h2>Capital Market Efficiency &amp; India</h2>
+  <p class="mod-sub">EMH, forms of market efficiency, and the structure of India's capital markets.</p>
+
+  <h3>Efficient Market Hypothesis (EMH)</h3>
+  <p>Proposed by Eugene Fama (1970): stock prices fully and instantaneously reflect all available information. If markets are efficient, you cannot consistently earn above-normal returns through trading.</p>
+
+  <table class="ct2">
+    <tr><th>Form</th><th>Info Reflected in Price</th><th>Who Can Beat Market?</th><th>Implication</th></tr>
+    <tr><td>Weak Form</td><td>All past prices &amp; volume</td><td>Only those with private info</td><td>Technical analysis is useless</td></tr>
+    <tr><td>Semi-Strong Form</td><td>All publicly available info</td><td>Only insiders</td><td>Fundamental analysis is useless</td></tr>
+    <tr><td>Strong Form</td><td>All info — public + private</td><td>Nobody</td><td>Even insiders can't beat market</td></tr>
+  </table>
+
+  <div class="callout cw">
+    <span class="ci">⚠️</span>
+    <div><strong>Real-World Evidence:</strong> Markets appear to be weak-form efficient in most developed markets. Semi-strong efficiency is broadly supported but with anomalies (momentum, value premium). Strong-form efficiency is rejected — insider trading does work, which is why it is illegal.</div>
+  </div>
+
+  <h3>Capital Markets in India</h3>
+  <table class="ct2">
+    <tr><th>Component</th><th>Description</th></tr>
+    <tr><td>BSE (Bombay SE)</td><td>Oldest exchange in Asia (est. 1875); SENSEX = 30-stock index</td></tr>
+    <tr><td>NSE (National SE)</td><td>Largest by turnover; NIFTY 50 = benchmark index</td></tr>
+    <tr><td>SEBI</td><td>Securities &amp; Exchange Board of India — regulator since 1992</td></tr>
+    <tr><td>Primary Market</td><td>New issues (IPO, FPO, rights issue) — firms raise fresh capital</td></tr>
+    <tr><td>Secondary Market</td><td>Trading of existing securities between investors</td></tr>
+    <tr><td>Money Market</td><td>Short-term instruments: T-Bills, CPs, CDs, Call money</td></tr>
+    <tr><td>Capital Market</td><td>Long-term instruments: equities, debentures, bonds</td></tr>
+    <tr><td>Derivatives Market</td><td>Futures &amp; options on stocks, indices, currencies</td></tr>
+  </table>
+
+  <div class="callout ci2">
+    <span class="ci">ℹ️</span>
+    <div><strong>SEBI's Role:</strong> Protects investor interests, promotes development of securities market, and regulates the market. Key powers: registration of market participants, prohibition of insider trading, disclosure requirements, takeover regulations.</div>
+  </div>
+
+  <h3>EMH Quiz</h3>
+  <div class="quiz">
+    <div class="qq">Q: An analyst studies company financials, computes intrinsic value, and buys undervalued stocks. Which EMH form, if true, would make this strategy useless?</div>
+    <div class="qo-wrap">
+      <div class="qo" onclick="checkQ(this,false,'qemh1')">a) Weak form</div>
+      <div class="qo" onclick="checkQ(this,true,'qemh1')">b) Semi-strong form</div>
+      <div class="qo" onclick="checkQ(this,false,'qemh1')">c) Strong form</div>
+      <div class="qo" onclick="checkQ(this,false,'qemh1')">d) No form — fundamental analysis always works</div>
+    </div>
+    <div class="qfb cg" id="qemh1-fb">✓ Semi-strong EMH says all <em>publicly available</em> info (including financial statements) is already priced in. Fundamental analysis uses only public info → cannot generate excess returns under semi-strong form.</div>
+  </div>
+
+  <!-- Placeholder for future modules -->
+  <div style="margin-top:40px;padding:24px;border:2px dashed var(--border);border-radius:var(--radius);text-align:center">
+    <p style="color:var(--muted);font-size:.85rem;font-family:'Fira Code',monospace">// more modules will be added here as slides are uploaded</p>
+    <p style="color:var(--muted);font-size:.78rem;margin-top:4px">Upcoming: Mergers &amp; Acquisitions · Financial Derivatives · Risk Management · International Finance</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════
+const fmt = (n, d=2) => isNaN(n) ? '—' : '₹' + parseFloat(n).toFixed(d).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const fmtN = (n, d=2) => isNaN(n) ? '—' : parseFloat(n).toFixed(d);
+const fmtP = (n, d=2) => isNaN(n) ? '—' : parseFloat(n).toFixed(d) + '%';
+
+function showRes(id) {
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('show'); }
+}
+function ri(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function rs(id) { return document.getElementById(id).value; }
+
+function makeRI(label, val, cls='') {
+  return `<div class="ri"><div class="v ${cls}">${val}</div><div class="l">${label}</div></div>`;
+}
+
+// ═══════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════
+function switchTab(group, id) {
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(el => {
+    el.classList.remove('active');
+    if (el.id === `${group}-${id}`) el.classList.add('active');
+  });
+  document.querySelectorAll(`.tabs .tb`).forEach(btn => {
+    if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${id}'`))
+      btn.classList.add('active');
+    else if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(`'${group}'`))
+      btn.classList.remove('active');
+  });
+}
+
+// ═══════════════════════════════════════════════
+// QUIZ
+// ═══════════════════════════════════════════════
+function checkQ(el, correct, qid) {
+  const siblings = el.parentNode.querySelectorAll('.qo');
+  siblings.forEach(s => s.classList.add('disabled'));
+  el.classList.add(correct ? 'correct' : 'wrong');
+  const fb = document.getElementById(qid + '-fb');
+  if (fb) fb.classList.add('show');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 1 — EPS SIMULATOR
+// ═══════════════════════════════════════════════
+function calcEPS() {
+  const sh = ri('ep-sh'), pat = ri('ep-pat'), nsh = ri('ep-nsh'), ret = ri('ep-ret')/100;
+  const eps0 = pat / sh;
+  const addlPAT = nsh * (pat/sh) * ret; // new shares × current book value × return... simplified
+  const addlIncome = (nsh * eps0 * ret);
+  const totalPAT = pat + addlIncome;
+  const totalShares = sh + nsh;
+  const eps1 = totalPAT / totalShares;
+  const grid = document.getElementById('eps-grid');
+  grid.innerHTML = makeRI('Current EPS', '₹' + eps0.toFixed(2)) +
+    makeRI('New PAT', fmt(totalPAT), eps1 < eps0 ? 'neg' : 'pos') +
+    makeRI('New EPS', '₹' + eps1.toFixed(2), eps1 < eps0 ? 'neg' : 'pos') +
+    makeRI('EPS Change', ((eps1-eps0)/eps0*100).toFixed(1)+'%', eps1 < eps0 ? 'neg' : 'pos');
+  const v = document.getElementById('eps-verdict');
+  v.style.background = eps1 < eps0 ? 'var(--red-l)' : 'var(--green-l)';
+  v.innerHTML = eps1 < eps0
+    ? `⚠️ PAT increased from ${fmt(pat)} to ${fmt(totalPAT)}, but EPS <strong>fell from ₹${eps0.toFixed(2)} to ₹${eps1.toFixed(2)}</strong>. Profit maximisation ≠ shareholder wealth maximisation.`
+    : `✅ Both PAT and EPS improved. The new investment earns above the current EPS yield.`;
+  showRes('eps-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 2 — TVM
+// ═══════════════════════════════════════════════
+function calcLS() {
+  const sol = rs('ls-sol');
+  const pv = ri('ls-pv'), fv = ri('ls-fv'), r = ri('ls-r')/100, n = ri('ls-n');
+  let ans, lbl, rb;
+  if (sol === 'fv') { ans = pv * Math.pow(1+r, n); lbl = 'Future Value'; rb = `${fmt(pv)} × (1 + ${fmtP(r*100)})^${n}`; }
+  else if (sol === 'pv') { ans = fv / Math.pow(1+r, n); lbl = 'Present Value'; rb = `${fmt(fv)} ÷ (1 + ${fmtP(r*100)})^${n}`; }
+  else if (sol === 'r') { ans = (Math.pow(fv/pv, 1/n) - 1) * 100; lbl = 'Interest Rate'; rb = `[(${fmt(fv)}/${fmt(pv)})^(1/${n}) − 1] × 100`; }
+  else { ans = Math.log(fv/pv) / Math.log(1+r); lbl = 'Periods'; rb = `ln(${fv}/${pv}) / ln(1+${r})`; }
+  document.getElementById('ls-lbl').textContent = lbl;
+  document.getElementById('ls-val').textContent = sol === 'r' ? fmtP(ans) : sol === 'n' ? fmtN(ans) + ' periods' : fmt(ans);
+  document.getElementById('ls-rb').textContent = rb;
+  showRes('ls-res');
+}
+
+function calcAnn() {
+  const pmt = ri('an-pmt'), r = ri('an-r')/100, n = ri('an-n');
+  const type = rs('an-t');
+  let pvord = pmt * (1 - Math.pow(1+r,-n)) / r;
+  let fvord = pmt * (Math.pow(1+r,n) - 1) / r;
+  if (type === 'due') { pvord *= (1+r); fvord *= (1+r); }
+  const total = pmt * n;
+  const g = document.getElementById('ann-grid');
+  g.innerHTML = makeRI('Present Value', fmt(pvord)) + makeRI('Future Value', fmt(fvord)) +
+    makeRI('Total Payments', fmt(total)) + makeRI('Interest Earned', fmt(fvord - total), 'pos');
+  showRes('ann-res');
+}
+
+function calcPerp() {
+  const a = ri('pp-a'), i = ri('pp-i')/100, g = ri('pp-g')/100;
+  let pv, lbl, rb;
+  if (g === 0) { pv = a/i; lbl = 'PV of Perpetuity'; rb = `${fmt(a)} ÷ ${fmtP(i*100)}`; }
+  else if (i > g) { pv = a/(i-g); lbl = 'PV of Growing Perpetuity'; rb = `${fmt(a)} ÷ (${fmtP(i*100)} − ${fmtP(g*100)})`; }
+  else { document.getElementById('perp-val').textContent = 'Invalid: i must > g'; showRes('perp-res'); return; }
+  document.getElementById('perp-lbl').textContent = lbl;
+  document.getElementById('perp-val').textContent = fmt(pv);
+  document.getElementById('perp-rb').textContent = rb;
+  showRes('perp-res');
+}
+
+function calcEIR() {
+  const r = ri('eir-r')/100, m = parseFloat(rs('eir-m'));
+  let eir;
+  if (m === 0) eir = (Math.exp(r) - 1) * 100;
+  else eir = (Math.pow(1 + r/m, m) - 1) * 100;
+  document.getElementById('eir-val').textContent = fmtP(eir);
+  document.getElementById('eir-rb').textContent = m === 0
+    ? `Continuous: e^${fmtP(r*100)} − 1 = ${fmtP(eir)}`
+    : `(1 + ${fmtP(r*100)}/${m})^${m} − 1 = ${fmtP(eir)}`;
+  showRes('eir-res');
+}
+
+function calcAmort() {
+  const loan = ri('am-loan'), r = ri('am-r')/100, n = ri('am-n');
+  const emi = loan * r / (1 - Math.pow(1+r,-n));
+  let balance = loan, rows = '';
+  for (let t = 1; t <= n; t++) {
+    const int = balance * r;
+    const prin = emi - int;
+    balance -= prin;
+    rows += `<tr><td>Year ${t}</td><td>₹${emi.toFixed(2)}</td><td>₹${int.toFixed(2)}</td><td>₹${prin.toFixed(2)}</td><td>₹${Math.max(0,balance).toFixed(2)}</td></tr>`;
+  }
+  const top = document.getElementById('amort-top');
+  top.innerHTML = makeRI('EMI / Instalment', fmt(emi)) + makeRI('Total Paid', fmt(emi*n)) + makeRI('Total Interest', fmt(emi*n - loan), 'neg');
+  document.getElementById('amort-wrap').innerHTML = `<table><thead><tr><th>Period</th><th>EMI</th><th>Interest</th><th>Principal</th><th>Balance</th></tr></thead><tbody>${rows}</tbody></table>`;
+  showRes('amort-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 3 — CAPITAL BUDGETING
+// ═══════════════════════════════════════════════
+function calcCB() {
+  const c0 = ri('cb-c0'), k = ri('cb-k')/100, sv = ri('cb-sv');
+  const cfStr = document.getElementById('cb-cfs').value;
+  const cfs = cfStr.split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
+  if (cfs.length === 0) return;
+  cfs[cfs.length-1] += sv; // add salvage to last CF
+
+  // NPV
+  let npv = -c0;
+  let pvCFs = [];
+  cfs.forEach((cf, t) => { const pv = cf/Math.pow(1+k,t+1); pvCFs.push(pv); npv += pv; });
+
+  // Payback
+  let cum = 0, pbp = null;
+  for (let i = 0; i < cfs.length; i++) {
+    if (cum + cfs[i] >= c0 && pbp === null) {
+      pbp = i + (c0 - cum) / cfs[i];
+    }
+    cum += cfs[i];
+  }
+
+  // PI
+  const pi = (c0 + npv) / c0;
+
+  // IRR (Newton-Raphson)
+  let irr = 0.1;
+  for (let iter = 0; iter < 200; iter++) {
+    let f = -c0, df = 0;
+    cfs.forEach((cf, t) => { f += cf/Math.pow(1+irr,t+1); df -= (t+1)*cf/Math.pow(1+irr,t+2); });
+    if (Math.abs(f) < 1e-6) break;
+    irr -= f/df;
+  }
+
+  const g = document.getElementById('cb-grid');
+  g.innerHTML = makeRI('NPV', fmt(npv), npv >= 0 ? 'pos' : 'neg') +
+    makeRI('IRR', fmtP(irr*100)) +
+    makeRI('Payback Period', pbp ? fmtN(pbp) + ' yrs' : 'Not recovered') +
+    makeRI('PI', fmtN(pi, 3), pi >= 1 ? 'pos' : 'neg');
+
+  let sched = 'Year | CF | Disc CF | Cum Disc CF\n';
+  let cumD = -c0;
+  pvCFs.forEach((pv, i) => { cumD += pv; sched += `  ${i+1}  | ${fmt(cfs[i])} | ${fmt(pv)} | ${fmt(cumD)}\n`; });
+  document.getElementById('cb-schedule').textContent = sched;
+
+  const r = document.getElementById('cb-res');
+  const verdict = document.createElement('div');
+  verdict.style.cssText = `margin-top:12px;padding:10px;border-radius:7px;font-size:.87rem;background:${npv>=0?'var(--green-l)':'var(--red-l)'}`;
+  verdict.innerHTML = npv >= 0
+    ? `✅ <strong>Accept</strong> — NPV positive; IRR (${fmtP(irr*100)}) ${irr >= k ? '>' : '<'} cost of capital (${fmtP(k*100)}); PI ≥ 1`
+    : `❌ <strong>Reject</strong> — NPV negative; destroys shareholder value`;
+  const old = r.querySelector('.verdict-box');
+  if (old) old.remove();
+  verdict.className = 'verdict-box';
+  r.appendChild(verdict);
+  showRes('cb-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 4 — DEPRECIATION TAX SHIELD
+// ═══════════════════════════════════════════════
+function calcDTS() {
+  const rev = ri('dt-rev'), exp = ri('dt-exp'), dep = ri('dt-dep'), t = ri('dt-tax')/100;
+  const pbt = rev - exp - dep;
+  const tax = pbt * t;
+  const pat = pbt - tax;
+  const cf = pat + dep;
+  const dts = dep * t;
+  const pbtNoDep = rev - exp;
+  const taxNoDep = pbtNoDep * t;
+  const patNoDep = pbtNoDep - taxNoDep;
+  const g = document.getElementById('dts-grid');
+  g.innerHTML = makeRI('PAT (with dep)', fmt(pat)) +
+    makeRI('Cash Flow', fmt(cf), 'pos') +
+    makeRI('Tax Saved (DTS)', fmt(dts), 'pos') +
+    makeRI('PAT without dep', fmt(patNoDep));
+  document.getElementById('dts-note').textContent =
+    `Method 1: CF = ${fmt(pat)} + ${fmt(dep)} = ${fmt(cf)}\nMethod 2: OPAT ${fmt(patNoDep)} + DTS ${fmt(dts)} = ${fmt(cf)} ✓\nTax saving = ${fmt(dts)} because depreciation reduced taxable income by ${fmt(dep)}`;
+  showRes('dts-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 5 — BOND & SHARE VALUATION
+// ═══════════════════════════════════════════════
+function calcBond() {
+  const f = ri('bd-f'), cr = ri('bd-cr')/100, r = ri('bd-r')/100, n = ri('bd-n');
+  const type = rs('bd-type'), freq = parseInt(rs('bd-freq'));
+  let price;
+  if (type === 'perp') {
+    const c = f * cr;
+    price = c / r;
+  } else if (type === 'zc') {
+    price = f / Math.pow(1 + r/freq, n*freq);
+  } else {
+    const c = f * cr / freq, rf = r/freq, nf = n*freq;
+    const pvaf = (1 - Math.pow(1+rf,-nf)) / rf;
+    price = c * pvaf + f * Math.pow(1+rf,-nf);
+  }
+  const cAnn = f * cr;
+  const currentYield = cAnn / price * 100;
+  const approxYTM = (cAnn + (f-price)/n) / ((f+price)/2) * 100;
+  const g = document.getElementById('bond-grid');
+  g.innerHTML = makeRI('Bond Price', fmt(price), price > f ? 'pos' : price < f ? 'neg' : '') +
+    makeRI('vs Par', price > f ? 'Premium' : price < f ? 'Discount' : 'At Par') +
+    makeRI('Current Yield', fmtP(currentYield)) +
+    (type !== 'perp' && type !== 'zc' ? makeRI('Approx YTM', fmtP(approxYTM)) : '');
+  showRes('bond-res');
+}
+
+function calcYTM() {
+  const f = ri('yt-f'), p = ri('yt-p'), c = ri('yt-c'), n = ri('yt-n');
+  const ytm = (c + (f-p)/n) / ((f+p)/2) * 100;
+  document.getElementById('ytm-val').textContent = fmtP(ytm);
+  document.getElementById('ytm-rb').textContent = `[${fmt(c)} + (${fmt(f)} − ${fmt(p)})/${n}] / [(${fmt(f)} + ${fmt(p)})/2]`;
+  showRes('ytm-res');
+}
+
+function calcGordon() {
+  const d0 = ri('gd-d0'), g = ri('gd-g')/100, ke = ri('gd-ke')/100;
+  if (ke <= g) { alert('ke must be greater than g'); return; }
+  const d1 = d0 * (1+g);
+  const p0 = d1 / (ke - g);
+  const impliedKe = d1/p0*100 + g*100;
+  const gr = document.getElementById('gordon-grid');
+  gr.innerHTML = makeRI('D₁ (Next Dividend)', '₹' + d1.toFixed(2)) +
+    makeRI('Share Price P₀', fmt(p0), 'pos') +
+    makeRI('Dividend Yield', fmtP(d1/p0*100)) +
+    makeRI('Capital Gain Yield', fmtP(g*100));
+  showRes('gordon-res');
+}
+
+function calcTwoStage() {
+  const d0 = ri('ts-d0'), g1 = ri('ts-g1')/100, n = ri('ts-n'), g2 = ri('ts-g2')/100, ke = ri('ts-ke')/100;
+  if (ke <= g2) { alert('ke must be greater than stable growth rate g2'); return; }
+  let pvDiv = 0, rows = '';
+  let d = d0;
+  for (let t = 1; t <= n; t++) {
+    d *= (1 + g1);
+    const pv = d / Math.pow(1+ke, t);
+    pvDiv += pv;
+    rows += `Year ${t}: D=${d.toFixed(2)}, PV=${pv.toFixed(2)}\n`;
+  }
+  const dn1 = d * (1+g2);
+  const tv = dn1 / (ke - g2);
+  const pvTV = tv / Math.pow(1+ke, n);
+  const p0 = pvDiv + pvTV;
+  const gr = document.getElementById('ts-grid');
+  gr.innerHTML = makeRI('PV of High-Growth Divs', fmt(pvDiv)) +
+    makeRI('Terminal Value at yr ' + n, fmt(tv)) +
+    makeRI('PV of Terminal Value', fmt(pvTV)) +
+    makeRI('Share Price P₀', fmt(p0), 'pos');
+  document.getElementById('ts-table').textContent = rows + `Terminal Value (Yr ${n}): ${fmt(tv)} → PV = ${fmt(pvTV)}`;
+  showRes('ts-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 6 — WORKING CAPITAL
+// ═══════════════════════════════════════════════
+function calcWC() {
+  const rm = ri('wc-rm'), wip = ri('wc-wip'), fg = ri('wc-fg'), db = ri('wc-db'), cr = ri('wc-cr');
+  const oc = rm + wip + fg + db;
+  const ccc = oc - cr;
+  const g = document.getElementById('wc-grid');
+  g.innerHTML = makeRI('Operating Cycle', oc + ' days') +
+    makeRI('Less: Creditors', cr + ' days', 'neg') +
+    makeRI('Cash Conversion Cycle', ccc + ' days', ccc < 30 ? 'pos' : ccc > 90 ? 'neg' : '') +
+    makeRI('Debtors Period', db + ' days');
+  // Draw bar
+  const canvas = document.getElementById('wc-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = canvas.parentElement.offsetWidth || 600;
+  const total = oc;
+  const segs = [['RM', rm, '#B8860B'], ['WIP', wip, '#1A4B8C'], ['FG', fg, '#1E6B4A'], ['Debtors', db, '#C0392B']];
+  let x = 0;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  segs.forEach(([lbl, days, col]) => {
+    const w = (days / total) * canvas.width;
+    ctx.fillStyle = col;
+    ctx.fillRect(x, 0, w-2, 40);
+    ctx.fillStyle = '#fff';
+    ctx.font = '11px Jost';
+    ctx.textAlign = 'center';
+    if (w > 30) ctx.fillText(`${lbl} (${days}d)`, x + w/2, 25);
+    x += w;
+  });
+  ctx.fillStyle = 'rgba(192,57,43,.15)';
+  ctx.fillRect(0, 42, (cr/total)*canvas.width, 14);
+  ctx.fillStyle = '#C0392B';
+  ctx.font = '10px Jost';
+  ctx.textAlign = 'left';
+  ctx.fillText(`Creditors: ${cr}d offset`, 4, 52);
+  showRes('wc-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 7 — RECEIVABLES / CREDIT POLICY
+// ═══════════════════════════════════════════════
+function calcCP() {
+  const s0 = ri('cp-s0'), s1 = ri('cp-s1'), vc = ri('cp-vc')/100;
+  const d0 = ri('cp-d0'), d1 = ri('cp-d1'), bd = ri('cp-bd')/100, k = ri('cp-k')/100;
+  const cm = 1 - vc;
+  const incSales = s1 - s0;
+  const incContrib = incSales * cm;
+  const inv0 = (s0 * vc / 365) * d0;
+  const inv1 = (s1 * vc / 365) * d1;
+  const incInv = inv1 - inv0;
+  const oppCost = incInv * k;
+  const bdCost = incSales * bd;
+  const netBenefit = incContrib - oppCost - bdCost;
+  const g = document.getElementById('cp-grid');
+  g.innerHTML = makeRI('Incremental Contribution', fmt(incContrib), 'pos') +
+    makeRI('Opportunity Cost ΔInvestment', fmt(oppCost), 'neg') +
+    makeRI('Bad Debt Cost', fmt(bdCost), 'neg') +
+    makeRI('Net Benefit / (Cost)', fmt(netBenefit), netBenefit >= 0 ? 'pos' : 'neg');
+  const v = document.getElementById('cp-verdict');
+  v.style.background = netBenefit >= 0 ? 'var(--green-l)' : 'var(--red-l)';
+  v.innerHTML = netBenefit >= 0
+    ? `✅ <strong>Relax credit policy</strong> — Net benefit of ${fmt(netBenefit)} (incremental contribution ${fmt(incContrib)} exceeds total costs ${fmt(oppCost + bdCost)}).`
+    : `❌ <strong>Do NOT relax</strong> — Net cost of ${fmt(Math.abs(netBenefit))} (costs exceed incremental contribution).`;
+  showRes('cp-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 8 — LEVERAGE
+// ═══════════════════════════════════════════════
+function calcLev() {
+  const s = ri('lv-s'), vc = ri('lv-vc'), fc = ri('lv-fc'), int = ri('lv-int'), tax = ri('lv-tax')/100;
+  const contrib = s - vc;
+  const ebit = contrib - fc;
+  const ebt = ebit - int;
+  const pat = ebt * (1 - tax);
+  const dol = ebit !== 0 ? contrib / ebit : Infinity;
+  const dfl = ebt !== 0 ? ebit / ebt : Infinity;
+  const dtl = ebt !== 0 ? contrib / ebt : Infinity;
+  const g = document.getElementById('lev-grid');
+  g.innerHTML = makeRI('DOL', fmtN(dol, 2)) + makeRI('DFL', fmtN(dfl, 2)) + makeRI('DTL', fmtN(dtl, 2)) + makeRI('EBIT', fmt(ebit));
+  document.getElementById('lev-income').textContent =
+    `Income Statement:\nSales: ${fmt(s)} | VC: ${fmt(vc)} | Contribution: ${fmt(contrib)}\nFC: ${fmt(fc)} | EBIT: ${fmt(ebit)} | Interest: ${fmt(int)} | EBT: ${fmt(ebt)} | PAT: ${fmt(pat)}`;
+  showRes('lev-res');
+}
+
+function calcEBITeq() {
+  const ia = ri('pa-i'), na = ri('pa-n'), ib = ri('pb-i'), nb = ri('pb-n'), t = ri('ep-t')/100;
+  // (EBIT - ia)(1-t)/na = (EBIT - ib)(1-t)/nb
+  // nb(EBIT-ia) = na(EBIT-ib)
+  // nb*EBIT - nb*ia = na*EBIT - na*ib
+  // EBIT(nb-na) = nb*ia - na*ib
+  const ebitStar = (nb * ia - na * ib) / (nb - na);
+  document.getElementById('ebit-val').textContent = fmt(ebitStar);
+  const epsA = (ebitStar - ia) * (1-t) / na;
+  document.getElementById('ebit-note').textContent =
+    `At EBIT* = ${fmt(ebitStar)}, EPS(A) = EPS(B) = ₹${epsA.toFixed(2)}\nIf Expected EBIT > ${fmt(ebitStar)} → Plan B (higher debt) gives more EPS\nIf Expected EBIT < ${fmt(ebitStar)} → Plan A (lower debt / more equity) gives more EPS`;
+  // Draw EBIT-EPS chart
+  const canvas = document.getElementById('ebit-canvas');
+  canvas.width = canvas.parentElement.offsetWidth || 550;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const maxE = ebitStar * 2.5;
+  const W = canvas.width, H = canvas.height, pad = 40;
+  const scaleX = x => pad + (x / maxE) * (W - 2*pad);
+  const minEPS = -0.5, maxEPS = Math.max(
+    (maxE - ia)*(1-t)/na, (maxE - ib)*(1-t)/nb
+  ) * 1.1;
+  const scaleY = y => H - pad - ((y - minEPS) / (maxEPS - minEPS)) * (H - 2*pad);
+  // Axes
+  ctx.strokeStyle = '#E0DAD0'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, H-pad); ctx.lineTo(W-pad, H-pad); ctx.stroke();
+  // Zero EPS line
+  ctx.strokeStyle = '#ccc'; ctx.setLineDash([4,4]);
+  const y0 = scaleY(0);
+  ctx.beginPath(); ctx.moveTo(pad, y0); ctx.lineTo(W-pad, y0); ctx.stroke();
+  ctx.setLineDash([]);
+  // Plan A
+  ctx.strokeStyle = '#1A4B8C'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let e = 0; e <= maxE; e += maxE/100) {
+    const eps = (e - ia)*(1-t)/na;
+    if (e === 0) ctx.moveTo(scaleX(e), scaleY(eps));
+    else ctx.lineTo(scaleX(e), scaleY(eps));
+  }
+  ctx.stroke();
+  // Plan B
+  ctx.strokeStyle = '#C0392B'; ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let e = 0; e <= maxE; e += maxE/100) {
+    const eps = (e - ib)*(1-t)/nb;
+    if (e === 0) ctx.moveTo(scaleX(e), scaleY(eps));
+    else ctx.lineTo(scaleX(e), scaleY(eps));
+  }
+  ctx.stroke();
+  // Indifference point
+  if (ebitStar > 0 && ebitStar < maxE) {
+    const xp = scaleX(ebitStar), yp = scaleY(epsA);
+    ctx.fillStyle = '#B8860B';
+    ctx.beginPath(); ctx.arc(xp, yp, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#B8860B'; ctx.font = '11px Jost'; ctx.textAlign = 'left';
+    ctx.fillText(`EBIT* = ${fmt(ebitStar)}`, xp + 8, yp);
+  }
+  // Labels
+  ctx.font = '11px Jost'; ctx.fillStyle = '#1A4B8C'; ctx.textAlign = 'left';
+  ctx.fillText('Plan A', W - pad - 50, scaleY((maxE - ia)*(1-t)/na) - 8);
+  ctx.fillStyle = '#C0392B';
+  ctx.fillText('Plan B', W - pad - 50, scaleY((maxE - ib)*(1-t)/nb) + 14);
+  ctx.fillStyle = '#6B6882'; ctx.textAlign = 'center'; ctx.font = '10px Jost';
+  ctx.fillText('EBIT →', W/2, H - 5);
+  showRes('ebit-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 9 — WACC & CAPM
+// ═══════════════════════════════════════════════
+function calcWACC() {
+  const e = ri('wc-e'), ke = ri('wc-ke')/100, d = ri('wc-d'), kd = ri('wc-kd')/100;
+  const p = ri('wc-p'), kp = ri('wc-kp')/100, t = ri('wc-t')/100;
+  const v = e + d + p;
+  const kdAt = kd * (1-t);
+  const wacc = ke*(e/v) + kdAt*(d/v) + kp*(p/v);
+  const g = document.getElementById('wacc-grid');
+  g.innerHTML = makeRI('WACC', fmtP(wacc*100), 'pos') +
+    makeRI('Total Value V', fmt(v)) +
+    makeRI('After-tax Kd', fmtP(kdAt*100)) +
+    makeRI('Equity Weight', fmtP(e/v*100));
+  // Bar
+  const bar = document.getElementById('wacc-bar');
+  const cols = ['#1A4B8C','#C0392B','#B8860B'];
+  const segs2 = [['Equity', e, ke, cols[0]], ['Debt', d, kdAt, cols[1]], ...(p>0?[['Pref', p, kp, cols[2]]]:[])];
+  bar.innerHTML = segs2.map(([lbl, amt, cost, col]) => {
+    const w = (amt/v*100).toFixed(0);
+    return `<div class="wseg" style="width:${w}%;background:${col}" title="${lbl}: ${fmtP(cost*100)}">${w}%</div>`;
+  }).join('');
+  const leg = document.getElementById('wacc-legend');
+  leg.innerHTML = segs2.map(([lbl,,, col]) => `<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:${col};border-radius:2px;display:inline-block"></span>${lbl}</span>`).join('');
+  document.getElementById('wacc-detail').textContent =
+    segs2.map(([l,a,c]) => `${l}: weight=${fmtP(a/v*100)}, cost=${fmtP(c*100)}, contribution=${fmtP(a/v*c*100)}`).join('\n') +
+    `\nWACC = ${fmtP(wacc*100)}`;
+  showRes('wacc-res');
+}
+
+function calcCAPM() {
+  const rf = ri('cap-rf')/100, rm = ri('cap-rm')/100, b = ri('cap-b');
+  const ke = rf + b * (rm - rf);
+  document.getElementById('capm-val').textContent = fmtP(ke*100);
+  document.getElementById('capm-rb').textContent =
+    `Ke = Rf + β(Rm − Rf) = ${fmtP(rf*100)} + ${b} × (${fmtP(rm*100)} − ${fmtP(rf*100)}) = ${fmtP(ke*100)}\nMRP = ${fmtP((rm-rf)*100)} | Risk Premium = ${fmtP(b*(rm-rf)*100)}`;
+  showRes('capm-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 10 — WALTER'S MODEL
+// ═══════════════════════════════════════════════
+function calcWalter() {
+  const e = ri('wt-e'), d = ri('wt-d'), r = ri('wt-r')/100, ke = ri('wt-ke')/100;
+  const p = (d + (r/ke)*(e-d)) / ke;
+  const p100 = (e + 0) / ke; // 100% payout: D=E
+  const p0 = (0 + (r/ke)*e) / ke; // 0% payout: D=0
+  const g = document.getElementById('wt-grid');
+  g.innerHTML = makeRI('Share Price (current D)', fmt(p), 'pos') +
+    makeRI('Price if 100% payout', fmt(p100)) +
+    makeRI('Price if 0% payout', fmt(p0)) +
+    makeRI('r vs Ke', r > ke ? 'r > Ke (Growth)' : r < ke ? 'r < Ke (Declining)' : 'r = Ke', r > ke ? 'pos' : r < ke ? 'neg' : '');
+  const v = document.getElementById('wt-verdict');
+  v.style.background = r > ke ? 'var(--green-l)' : r < ke ? 'var(--red-l)' : 'var(--blue-l)';
+  v.innerHTML = r > ke
+    ? `✅ <strong>Growth firm (r > Ke)</strong> — Retain earnings. Price is maximised at 0% payout (₹${p0.toFixed(2)}). Current price ₹${p.toFixed(2)} can improve by retaining more.`
+    : r < ke
+    ? `📤 <strong>Declining firm (r < Ke)</strong> — Distribute all earnings. Price is maximised at 100% payout (₹${p100.toFixed(2)}).`
+    : `⚖️ <strong>Normal firm (r = Ke)</strong> — Dividend policy is irrelevant. Price = ₹${p.toFixed(2)} regardless of payout.`;
+  showRes('wt-res');
+}
+
+// ═══════════════════════════════════════════════
+// MODULE 11 — MM
+// ═══════════════════════════════════════════════
+function calcMM() {
+  const vu = ri('mm-vu'), d = ri('mm-d'), t = ri('mm-t')/100, ko = ri('mm-ko')/100, kd = ri('mm-kd')/100;
+  const shield = t * d;
+  const vl = vu + shield;
+  const e = vl - d;
+  const ke = ko + (ko - kd) * (1-t) * (d/e);
+  const wacc = ke*(e/vl) + kd*(1-t)*(d/vl);
+  const g = document.getElementById('mm-grid');
+  g.innerHTML = makeRI('VL = VU + tD', fmt(vl), 'pos') +
+    makeRI('PV of Tax Shield (tD)', fmt(shield), 'pos') +
+    makeRI('Equity Value E', fmt(e)) +
+    makeRI('Ke (with tax)', fmtP(ke*100)) +
+    makeRI('WACC', fmtP(wacc*100)) +
+    makeRI('VU (unlevered)', fmt(vu));
+  document.getElementById('mm-note').textContent =
+    `MM with tax: VL = ${fmt(vu)} + (${t*100}% × ${fmt(d)}) = ${fmt(vl)}\nKe = Ko + (Ko−Kd)(1−t)(D/E) = ${fmtP(ko*100)} + (${fmtP((ko-kd)*100)})(${1-t})(${fmtN(d/e,2)}) = ${fmtP(ke*100)}\nWACC drops from ${fmtP(ko*100)} to ${fmtP(wacc*100)} due to tax shield`;
+  showRes('mm-res');
+}
+
+// ═══════════════════════════════════════════════
+// PROGRESS BAR + ACTIVE NAV
+// ═══════════════════════════════════════════════
+const modules = Array.from(document.querySelectorAll('.module'));
+const navItems = Array.from(document.querySelectorAll('.nav-item'));
+
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.body.scrollHeight - window.innerHeight;
+  document.getElementById('prog').style.width = (scrolled / total * 100) + '%';
+
+  let active = modules[0].id;
+  modules.forEach(mod => {
+    if (mod.getBoundingClientRect().top <= 120) active = mod.id;
+  });
+  navItems.forEach(item => {
+    item.classList.toggle('active', item.getAttribute('href') === '#' + active);
+  });
+});
+</script>
+</body>
+</html>
