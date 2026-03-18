@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Mastery — Interactive Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/sql-wasm.js"></script>
+<style>
+  :root {
+    --cream: #FAFAF6;
+    --cream2: #F2F0E8;
+    --navy: #0E1628;
+    --navy2: #1A2540;
+    --navy3: #2D3A56;
+    --amber: #E8962A;
+    --amber-light: #FEF3DC;
+    --amber-dark: #C4780A;
+    --green: #2A7A4A;
+    --green-light: #DCFCE7;
+    --red: #C0392B;
+    --red-light: #FEE2E2;
+    --blue: #2563EB;
+    --blue-light: #EFF6FF;
+    --text: #1C1917;
+    --text2: #57534E;
+    --text3: #A8A29E;
+    --border: #E2DDD5;
+    --shadow: 0 2px 16px rgba(14,22,40,0.08);
+    --shadow-lg: 0 8px 40px rgba(14,22,40,0.14);
+    --radius: 10px;
+    --sidebar-w: 270px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* SIDEBAR */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-width: var(--sidebar-w);
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 10;
+  }
+
+  #sidebar-header {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .logo-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .logo-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1.2;
+  }
+
+  .logo-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+
+  /* Progress bar */
+  #progress-wrap {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .progress-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .progress-track {
+    background: rgba(255,255,255,0.1);
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    background: var(--amber);
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+    width: 0%;
+  }
+
+  /* Module nav */
+  #module-nav { padding: 12px 0 24px; flex: 1; }
+
+  .nav-section-title {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    padding: 8px 24px 4px;
+    font-weight: 500;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-left: 3px solid transparent;
+    position: relative;
+  }
+
+  .nav-item:hover { background: rgba(255,255,255,0.05); }
+  .nav-item.active {
+    background: rgba(232,150,42,0.12);
+    border-left-color: var(--amber);
+  }
+  .nav-item.active .nav-num { color: var(--amber); }
+  .nav-item.active .nav-label { color: #FFF; }
+
+  .nav-item.done .nav-check { display: flex; }
+  .nav-item.done .nav-num { display: none; }
+
+  .nav-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .nav-check {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+    font-size: 10px;
+    color: #fff;
+  }
+  .nav-label {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .nav-badge {
+    margin-left: auto;
+    font-size: 9px;
+    background: rgba(232,150,42,0.2);
+    color: var(--amber);
+    padding: 2px 6px;
+    border-radius: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* DB INFO */
+  #db-info {
+    margin: 12px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .db-info-title {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .db-table-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    padding: 3px 0;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .db-table-item:hover { color: var(--amber); }
+  .db-table-item span { color: rgba(255,255,255,0.25); }
+
+  /* MAIN */
+  #main {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* TOP BAR */
+  #topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+  .topbar-module {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--amber-dark);
+    background: var(--amber-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .topbar-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .topbar-actions { margin-left: auto; display: flex; gap: 8px; }
+  .btn-nav {
+    background: var(--cream2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .btn-nav:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .btn-next {
+    background: var(--navy);
+    color: #fff;
+    border: 1px solid var(--navy);
+  }
+  .btn-next:hover { background: var(--navy2); }
+
+  /* CONTENT */
+  #content-area {
+    padding: 32px 40px 60px;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* THEORY */
+  .theory-block {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+  }
+
+  .section-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber-dark);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+
+  .theory-text {
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: var(--text2);
+  }
+
+  .theory-text p { margin-bottom: 12px; }
+  .theory-text strong { color: var(--text); font-weight: 600; }
+  .theory-text ul, .theory-text ol { padding-left: 20px; margin-bottom: 12px; }
+  .theory-text li { margin-bottom: 6px; }
+  .theory-text code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    background: var(--cream2);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--navy);
+  }
+
+  /* CONCEPT TABLE */
+  .concept-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13.5px;
+  }
+  .concept-table th {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .concept-table th:first-child { border-radius: 6px 0 0 0; }
+  .concept-table th:last-child { border-radius: 0 6px 0 0; }
+  .concept-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    vertical-align: top;
+  }
+  .concept-table tr:nth-child(even) td { background: var(--cream); }
+  .concept-table td code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    background: var(--cream2);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--navy);
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-left: 3px solid var(--amber);
+    background: var(--amber-light);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 14px 0;
+    font-size: 13.5px;
+    color: var(--text);
+  }
+  .callout.tip { border-color: var(--blue); background: var(--blue-light); }
+  .callout.warn { border-color: var(--red); background: var(--red-light); }
+  .callout strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--amber-dark); }
+  .callout.tip strong { color: var(--blue); }
+  .callout.warn strong { color: var(--red); }
+
+  /* EXAMPLES */
+  .examples-block {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .examples-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .examples-header-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .examples-list { padding: 8px; display: flex; flex-wrap: wrap; gap: 6px; border-bottom: 1px solid var(--border); }
+  .ex-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+    padding: 6px 12px;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all 0.15s;
+  }
+  .ex-btn:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .ex-btn.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+  /* PLAYGROUND */
+  #playground {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  #playground-header {
+    background: var(--navy);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .playground-dots { display: flex; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FEBC2E; }
+  .dot-g { background: #28C840; }
+
+  .playground-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  #sql-editor {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    line-height: 1.7;
+    background: #0F1C30;
+    color: #A8D8A8;
+    border: none;
+    outline: none;
+    width: 100%;
+    min-height: 120px;
+    padding: 20px 24px;
+    resize: vertical;
+    caret-color: var(--amber);
+    letter-spacing: 0.01em;
+    tab-size: 2;
+  }
+
+  #run-bar {
+    background: #0F1C30;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  #run-btn {
+    background: var(--amber);
+    color: var(--navy);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  #run-btn:hover { background: #F5A535; transform: translateY(-1px); }
+  #run-btn:active { transform: translateY(0); }
+  #clear-btn {
+    background: transparent;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  #clear-btn:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.3); }
+
+  .run-hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    margin-left: auto;
+  }
+
+  /* RESULTS */
+  #results-area { padding: 0; }
+
+  #results-status {
+    padding: 10px 20px;
+    font-size: 12.5px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  #results-status.success { background: var(--green-light); color: var(--green); display: flex; border-top: 1px solid #BBF7D0; }
+  #results-status.error { background: var(--red-light); color: var(--red); display: flex; border-top: 1px solid #FECACA; }
+
+  #results-table-wrap {
+    overflow-x: auto;
+    border-top: 1px solid var(--border);
+    display: none;
+  }
+
+  #results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  #results-table thead th {
+    background: var(--cream2);
+    padding: 9px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  #results-table tbody td {
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    white-space: nowrap;
+  }
+  #results-table tbody tr:hover td { background: var(--cream); }
+  .null-val { color: var(--text3); font-style: italic; }
+  .row-count {
+    padding: 8px 16px;
+    font-size: 11.5px;
+    color: var(--text3);
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* EXERCISES */
+  .exercises-block {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+
+  .exercises-header {
+    background: var(--navy);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .exercises-header-title {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    color: #fff;
+  }
+  .exercises-header-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .exercise-item {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+  .exercise-item:last-child { border-bottom: none; }
+
+  .exercise-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .ex-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    background: var(--cream2);
+    color: var(--text3);
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .ex-title {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .ex-status {
+    margin-left: auto;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .ex-status.pending { background: var(--cream2); color: var(--text3); }
+  .ex-status.correct { background: var(--green-light); color: var(--green); }
+  .ex-status.wrong { background: var(--red-light); color: var(--red); }
+
+  .ex-desc {
+    font-size: 13.5px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .ex-hint-toggle {
+    font-size: 12px;
+    color: var(--amber-dark);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .ex-hint {
+    display: none;
+    background: var(--amber-light);
+    border: 1px solid #F5D89A;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: var(--amber-dark);
+    margin-bottom: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.6;
+  }
+
+  .ex-editor {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    background: #0F1C30;
+    color: #A8D8A8;
+    border: none;
+    outline: none;
+    width: 100%;
+    min-height: 70px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    resize: vertical;
+    caret-color: var(--amber);
+  }
+
+  .ex-actions { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+
+  .ex-run-btn {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+  }
+  .ex-run-btn:hover { background: var(--navy2); }
+
+  .ex-feedback {
+    font-size: 12.5px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: none;
+  }
+  .ex-feedback.correct { background: var(--green-light); color: var(--green); display: block; }
+  .ex-feedback.wrong { background: var(--red-light); color: var(--red); display: block; }
+
+  .ex-result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12px;
+    display: none;
+  }
+  .ex-result-table th {
+    background: var(--cream2);
+    padding: 6px 12px;
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--navy3);
+    text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace;
+    border-bottom: 1px solid var(--border);
+  }
+  .ex-result-table td {
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11.5px;
+  }
+  .ex-result-table tr:nth-child(even) td { background: var(--cream); }
+
+  /* SCHEMA VIEWER */
+  .schema-block {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .schema-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--cream); }
+  .schema-tab {
+    padding: 10px 20px;
+    font-size: 12.5px;
+    cursor: pointer;
+    color: var(--text3);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .schema-tab.active { color: var(--navy); border-bottom-color: var(--amber); }
+  .schema-content { display: none; padding: 16px 20px; overflow-x: auto; }
+  .schema-content.active { display: block; }
+
+  /* LOADING */
+  #loading-screen {
+    position: fixed; inset: 0; background: var(--navy);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 100; transition: opacity 0.5s ease;
+  }
+  .loading-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .loading-logo span { color: var(--amber); }
+  .loading-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 32px;
+  }
+  .loading-bar-wrap { width: 240px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  .loading-bar { height: 100%; background: var(--amber); border-radius: 2px; animation: loadpulse 1.8s ease-in-out infinite; }
+  @keyframes loadpulse { 0%,100%{width:10%} 50%{width:90%} }
+  .loading-msg { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 16px; }
+
+  /* SYNTAX HIGHLIGHT COLORS for textarea */
+  #sql-editor::selection { background: rgba(232,150,42,0.3); }
+
+  /* JOIN DIAGRAM */
+  .join-diagram {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+  }
+  .join-card {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .join-card:hover { border-color: var(--amber); }
+  .join-card.selected { background: var(--amber-light); border-color: var(--amber); }
+  .join-card-title { font-weight: 600; font-size: 13px; color: var(--navy); margin-bottom: 4px; }
+  .join-card-desc { font-size: 11.5px; color: var(--text3); line-height: 1.4; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+  /* ANIMATE IN */
+  .fade-in { animation: fadeIn 0.35s ease forwards; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 700px) {
+    :root { --sidebar-w: 220px; }
+    #content-area { padding: 20px 16px 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loading-logo">SQL<span>.</span>learn</div>
+  <div class="loading-sub">Great Lakes B-School Edition</div>
+  <div class="loading-bar-wrap"><div class="loading-bar"></div></div>
+  <div class="loading-msg" id="loading-msg">Initializing SQL engine...</div>
+</div>
+
+<!-- SIDEBAR -->
+<div id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo-tag">Interactive Course</div>
+    <div class="logo-title">SQL Mastery</div>
+    <div class="logo-sub">Great Lakes B-School</div>
+  </div>
+
+  <div id="progress-wrap">
+    <div class="progress-label">
+      <span>PROGRESS</span>
+      <span id="progress-text">0 / 10</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div id="module-nav"></div>
+
+  <div id="db-info">
+    <div class="db-info-title">📦 Database Tables</div>
+    <div class="db-table-item" onclick="loadTablePreview('students')">▸ students <span>(5 rows)</span></div>
+    <div class="db-table-item" onclick="loadTablePreview('courses')">▸ courses <span>(3 rows)</span></div>
+    <div class="db-table-item" onclick="loadTablePreview('enrollments')">▸ enrollments <span>(5 rows)</span></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <div class="topbar-module" id="tb-module">Module 01</div>
+    <div class="topbar-title" id="tb-title">What is SQL?</div>
+    <div class="topbar-actions">
+      <button class="btn-nav" onclick="navigate(-1)">← Prev</button>
+      <button class="btn-nav btn-next" onclick="navigate(1)">Next →</button>
+    </div>
+  </div>
+
+  <div id="content-area"></div>
+</div>
+
+<script>
+// ===== DATA =====
+const MODULES = [
+  {
+    id: 0,
+    title: "What is SQL?",
+    badge: "Intro",
+    theory: `
+      <div class="section-eyebrow">Module 01 — Foundation</div>
+      <div class="section-title">What is SQL & Why Does it Matter?</div>
+      <div class="theory-text">
+        <p><strong>SQL</strong> (Structured Query Language) is the language used to communicate with relational databases. Think of a database as a collection of Excel sheets — called <strong>tables</strong> — all connected to each other. SQL is how you ask questions, insert data, and manage everything inside.</p>
+        <p>Every app you use daily runs on databases: Swiggy, LinkedIn, your bank's mobile app, Spotify. When you search for a restaurant or check your balance, a SQL query is running in the background.</p>
+        <div class="callout"><strong>Why you need this as an MBA</strong>SQL is consistently the #1 technical skill demanded in analytics, consulting, and product roles. It takes you from "I can read a report" to "I can answer business questions myself, directly from data."</div>
+        <p>A <strong>relational database</strong> organizes data into tables with rows and columns. Tables are linked by shared columns (called keys). This avoids repetition — for example, instead of writing every student's full details in every enrollment record, we just store their <code>student_id</code>.</p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Concept</th><th>What it means</th><th>Excel equivalent</th></tr>
+        <tr><td><code>Database</code></td><td>A collection of related tables</td><td>The entire .xlsx workbook</td></tr>
+        <tr><td><code>Table</code></td><td>Grid of rows and columns</td><td>A single sheet</td></tr>
+        <tr><td><code>Row</code></td><td>One record (e.g. one student)</td><td>A row in the sheet</td></tr>
+        <tr><td><code>Column</code></td><td>One attribute (e.g. city)</td><td>A column header</td></tr>
+        <tr><td><code>Primary Key</code></td><td>Unique ID for each row</td><td>A unique row ID</td></tr>
+        <tr><td><code>Foreign Key</code></td><td>Links to another table's PK</td><td>VLOOKUP reference</td></tr>
+      </table>
+      <div class="theory-text">
+        <p>Our practice database simulates a <strong>Great Lakes B-School</strong> system with three tables: <code>students</code>, <code>courses</code>, and <code>enrollments</code>. Click any table name in the sidebar to preview its data.</p>
+      </div>`,
+    examples: [
+      { label: "Preview students", sql: "SELECT * FROM students;" },
+      { label: "Preview courses", sql: "SELECT * FROM courses;" },
+      { label: "Preview enrollments", sql: "SELECT * FROM enrollments;" }
+    ],
+    exercises: [
+      { title: "Run your first query", desc: "Write a query to see all data in the <code>students</code> table.", hint: "Use SELECT * FROM table_name;", validate: (r) => r && r.length >= 5, exp: "Should return 5 rows with all student columns." },
+      { title: "Explore courses", desc: "Write a query to see everything in the <code>courses</code> table.", hint: "Same pattern — SELECT * FROM courses;", validate: (r) => r && r.length === 3, exp: "Should return 3 rows." }
+    ]
+  },
+  {
+    id: 1,
+    title: "SELECT Basics",
+    badge: "Read",
+    theory: `
+      <div class="section-eyebrow">Module 02 — Reading Data</div>
+      <div class="section-title">The SELECT Statement</div>
+      <div class="theory-text">
+        <p><code>SELECT</code> is the most important SQL command — it retrieves data from a table. You'll use it in 90% of all queries you ever write.</p>
+        <p><strong>Basic syntax:</strong></p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Pattern</th><th>What it does</th></tr>
+        <tr><td><code>SELECT * FROM table</code></td><td>Get every column from the table</td></tr>
+        <tr><td><code>SELECT col1, col2 FROM table</code></td><td>Get only specific columns</td></tr>
+        <tr><td><code>SELECT col AS alias FROM table</code></td><td>Rename the column in output</td></tr>
+        <tr><td><code>SELECT col1 * 2 FROM table</code></td><td>Do math in the SELECT itself</td></tr>
+        <tr><td><code>SELECT DISTINCT col FROM table</code></td><td>Return only unique values</td></tr>
+      </table>
+      <div class="theory-text">
+        <p>Use <code>AS</code> to give a column a display name — very useful for clean reports. When selecting multiple columns, separate them with commas. <code>*</code> means "all columns" — handy for exploration, but avoid it in production queries.</p>
+        <div class="callout tip"><strong>Pro Tip</strong>Always specify column names in production code instead of using <code>*</code>. It's faster, clearer, and won't break if the table structure changes.</div>
+      </div>`,
+    examples: [
+      { label: "All columns", sql: "SELECT * FROM students;" },
+      { label: "Specific columns", sql: "SELECT name, city, cgpa FROM students;" },
+      { label: "With aliases", sql: "SELECT name AS student_name, cgpa AS score FROM students;" },
+      { label: "Math in SELECT", sql: "SELECT name, fees_paid / 1000 AS fees_in_thousands FROM students;" },
+      { label: "DISTINCT cities", sql: "SELECT DISTINCT city FROM students;" }
+    ],
+    exercises: [
+      { title: "Name & Batch only", desc: "Write a query that returns only the <code>name</code> and <code>batch</code> columns from students.", hint: "SELECT name, batch FROM ...", validate: (r, cols) => cols && cols.includes('name') && cols.includes('batch') && cols.length === 2, exp: "2 columns: name and batch." },
+      { title: "Fees in thousands", desc: "Show student names and their fees divided by 1000, aliased as <code>fees_k</code>.", hint: "SELECT name, fees_paid / 1000 AS fees_k FROM students;", validate: (r, cols) => cols && cols.includes('name') && cols.includes('fees_k'), exp: "Columns: name, fees_k" },
+      { title: "Unique batches", desc: "Get all unique batch years from the students table.", hint: "Use SELECT DISTINCT batch FROM ...", validate: (r) => r && r.length === 2, exp: "Should return 2 rows: 2024 and 2025." }
+    ]
+  },
+  {
+    id: 2,
+    title: "WHERE — Filtering",
+    badge: "Filter",
+    theory: `
+      <div class="section-eyebrow">Module 03 — Filtering Data</div>
+      <div class="section-title">WHERE Clause & Operators</div>
+      <div class="theory-text">
+        <p><code>WHERE</code> filters which rows are returned. Think of it as adding a condition — only rows that match the condition come through.</p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Operator</th><th>Meaning</th><th>Example</th></tr>
+        <tr><td><code>=</code></td><td>Equal to</td><td><code>city = 'Mumbai'</code></td></tr>
+        <tr><td><code>!=</code> or <code>&lt;&gt;</code></td><td>Not equal</td><td><code>city != 'Delhi'</code></td></tr>
+        <tr><td><code>&gt;</code>, <code>&lt;</code></td><td>Greater / less than</td><td><code>cgpa &gt; 8.0</code></td></tr>
+        <tr><td><code>AND</code></td><td>Both must be true</td><td><code>city='Mumbai' AND cgpa>8</code></td></tr>
+        <tr><td><code>OR</code></td><td>At least one true</td><td><code>city='Mumbai' OR city='Delhi'</code></td></tr>
+        <tr><td><code>IN (...)</code></td><td>Any of these values</td><td><code>city IN ('Mumbai','Delhi')</code></td></tr>
+        <tr><td><code>BETWEEN x AND y</code></td><td>Inclusive range</td><td><code>cgpa BETWEEN 7.5 AND 8.5</code></td></tr>
+        <tr><td><code>LIKE 'A%'</code></td><td>Pattern match</td><td><code>name LIKE 'A%'</code></td></tr>
+        <tr><td><code>IS NULL</code></td><td>Value is missing</td><td><code>fees_paid IS NULL</code></td></tr>
+      </table>
+      <div class="theory-text">
+        <p><strong>LIKE patterns:</strong> <code>%</code> matches any number of characters. <code>_</code> matches exactly one character. So <code>LIKE 'A%'</code> = starts with A, <code>LIKE '%an%'</code> = contains 'an'.</p>
+        <div class="callout warn"><strong>Common Mistake</strong>Never use <code>= NULL</code> to check for missing values. It always returns false. Always use <code>IS NULL</code> or <code>IS NOT NULL</code>.</div>
+      </div>`,
+    examples: [
+      { label: "Students from Mumbai", sql: "SELECT name, city FROM students\nWHERE city = 'Mumbai';" },
+      { label: "CGPA above 8", sql: "SELECT name, cgpa FROM students\nWHERE cgpa > 8.0;" },
+      { label: "AND condition", sql: "SELECT name, city, cgpa FROM students\nWHERE city = 'Mumbai' AND cgpa > 8.0;" },
+      { label: "IN operator", sql: "SELECT name, city FROM students\nWHERE city IN ('Mumbai', 'Delhi');" },
+      { label: "BETWEEN", sql: "SELECT name, cgpa FROM students\nWHERE cgpa BETWEEN 7.5 AND 9.0;" },
+      { label: "LIKE pattern", sql: "SELECT name FROM students\nWHERE name LIKE 'A%';" },
+      { label: "Fees paid = 0", sql: "SELECT name, fees_paid FROM students\nWHERE fees_paid = 0;" }
+    ],
+    exercises: [
+      { title: "Mumbai students", desc: "Get the name and CGPA of all students from Mumbai.", hint: "WHERE city = 'Mumbai'", validate: (r) => r && r.length === 2, exp: "2 rows: Siddhant and Meera." },
+      { title: "High achievers", desc: "Find all students with CGPA greater than 8.5. Return name and CGPA.", hint: "WHERE cgpa > 8.5", validate: (r) => r && r.length === 2, exp: "2 rows: Siddhant (8.7) and Meera (9.1)." },
+      { title: "Outstanding dues", desc: "Find students who have NOT paid full fees (fees_paid < 150000). Show name and fees_paid.", hint: "WHERE fees_paid < 150000", validate: (r) => r && r.length === 2, exp: "2 rows: Rohan (0) and Meera (75000)." }
+    ]
+  },
+  {
+    id: 3,
+    title: "ORDER BY & LIMIT",
+    badge: "Sort",
+    theory: `
+      <div class="section-eyebrow">Module 04 — Sorting & Limiting</div>
+      <div class="section-title">ORDER BY and LIMIT</div>
+      <div class="theory-text">
+        <p><code>ORDER BY</code> sorts your results. By default it's ascending (<code>ASC</code>). Add <code>DESC</code> for highest-first sorting.</p>
+        <p><code>LIMIT n</code> caps the output to n rows. Combined with ORDER BY, you get powerful top-N queries.</p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Pattern</th><th>Result</th></tr>
+        <tr><td><code>ORDER BY cgpa</code></td><td>Lowest CGPA first (ASC default)</td></tr>
+        <tr><td><code>ORDER BY cgpa DESC</code></td><td>Highest CGPA first</td></tr>
+        <tr><td><code>ORDER BY city ASC, cgpa DESC</code></td><td>Sort by city A-Z, then CGPA high-to-low within same city</td></tr>
+        <tr><td><code>LIMIT 3</code></td><td>Return at most 3 rows</td></tr>
+        <tr><td><code>LIMIT 3 OFFSET 2</code></td><td>Skip first 2 rows, then return 3 (pagination)</td></tr>
+      </table>
+      <div class="theory-text">
+        <div class="callout"><strong>Real-world use case</strong>Top-N queries are everywhere: top 10 customers by revenue, top 5 products this month, students who scored highest. Always pair ORDER BY with LIMIT for these.</div>
+      </div>`,
+    examples: [
+      { label: "Sort by CGPA (high)", sql: "SELECT name, cgpa FROM students\nORDER BY cgpa DESC;" },
+      { label: "Sort by name A-Z", sql: "SELECT name, city FROM students\nORDER BY name ASC;" },
+      { label: "Top 3 students", sql: "SELECT name, cgpa FROM students\nORDER BY cgpa DESC\nLIMIT 3;" },
+      { label: "Multi-column sort", sql: "SELECT name, city, cgpa FROM students\nORDER BY city ASC, cgpa DESC;" },
+      { label: "Bottom 2 CGPA", sql: "SELECT name, cgpa FROM students\nORDER BY cgpa ASC\nLIMIT 2;" }
+    ],
+    exercises: [
+      { title: "Top scorer", desc: "Find the student with the highest CGPA. Return their name and CGPA only.", hint: "ORDER BY cgpa DESC LIMIT 1", validate: (r) => r && r.length === 1 && (r[0]['name'] === 'Meera' || r[0]['cgpa'] == 9.1), exp: "1 row: Meera with 9.1" },
+      { title: "Top 3 by CGPA", desc: "List the top 3 students by CGPA (highest first). Show name and CGPA.", hint: "ORDER BY cgpa DESC LIMIT 3", validate: (r) => r && r.length === 3, exp: "3 rows: Meera, Siddhant, Rohan." },
+      { title: "Alphabetical Mumbai", desc: "Get all Mumbai students sorted alphabetically by name.", hint: "WHERE city = 'Mumbai' ORDER BY name ASC", validate: (r) => r && r.length === 2 && r[0]['name'] === 'Meera', exp: "2 rows: Meera, Siddhant (alphabetical order)." }
+    ]
+  },
+  {
+    id: 4,
+    title: "Aggregate Functions",
+    badge: "Calc",
+    theory: `
+      <div class="section-eyebrow">Module 05 — Summarizing Data</div>
+      <div class="section-title">Aggregate Functions</div>
+      <div class="theory-text">
+        <p>Aggregate functions collapse many rows into a single summary value. They're the foundation of all reporting and analytics work.</p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Function</th><th>Does what</th><th>Example</th></tr>
+        <tr><td><code>COUNT(*)</code></td><td>Counts all rows</td><td><code>SELECT COUNT(*) FROM students</code></td></tr>
+        <tr><td><code>COUNT(col)</code></td><td>Counts non-NULL values</td><td><code>SELECT COUNT(city) FROM students</code></td></tr>
+        <tr><td><code>SUM(col)</code></td><td>Adds up all values</td><td><code>SELECT SUM(fees_paid) FROM students</code></td></tr>
+        <tr><td><code>AVG(col)</code></td><td>Calculates average</td><td><code>SELECT AVG(cgpa) FROM students</code></td></tr>
+        <tr><td><code>MAX(col)</code></td><td>Highest value</td><td><code>SELECT MAX(cgpa) FROM students</code></td></tr>
+        <tr><td><code>MIN(col)</code></td><td>Lowest value</td><td><code>SELECT MIN(cgpa) FROM students</code></td></tr>
+        <tr><td><code>COUNT(DISTINCT col)</code></td><td>Count unique values</td><td><code>SELECT COUNT(DISTINCT city) FROM students</code></td></tr>
+      </table>
+      <div class="theory-text">
+        <div class="callout tip"><strong>Business use cases</strong>Total revenue (SUM), average order value (AVG), number of customers (COUNT), highest-selling product (MAX) — all aggregates. Master these and you can answer almost any reporting question.</div>
+      </div>`,
+    examples: [
+      { label: "Count all students", sql: "SELECT COUNT(*) AS total_students FROM students;" },
+      { label: "Average CGPA", sql: "SELECT AVG(cgpa) AS avg_cgpa FROM students;" },
+      { label: "Max & Min CGPA", sql: "SELECT MAX(cgpa) AS highest, MIN(cgpa) AS lowest FROM students;" },
+      { label: "Total fees collected", sql: "SELECT SUM(fees_paid) AS total_fees FROM students;" },
+      { label: "Count unique cities", sql: "SELECT COUNT(DISTINCT city) AS unique_cities FROM students;" },
+      { label: "Multiple aggregates", sql: "SELECT\n  COUNT(*) AS students,\n  ROUND(AVG(cgpa),2) AS avg_cgpa,\n  SUM(fees_paid) AS total_fees\nFROM students;" }
+    ],
+    exercises: [
+      { title: "Total students", desc: "How many students are there in the database? Return a single number labeled <code>total</code>.", hint: "SELECT COUNT(*) AS total FROM ...", validate: (r) => r && r.length === 1 && (r[0]['total'] == 5 || r[0]['total'] == 5), exp: "1 row: total = 5" },
+      { title: "Average CGPA", desc: "What is the average CGPA across all students? Round to 2 decimal places. Alias it as <code>avg_cgpa</code>.", hint: "SELECT ROUND(AVG(cgpa), 2) AS avg_cgpa FROM ...", validate: (r, cols) => cols && cols.includes('avg_cgpa'), exp: "1 row: avg_cgpa = 8.14" },
+      { title: "Fees outstanding", desc: "What is the total fees still outstanding? (Total possible fees = 5 students × 150000. Subtract what's been paid.)", hint: "Try: SELECT (5*150000) - SUM(fees_paid) AS outstanding FROM students;", validate: (r) => r && r.length === 1, exp: "1 row: outstanding = 225000" }
+    ]
+  },
+  {
+    id: 5,
+    title: "GROUP BY & HAVING",
+    badge: "Group",
+    theory: `
+      <div class="section-eyebrow">Module 06 — Grouping Data</div>
+      <div class="section-title">GROUP BY and HAVING</div>
+      <div class="theory-text">
+        <p><code>GROUP BY</code> splits your table into groups and lets you apply aggregate functions to each group separately. This is where SQL becomes a real analytics tool.</p>
+        <p><strong>Rule:</strong> Every column in your SELECT must either be inside an aggregate function OR be in the GROUP BY clause.</p>
+        <p><code>HAVING</code> filters groups after they've been created — it's the WHERE clause for groups.</p>
+        <div class="callout warn"><strong>WHERE vs HAVING</strong><code>WHERE</code> filters individual rows BEFORE grouping. <code>HAVING</code> filters groups AFTER grouping. You cannot use aggregate functions in a WHERE clause.</div>
+        <p><strong>Clause order to memorize:</strong></p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Order</th><th>Clause</th><th>Purpose</th></tr>
+        <tr><td>1</td><td><code>SELECT</code></td><td>What to show</td></tr>
+        <tr><td>2</td><td><code>FROM</code></td><td>Which table</td></tr>
+        <tr><td>3</td><td><code>WHERE</code></td><td>Filter rows (before grouping)</td></tr>
+        <tr><td>4</td><td><code>GROUP BY</code></td><td>Group the rows</td></tr>
+        <tr><td>5</td><td><code>HAVING</code></td><td>Filter groups (after grouping)</td></tr>
+        <tr><td>6</td><td><code>ORDER BY</code></td><td>Sort output</td></tr>
+        <tr><td>7</td><td><code>LIMIT</code></td><td>Cap output</td></tr>
+      </table>`,
+    examples: [
+      { label: "Students per city", sql: "SELECT city, COUNT(*) AS students\nFROM students\nGROUP BY city;" },
+      { label: "Avg CGPA per batch", sql: "SELECT batch, ROUND(AVG(cgpa),2) AS avg_cgpa\nFROM students\nGROUP BY batch;" },
+      { label: "Fees per batch", sql: "SELECT batch, SUM(fees_paid) AS total_fees\nFROM students\nGROUP BY batch\nORDER BY total_fees DESC;" },
+      { label: "HAVING filter", sql: "SELECT city, COUNT(*) AS count\nFROM students\nGROUP BY city\nHAVING COUNT(*) > 1;" },
+      { label: "WHERE + GROUP BY", sql: "SELECT batch, AVG(cgpa) AS avg_cgpa\nFROM students\nWHERE city != 'Hyderabad'\nGROUP BY batch;" }
+    ],
+    exercises: [
+      { title: "Count per batch", desc: "How many students are in each batch? Return <code>batch</code> and <code>student_count</code>.", hint: "GROUP BY batch", validate: (r) => r && r.length === 2, exp: "2 rows: 2024→3, 2025→2" },
+      { title: "Average CGPA per batch", desc: "What is the average CGPA for each batch? Alias as <code>avg_cgpa</code> and round to 2 decimal places.", hint: "ROUND(AVG(cgpa), 2) AS avg_cgpa ... GROUP BY batch", validate: (r, cols) => r && r.length === 2 && cols && cols.includes('avg_cgpa'), exp: "2 rows with batch and avg_cgpa" },
+      { title: "Cities with 2+ students", desc: "Find cities that have more than one student. Use HAVING.", hint: "GROUP BY city HAVING COUNT(*) > 1", validate: (r) => r && r.length === 1, exp: "1 row: Mumbai (2 students)" }
+    ]
+  },
+  {
+    id: 6,
+    title: "JOINs",
+    badge: "Join",
+    theory: `
+      <div class="section-eyebrow">Module 07 — Combining Tables</div>
+      <div class="section-title">JOINs — The Heart of Relational SQL</div>
+      <div class="theory-text">
+        <p>JOINs combine rows from two or more tables based on a shared column. This is how relational databases work — data is spread across tables and joined on demand.</p>
+        <p>In our database: <code>students</code> and <code>enrollments</code> share <code>student_id</code>. <code>enrollments</code> and <code>courses</code> share <code>course_id</code>.</p>
+      </div>
+      <div class="join-diagram">
+        <div class="join-card"><div class="join-card-title">INNER JOIN</div><div class="join-card-desc">Only rows with matches in BOTH tables</div></div>
+        <div class="join-card"><div class="join-card-title">LEFT JOIN</div><div class="join-card-desc">All rows from left table + matches from right (NULLs if no match)</div></div>
+        <div class="join-card"><div class="join-card-title">RIGHT JOIN</div><div class="join-card-desc">All rows from right table + matches from left</div></div>
+        <div class="join-card"><div class="join-card-title">FULL JOIN</div><div class="join-card-desc">All rows from both tables, NULLs where no match</div></div>
+      </div>
+      <div class="theory-text">
+        <p><strong>Syntax:</strong></p>
+        <p><code>SELECT s.name, e.course_id FROM students s INNER JOIN enrollments e ON s.student_id = e.student_id;</code></p>
+        <p>The <code>s</code> and <code>e</code> are table aliases — short names to avoid typing the full table name repeatedly. The <code>ON</code> clause specifies which columns link the tables.</p>
+        <div class="callout tip"><strong>Key insight</strong>INNER JOIN is the most common. Use LEFT JOIN when you want ALL records from one table even if there's no matching record in the other (e.g., students who haven't enrolled in anything yet).</div>
+      </div>`,
+    examples: [
+      { label: "Students + enrollments", sql: "SELECT s.name, e.course_id, e.grade\nFROM students s\nINNER JOIN enrollments e ON s.student_id = e.student_id;" },
+      { label: "3-table join", sql: "SELECT s.name, c.course_name, e.grade\nFROM students s\nINNER JOIN enrollments e ON s.student_id = e.student_id\nINNER JOIN courses c ON e.course_id = c.course_id;" },
+      { label: "LEFT JOIN (all students)", sql: "SELECT s.name, e.course_id\nFROM students s\nLEFT JOIN enrollments e ON s.student_id = e.student_id;" },
+      { label: "Students with no enrollment", sql: "SELECT s.name\nFROM students s\nLEFT JOIN enrollments e ON s.student_id = e.student_id\nWHERE e.student_id IS NULL;" },
+      { label: "Courses + enrollment count", sql: "SELECT c.course_name, COUNT(e.enrollment_id) AS enrolled\nFROM courses c\nLEFT JOIN enrollments e ON c.course_id = e.course_id\nGROUP BY c.course_name;" }
+    ],
+    exercises: [
+      { title: "Full enrollment details", desc: "Show student name, course name, and grade for all enrolled students. Use a 3-table join.", hint: "JOIN students → enrollments → courses", validate: (r, cols) => cols && cols.includes('grade'), exp: "5 rows with name, course_name, and grade." },
+      { title: "Business Analytics students", desc: "Who is enrolled in 'Business Analytics'? Show student names only.", hint: "JOIN enrollments and filter WHERE course_name = 'Business Analytics'", validate: (r) => r && r.length === 3, exp: "3 students: Siddhant, Ananya, Meera." },
+      { title: "Students NOT enrolled", desc: "Which students haven't enrolled in any course? Use LEFT JOIN and check for NULL.", hint: "LEFT JOIN enrollments ... WHERE e.student_id IS NULL", validate: (r) => r && r.length === 1, exp: "1 student: Karan." }
+    ]
+  },
+  {
+    id: 7,
+    title: "Subqueries",
+    badge: "Nest",
+    theory: `
+      <div class="section-eyebrow">Module 08 — Advanced Queries</div>
+      <div class="section-title">Subqueries — Queries Inside Queries</div>
+      <div class="theory-text">
+        <p>A <strong>subquery</strong> is a query nested inside another query. The inner query runs first, and its result is used by the outer query. This lets you answer complex questions that require two "steps" of thinking.</p>
+        <p><strong>Three places you can use a subquery:</strong></p>
+        <ul>
+          <li><strong>In WHERE:</strong> Filter rows based on a computed value</li>
+          <li><strong>In FROM:</strong> Use a query result as a temporary table (called a "derived table")</li>
+          <li><strong>In SELECT:</strong> Add a calculated column using a query</li>
+        </ul>
+        <div class="callout"><strong>When to use subqueries vs JOINs</strong>Subqueries are more readable for "two-step" questions. JOINs are usually faster for production. As a beginner, focus on subqueries for logic clarity first.</div>
+        <p><strong>Example thought process:</strong> "Which students have above-average CGPA?"<br>Step 1: Calculate average CGPA → Step 2: Filter students where CGPA > that average</p>
+      </div>`,
+    examples: [
+      { label: "Above-average CGPA", sql: "SELECT name, cgpa FROM students\nWHERE cgpa > (SELECT AVG(cgpa) FROM students);" },
+      { label: "Students in Business Analytics", sql: "SELECT name FROM students\nWHERE student_id IN (\n  SELECT student_id FROM enrollments WHERE course_id = 'C01'\n);" },
+      { label: "Subquery in FROM", sql: "SELECT batch, avg_cgpa\nFROM (\n  SELECT batch, ROUND(AVG(cgpa),2) AS avg_cgpa\n  FROM students\n  GROUP BY batch\n) AS batch_summary\nWHERE avg_cgpa > 8;" },
+      { label: "Courses with 2+ enrolled", sql: "SELECT course_name FROM courses\nWHERE course_id IN (\n  SELECT course_id FROM enrollments\n  GROUP BY course_id\n  HAVING COUNT(*) >= 2\n);" }
+    ],
+    exercises: [
+      { title: "Above average CGPA", desc: "Find all students whose CGPA is above the average CGPA of all students. Return name and CGPA.", hint: "WHERE cgpa > (SELECT AVG(cgpa) FROM students)", validate: (r) => r && r.length === 3, exp: "3 students: Siddhant, Rohan, Meera" },
+      { title: "Students in courses", desc: "Find students enrolled in course <code>C01</code> using a subquery (not a JOIN).", hint: "WHERE student_id IN (SELECT student_id FROM enrollments WHERE course_id = 'C01')", validate: (r) => r && r.length === 3, exp: "3 students: Siddhant, Ananya, Meera" },
+      { title: "Highest CGPA student", desc: "Find the student with the highest CGPA using a subquery (not ORDER BY LIMIT).", hint: "WHERE cgpa = (SELECT MAX(cgpa) FROM students)", validate: (r) => r && r.length === 1 && r[0]['name'] === 'Meera', exp: "1 row: Meera with 9.1" }
+    ]
+  },
+  {
+    id: 8,
+    title: "INSERT / UPDATE / DELETE",
+    badge: "Write",
+    theory: `
+      <div class="section-eyebrow">Module 09 — Modifying Data</div>
+      <div class="section-title">INSERT, UPDATE, DELETE</div>
+      <div class="theory-text">
+        <p>So far we've only read data. These three commands write to the database. Together they're called <strong>DML — Data Manipulation Language</strong>.</p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Command</th><th>Purpose</th><th>Key Rule</th></tr>
+        <tr><td><code>INSERT INTO</code></td><td>Add new rows</td><td>Specify columns + values in same order</td></tr>
+        <tr><td><code>UPDATE</code></td><td>Modify existing rows</td><td>ALWAYS use WHERE — no WHERE = all rows change</td></tr>
+        <tr><td><code>DELETE</code></td><td>Remove rows</td><td>ALWAYS use WHERE — no WHERE = all rows deleted</td></tr>
+      </table>
+      <div class="theory-text">
+        <p><strong>INSERT syntax:</strong><br><code>INSERT INTO students (student_id, name, batch, city, cgpa, fees_paid) VALUES (6, 'Priya', 2025, 'Chennai', 8.4, 0);</code></p>
+        <p><strong>UPDATE syntax:</strong><br><code>UPDATE students SET fees_paid = 150000 WHERE student_id = 3;</code></p>
+        <p><strong>DELETE syntax:</strong><br><code>DELETE FROM students WHERE student_id = 6;</code></p>
+        <div class="callout warn"><strong>Critical Warning</strong>In a real database, always wrap UPDATE and DELETE in a transaction so you can roll back if something goes wrong. Never run these without a WHERE clause unless you really mean to affect every row.</div>
+        <p>In this playground, changes persist within your session. After modifying data, run a SELECT to verify. Click "Reset DB" in the run bar if you need to start fresh.</p>
+      </div>`,
+    examples: [
+      { label: "INSERT a student", sql: "INSERT INTO students (student_id, name, batch, city, cgpa, fees_paid)\nVALUES (6, 'Priya', 2025, 'Chennai', 8.4, 0);\n\nSELECT * FROM students;" },
+      { label: "UPDATE fees paid", sql: "UPDATE students\nSET fees_paid = 150000\nWHERE student_id = 3;\n\nSELECT name, fees_paid FROM students;" },
+      { label: "UPDATE with math", sql: "UPDATE students\nSET cgpa = cgpa + 0.1\nWHERE batch = 2024;\n\nSELECT name, cgpa FROM students WHERE batch = 2024;" },
+      { label: "DELETE a student", sql: "DELETE FROM students WHERE student_id = 6;\n\nSELECT * FROM students;" }
+    ],
+    exercises: [
+      { title: "Add a new student", desc: "Insert a new student: ID=7, name='Rahul', batch=2025, city='Kolkata', cgpa=7.8, fees_paid=75000. Then verify by selecting all students.", hint: "INSERT INTO students (...) VALUES (7, 'Rahul', ...);", validate: (r) => r !== null, exp: "After insert, students table should have 6+ rows." },
+      { title: "Update CGPA", desc: "Karan (student_id=5) improved his CGPA to 7.5. Write an UPDATE to fix this. Then select Karan's record to verify.", hint: "UPDATE students SET cgpa = 7.5 WHERE student_id = 5;", validate: (r) => r !== null, exp: "Karan's CGPA should show 7.5" }
+    ]
+  },
+  {
+    id: 9,
+    title: "DDL & CASE",
+    badge: "Build",
+    theory: `
+      <div class="section-eyebrow">Module 10 — Building & Logic</div>
+      <div class="section-title">CREATE TABLE, ALTER, and CASE</div>
+      <div class="theory-text">
+        <p><strong>DDL (Data Definition Language)</strong> commands define the structure of your database — creating tables, altering them, and deleting them.</p>
+      </div>
+      <table class="concept-table">
+        <tr><th>Command</th><th>Purpose</th></tr>
+        <tr><td><code>CREATE TABLE</code></td><td>Create a new table with columns and constraints</td></tr>
+        <tr><td><code>ALTER TABLE</code></td><td>Add, drop, or rename columns in an existing table</td></tr>
+        <tr><td><code>DROP TABLE</code></td><td>Delete the table and all its data permanently</td></tr>
+        <tr><td><code>TRUNCATE TABLE</code></td><td>Delete all rows but keep the table structure</td></tr>
+      </table>
+      <div class="theory-text">
+        <p><strong>Common Data Types:</strong></p>
+        <ul>
+          <li><code>INT</code> — whole numbers</li>
+          <li><code>DECIMAL(p,s)</code> — precise decimals (use for money, CGPA)</li>
+          <li><code>VARCHAR(n)</code> — text up to n characters</li>
+          <li><code>DATE</code> — dates like 2024-05-15</li>
+          <li><code>BOOLEAN</code> — true/false</li>
+        </ul>
+        <p><strong>CASE</strong> adds if-else logic inside a query — great for categorizing values into labels:</p>
+        <p><code>CASE WHEN cgpa >= 9 THEN 'Distinction' WHEN cgpa >= 8 THEN 'First Class' ELSE 'Pass' END AS category</code></p>
+        <div class="callout tip"><strong>CASE is everywhere</strong>Use CASE to create buckets, labels, or conditional calculations directly in your SELECT without needing a new column in the table.</div>
+      </div>`,
+    examples: [
+      { label: "CASE for grade label", sql: "SELECT name, cgpa,\n  CASE\n    WHEN cgpa >= 9.0 THEN 'Distinction'\n    WHEN cgpa >= 8.0 THEN 'First Class'\n    WHEN cgpa >= 7.0 THEN 'Second Class'\n    ELSE 'Pass'\n  END AS grade_label\nFROM students\nORDER BY cgpa DESC;" },
+      { label: "CASE in WHERE logic", sql: "SELECT name, batch, fees_paid,\n  CASE\n    WHEN fees_paid = 150000 THEN 'Fully Paid'\n    WHEN fees_paid > 0 THEN 'Partial'\n    ELSE 'Unpaid'\n  END AS payment_status\nFROM students;" },
+      { label: "CREATE a new table", sql: "CREATE TABLE IF NOT EXISTS placements (\n  placement_id INT PRIMARY KEY,\n  student_id INT,\n  company VARCHAR(100),\n  package_lpa DECIMAL(5,2)\n);\n\nSELECT name FROM sqlite_master WHERE type='table';" },
+      { label: "INSERT + query new table", sql: "INSERT INTO placements VALUES (1, 1, 'McKinsey', 32.5);\nINSERT INTO placements VALUES (2, 4, 'Deloitte', 18.0);\n\nSELECT s.name, p.company, p.package_lpa\nFROM students s\nJOIN placements p ON s.student_id = p.student_id\nORDER BY p.package_lpa DESC;" }
+    ],
+    exercises: [
+      { title: "Grade labels with CASE", desc: "Write a query that shows each student's name, CGPA, and a <code>grade_label</code>: 'Distinction' for ≥9, 'First Class' for ≥8, 'Second Class' for ≥7, 'Pass' otherwise.", hint: "CASE WHEN ... THEN ... END AS grade_label", validate: (r, cols) => cols && cols.includes('grade_label'), exp: "5 rows with name, cgpa, grade_label" },
+      { title: "Payment status", desc: "Show each student's name and a <code>payment_status</code>: 'Fully Paid' if fees_paid=150000, 'Partial' if fees_paid > 0, 'Unpaid' if fees_paid = 0.", hint: "CASE WHEN fees_paid = 150000 THEN ... WHEN fees_paid > 0 THEN ...", validate: (r, cols) => cols && cols.includes('payment_status'), exp: "5 rows with 3 categories" }
+    ]
+  }
+];
+
+// ===== STATE =====
+let db = null;
+let currentModule = 0;
+let completedModules = new Set();
+
+// ===== DB SETUP =====
+const DB_INIT_SQL = `
+CREATE TABLE students (
+  student_id INTEGER PRIMARY KEY,
+  name TEXT NOT NULL,
+  batch INTEGER,
+  city TEXT,
+  cgpa REAL,
+  fees_paid INTEGER DEFAULT 0
+);
+
+CREATE TABLE courses (
+  course_id TEXT PRIMARY KEY,
+  course_name TEXT,
+  credits INTEGER,
+  faculty TEXT
+);
+
+CREATE TABLE enrollments (
+  enrollment_id INTEGER PRIMARY KEY,
+  student_id INTEGER,
+  course_id TEXT,
+  grade TEXT,
+  FOREIGN KEY(student_id) REFERENCES students(student_id),
+  FOREIGN KEY(course_id) REFERENCES courses(course_id)
+);
+
+INSERT INTO students VALUES (1,'Siddhant',2024,'Mumbai',8.7,150000);
+INSERT INTO students VALUES (2,'Ananya',2024,'Delhi',7.9,150000);
+INSERT INTO students VALUES (3,'Rohan',2025,'Pune',8.2,0);
+INSERT INTO students VALUES (4,'Meera',2025,'Mumbai',9.1,75000);
+INSERT INTO students VALUES (5,'Karan',2024,'Hyderabad',6.8,150000);
+
+INSERT INTO courses VALUES ('C01','Business Analytics',4,'Prof. Sharma');
+INSERT INTO courses VALUES ('C02','Financial Management',3,'Prof. Iyer');
+INSERT INTO courses VALUES ('C03','Marketing Strategy',3,'Prof. Das');
+
+INSERT INTO enrollments VALUES (1,1,'C01','A');
+INSERT INTO enrollments VALUES (2,1,'C02','B+');
+INSERT INTO enrollments VALUES (3,2,'C01','A+');
+INSERT INTO enrollments VALUES (4,3,'C03','B');
+INSERT INTO enrollments VALUES (5,4,'C01','A');
+`;
+
+async function initDB() {
+  document.getElementById('loading-msg').textContent = 'Loading SQL engine (sql.js)...';
+  const SQL = await initSqlJs({
+    locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.2/${f}`
+  });
+  document.getElementById('loading-msg').textContent = 'Creating Great Lakes database...';
+  db = new SQL.Database();
+  db.run(DB_INIT_SQL);
+  document.getElementById('loading-msg').textContent = 'Ready!';
+  setTimeout(() => {
+    const ls = document.getElementById('loading-screen');
+    ls.style.opacity = '0';
+    setTimeout(() => ls.style.display = 'none', 500);
+  }, 400);
+  buildSidebar();
+  renderModule(0);
+}
+
+function resetDB() {
+  db.run(`DROP TABLE IF EXISTS students; DROP TABLE IF EXISTS courses; DROP TABLE IF EXISTS enrollments; DROP TABLE IF EXISTS placements;`);
+  db.run(DB_INIT_SQL);
+  showStatus('success', '✓ Database reset to original state.');
+}
+
+// ===== QUERY EXECUTION =====
+function runQuery(sql, targetResultEl, targetStatusEl) {
+  if (!db) return null;
+  sql = sql.trim();
+  if (!sql) return null;
+  try {
+    const results = db.exec(sql);
+    if (targetStatusEl) {
+      const stmts = sql.split(';').filter(s => s.trim()).length;
+      const msg = results.length > 0
+        ? `✓ Query returned ${results[0].values.length} row${results[0].values.length !== 1 ? 's' : ''}`
+        : `✓ ${stmts} statement${stmts > 1 ? 's' : ''} executed successfully`;
+      showStatus('success', msg, targetStatusEl);
+    }
+    if (targetResultEl && results.length > 0) {
+      renderTable(results[0], targetResultEl);
+    } else if (targetResultEl) {
+      targetResultEl.style.display = 'none';
+      const rc = targetResultEl.nextElementSibling;
+      if (rc && rc.classList.contains('row-count')) rc.textContent = '';
+    }
+    return results.length > 0 ? results[0] : null;
+  } catch (e) {
+    if (targetStatusEl) showStatus('error', '✗ ' + e.message, targetStatusEl);
+    if (targetResultEl) targetResultEl.style.display = 'none';
+    return null;
+  }
+}
+
+function renderTable(result, containerEl) {
+  containerEl.style.display = 'block';
+  const { columns, values } = result;
+  let html = '<table id="results-table"><thead><tr>';
+  columns.forEach(c => html += `<th>${c}</th>`);
+  html += '</tr></thead><tbody>';
+  values.forEach(row => {
+    html += '<tr>';
+    row.forEach(v => html += `<td>${v === null ? '<span class="null-val">NULL</span>' : v}</td>`);
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  html += `<div class="row-count">${values.length} row${values.length !== 1 ? 's' : ''} returned</div>`;
+  containerEl.innerHTML = html;
+}
+
+function showStatus(type, msg, el) {
+  const target = el || document.getElementById('results-status');
+  if (!target) return;
+  target.className = `${type}`;
+  target.style.display = 'flex';
+  target.textContent = msg;
+}
+
+// ===== SIDEBAR =====
+function buildSidebar() {
+  const nav = document.getElementById('module-nav');
+  nav.innerHTML = '<div class="nav-section-title">Course Modules</div>';
+  MODULES.forEach((m, i) => {
+    const done = completedModules.has(i);
+    const active = i === currentModule;
+    nav.innerHTML += `
+      <div class="nav-item ${active ? 'active' : ''} ${done ? 'done' : ''}" onclick="renderModule(${i})" id="nav-${i}">
+        <div class="nav-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="nav-check">✓</div>
+        <div class="nav-label">${m.title}</div>
+        ${m.badge ? `<div class="nav-badge">${m.badge}</div>` : ''}
+      </div>`;
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const pct = Math.round((completedModules.size / MODULES.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${completedModules.size} / ${MODULES.length}`;
+}
+
+// ===== RENDER MODULE =====
+function renderModule(idx) {
+  if (idx < 0 || idx >= MODULES.length) return;
+  currentModule = idx;
+  const m = MODULES[idx];
+
+  // Update topbar
+  document.getElementById('tb-module').textContent = `Module ${String(idx+1).padStart(2,'0')}`;
+  document.getElementById('tb-title').textContent = m.title;
+
+  // Update sidebar active states
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+
+  // Build content
+  let html = '<div class="fade-in">';
+
+  // Theory
+  html += `<div class="theory-block">${m.theory}</div>`;
+
+  // Examples
+  if (m.examples && m.examples.length > 0) {
+    html += `
+      <div class="examples-block">
+        <div class="examples-header">
+          <span style="font-size:16px">💡</span>
+          <span class="examples-header-title">Live Examples — Click to Load & Run</span>
+        </div>
+        <div class="examples-list">
+          ${m.examples.map((e,i) => `<button class="ex-btn" onclick="loadExample(${i},'${escQ(e.sql)}')" id="exbtn-${i}">${e.label}</button>`).join('')}
+        </div>
+        <div id="playground">
+          <div id="playground-header">
+            <div class="playground-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+            <div class="playground-label">SQL Playground — Edit & Run Anything</div>
+          </div>
+          <textarea id="sql-editor" spellcheck="false" placeholder="-- Write your SQL here\nSELECT * FROM students;">${m.examples[0].sql}</textarea>
+          <div id="run-bar">
+            <button id="run-btn" onclick="runPlayground()">▶ Run Query</button>
+            <button id="clear-btn" onclick="document.getElementById('sql-editor').value=''">Clear</button>
+            <button id="clear-btn" style="margin-left:4px" onclick="resetDB()">↺ Reset DB</button>
+            <span class="run-hint">Ctrl+Enter</span>
+          </div>
+          <div id="results-status"></div>
+          <div id="results-table-wrap"></div>
+        </div>
+      </div>`;
+  }
+
+  // Exercises
+  if (m.exercises && m.exercises.length > 0) {
+    html += `
+      <div class="exercises-block">
+        <div class="exercises-header">
+          <span style="font-size:18px">🎯</span>
+          <div class="exercises-header-title">Exercises</div>
+          <div class="exercises-header-sub">${m.exercises.length} challenge${m.exercises.length>1?'s':''}</div>
+        </div>`;
+
+    m.exercises.forEach((ex, ei) => {
+      html += `
+        <div class="exercise-item" id="ex-item-${ei}">
+          <div class="exercise-meta">
+            <div class="ex-num">Challenge ${ei+1}</div>
+            <div class="ex-title">${ex.title}</div>
+            <div class="ex-status pending" id="ex-status-${ei}">Pending</div>
+          </div>
+          <div class="ex-desc">${ex.desc}</div>
+          <div class="ex-hint-toggle" onclick="toggleHint(${ei})">💡 Show hint</div>
+          <div class="ex-hint" id="ex-hint-${ei}">${ex.hint}</div>
+          <textarea class="ex-editor" id="ex-editor-${ei}" spellcheck="false" placeholder="-- Write your answer here"></textarea>
+          <div class="ex-actions">
+            <button class="ex-run-btn" onclick="checkExercise(${idx},${ei})">Check Answer</button>
+            <div class="ex-feedback" id="ex-feedback-${ei}"></div>
+          </div>
+          <table class="ex-result-table" id="ex-result-${ei}"></table>
+        </div>`;
+    });
+
+    html += '</div>';
+  }
+
+  html += '</div>';
+  document.getElementById('content-area').innerHTML = html;
+  document.getElementById('main').scrollTop = 0;
+
+  // Keyboard shortcut
+  setTimeout(() => {
+    const ed = document.getElementById('sql-editor');
+    if (ed) {
+      ed.addEventListener('keydown', e => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runPlayground(); }
+        if (e.key === 'Tab') { e.preventDefault(); const s=ed.selectionStart,end=ed.selectionEnd; ed.value=ed.value.substring(0,s)+'  '+ed.value.substring(end); ed.selectionStart=ed.selectionEnd=s+2; }
+      });
+    }
+  }, 100);
+}
+
+function escQ(sql) {
+  return sql.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');
+}
+
+function loadExample(i, sqlEncoded) {
+  const sql = sqlEncoded.replace(/\\n/g, '\n').replace(/\\'/g, "'");
+  const ed = document.getElementById('sql-editor');
+  if (ed) {
+    ed.value = sql;
+    document.querySelectorAll('.ex-btn').forEach((b,bi) => b.classList.toggle('active', bi===i));
+    runPlayground();
+    ed.focus();
+  }
+}
+
+function runPlayground() {
+  const ed = document.getElementById('sql-editor');
+  if (!ed) return;
+  const sql = ed.value.trim();
+  if (!sql) return;
+  const statusEl = document.getElementById('results-status');
+  const tableEl = document.getElementById('results-table-wrap');
+  statusEl.className = '';
+  statusEl.style.display = 'none';
+  tableEl.style.display = 'none';
+  tableEl.innerHTML = '';
+  runQuery(sql, tableEl, statusEl);
+}
+
+function toggleHint(i) {
+  const h = document.getElementById(`ex-hint-${i}`);
+  if (h) h.style.display = h.style.display === 'block' ? 'none' : 'block';
+}
+
+function checkExercise(modIdx, exIdx) {
+  const m = MODULES[modIdx];
+  const ex = m.exercises[exIdx];
+  const sql = document.getElementById(`ex-editor-${exIdx}`).value.trim();
+  const feedbackEl = document.getElementById(`ex-feedback-${exIdx}`);
+  const statusEl = document.getElementById(`ex-status-${exIdx}`);
+  const resultTable = document.getElementById(`ex-result-${exIdx}`);
+
+  if (!sql) {
+    feedbackEl.className = 'ex-feedback wrong';
+    feedbackEl.textContent = 'Please write a query first.';
+    return;
+  }
+
+  try {
+    const results = db.exec(sql);
+    const rows = results.length > 0 ? results[0].values.map(row => {
+      const obj = {};
+      results[0].columns.forEach((c,i) => obj[c] = row[i]);
+      return obj;
+    }) : [];
+    const cols = results.length > 0 ? results[0].columns : [];
+
+    const passed = ex.validate(rows, cols);
+
+    if (passed) {
+      feedbackEl.className = 'ex-feedback correct';
+      feedbackEl.textContent = '✓ Correct! ' + (ex.exp || '');
+      statusEl.className = 'ex-status correct';
+      statusEl.textContent = '✓ Solved';
+      completedModules.add(modIdx);
+      buildSidebar();
+      document.getElementById(`nav-${modIdx}`).classList.add('active');
+    } else {
+      feedbackEl.className = 'ex-feedback wrong';
+      feedbackEl.textContent = '✗ Not quite. Expected: ' + ex.exp;
+      statusEl.className = 'ex-status wrong';
+      statusEl.textContent = '✗ Try again';
+    }
+
+    // Show result
+    if (results.length > 0) {
+      resultTable.style.display = 'table';
+      const { columns, values } = results[0];
+      let thtml = '<thead><tr>' + columns.map(c=>`<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+      values.slice(0,8).forEach(row => {
+        thtml += '<tr>' + row.map(v=>`<td>${v===null?'<em>NULL</em>':v}</td>`).join('') + '</tr>';
+      });
+      if (values.length > 8) thtml += `<tr><td colspan="${columns.length}" style="color:var(--text3);font-style:italic">...${values.length-8} more rows</td></tr>`;
+      thtml += '</tbody>';
+      resultTable.innerHTML = thtml;
+    }
+
+  } catch(e) {
+    feedbackEl.className = 'ex-feedback wrong';
+    feedbackEl.textContent = '✗ SQL Error: ' + e.message;
+    statusEl.className = 'ex-status wrong';
+    statusEl.textContent = 'Error';
+    resultTable.style.display = 'none';
+  }
+
+  feedbackEl.style.display = 'block';
+}
+
+function navigate(dir) {
+  renderModule(Math.max(0, Math.min(MODULES.length-1, currentModule + dir)));
+}
+
+function loadTablePreview(tableName) {
+  const ed = document.getElementById('sql-editor');
+  if (ed) {
+    ed.value = `SELECT * FROM ${tableName};`;
+    runPlayground();
+  } else {
+    // Switch to module 0 and show
+    renderModule(0);
+    setTimeout(() => {
+      const ed2 = document.getElementById('sql-editor');
+      if (ed2) { ed2.value = `SELECT * FROM ${tableName};`; runPlayground(); }
+    }, 200);
+  }
+}
+
+// ===== INIT =====
+initDB().catch(e => {
+  document.getElementById('loading-msg').textContent = 'Error: ' + e.message;
+  console.error(e);
+});
+</script>
+</body>
+</html>
