@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics Exam Prep — Terms 1·2·3</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f6f5f0;--surface:#fff;--surface2:#f0ede6;--border:#e2ddd4;
+  --text:#1a1814;--text2:#5a5650;--text3:#8a857e;
+  --acc:#c8410a;--acc2:#1a6b4a;--acc3:#1a4a8a;
+  --acc-l:#fdf0ea;--warn:#b8860b;--warn-l:#fefce8;
+  --tip-l:#ecfdf5;--side:280px;--r:10px;
+  --fd:'Lora',serif;--fb:'IBM Plex Sans',sans-serif;--fm:'IBM Plex Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:15px;line-height:1.7}
+
+/* SIDEBAR */
+#sb{width:var(--side);min-height:100vh;background:var(--surface);border-right:1.5px solid var(--border);position:fixed;top:0;left:0;overflow-y:auto;z-index:100;display:flex;flex-direction:column}
+#sb::-webkit-scrollbar{width:4px}#sb::-webkit-scrollbar-thumb{background:var(--border)}
+.sb-hd{padding:22px 20px 14px;border-bottom:1.5px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:10}
+.sb-hd h1{font-family:var(--fd);font-size:15px;font-weight:700;line-height:1.3}
+.sb-hd p{font-size:10px;color:var(--text3);margin-top:3px;font-family:var(--fm)}
+.sb-sec{padding:10px 8px 2px 16px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-top:4px}
+.sb-sec.s{color:var(--acc)}.sb-sec.a{color:var(--acc3)}
+.ni{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;border-radius:6px;margin:1px 8px;transition:all .15s;font-size:12.5px;color:var(--text2);text-decoration:none}
+.ni:hover{background:var(--surface2);color:var(--text)}
+.ni.active{background:var(--acc-l);color:var(--acc);font-weight:500}
+.ni.active.an{background:#eef2ff;color:var(--acc3)}
+.nb{font-size:10px;font-family:var(--fm);background:var(--surface2);color:var(--text3);border-radius:4px;padding:1px 5px;margin-left:auto;flex-shrink:0}
+.ni.active .nb{background:var(--acc);color:#fff}
+.ni.active.an .nb{background:var(--acc3);color:#fff}
+
+/* MAIN */
+#main{margin-left:var(--side);flex:1;min-height:100vh}
+.hero{background:var(--text);color:#fff;padding:52px 56px 44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 50%,rgba(200,65,10,.22) 0%,transparent 55%),radial-gradient(ellipse at 15% 85%,rgba(26,74,138,.18) 0%,transparent 50%)}
+.hero h1{font-family:var(--fd);font-size:40px;font-weight:700;letter-spacing:-.5px;line-height:1.15;position:relative}
+.hero p{font-size:14px;color:rgba(255,255,255,.6);margin-top:10px;max-width:500px;position:relative}
+.pills{display:flex;gap:8px;margin-top:18px;position:relative;flex-wrap:wrap}
+.pill{font-size:11px;font-family:var(--fm);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.75);border-radius:20px;padding:3px 11px}
+.pill.s{background:rgba(200,65,10,.28);border-color:rgba(200,65,10,.38)}
+.pill.a{background:rgba(26,74,138,.28);border-color:rgba(26,74,138,.38)}
+
+.sec-div{padding:26px 56px 0;display:flex;align-items:center;gap:14px}
+.sec-div h2{font-family:var(--fd);font-size:21px;font-weight:700;white-space:nowrap}
+.sec-div h2.st{color:var(--acc)}.sec-div h2.at{color:var(--acc3)}
+.sec-div .dl{flex:1;height:1.5px;background:var(--border)}
+
+.mod{padding:38px 56px;border-bottom:1.5px solid var(--border);scroll-margin-top:20px}
+.mod-hd{display:flex;align-items:flex-start;gap:14px;margin-bottom:26px}
+.mod-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:12px;font-weight:600;flex-shrink:0}
+.mod-num.s{background:rgba(200,65,10,.1);color:var(--acc)}
+.mod-num.a{background:rgba(26,74,138,.1);color:var(--acc3)}
+.mod-tag{font-size:10px;font-family:var(--fm);font-weight:500;padding:3px 9px;border-radius:4px;flex-shrink:0;margin-top:5px}
+.mod-tag.s{background:rgba(200,65,10,.1);color:var(--acc)}
+.mod-tag.a{background:rgba(26,74,138,.1);color:var(--acc3)}
+.mod-title{font-family:var(--fd);font-size:25px;font-weight:700;line-height:1.2;letter-spacing:-.3px}
+
+/* BLOCKS */
+.tb{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:26px;margin-bottom:18px}
+.tb h3{font-family:var(--fd);font-size:15.5px;font-weight:600;margin-bottom:12px}
+.tb p{color:var(--text2);margin-bottom:8px}.tb p:last-child{margin-bottom:0}
+
+/* TABLE */
+.ct{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.ct th{background:var(--surface2);padding:8px 13px;text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);border:1px solid var(--border)}
+.ct td{padding:8px 13px;border:1px solid var(--border);vertical-align:top;color:var(--text2)}
+.ct tr:nth-child(even) td{background:var(--surface2)}
+.ct code{font-family:var(--fm);font-size:11.5px;background:var(--surface2);padding:1px 5px;border-radius:3px;color:var(--text)}
+
+/* CALLOUTS */
+.co{border-radius:8px;padding:12px 16px;margin:12px 0;display:flex;align-items:flex-start;gap:10px;font-size:13px}
+.co-i{font-size:15px;flex-shrink:0;margin-top:1px}.co-b{color:var(--text2)}.co-b strong{color:var(--text);font-weight:600}
+.co.tip{background:var(--tip-l);border-left:3px solid var(--acc2)}
+.co.warn{background:var(--warn-l);border-left:3px solid var(--warn)}
+.co.info{background:#eff6ff;border-left:3px solid var(--acc3)}
+
+/* FORMULA */
+.fbox{background:var(--text);color:#e8e4dd;border-radius:8px;padding:16px 20px;margin:12px 0;font-family:var(--fm);font-size:13.5px;line-height:1.9}
+.fbox .ftitle{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:6px;font-family:var(--fb)}
+.hl{color:#f4a261}.hl2{color:#74c0fc}.hl3{color:#a3e635}
+
+/* CHARTS */
+.cc{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+.cc h4{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;font-family:var(--fm)}
+.cw{position:relative;height:230px}.cw.t{height:290px}.cw.s{height:170px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* CALC */
+.calc{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+.calc h4{font-family:var(--fd);font-size:15.5px;font-weight:600;margin-bottom:14px}
+.cr{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cl{font-size:12.5px;color:var(--text2);min-width:115px;font-weight:500}
+.ci{border:1.5px solid var(--border);border-radius:6px;padding:6px 11px;font-family:var(--fm);font-size:13px;width:105px;background:var(--bg);color:var(--text);transition:border .15s}
+.ci:focus{outline:none;border-color:var(--acc)}
+.btn{background:var(--acc);color:#fff;border:none;border-radius:6px;padding:7px 16px;font-family:var(--fb);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s}
+.btn:hover{opacity:.88;transform:translateY(-1px)}
+.btn.b{background:var(--acc3)}.btn.g{background:var(--acc2)}
+.res{background:var(--surface2);border-radius:8px;padding:13px 16px;margin-top:12px;font-family:var(--fm);font-size:12.5px;color:var(--text);line-height:1.8;border:1px solid var(--border);display:none}
+.res.show{display:block}
+.ok{color:var(--acc2);font-weight:600}.bad{color:var(--acc);font-weight:600}
+
+/* QUIZ */
+.quiz{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0}
+.quiz h4{font-family:var(--fd);font-size:15.5px;font-weight:600;margin-bottom:5px}
+.qq{font-size:13.5px;color:var(--text2);margin-bottom:14px;line-height:1.6}
+.qos{display:flex;flex-direction:column;gap:7px}
+.qo{display:flex;align-items:center;gap:9px;padding:9px 13px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;transition:all .15s;font-size:13px;color:var(--text2);background:var(--bg)}
+.qo:hover{border-color:var(--acc);background:var(--acc-l);color:var(--text)}
+.qo.correct{border-color:var(--acc2);background:var(--tip-l);color:var(--acc2);pointer-events:none}
+.qo.wrong{border-color:var(--acc);background:var(--acc-l);color:var(--acc);pointer-events:none}
+.qo.dim{pointer-events:none;opacity:.55}.qo.dim.correct{opacity:1}
+.qf{margin-top:10px;padding:11px 14px;border-radius:7px;font-size:12.5px;display:none}
+.qf.show{display:block}
+.qf.ok{background:var(--tip-l);color:var(--acc2);border:1px solid #bbf7d0}
+.qf.ko{background:var(--acc-l);color:var(--acc);border:1px solid #fecaca}
+
+/* SVG DIAGRAMS */
+.dw{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:22px;margin:18px 0;overflow-x:auto}
+.dw h4{font-size:12px;font-weight:600;color:var(--text3);font-family:var(--fm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px}
+svg text{font-family:'IBM Plex Sans',sans-serif}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:14px;padding:10px 0;position:relative}
+.step:not(:last-child)::before{content:'';position:absolute;left:12px;top:34px;width:2px;height:calc(100% - 10px);background:var(--border)}
+.snum{width:26px;height:26px;border-radius:50%;background:var(--text);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;font-family:var(--fm);position:relative;z-index:1}
+.sc{font-size:13px;color:var(--text2);padding-top:3px}.sc strong{color:var(--text)}
+
+/* TAGS */
+.tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:4px;font-family:var(--fm)}
+.tag.g{background:#dcfce7;color:#166534}.tag.r{background:#fee2e2;color:#991b1b}
+.tag.b{background:#dbeafe;color:#1e40af}.tag.a{background:#fef3c7;color:#92400e}
+
+/* SLIDER */
+.sw{display:flex;align-items:center;gap:10px}
+input[type=range]{flex:1;accent-color:var(--acc);cursor:pointer}
+.sv{font-family:var(--fm);font-size:14px;font-weight:600;color:var(--acc);min-width:36px;text-align:right}
+
+.badge-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.badge{font-size:11px;font-family:var(--fm);padding:2px 9px;border-radius:20px;background:var(--surface2);color:var(--text3);border:1px solid var(--border)}
+
+select.si{border:1.5px solid var(--border);border-radius:6px;padding:6px 10px;font-family:var(--fb);font-size:13px;background:var(--bg);color:var(--text)}
+
+@media(max-width:900px){
+  :root{--side:0px}
+  #sb{transform:translateX(-100%)}
+  #main{margin-left:0}
+  .mod{padding:26px 22px}.sec-div{padding:18px 22px 0}.hero{padding:32px 22px}
+  .g2,.g3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav id="sb">
+  <div class="sb-hd">
+    <h1>Analytics Exam Prep</h1>
+    <p>Terms 1 · 2 · 3 — 22 Modules</p>
+  </div>
+  <div class="sb-sec s">📊 Statistics</div>
+  <a class="ni active" href="#s1" onclick="sa(this,'s')"><span>Basics of Statistics</span><span class="nb">S1</span></a>
+  <a class="ni" href="#s2" onclick="sa(this,'s')"><span>Descriptive Measures</span><span class="nb">S2</span></a>
+  <a class="ni" href="#s3" onclick="sa(this,'s')"><span>Probability</span><span class="nb">S3</span></a>
+  <a class="ni" href="#s4" onclick="sa(this,'s')"><span>Discrete Distributions</span><span class="nb">S4</span></a>
+  <a class="ni" href="#s5" onclick="sa(this,'s')"><span>Continuous Distributions</span><span class="nb">S5</span></a>
+  <a class="ni" href="#s6" onclick="sa(this,'s')"><span>CLT &amp; Sampling</span><span class="nb">S6</span></a>
+  <a class="ni" href="#s7" onclick="sa(this,'s')"><span>Z-Test</span><span class="nb">S7</span></a>
+  <a class="ni" href="#s8" onclick="sa(this,'s')"><span>t-Tests</span><span class="nb">S8</span></a>
+  <a class="ni" href="#s9" onclick="sa(this,'s')"><span>ANOVA</span><span class="nb">S9</span></a>
+  <a class="ni" href="#s10" onclick="sa(this,'s')"><span>Chi-Square Test</span><span class="nb">S10</span></a>
+  <div class="sb-sec a">🤖 Analytics</div>
+  <a class="ni" href="#a1" onclick="sa(this,'a')"><span>Learning Algorithms</span><span class="nb">A1</span></a>
+  <a class="ni" href="#a2" onclick="sa(this,'a')"><span>EDA</span><span class="nb">A2</span></a>
+  <a class="ni" href="#a3" onclick="sa(this,'a')"><span>Clustering</span><span class="nb">A3</span></a>
+  <a class="ni" href="#a4" onclick="sa(this,'a')"><span>KNN</span><span class="nb">A4</span></a>
+  <a class="ni" href="#a5" onclick="sa(this,'a')"><span>Naïve Bayes</span><span class="nb">A5</span></a>
+  <a class="ni" href="#a6" onclick="sa(this,'a')"><span>Classification Overview</span><span class="nb">A6</span></a>
+  <a class="ni" href="#a7" onclick="sa(this,'a')"><span>Simple Linear Reg.</span><span class="nb">A7</span></a>
+  <a class="ni" href="#a8" onclick="sa(this,'a')"><span>Multiple Regression</span><span class="nb">A8</span></a>
+  <a class="ni" href="#a9" onclick="sa(this,'a')"><span>Logistic Regression</span><span class="nb">A9</span></a>
+  <a class="ni" href="#a10" onclick="sa(this,'a')"><span>ML Big Picture</span><span class="nb">A10</span></a>
+  <a class="ni" href="#a11" onclick="sa(this,'a')"><span>NLP Orientation</span><span class="nb">A11</span></a>
+  <a class="ni" href="#a12" onclick="sa(this,'a')"><span>Deep Learning</span><span class="nb">A12</span></a>
+  <div style="height:22px"></div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main id="main">
+
+<div class="hero">
+  <h1>Analytics &amp;<br>Statistics Exam Prep</h1>
+  <p>Complete interactive study guide — all topics from Terms 1, 2 &amp; 3. Theory, live diagrams, calculators, quizzes.</p>
+  <div class="pills">
+    <span class="pill">22 Modules</span>
+    <span class="pill s">S1–S10 Statistics</span>
+    <span class="pill a">A1–A12 Analytics</span>
+    <span class="pill">Live Calculators</span>
+    <span class="pill">Interactive Charts</span>
+  </div>
+</div>
+
+<!-- ══════════ STATISTICS ══════════ -->
+<div class="sec-div"><h2 class="st">Part 1 — Statistics</h2><div class="dl"></div></div>
+
+<!-- S1 -->
+<section class="mod" id="s1">
+  <div class="mod-hd">
+    <div class="mod-num s">S1</div>
+    <h2 class="mod-title">Basics of Statistics</h2>
+    <span class="mod-tag s">STATS</span>
+  </div>
+
+  <div class="tb">
+    <h3>Descriptive vs Inferential</h3>
+    <div class="g2">
+      <div style="padding:14px;background:rgba(200,65,10,.06);border-radius:8px;border:1px solid rgba(200,65,10,.15)">
+        <strong style="color:var(--acc)">Descriptive Statistics</strong>
+        <p style="margin-top:6px;font-size:13px">Summarises &amp; describes data you have.<br><em>Example: average salary of your class.</em></p>
+      </div>
+      <div style="padding:14px;background:rgba(26,74,138,.06);border-radius:8px;border:1px solid rgba(26,74,138,.15)">
+        <strong style="color:var(--acc3)">Inferential Statistics</strong>
+        <p style="margin-top:6px;font-size:13px">Uses a sample to draw conclusions about a population.<br><em>Example: election poll.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scales diagram -->
+  <div class="dw">
+    <h4>Scales of Measurement — Hierarchy</h4>
+    <svg viewBox="0 0 660 160" style="width:100%;max-width:660px">
+      <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#aaa"/></marker></defs>
+      <rect x="8" y="50" width="138" height="72" rx="8" fill="#fef3c7" stroke="#b8860b" stroke-width="1.5"/>
+      <text x="77" y="79" text-anchor="middle" font-size="14" font-weight="700" fill="#b8860b">Nominal</text>
+      <text x="77" y="96" text-anchor="middle" font-size="11" fill="#92400e">Categories only</text>
+      <text x="77" y="110" text-anchor="middle" font-size="11" fill="#92400e">Gender, City</text>
+      <rect x="172" y="36" width="138" height="90" rx="8" fill="#fde8e0" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="241" y="75" text-anchor="middle" font-size="14" font-weight="700" fill="#c8410a">Ordinal</text>
+      <text x="241" y="92" text-anchor="middle" font-size="11" fill="#9a3412">+ Order</text>
+      <text x="241" y="108" text-anchor="middle" font-size="11" fill="#9a3412">Survey 1–5</text>
+      <rect x="336" y="20" width="138" height="108" rx="8" fill="#e0eeff" stroke="#1a4a8a" stroke-width="1.5"/>
+      <text x="405" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#1a4a8a">Interval</text>
+      <text x="405" y="85" text-anchor="middle" font-size="11" fill="#1e40af">+ Equal gaps</text>
+      <text x="405" y="101" text-anchor="middle" font-size="11" fill="#1e40af">No true zero</text>
+      <text x="405" y="117" text-anchor="middle" font-size="11" fill="#1e40af">°C Temperature</text>
+      <rect x="500" y="5" width="152" height="128" rx="8" fill="#dcfce7" stroke="#1a6b4a" stroke-width="1.5"/>
+      <text x="576" y="55" text-anchor="middle" font-size="14" font-weight="700" fill="#1a6b4a">Ratio</text>
+      <text x="576" y="72" text-anchor="middle" font-size="11" fill="#166534">+ True Zero</text>
+      <text x="576" y="88" text-anchor="middle" font-size="11" fill="#166534">All math ops</text>
+      <text x="576" y="104" text-anchor="middle" font-size="11" fill="#166534">Height, Weight</text>
+      <text x="576" y="120" text-anchor="middle" font-size="11" fill="#166534">Income</text>
+      <line x1="152" y1="150" x2="648" y2="150" stroke="#ccc" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="390" y="162" text-anchor="middle" font-size="11" fill="#aaa">Increasing information richness →</text>
+    </svg>
+  </div>
+
+  <div class="tb">
+    <h3>Population vs Sample</h3>
+    <table class="ct">
+      <tr><th>Term</th><th>Definition</th><th>Symbol</th><th>Example</th></tr>
+      <tr><td><strong>Population</strong></td><td>Entire group of interest</td><td><code>N, μ, σ</code></td><td>All MBA students in India</td></tr>
+      <tr><td><strong>Sample</strong></td><td>Subset of population</td><td><code>n, x̄, s</code></td><td>200 students surveyed</td></tr>
+      <tr><td><strong>Parameter</strong></td><td>Numerical measure of population</td><td><code>μ, σ</code></td><td>Population mean</td></tr>
+      <tr><td><strong>Statistic</strong></td><td>Numerical measure of sample</td><td><code>x̄, s</code></td><td>Sample mean</td></tr>
+    </table>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>Exam trap:</strong> σ vs s, μ vs x̄. Population denominator = N; Sample denominator = n−1 (Bessel's correction).</div></div>
+  </div>
+
+  <div class="tb">
+    <h3>Sampling Methods</h3>
+    <div class="dw" style="border:none;padding:0;margin:8px 0">
+    <svg viewBox="0 0 660 110" style="width:100%;max-width:660px">
+      <defs><marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker></defs>
+      <rect x="5" y="30" width="105" height="48" rx="7" fill="#f0ede6" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="57" y="53" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">Probability</text>
+      <text x="57" y="68" text-anchor="middle" font-size="10" fill="#888">Sampling</text>
+      <line x1="110" y1="54" x2="130" y2="35" stroke="#888" stroke-width="1.2" marker-end="url(#arr2)"/>
+      <line x1="110" y1="54" x2="130" y2="54" stroke="#888" stroke-width="1.2" marker-end="url(#arr2)"/>
+      <line x1="110" y1="54" x2="130" y2="73" stroke="#888" stroke-width="1.2" marker-end="url(#arr2)"/>
+      <line x1="110" y1="54" x2="130" y2="92" stroke="#888" stroke-width="1.2" marker-end="url(#arr2)"/>
+      <rect x="130" y="20" width="105" height="26" rx="6" fill="#dcfce7" stroke="#1a6b4a" stroke-width="1"/>
+      <text x="182" y="37" text-anchor="middle" font-size="11" fill="#166534" font-weight="600">Simple Random</text>
+      <rect x="130" y="42" width="105" height="26" rx="6" fill="#dcfce7" stroke="#1a6b4a" stroke-width="1"/>
+      <text x="182" y="59" text-anchor="middle" font-size="11" fill="#166534" font-weight="600">Systematic (kᵗʰ)</text>
+      <rect x="130" y="63" width="105" height="26" rx="6" fill="#dcfce7" stroke="#1a6b4a" stroke-width="1"/>
+      <text x="182" y="80" text-anchor="middle" font-size="11" fill="#166534" font-weight="600">Stratified</text>
+      <rect x="130" y="83" width="105" height="26" rx="6" fill="#dcfce7" stroke="#1a6b4a" stroke-width="1"/>
+      <text x="182" y="100" text-anchor="middle" font-size="11" fill="#166534" font-weight="600">Cluster</text>
+      <rect x="360" y="30" width="120" height="48" rx="7" fill="#f0ede6" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="420" y="53" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">Non-Probability</text>
+      <text x="420" y="68" text-anchor="middle" font-size="10" fill="#888">Sampling</text>
+      <line x1="480" y1="54" x2="500" y2="40" stroke="#888" stroke-width="1.2" marker-end="url(#arr2)"/>
+      <line x1="480" y1="54" x2="500" y2="68" stroke="#888" stroke-width="1.2" marker-end="url(#arr2)"/>
+      <rect x="500" y="25" width="105" height="26" rx="6" fill="#fef3c7" stroke="#b8860b" stroke-width="1"/>
+      <text x="552" y="42" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">Convenience</text>
+      <rect x="500" y="55" width="105" height="26" rx="6" fill="#fef3c7" stroke="#b8860b" stroke-width="1"/>
+      <text x="552" y="72" text-anchor="middle" font-size="11" fill="#92400e" font-weight="600">Judgment</text>
+    </svg>
+    </div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S1</h4>
+    <p class="qq">A hospital surveys 300 of its 10,000 patients. The average recovery time of those 300 patients is a…</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs1')">Parameter — it describes the whole hospital</div>
+      <div class="qo" onclick="qa(this,'c','qs1')">Statistic — computed from the sample (n=300)</div>
+      <div class="qo" onclick="qa(this,'w','qs1')">Population mean (μ)</div>
+    </div>
+    <div class="qf" id="qs1"></div>
+  </div>
+</section>
+
+<!-- S2 -->
+<section class="mod" id="s2">
+  <div class="mod-hd"><div class="mod-num s">S2</div><h2 class="mod-title">Descriptive Measures &amp; Visualisation</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Measures of Central Tendency</h3>
+    <table class="ct">
+      <tr><th>Measure</th><th>Formula</th><th>When to Use</th></tr>
+      <tr><td><strong>Mean</strong></td><td><code>ΣX/n</code></td><td>Symmetric data, no outliers</td></tr>
+      <tr><td><strong>Median</strong></td><td>Middle value (sorted)</td><td>Skewed data or outliers</td></tr>
+      <tr><td><strong>Mode</strong></td><td>Most frequent</td><td>Categorical data</td></tr>
+      <tr><td><strong>Geometric Mean</strong></td><td><code>(X₁×X₂×…×Xₙ)^(1/n)</code></td><td>Growth rates, returns</td></tr>
+      <tr><td><strong>Weighted Mean</strong></td><td><code>Σ(wᵢ·xᵢ)/Σwᵢ</code></td><td>Unequal importance</td></tr>
+    </table>
+    <div class="co tip"><span class="co-i">💡</span><div class="co-b"><strong>Income rule:</strong> Always prefer median for income/salary data. Billionaires pull the mean upward. Mean is affected by outliers; median is resistant.</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="cc">
+      <h4>Right-Skewed — Mean &gt; Median &gt; Mode</h4>
+      <div class="cw"><canvas id="skewChart"></canvas></div>
+    </div>
+    <div class="cc">
+      <h4>Symmetric (Normal) — Mean = Median = Mode</h4>
+      <div class="cw"><canvas id="symChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="tb">
+    <h3>Measures of Dispersion</h3>
+    <table class="ct">
+      <tr><th>Measure</th><th>Formula</th><th>Key Point</th></tr>
+      <tr><td>Range</td><td><code>Max−Min</code></td><td>Simple but sensitive to outliers</td></tr>
+      <tr><td>IQR</td><td><code>Q3−Q1</code></td><td>Resistant; outlier = beyond 1.5×IQR</td></tr>
+      <tr><td>Variance (sample)</td><td><code>Σ(X−X̄)²/(n−1)</code></td><td>Bessel's correction: n−1 not n</td></tr>
+      <tr><td>Std Dev (s)</td><td><code>√Variance</code></td><td>Same units as data</td></tr>
+      <tr><td>CV</td><td><code>(SD/Mean)×100</code></td><td>Unit-free — compare across scales</td></tr>
+    </table>
+  </div>
+
+  <!-- Descriptive Calculator -->
+  <div class="calc">
+    <h4>📐 Live Descriptive Stats Calculator</h4>
+    <div class="cr">
+      <span class="cl">Enter numbers</span>
+      <input class="ci" id="desc_d" placeholder="5,8,3,9,2,7" style="width:220px">
+      <button class="btn" onclick="calcDesc()">Calculate</button>
+    </div>
+    <div class="res" id="desc_r"></div>
+  </div>
+
+  <div class="cc">
+    <h4>Empirical Rule — Normal Distribution (68–95–99.7)</h4>
+    <div class="cw t"><canvas id="empChart"></canvas></div>
+  </div>
+
+  <div class="tb">
+    <h3>Z-Score &amp; Chebyshev</h3>
+    <div class="fbox"><div class="ftitle">Z-score</div>Z = (<span class="hl">X</span> − <span class="hl2">μ</span>) / <span class="hl3">σ</span></div>
+    <div class="fbox" style="margin-top:8px"><div class="ftitle">Chebyshev's Theorem (any distribution)</div>At least <span class="hl">(1 − 1/k²)</span> of data lies within k SDs of mean<br>k=2 → ≥75% &nbsp;|&nbsp; k=3 → ≥89%</div>
+    <div class="co tip"><span class="co-i">💡</span><div class="co-b"><strong>Empirical Rule</strong> only applies to normal distributions. <strong>Chebyshev's</strong> applies to ANY distribution — use it when you can't assume normality.</div></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S2</h4>
+    <p class="qq">You are comparing salary dispersion between US employees (USD) and Indian employees (INR). Which measure?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs2')">Standard Deviation — most common measure</div>
+      <div class="qo" onclick="qa(this,'w','qs2')">Variance — squared values remove units</div>
+      <div class="qo" onclick="qa(this,'c','qs2')">Coefficient of Variation (CV) — normalised, unit-free</div>
+    </div>
+    <div class="qf" id="qs2"></div>
+  </div>
+</section>
+
+<!-- S3 -->
+<section class="mod" id="s3">
+  <div class="mod-hd"><div class="mod-num s">S3</div><h2 class="mod-title">Probability</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Core Probability Rules</h3>
+    <div class="g2">
+      <div class="fbox" style="margin:0"><div class="ftitle">Addition Rule (General)</div>P(<span class="hl">A∪B</span>) = P(A) + P(B) − P(<span class="hl2">A∩B</span>)</div>
+      <div class="fbox" style="margin:0"><div class="ftitle">Conditional Probability</div>P(<span class="hl">A|B</span>) = P(<span class="hl2">A∩B</span>) / P(<span class="hl3">B</span>)</div>
+    </div>
+    <div class="fbox" style="margin-top:10px"><div class="ftitle">Bayes' Theorem</div>P(<span class="hl">A|B</span>) = [ P(<span class="hl2">B|A</span>) × P(<span class="hl">A</span>) ] / P(<span class="hl3">B</span>)</div>
+  </div>
+
+  <div class="dw">
+    <h4>Set Operations — Venn Diagrams</h4>
+    <svg viewBox="0 0 600 190" style="width:100%;max-width:600px">
+      <!-- Union -->
+      <circle cx="78" cy="95" r="60" fill="rgba(200,65,10,.3)" stroke="#c8410a" stroke-width="1.5"/>
+      <circle cx="118" cy="95" r="60" fill="rgba(200,65,10,.3)" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="98" y="175" text-anchor="middle" font-size="12" fill="#c8410a" font-weight="600">A ∪ B (Union)</text>
+      <text x="55" y="98" text-anchor="middle" font-size="13" fill="#9a3412" font-weight="700">A</text>
+      <text x="141" y="98" text-anchor="middle" font-size="13" fill="#9a3412" font-weight="700">B</text>
+      <!-- Intersection -->
+      <circle cx="278" cy="95" r="60" fill="rgba(200,200,200,.15)" stroke="#ccc" stroke-width="1.5"/>
+      <circle cx="318" cy="95" r="60" fill="rgba(200,200,200,.15)" stroke="#ccc" stroke-width="1.5"/>
+      <clipPath id="cl1"><circle cx="278" cy="95" r="60"/></clipPath>
+      <circle cx="318" cy="95" r="60" fill="rgba(26,74,138,.55)" clip-path="url(#cl1)" stroke="none"/>
+      <text x="298" y="175" text-anchor="middle" font-size="12" fill="#1a4a8a" font-weight="600">A ∩ B (Intersection)</text>
+      <!-- Complement -->
+      <rect x="430" y="25" width="158" height="140" rx="6" fill="rgba(26,106,74,.18)" stroke="#1a6b4a" stroke-width="1.5"/>
+      <circle cx="509" cy="95" r="52" fill="rgba(200,65,10,.3)" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="509" y="175" text-anchor="middle" font-size="12" fill="#1a6b4a" font-weight="600">Aᶜ (Complement)</text>
+      <text x="441" y="44" font-size="11" fill="#1a6b4a" font-weight="600">S</text>
+      <text x="509" y="99" text-anchor="middle" font-size="13" fill="#c8410a" font-weight="700">A</text>
+    </svg>
+  </div>
+
+  <!-- Bayes Calculator -->
+  <div class="calc">
+    <h4>🧮 Bayes' Theorem Calculator</h4>
+    <div class="cr"><span class="cl">P(Disease) — prior</span><input class="ci" id="by_p" value="0.01" type="number" step="0.001"></div>
+    <div class="cr"><span class="cl">Sensitivity P(+|D)</span><input class="ci" id="by_s" value="0.99" type="number" step="0.01"></div>
+    <div class="cr"><span class="cl">False Positive P(+|¬D)</span><input class="ci" id="by_f" value="0.05" type="number" step="0.01"></div>
+    <button class="btn" onclick="calcBayes()">Compute Posterior</button>
+    <div class="res" id="by_r"></div>
+  </div>
+
+  <div class="cc">
+    <h4>Contingency Table — Joint &amp; Marginal Probabilities</h4>
+    <div class="cw s"><canvas id="contChart"></canvas></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S3</h4>
+    <p class="qq">Events A and B are mutually exclusive. P(A)=0.3, P(B)=0.4. What is P(A∪B)?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs3')">0.58 — subtract the intersection P(A∩B)=0.12</div>
+      <div class="qo" onclick="qa(this,'c','qs3')">0.70 — mutually exclusive means P(A∩B)=0</div>
+      <div class="qo" onclick="qa(this,'w','qs3')">0.12 — multiply for independence</div>
+    </div>
+    <div class="qf" id="qs3"></div>
+  </div>
+</section>
+
+<!-- S4 -->
+<section class="mod" id="s4">
+  <div class="mod-hd"><div class="mod-num s">S4</div><h2 class="mod-title">Discrete Probability Distributions</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Binomial Distribution — SPIN Conditions</h3>
+    <div class="g2" style="margin-bottom:12px">
+      <div style="padding:14px;background:var(--surface2);border-radius:8px;font-size:13px">
+        <strong>S</strong> — fixed number of trials (n)<br>
+        <strong>P</strong> — constant probability of success (p)<br>
+        <strong>I</strong> — independent trials<br>
+        <strong>N</strong> — two outcomes (Success / Failure)
+      </div>
+      <div class="fbox" style="margin:0"><div class="ftitle">Binomial PMF</div>P(X=x) = C(<span class="hl">n</span>,<span class="hl2">x</span>) × <span class="hl">p</span>ˣ × (1−<span class="hl">p</span>)^(n−x)<br>E(X) = <span class="hl">np</span> &nbsp;|&nbsp; Var(X) = <span class="hl">np</span>(1−<span class="hl">p</span>)</div>
+    </div>
+    <h3>Poisson Distribution</h3>
+    <div class="fbox"><div class="ftitle">Poisson PMF — events in fixed interval</div>P(X=x) = (e^−<span class="hl">λ</span> × <span class="hl">λ</span>ˣ) / x! &nbsp;&nbsp; E(X) = Var(X) = <span class="hl">λ</span></div>
+    <div class="co tip"><span class="co-i">💡</span><div class="co-b"><strong>Binomial → Poisson approximation:</strong> When n is very large and p is very small, Binomial ≈ Poisson with λ = np.</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="cc">
+      <h4>Binomial PMF — n=10, p=0.5</h4>
+      <div class="cw"><canvas id="binChart"></canvas></div>
+    </div>
+    <div class="cc">
+      <h4>Poisson PMF — λ=4</h4>
+      <div class="cw"><canvas id="poiChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Binomial Calculator -->
+  <div class="calc">
+    <h4>🎯 Binomial Calculator</h4>
+    <div class="cr"><span class="cl">n (trials)</span><input class="ci" id="bn_n" value="10" type="number" min="1" max="50"></div>
+    <div class="cr"><span class="cl">p (prob success)</span><input class="ci" id="bn_p" value="0.5" type="number" step="0.01" min="0" max="1"></div>
+    <div class="cr"><span class="cl">x (successes)</span><input class="ci" id="bn_x" value="6" type="number" min="0"></div>
+    <button class="btn" onclick="calcBin()">Calculate</button>
+    <div class="res" id="bn_r"></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S4</h4>
+    <p class="qq">A call centre gets an average of 4 calls/hour. You want to find P(exactly 6 calls). Which distribution?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs4')">Binomial — two outcomes per call</div>
+      <div class="qo" onclick="qa(this,'c','qs4')">Poisson — events over a fixed time interval with rate λ=4</div>
+      <div class="qo" onclick="qa(this,'w','qs4')">Normal — large sample approximation</div>
+    </div>
+    <div class="qf" id="qs4"></div>
+  </div>
+</section>
+
+<!-- S5 -->
+<section class="mod" id="s5">
+  <div class="mod-hd"><div class="mod-num s">S5</div><h2 class="mod-title">Continuous Probability Distributions</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Normal Distribution</h3>
+    <p>Bell-shaped, symmetric. Defined by <strong>μ</strong> and <strong>σ</strong>. Total area = 1. Asymptotic to x-axis.</p>
+    <div class="fbox"><div class="ftitle">Standardisation</div>Z = (<span class="hl">X</span> − <span class="hl2">μ</span>) / <span class="hl3">σ</span> &nbsp;&nbsp;→&nbsp;&nbsp; Standard Normal: N(0,1)</div>
+    <table class="ct" style="margin-top:12px">
+      <tr><th>Distribution</th><th>Shape</th><th>Use Case</th><th>Key Property</th></tr>
+      <tr><td><strong>Normal</strong></td><td>Symmetric bell</td><td>Heights, test scores</td><td>68-95-99.7 rule</td></tr>
+      <tr><td><strong>Uniform</strong></td><td>Flat/rectangular</td><td>Random number generation</td><td>P = 1/(b−a)</td></tr>
+      <tr><td><strong>Exponential</strong></td><td>Right-skewed decay</td><td>Time between Poisson events</td><td>Mean = 1/λ</td></tr>
+      <tr><td><strong>Lognormal</strong></td><td>Right-skewed</td><td>Stock prices, incomes</td><td>ln(X) ~ Normal</td></tr>
+    </table>
+  </div>
+
+  <div class="cc">
+    <h4>Normal Distribution — Interactive Explorer</h4>
+    <div class="cr" style="margin-bottom:10px">
+      <span class="cl">μ (mean)</span><input class="ci" id="nm_m" value="100" type="number" style="width:80px">
+      <span class="cl">σ (SD)</span><input class="ci" id="nm_s" value="15" type="number" min="1" style="width:80px">
+      <button class="btn" onclick="updateNorm()">Update</button>
+    </div>
+    <div class="cw t"><canvas id="normChart"></canvas></div>
+  </div>
+
+  <!-- Z-score Calculator -->
+  <div class="calc">
+    <h4>🔢 Z-Score &amp; Probability Calculator</h4>
+    <div class="cr"><span class="cl">X value</span><input class="ci" id="zc_x" value="115" type="number"><span class="cl">μ</span><input class="ci" id="zc_m" value="100" type="number" style="width:75px"><span class="cl">σ</span><input class="ci" id="zc_s" value="15" type="number" min="1" style="width:75px"></div>
+    <button class="btn" onclick="calcZ()">Compute Z &amp; P</button>
+    <div class="res" id="zc_r"></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S5</h4>
+    <p class="qq">IQ ~ N(100, 15²). What % of people have IQ between 70 and 130?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs5')">68% — within ±1σ</div>
+      <div class="qo" onclick="qa(this,'c','qs5')">95% — within ±2σ (70=100−30=μ−2σ, 130=μ+2σ)</div>
+      <div class="qo" onclick="qa(this,'w','qs5')">99.7% — within ±3σ</div>
+    </div>
+    <div class="qf" id="qs5"></div>
+  </div>
+</section>
+
+<!-- S6 -->
+<section class="mod" id="s6">
+  <div class="mod-hd"><div class="mod-num s">S6</div><h2 class="mod-title">Sampling Distribution &amp; CLT</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Central Limit Theorem</h3>
+    <p>Regardless of the population's distribution, if n is large enough <strong>(n ≥ 30)</strong>, the sampling distribution of the mean is approximately normal.</p>
+    <div class="fbox"><div class="ftitle">Sampling Distribution of X̄</div>Mean of X̄ = <span class="hl">μ</span> (same as population)<br>Standard Error (SE) = <span class="hl2">σ</span> / √<span class="hl3">n</span></div>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>CLT applies to means, not individual values.</strong> 50 observations from a skewed population are still skewed. The distribution of <em>many sample means</em> is what becomes normal.</div></div>
+  </div>
+
+  <!-- CLT Simulation -->
+  <div class="calc">
+    <h4>🎲 CLT Live Simulation</h4>
+    <div class="cr">
+      <span class="cl">Population</span>
+      <select class="si" id="clt_d"><option value="uniform">Uniform (flat)</option><option value="skewed">Right-skewed</option><option value="bimodal">Bimodal</option></select>
+      <span class="cl">Sample size n</span>
+      <input class="ci" id="clt_n" value="30" type="number" min="2" max="100" style="width:70px">
+      <button class="btn" onclick="runCLT()">Simulate</button>
+    </div>
+    <div class="g2" style="margin-top:12px">
+      <div class="cc" style="margin:0"><h4>Population Distribution</h4><div class="cw s"><canvas id="cltPop"></canvas></div></div>
+      <div class="cc" style="margin:0"><h4>Sample Means (500 samples)</h4><div class="cw s"><canvas id="cltMeans"></canvas></div></div>
+    </div>
+    <div class="res show" id="clt_r">Click Simulate to see CLT in action →</div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S6</h4>
+    <p class="qq">Population μ=200, σ=40. Samples of n=100. What is the Standard Error?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs6')">40 — same as population SD</div>
+      <div class="qo" onclick="qa(this,'c','qs6')">4 — SE = σ/√n = 40/√100 = 4</div>
+      <div class="qo" onclick="qa(this,'w','qs6')">0.4 — divide σ by n, not √n</div>
+    </div>
+    <div class="qf" id="qs6"></div>
+  </div>
+</section>
+
+<!-- S7 -->
+<section class="mod" id="s7">
+  <div class="mod-hd"><div class="mod-num s">S7</div><h2 class="mod-title">Hypothesis Testing — Z-Test</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>5-Step Hypothesis Testing</h3>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="sc"><strong>State H₀ and H₁</strong> — H₀ is the status quo (=); H₁ is your claim</div></div>
+      <div class="step"><div class="snum">2</div><div class="sc"><strong>Choose α</strong> — typically 0.05 (5% Type I error tolerance)</div></div>
+      <div class="step"><div class="snum">3</div><div class="sc"><strong>Compute test statistic</strong> — Z = (X̄ − μ₀) / (σ/√n)</div></div>
+      <div class="step"><div class="snum">4</div><div class="sc"><strong>Find p-value or critical value</strong></div></div>
+      <div class="step"><div class="snum">5</div><div class="sc"><strong>Decide:</strong> p &lt; α → Reject H₀ &nbsp;|&nbsp; |Z| > Z_crit → Reject H₀</div></div>
+    </div>
+  </div>
+
+  <!-- Error Table Diagram -->
+  <div class="dw">
+    <h4>Type I &amp; Type II Error Matrix</h4>
+    <svg viewBox="0 0 520 200" style="width:100%;max-width:520px">
+      <rect x="8" y="8" width="504" height="184" rx="8" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="128" y="8" width="192" height="42" rx="0" fill="#f0ede6"/>
+      <rect x="320" y="8" width="192" height="42" rx="0" fill="#f0ede6"/>
+      <text x="224" y="34" text-anchor="middle" font-size="13" font-weight="600" fill="#5a5650">H₀ True</text>
+      <text x="416" y="34" text-anchor="middle" font-size="13" font-weight="600" fill="#5a5650">H₀ False</text>
+      <rect x="8" y="50" width="120" height="72" fill="#f0ede6"/>
+      <rect x="8" y="122" width="120" height="70" fill="#f0ede6"/>
+      <text x="68" y="84" text-anchor="middle" font-size="11" fill="#5a5650" font-weight="600">Fail to</text>
+      <text x="68" y="99" text-anchor="middle" font-size="11" fill="#5a5650" font-weight="600">Reject H₀</text>
+      <text x="68" y="158" text-anchor="middle" font-size="11" fill="#5a5650" font-weight="600">Reject H₀</text>
+      <rect x="128" y="50" width="192" height="72" fill="#dcfce7"/>
+      <text x="224" y="84" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">✓ Correct</text>
+      <text x="224" y="103" text-anchor="middle" font-size="11" fill="#166534">Confidence = 1−α</text>
+      <rect x="320" y="50" width="192" height="72" fill="#fee2e2"/>
+      <text x="416" y="80" text-anchor="middle" font-size="13" font-weight="700" fill="#991b1b">Type II Error (β)</text>
+      <text x="416" y="98" text-anchor="middle" font-size="11" fill="#991b1b">Missed effect!</text>
+      <text x="416" y="113" text-anchor="middle" font-size="11" fill="#991b1b">Power = 1−β</text>
+      <rect x="128" y="122" width="192" height="70" fill="#fee2e2"/>
+      <text x="224" y="150" text-anchor="middle" font-size="13" font-weight="700" fill="#991b1b">Type I Error (α)</text>
+      <text x="224" y="168" text-anchor="middle" font-size="11" fill="#991b1b">False alarm!</text>
+      <text x="224" y="183" text-anchor="middle" font-size="11" fill="#991b1b">P = α</text>
+      <rect x="320" y="122" width="192" height="70" fill="#dcfce7"/>
+      <text x="416" y="154" text-anchor="middle" font-size="14" font-weight="700" fill="#166534">✓ Correct</text>
+      <text x="416" y="173" text-anchor="middle" font-size="11" fill="#166534">Power = 1−β</text>
+    </svg>
+  </div>
+
+  <!-- Z-Test Calculator -->
+  <div class="calc">
+    <h4>📊 One-Sample Z-Test Calculator</h4>
+    <div class="cr"><span class="cl">Sample mean X̄</span><input class="ci" id="zt_x" value="103" type="number"></div>
+    <div class="cr"><span class="cl">Hypothesised μ₀</span><input class="ci" id="zt_m" value="100" type="number"></div>
+    <div class="cr"><span class="cl">Population σ</span><input class="ci" id="zt_s" value="15" type="number" min="0.1"></div>
+    <div class="cr"><span class="cl">Sample size n</span><input class="ci" id="zt_n" value="36" type="number" min="1"></div>
+    <div class="cr">
+      <span class="cl">α</span>
+      <select class="si" id="zt_a"><option>0.05</option><option>0.01</option><option>0.10</option></select>
+      <span class="cl">Tail</span>
+      <select class="si" id="zt_t"><option value="two">Two-tailed</option><option value="right">Right-tailed</option><option value="left">Left-tailed</option></select>
+    </div>
+    <button class="btn" onclick="calcZT()">Run Z-Test</button>
+    <div class="res" id="zt_r"></div>
+  </div>
+
+  <div class="cc">
+    <h4>Rejection Regions — Two-Tailed vs One-Tailed (α=0.05)</h4>
+    <div class="cw"><canvas id="rejChart"></canvas></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S7</h4>
+    <p class="qq">You get p-value = 0.03 with α = 0.05. What do you conclude?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'c','qs7')">Reject H₀ — p (0.03) &lt; α (0.05), evidence against null</div>
+      <div class="qo" onclick="qa(this,'w','qs7')">Fail to reject H₀ — p &lt; α means accept H₀</div>
+      <div class="qo" onclick="qa(this,'w','qs7')">H₀ is proven true</div>
+    </div>
+    <div class="qf" id="qs7"></div>
+  </div>
+</section>
+
+<!-- S8 -->
+<section class="mod" id="s8">
+  <div class="mod-hd"><div class="mod-num s">S8</div><h2 class="mod-title">t-Tests</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Z vs t — Decision Rule</h3>
+    <table class="ct">
+      <tr><th>Condition</th><th>Use Z</th><th>Use t</th></tr>
+      <tr><td>Population σ known?</td><td><span class="tag g">Yes</span></td><td><span class="tag r">No (use sample s)</span></td></tr>
+      <tr><td>Sample size</td><td>Large (n≥30)</td><td>Any size works</td></tr>
+      <tr><td>Distribution</td><td>Standard Normal</td><td>t with df = n−1</td></tr>
+      <tr><td>In practice</td><td>Rare</td><td>Almost always</td></tr>
+    </table>
+    <div class="fbox" style="margin-top:12px"><div class="ftitle">One-Sample t Statistic</div>t = (<span class="hl">X̄</span> − <span class="hl2">μ₀</span>) / (<span class="hl3">s</span> / √n) &nbsp;&nbsp; df = n − 1</div>
+    <div class="fbox" style="margin-top:8px"><div class="ftitle">Two-Sample t (Pooled — equal variances)</div>t = (<span class="hl">X̄₁</span> − <span class="hl2">X̄₂</span>) / √[sp²·(1/n₁ + 1/n₂)] &nbsp;&nbsp; df = n₁+n₂−2<br>sp² = [(n₁−1)s₁² + (n₂−1)s₂²] / (n₁+n₂−2)</div>
+  </div>
+
+  <div class="cc">
+    <h4>t-Distribution — Effect of Degrees of Freedom (heavier tails at low df)</h4>
+    <div class="cw"><canvas id="tChart"></canvas></div>
+  </div>
+
+  <div class="calc">
+    <h4>📐 One-Sample t-Test Calculator</h4>
+    <div class="cr"><span class="cl">Sample mean X̄</span><input class="ci" id="tt_x" value="5.2" type="number" step="0.1"></div>
+    <div class="cr"><span class="cl">Hypothesised μ₀</span><input class="ci" id="tt_m" value="5.0" type="number" step="0.1"></div>
+    <div class="cr"><span class="cl">Sample SD (s)</span><input class="ci" id="tt_s" value="0.8" type="number" step="0.1" min="0.01"></div>
+    <div class="cr"><span class="cl">Sample size n</span><input class="ci" id="tt_n" value="25" type="number" min="2"></div>
+    <button class="btn" onclick="calcTT()">Run t-Test</button>
+    <div class="res" id="tt_r"></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S8</h4>
+    <p class="qq">Two independent samples (n₁=15, n₂=18), unknown population variances. What test?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs8')">One-sample Z-test</div>
+      <div class="qo" onclick="qa(this,'c','qs8')">Two-sample t-test (pooled or Welch's)</div>
+      <div class="qo" onclick="qa(this,'w','qs8')">ANOVA — more than one group</div>
+    </div>
+    <div class="qf" id="qs8"></div>
+  </div>
+</section>
+
+<!-- S9 -->
+<section class="mod" id="s9">
+  <div class="mod-hd"><div class="mod-num s">S9</div><h2 class="mod-title">ANOVA — Analysis of Variance</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Why not multiple t-tests?</h3>
+    <p>With 3 groups and α=0.05: P(at least one false positive) = 1−(0.95)³ ≈ <strong>14%</strong> — far above the intended 5%.</p>
+    <div class="fbox"><div class="ftitle">F-Statistic</div>F = <span class="hl">MSB</span> / <span class="hl2">MSW</span> = Between-group variance / Within-group variance<br><br>SST = SSB + SSW<br>MSB = SSB/(k−1) &nbsp;|&nbsp; MSW = SSW/(n−k)</div>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>ANOVA tells you THAT a difference exists, not WHERE.</strong> Significant F → use post-hoc tests (Tukey, Bonferroni) to find which pairs differ.</div></div>
+  </div>
+
+  <div class="dw">
+    <h4>ANOVA Table Structure</h4>
+    <svg viewBox="0 0 640 150" style="width:100%;max-width:640px">
+      <rect x="6" y="6" width="628" height="138" rx="8" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+      <rect x="6" y="6" width="628" height="36" rx="8" fill="#f0ede6"/>
+      <text x="88" y="29" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">Source</text>
+      <text x="240" y="29" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">SS</text>
+      <text x="340" y="29" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">df</text>
+      <text x="440" y="29" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">MS</text>
+      <text x="560" y="29" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">F</text>
+      <rect x="6" y="42" width="628" height="36" fill="rgba(200,65,10,.07)"/>
+      <text x="88" y="65" text-anchor="middle" font-size="12" fill="#c8410a" font-weight="600">Between (Treatment)</text>
+      <text x="240" y="65" text-anchor="middle" font-size="12" fill="#5a5650">SSB</text>
+      <text x="340" y="65" text-anchor="middle" font-size="12" fill="#5a5650">k − 1</text>
+      <text x="440" y="65" text-anchor="middle" font-size="12" fill="#5a5650">SSB/(k−1)</text>
+      <text x="560" y="65" text-anchor="middle" font-size="12" fill="#c8410a" font-weight="600">MSB/MSW</text>
+      <rect x="6" y="78" width="628" height="36" fill="rgba(26,74,138,.05)"/>
+      <text x="88" y="101" text-anchor="middle" font-size="12" fill="#1a4a8a" font-weight="600">Within (Error)</text>
+      <text x="240" y="101" text-anchor="middle" font-size="12" fill="#5a5650">SSW</text>
+      <text x="340" y="101" text-anchor="middle" font-size="12" fill="#5a5650">n − k</text>
+      <text x="440" y="101" text-anchor="middle" font-size="12" fill="#5a5650">SSW/(n−k)</text>
+      <text x="560" y="101" text-anchor="middle" font-size="12" fill="#5a5650">—</text>
+      <rect x="6" y="114" width="628" height="30" fill="var(--surface2)"/>
+      <text x="88" y="134" text-anchor="middle" font-size="12" fill="#1a6b4a" font-weight="600">Total</text>
+      <text x="240" y="134" text-anchor="middle" font-size="12" fill="#5a5650">SST</text>
+      <text x="340" y="134" text-anchor="middle" font-size="12" fill="#5a5650">n − 1</text>
+    </svg>
+  </div>
+
+  <div class="cc">
+    <h4>ANOVA — Between vs Within Group Variance</h4>
+    <div class="cw"><canvas id="anovaChart"></canvas></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S9</h4>
+    <p class="qq">4 groups (k=4), 40 total observations (n=40). df for Between and Within?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs9')">Between=4, Within=36</div>
+      <div class="qo" onclick="qa(this,'c','qs9')">Between=3 (k−1), Within=36 (n−k)</div>
+      <div class="qo" onclick="qa(this,'w','qs9')">Between=3, Within=39</div>
+    </div>
+    <div class="qf" id="qs9"></div>
+  </div>
+</section>
+
+<!-- S10 -->
+<section class="mod" id="s10">
+  <div class="mod-hd"><div class="mod-num s">S10</div><h2 class="mod-title">Chi-Square Test</h2><span class="mod-tag s">STATS</span></div>
+
+  <div class="tb">
+    <h3>Test of Independence</h3>
+    <p>Tests whether two <strong>categorical variables</strong> are independent or associated.</p>
+    <div class="fbox"><div class="ftitle">Chi-Square Statistic</div>χ² = Σ [(<span class="hl">Observed</span> − <span class="hl2">Expected</span>)² / <span class="hl2">Expected</span>]<br><br>Expected_ij = (Row_i Total × Col_j Total) / Grand Total<br>df = (r − 1)(c − 1)</div>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>Requirement:</strong> Expected frequency ≥ 5 in every cell. If not, use Fisher's Exact Test. Chi-square is ONLY for categorical data — never for numerical means.</div></div>
+  </div>
+
+  <!-- Chi-Square Calculator -->
+  <div class="calc">
+    <h4>🔢 Chi-Square Test (2×2 Table)</h4>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px;margin-bottom:12px">
+      <div><div style="font-size:11px;color:var(--text3);margin-bottom:3px">Cell (A,C1)</div><input class="ci" id="ch_a" value="30" type="number" style="width:100%"></div>
+      <div><div style="font-size:11px;color:var(--text3);margin-bottom:3px">Cell (A,C2)</div><input class="ci" id="ch_b" value="20" type="number" style="width:100%"></div>
+      <div><div style="font-size:11px;color:var(--text3);margin-bottom:3px">Cell (B,C1)</div><input class="ci" id="ch_c" value="15" type="number" style="width:100%"></div>
+      <div><div style="font-size:11px;color:var(--text3);margin-bottom:3px">Cell (B,C2)</div><input class="ci" id="ch_d" value="35" type="number" style="width:100%"></div>
+    </div>
+    <button class="btn" onclick="calcChi()">Run Chi-Square Test</button>
+    <div class="res" id="ch_r"></div>
+  </div>
+
+  <div class="cc">
+    <h4>Chi-Square Distribution — Critical Values at Different df</h4>
+    <div class="cw"><canvas id="chiChart"></canvas></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — S10</h4>
+    <p class="qq">You want to test if marketing channel (Email/Social/TV) is associated with purchase (Buy/No Buy). Which test?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qs10')">ANOVA — comparing means across 3 groups</div>
+      <div class="qo" onclick="qa(this,'c','qs10')">Chi-Square — both variables are categorical</div>
+      <div class="qo" onclick="qa(this,'w','qs10')">t-test — comparing two groups</div>
+    </div>
+    <div class="qf" id="qs10"></div>
+  </div>
+</section>
+
+<!-- ══════════ ANALYTICS ══════════ -->
+<div class="sec-div"><h2 class="at">Part 2 — Analytics</h2><div class="dl"></div></div>
+
+<!-- A1 -->
+<section class="mod" id="a1">
+  <div class="mod-hd"><div class="mod-num a">A1</div><h2 class="mod-title">Introduction to Learning Algorithms</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="dw">
+    <h4>ML Taxonomy — Big Picture</h4>
+    <svg viewBox="0 0 680 270" style="width:100%;max-width:680px">
+      <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker></defs>
+      <rect x="270" y="8" width="140" height="42" rx="8" fill="#1a1814"/>
+      <text x="340" y="34" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">Machine Learning</text>
+      <line x1="340" y1="50" x2="175" y2="90" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="340" y1="50" x2="505" y2="90" stroke="#ccc" stroke-width="1.5"/>
+      <rect x="85" y="90" width="180" height="38" rx="7" fill="rgba(200,65,10,.15)" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="175" y="114" text-anchor="middle" font-size="13" font-weight="600" fill="#c8410a">Supervised</text>
+      <rect x="415" y="90" width="180" height="38" rx="7" fill="rgba(26,74,138,.15)" stroke="#1a4a8a" stroke-width="1.5"/>
+      <text x="505" y="114" text-anchor="middle" font-size="13" font-weight="600" fill="#1a4a8a">Unsupervised</text>
+      <!-- supervised children -->
+      <line x1="145" y1="128" x2="100" y2="162" stroke="#c8410a" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <line x1="205" y1="128" x2="255" y2="162" stroke="#c8410a" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <rect x="28" y="162" width="145" height="34" rx="6" fill="#fdf0ea" stroke="#c8410a" stroke-width="1"/>
+      <text x="100" y="180" text-anchor="middle" font-size="12" fill="#c8410a" font-weight="600">Regression</text>
+      <text x="100" y="192" text-anchor="middle" font-size="10" fill="#9a3412">Continuous output</text>
+      <rect x="186" y="162" width="145" height="34" rx="6" fill="#fdf0ea" stroke="#c8410a" stroke-width="1"/>
+      <text x="258" y="180" text-anchor="middle" font-size="12" fill="#c8410a" font-weight="600">Classification</text>
+      <text x="258" y="192" text-anchor="middle" font-size="10" fill="#9a3412">Categorical output</text>
+      <!-- unsupervised children -->
+      <line x1="465" y1="128" x2="420" y2="162" stroke="#1a4a8a" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <line x1="545" y1="128" x2="585" y2="162" stroke="#1a4a8a" stroke-width="1.2" stroke-dasharray="4,2"/>
+      <rect x="348" y="162" width="140" height="34" rx="6" fill="#eef2ff" stroke="#1a4a8a" stroke-width="1"/>
+      <text x="418" y="180" text-anchor="middle" font-size="12" fill="#1a4a8a" font-weight="600">Clustering</text>
+      <text x="418" y="192" text-anchor="middle" font-size="10" fill="#1e40af">K-Means, Hier.</text>
+      <rect x="508" y="162" width="145" height="34" rx="6" fill="#eef2ff" stroke="#1a4a8a" stroke-width="1"/>
+      <text x="580" y="180" text-anchor="middle" font-size="12" fill="#1a4a8a" font-weight="600">Association</text>
+      <text x="580" y="192" text-anchor="middle" font-size="10" fill="#1e40af">Market basket</text>
+      <!-- algo labels -->
+      <text x="70" y="228" text-anchor="middle" font-size="10" fill="#888">Linear Reg, ARIMA</text>
+      <text x="238" y="228" text-anchor="middle" font-size="10" fill="#888">Logistic, KNN, NB</text>
+    </svg>
+  </div>
+
+  <div class="tb">
+    <h3>Algorithm Quick-Reference</h3>
+    <table class="ct">
+      <tr><th>Algorithm</th><th>Type</th><th>Output</th><th>Scaling?</th><th>Best For</th></tr>
+      <tr><td>Linear Regression</td><td>Supervised</td><td>Continuous</td><td>Not needed</td><td>Numeric prediction</td></tr>
+      <tr><td>Logistic Regression</td><td>Supervised</td><td>Binary/Multi class</td><td>Helps</td><td>Probability + class</td></tr>
+      <tr><td>KNN</td><td>Supervised</td><td>Either</td><td><span class="tag r">Required</span></td><td>Small datasets</td></tr>
+      <tr><td>Naïve Bayes</td><td>Supervised</td><td>Class probability</td><td>Not needed</td><td>Text classification</td></tr>
+      <tr><td>K-Means</td><td>Unsupervised</td><td>Cluster labels</td><td><span class="tag r">Required</span></td><td>Segmentation</td></tr>
+    </table>
+    <div class="co tip"><span class="co-i">💡</span><div class="co-b"><strong>First question always:</strong> Do you have a labelled target y? → Supervised. No labels? → Unsupervised. Is y continuous? → Regression. Is y categorical? → Classification.</div></div>
+  </div>
+</section>
+
+<!-- A2 -->
+<section class="mod" id="a2">
+  <div class="mod-hd"><div class="mod-num a">A2</div><h2 class="mod-title">Exploratory Data Analysis (EDA)</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>EDA Checklist — Always in This Order</h3>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="sc"><strong>Shape:</strong> rows × columns</div></div>
+      <div class="step"><div class="snum">2</div><div class="sc"><strong>Data types:</strong> numeric, categorical, datetime per column</div></div>
+      <div class="step"><div class="snum">3</div><div class="sc"><strong>Missing values:</strong> count and % per column</div></div>
+      <div class="step"><div class="snum">4</div><div class="sc"><strong>Duplicates:</strong> drop exact duplicate rows</div></div>
+      <div class="step"><div class="snum">5</div><div class="sc"><strong>Summary stats:</strong> mean, median, SD, min, max, IQR for numerics</div></div>
+      <div class="step"><div class="snum">6</div><div class="sc"><strong>Visualise distributions:</strong> histograms, KDE plots, box plots</div></div>
+      <div class="step"><div class="snum">7</div><div class="sc"><strong>Outlier detection:</strong> IQR rule: outside [Q1−1.5×IQR, Q3+1.5×IQR]</div></div>
+      <div class="step"><div class="snum">8</div><div class="sc"><strong>Correlation matrix:</strong> pairwise correlations, scatter plots</div></div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="cc"><h4>Correlation Heatmap (Simulated)</h4><div class="cw"><canvas id="corrChart"></canvas></div></div>
+    <div class="cc"><h4>Distribution Shapes — Skewness</h4><div class="cw"><canvas id="distChart"></canvas></div></div>
+  </div>
+
+  <div class="tb">
+    <h3>Encoding &amp; Scaling</h3>
+    <div class="g2">
+      <table class="ct">
+        <tr><th colspan="2">Encoding</th></tr>
+        <tr><td>Ordinal variable</td><td>Label encoding (0,1,2…)</td></tr>
+        <tr><td>Nominal variable</td><td>One-hot encoding</td></tr>
+      </table>
+      <table class="ct">
+        <tr><th>Method</th><th>Formula</th></tr>
+        <tr><td>Z-score std.</td><td><code>(X−μ)/σ</code></td></tr>
+        <tr><td>Min-max norm.</td><td><code>(X−min)/(max−min)</code></td></tr>
+      </table>
+    </div>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>Never use label encoding for nominal variables.</strong> Assigning 0=Red, 1=Blue, 2=Green implies Blue is "between" Red and Green — false ordering. Always one-hot for nominal.</div></div>
+  </div>
+</section>
+
+<!-- A3 -->
+<section class="mod" id="a3">
+  <div class="mod-hd"><div class="mod-num a">A3</div><h2 class="mod-title">Clustering</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>K-Means Algorithm</h3>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="sc"><strong>Choose K</strong> (number of clusters)</div></div>
+      <div class="step"><div class="snum">2</div><div class="sc"><strong>Initialise</strong> K centroids randomly</div></div>
+      <div class="step"><div class="snum">3</div><div class="sc"><strong>Assign</strong> each point to nearest centroid (Euclidean distance)</div></div>
+      <div class="step"><div class="snum">4</div><div class="sc"><strong>Recalculate</strong> centroid = mean of all assigned points</div></div>
+      <div class="step"><div class="snum">5</div><div class="sc"><strong>Repeat</strong> 3–4 until convergence (centroids stop moving)</div></div>
+    </div>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>Always scale before K-Means.</strong> Salary (0–200,000) dominates Age (20–60) in distance calculations. Scale to remove this bias.</div></div>
+  </div>
+
+  <div class="g2">
+    <div class="cc"><h4>Elbow Method — Finding Optimal K</h4><div class="cw"><canvas id="elbowChart"></canvas></div></div>
+    <div class="cc"><h4>K-Means Cluster Visualisation</h4><div class="cw"><canvas id="kmeansChart"></canvas></div></div>
+  </div>
+
+  <!-- Interactive KMeans canvas -->
+  <div class="calc">
+    <h4>🎨 Interactive K-Means — Click to Add Points</h4>
+    <div class="cr">
+      <span class="cl">K clusters</span>
+      <div class="sw" style="flex:1;max-width:250px">
+        <input type="range" id="km_k" min="2" max="6" value="3" oninput="document.getElementById('km_kv').textContent=this.value;drawKM()">
+        <span class="sv" id="km_kv">3</span>
+      </div>
+      <button class="btn g" onclick="clrKM()">Clear</button>
+    </div>
+    <canvas id="kmCanvas" width="540" height="260" style="border:1.5px solid var(--border);border-radius:8px;background:#fafaf7;cursor:crosshair;max-width:100%;margin-top:8px"></canvas>
+    <p style="font-size:11px;color:var(--text3);margin-top:6px">Click canvas to add points. Coloured circles = centroids. Points coloured by cluster.</p>
+  </div>
+
+  <div class="tb">
+    <h3>K-Means vs Hierarchical</h3>
+    <table class="ct">
+      <tr><th>Feature</th><th>K-Means</th><th>Hierarchical</th></tr>
+      <tr><td>Specify K?</td><td>Yes, upfront</td><td>No — cut dendrogram later</td></tr>
+      <tr><td>Output</td><td>Cluster labels</td><td>Dendrogram tree</td></tr>
+      <tr><td>Scalability</td><td><span class="tag g">High</span></td><td><span class="tag r">Low O(n²)</span></td></tr>
+      <tr><td>Outlier sensitivity</td><td>High</td><td>Moderate</td></tr>
+      <tr><td>Best for</td><td>Large datasets</td><td>Small datasets, tree viz</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- A4 -->
+<section class="mod" id="a4">
+  <div class="mod-hd"><div class="mod-num a">A4</div><h2 class="mod-title">K-Nearest Neighbors (KNN)</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>How KNN Works</h3>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="sc"><strong>Choose K</strong></div></div>
+      <div class="step"><div class="snum">2</div><div class="sc"><strong>Compute distance</strong> from query to ALL training points</div></div>
+      <div class="step"><div class="snum">3</div><div class="sc"><strong>Select</strong> K nearest neighbors</div></div>
+      <div class="step"><div class="snum">4</div><div class="sc"><strong>Vote:</strong> Majority class (classification) or average (regression)</div></div>
+    </div>
+    <div class="fbox" style="margin-top:12px"><div class="ftitle">Distance Metrics</div>Euclidean: √Σ(<span class="hl">a</span>−<span class="hl2">b</span>)² &nbsp;|&nbsp; Manhattan: Σ|<span class="hl">a</span>−<span class="hl2">b</span>|<br>Minkowski: (Σ|<span class="hl">a</span>−<span class="hl2">b</span>|ᵖ)^(1/p) &nbsp;→&nbsp; p=2 is Euclidean, p=1 is Manhattan</div>
+  </div>
+
+  <div class="dw">
+    <h4>KNN Decision — Query Point &amp; K=3 Neighbourhood</h4>
+    <svg viewBox="0 0 520 230" style="width:100%;max-width:520px">
+      <rect x="8" y="8" width="504" height="214" rx="8" fill="#fafaf7" stroke="var(--border)" stroke-width="1.5"/>
+      <ellipse cx="160" cy="120" rx="120" ry="90" fill="rgba(26,74,138,.07)"/>
+      <ellipse cx="360" cy="120" rx="110" ry="80" fill="rgba(200,65,10,.07)"/>
+      <!-- Blue class -->
+      <circle cx="100" cy="80" r="7" fill="#1a4a8a"/><circle cx="130" cy="130" r="7" fill="#1a4a8a"/><circle cx="160" cy="85" r="7" fill="#1a4a8a"/>
+      <circle cx="90" cy="150" r="7" fill="#1a4a8a"/><circle cx="180" cy="135" r="7" fill="#1a4a8a"/><circle cx="140" cy="60" r="7" fill="#1a4a8a"/>
+      <!-- Red class -->
+      <circle cx="320" cy="90" r="7" fill="#c8410a"/><circle cx="360" cy="140" r="7" fill="#c8410a"/><circle cx="390" cy="82" r="7" fill="#c8410a"/>
+      <circle cx="340" cy="158" r="7" fill="#c8410a"/><circle cx="410" cy="130" r="7" fill="#c8410a"/><circle cx="370" cy="62" r="7" fill="#c8410a"/>
+      <!-- query -->
+      <circle cx="252" cy="112" r="85" fill="none" stroke="#1a6b4a" stroke-width="1.5" stroke-dasharray="6,3"/>
+      <circle cx="252" cy="112" r="10" fill="none" stroke="#1a6b4a" stroke-width="2.5"/>
+      <circle cx="252" cy="112" r="4" fill="#1a6b4a"/>
+      <!-- lines to nearest -->
+      <line x1="252" y1="112" x2="180" y2="135" stroke="#1a6b4a" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="252" y1="112" x2="320" y2="90" stroke="#1a6b4a" stroke-width="1" stroke-dasharray="3,2"/>
+      <line x1="252" y1="112" x2="360" y2="140" stroke="#1a6b4a" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="155" y="218" text-anchor="middle" font-size="12" fill="#1a4a8a" font-weight="600">Class A (Blue) — 1 neighbor</text>
+      <text x="375" y="218" text-anchor="middle" font-size="12" fill="#c8410a" font-weight="600">Class B (Red) — 2 neighbors → Predict B</text>
+      <text x="252" y="28" text-anchor="middle" font-size="11" fill="#1a6b4a" font-weight="600">● Query Point — K=3 circle</text>
+    </svg>
+  </div>
+
+  <div class="cc">
+    <h4>Bias-Variance Tradeoff — Effect of K on Accuracy</h4>
+    <div class="cw"><canvas id="knnBV"></canvas></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — A4</h4>
+    <p class="qq">KNN with K=1. What is the expected behaviour?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'c','qa4')">High variance / overfitting — model memorises every training point</div>
+      <div class="qo" onclick="qa(this,'w','qa4')">High bias / underfitting — too simple a boundary</div>
+      <div class="qo" onclick="qa(this,'w','qa4')">Optimal — smallest K means most precise</div>
+    </div>
+    <div class="qf" id="qa4"></div>
+  </div>
+</section>
+
+<!-- A5 -->
+<section class="mod" id="a5">
+  <div class="mod-hd"><div class="mod-num a">A5</div><h2 class="mod-title">Naïve Bayes</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>The Model</h3>
+    <div class="fbox"><div class="ftitle">Naïve Bayes — MAP Rule</div>P(<span class="hl">y</span>|X) ∝ P(<span class="hl">y</span>) × P(x₁|<span class="hl">y</span>) × P(x₂|<span class="hl">y</span>) × … × P(xₙ|<span class="hl">y</span>)<br><br>Predict: <span class="hl2">ŷ</span> = argmax_y &nbsp; P(<span class="hl">y</span>) × Π P(xᵢ|<span class="hl">y</span>)</div>
+    <table class="ct" style="margin-top:12px">
+      <tr><th>Variant</th><th>Input Data</th><th>Assumes</th><th>Scaling?</th></tr>
+      <tr><td><strong>GaussianNB</strong></td><td>Continuous numeric</td><td>Normal per class</td><td>Not needed</td></tr>
+      <tr><td><strong>MultinomialNB</strong></td><td>Counts/frequencies</td><td>Multinomial counts</td><td>Not needed</td></tr>
+      <tr><td><strong>BernoulliNB</strong></td><td>Binary features</td><td>Bernoulli distribution</td><td>Not needed</td></tr>
+    </table>
+  </div>
+
+  <div class="dw">
+    <h4>GaussianNB Workflow</h4>
+    <svg viewBox="0 0 660 95" style="width:100%;max-width:660px">
+      <defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker></defs>
+      <rect x="5" y="28" width="110" height="44" rx="7" fill="#f0ede6" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="60" y="53" text-anchor="middle" font-size="11" fill="#5a5650" font-weight="600">Training Data</text>
+      <text x="60" y="66" text-anchor="middle" font-size="10" fill="#888">X, y labels</text>
+      <line x1="115" y1="50" x2="148" y2="50" stroke="#888" stroke-width="1.5" marker-end="url(#a4)"/>
+      <rect x="148" y="28" width="130" height="44" rx="7" fill="rgba(200,65,10,.1)" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="213" y="52" text-anchor="middle" font-size="11" fill="#c8410a" font-weight="600">Compute Prior</text>
+      <text x="213" y="65" text-anchor="middle" font-size="10" fill="#9a3412">P(y=0), P(y=1)</text>
+      <line x1="278" y1="50" x2="311" y2="50" stroke="#888" stroke-width="1.5" marker-end="url(#a4)"/>
+      <rect x="311" y="28" width="148" height="44" rx="7" fill="rgba(200,65,10,.1)" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="385" y="52" text-anchor="middle" font-size="11" fill="#c8410a" font-weight="600">Compute Likelihood</text>
+      <text x="385" y="65" text-anchor="middle" font-size="10" fill="#9a3412">μ, σ per feature per class</text>
+      <line x1="459" y1="50" x2="492" y2="50" stroke="#888" stroke-width="1.5" marker-end="url(#a4)"/>
+      <rect x="492" y="28" width="158" height="44" rx="7" fill="rgba(26,106,74,.12)" stroke="#1a6b4a" stroke-width="1.5"/>
+      <text x="571" y="52" text-anchor="middle" font-size="11" fill="#1a6b4a" font-weight="600">Predict Class</text>
+      <text x="571" y="65" text-anchor="middle" font-size="10" fill="#166534">argmax posterior</text>
+    </svg>
+  </div>
+
+  <div class="cc">
+    <h4>Class-Conditional Gaussian Distributions (GaussianNB)</h4>
+    <div class="cw"><canvas id="nbChart"></canvas></div>
+  </div>
+
+  <div class="co tip"><span class="co-i">💡</span><div class="co-b"><strong>Generative vs Discriminative:</strong> Naïve Bayes = generative (models P(X|y)). Logistic Regression = discriminative (models P(y|X) directly). KNN = neither (just memorises data).</div></div>
+</section>
+
+<!-- A6 -->
+<section class="mod" id="a6">
+  <div class="mod-hd"><div class="mod-num a">A6</div><h2 class="mod-title">Classification Overview &amp; Predictive Analytics</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>Predictive Analytics Pipeline</h3>
+    <div class="steps">
+      <div class="step"><div class="snum">1</div><div class="sc"><strong>Define</strong> business problem and success metric</div></div>
+      <div class="step"><div class="snum">2</div><div class="sc"><strong>Collect</strong> relevant, representative data</div></div>
+      <div class="step"><div class="snum">3</div><div class="sc"><strong>EDA</strong> — distributions, outliers, correlations</div></div>
+      <div class="step"><div class="snum">4</div><div class="sc"><strong>Model</strong> — apply and tune algorithm</div></div>
+      <div class="step"><div class="snum">5</div><div class="sc"><strong>Validate</strong> — train/test split, cross-validation</div></div>
+      <div class="step"><div class="snum">6</div><div class="sc"><strong>Deploy &amp; Monitor</strong> — track model drift</div></div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <h4>Algorithm Map — Interpretability vs Accuracy Potential</h4>
+    <div class="cw t"><canvas id="algoMap"></canvas></div>
+  </div>
+</section>
+
+<!-- A7 -->
+<section class="mod" id="a7">
+  <div class="mod-hd"><div class="mod-num a">A7</div><h2 class="mod-title">Simple Linear Regression</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>The OLS Model</h3>
+    <div class="fbox"><div class="ftitle">Simple Linear Regression</div>Ŷ = <span class="hl">β₀</span> + <span class="hl2">β₁</span>X<br><br>β₁ = Σ(Xᵢ−X̄)(Yᵢ−Ȳ) / Σ(Xᵢ−X̄)² &nbsp;(minimises SSE)<br>β₀ = Ȳ − β₁X̄</div>
+    <div class="fbox" style="margin-top:8px"><div class="ftitle">R² — Coefficient of Determination</div>R² = <span class="hl">SSR</span> / <span class="hl2">SST</span> = 1 − SSE/SST &nbsp;&nbsp; (0 to 1, higher = better)<br>SST = SSR + SSE &nbsp;(Total = Explained + Unexplained)</div>
+    <table class="ct" style="margin-top:12px">
+      <tr><th colspan="2">LINE Assumptions</th></tr>
+      <tr><td><strong>L</strong>inearity</td><td>X–Y relationship is linear (check scatter plot)</td></tr>
+      <tr><td><strong>I</strong>ndependence</td><td>Observations are independent</td></tr>
+      <tr><td><strong>N</strong>ormality</td><td>Residuals are normally distributed (Q-Q plot)</td></tr>
+      <tr><td><strong>E</strong>qual Variance</td><td>Homoscedasticity — constant residual spread</td></tr>
+    </table>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>Correlation ≠ Causation.</strong> High R² does NOT mean X causes Y. Always verify business logic independently.</div></div>
+  </div>
+
+  <div class="cc">
+    <h4>OLS Regression — Interactive Scatter + Line</h4>
+    <div class="cr" style="margin-bottom:10px">
+      <button class="btn" onclick="genReg()">Generate New Dataset</button>
+    </div>
+    <div class="cw t"><canvas id="regChart"></canvas></div>
+    <div class="res show" id="reg_s">Click Generate to begin</div>
+  </div>
+
+  <!-- SLR Calculator -->
+  <div class="calc">
+    <h4>📏 SLR Calculator</h4>
+    <div class="cr"><span class="cl">X values</span><input class="ci" id="slr_x" value="1,2,3,4,5,6,7" style="width:220px" placeholder="comma-separated"></div>
+    <div class="cr"><span class="cl">Y values</span><input class="ci" id="slr_y" value="2.1,3.8,6.2,7.9,9.5,11.1,13.2" style="width:220px" placeholder="comma-separated"></div>
+    <button class="btn" onclick="calcSLR()">Compute</button>
+    <div class="res" id="slr_r"></div>
+  </div>
+
+  <div class="cc">
+    <h4>Residual Plot — What Good vs Bad Looks Like</h4>
+    <div class="cw"><canvas id="residChart"></canvas></div>
+  </div>
+</section>
+
+<!-- A8 -->
+<section class="mod" id="a8">
+  <div class="mod-hd"><div class="mod-num a">A8</div><h2 class="mod-title">Multiple Linear Regression (MLR)</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>The Model</h3>
+    <div class="fbox"><div class="ftitle">Multiple Linear Regression</div>Ŷ = <span class="hl">β₀</span> + <span class="hl2">β₁</span>X₁ + <span class="hl2">β₂</span>X₂ + … + <span class="hl2">βₖ</span>Xₖ<br><br>Each βᵢ = change in Y for 1-unit change in Xᵢ, <span class="hl3">all other variables held constant</span></div>
+    <div class="fbox" style="margin-top:8px"><div class="ftitle">Adjusted R²</div>Adj. R² = 1 − [(1−R²)(<span class="hl">n</span>−1) / (<span class="hl">n</span>−<span class="hl2">k</span>−1)]<br>Penalises for adding useless predictors. Use this to compare models.</div>
+  </div>
+
+  <div class="cc">
+    <h4>VIF — Multicollinearity Thresholds</h4>
+    <div class="cw s"><canvas id="vifChart"></canvas></div>
+  </div>
+
+  <div class="tb">
+    <h3>Multicollinearity</h3>
+    <table class="ct">
+      <tr><th>VIF Value</th><th>Interpretation</th><th>Action</th></tr>
+      <tr><td>VIF = 1</td><td>No multicollinearity</td><td><span class="tag g">All good</span></td></tr>
+      <tr><td>VIF 1–5</td><td>Moderate — acceptable</td><td><span class="tag a">Monitor</span></td></tr>
+      <tr><td>VIF 5–10</td><td>High</td><td><span class="tag r">Consider removing</span></td></tr>
+      <tr><td>VIF &gt; 10</td><td>Severe</td><td><span class="tag r">Must act</span></td></tr>
+    </table>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>Dummy variable trap:</strong> For k categories, include only k−1 dummies. Including all k creates perfect multicollinearity (they sum to 1 for every row).</div></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — A8</h4>
+    <p class="qq">Adding 5 variables increases R² from 0.72→0.74, but Adjusted R² drops from 0.71→0.69. Conclusion?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'c','qa8')">The 5 new variables don't add real value — model actually degraded</div>
+      <div class="qo" onclick="qa(this,'w','qa8')">Model improved — R² went up</div>
+      <div class="qo" onclick="qa(this,'w','qa8')">Adjusted R² is irrelevant; always use plain R²</div>
+    </div>
+    <div class="qf" id="qa8"></div>
+  </div>
+</section>
+
+<!-- A9 -->
+<section class="mod" id="a9">
+  <div class="mod-hd"><div class="mod-num a">A9</div><h2 class="mod-title">Logistic Regression</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>The Sigmoid Function</h3>
+    <div class="fbox"><div class="ftitle">Logistic Regression — Sigmoid</div>P(Y=1|X) = 1 / (1 + e^−<span class="hl">z</span>) &nbsp;&nbsp; z = <span class="hl2">β₀</span> + <span class="hl2">β₁</span>X₁ + …<br><br>Log-odds: log(p/1−p) = z<br>Odds Ratio: e^<span class="hl">βᵢ</span> → multiplicative change per unit of Xᵢ</div>
+  </div>
+
+  <div class="g2">
+    <div class="cc"><h4>Sigmoid Curve — Probability Output</h4><div class="cw"><canvas id="sigChart"></canvas></div></div>
+    <div class="cc"><h4>ROC Curve — AUC Visualisation</h4><div class="cw"><canvas id="rocChart"></canvas></div></div>
+  </div>
+
+  <div class="tb">
+    <h3>Confusion Matrix &amp; Evaluation Metrics</h3>
+    <div class="dw" style="border:none;padding:0;margin:0 0 14px">
+      <svg viewBox="0 0 510 195" style="width:100%;max-width:510px">
+        <rect x="6" y="6" width="498" height="183" rx="8" fill="none" stroke="var(--border)" stroke-width="1.5"/>
+        <rect x="6" y="6" width="498" height="42" rx="8" fill="#f0ede6"/>
+        <text x="258" y="22" text-anchor="middle" font-size="10" font-weight="600" fill="#888" letter-spacing="1">PREDICTED</text>
+        <text x="174" y="38" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">Negative (0)</text>
+        <text x="366" y="38" text-anchor="middle" font-size="12" font-weight="600" fill="#5a5650">Positive (1)</text>
+        <text x="10" y="115" font-size="10" font-weight="600" fill="#888" transform="rotate(-90,28,115)" letter-spacing="1">ACTUAL</text>
+        <text x="60" y="104" text-anchor="middle" font-size="11" fill="#5a5650" font-weight="600">Neg</text>
+        <text x="60" y="152" text-anchor="middle" font-size="11" fill="#5a5650" font-weight="600">Pos</text>
+        <rect x="80" y="48" width="190" height="66" fill="#dcfce7"/>
+        <text x="175" y="81" text-anchor="middle" font-size="16" font-weight="700" fill="#166534">TN</text>
+        <text x="175" y="100" text-anchor="middle" font-size="10" fill="#166534">True Negative</text>
+        <rect x="270" y="48" width="190" height="66" fill="#fee2e2"/>
+        <text x="365" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="#991b1b">FP</text>
+        <text x="365" y="97" text-anchor="middle" font-size="10" fill="#991b1b">Type I Error</text>
+        <text x="365" y="109" text-anchor="middle" font-size="10" fill="#991b1b">False Alarm</text>
+        <rect x="80" y="114" width="190" height="69" fill="#fee2e2"/>
+        <text x="175" y="148" text-anchor="middle" font-size="16" font-weight="700" fill="#991b1b">FN</text>
+        <text x="175" y="167" text-anchor="middle" font-size="10" fill="#991b1b">Type II Error</text>
+        <text x="175" y="179" text-anchor="middle" font-size="10" fill="#991b1b">Missed Detection</text>
+        <rect x="270" y="114" width="190" height="69" fill="#dcfce7"/>
+        <text x="365" y="148" text-anchor="middle" font-size="16" font-weight="700" fill="#166534">TP</text>
+        <text x="365" y="167" text-anchor="middle" font-size="10" fill="#166534">True Positive</text>
+      </svg>
+    </div>
+    <table class="ct">
+      <tr><th>Metric</th><th>Formula</th><th>Answers</th></tr>
+      <tr><td>Accuracy</td><td><code>(TP+TN)/Total</code></td><td>Overall correctness</td></tr>
+      <tr><td>Precision</td><td><code>TP/(TP+FP)</code></td><td>When I predict +, how often correct?</td></tr>
+      <tr><td>Recall (Sensitivity)</td><td><code>TP/(TP+FN)</code></td><td>Of all actual +, how many caught?</td></tr>
+      <tr><td>F1 Score</td><td><code>2×P×R/(P+R)</code></td><td>Balance of precision and recall</td></tr>
+      <tr><td>AUC-ROC</td><td>Area under ROC</td><td>0.5=random, 1=perfect</td></tr>
+    </table>
+    <div class="co warn"><span class="co-i">⚠️</span><div class="co-b"><strong>Class imbalance trap:</strong> 95% class 0 → predicting all zeros = 95% accuracy but completely useless. Use AUC-ROC, Precision, Recall instead.</div></div>
+  </div>
+
+  <div class="quiz">
+    <h4>🧠 Quick Check — A9</h4>
+    <p class="qq">In a fraud detection model, which metric is most critical to maximise?</p>
+    <div class="qos">
+      <div class="qo" onclick="qa(this,'w','qa9')">Precision — only flag sure frauds</div>
+      <div class="qo" onclick="qa(this,'c','qa9')">Recall — catch as many actual frauds as possible, even at cost of false alarms</div>
+      <div class="qo" onclick="qa(this,'w','qa9')">Accuracy — overall percentage correct</div>
+    </div>
+    <div class="qf" id="qa9"></div>
+  </div>
+</section>
+
+<!-- A10 -->
+<section class="mod" id="a10">
+  <div class="mod-hd"><div class="mod-num a">A10</div><h2 class="mod-title">Basics of Machine Learning — Big Picture</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>Bias-Variance Tradeoff</h3>
+    <table class="ct">
+      <tr><th></th><th>Underfitting</th><th>Sweet Spot</th><th>Overfitting</th></tr>
+      <tr><td><strong>Training Error</strong></td><td>High</td><td>Low</td><td>Very Low</td></tr>
+      <tr><td><strong>Test Error</strong></td><td>High</td><td>Low</td><td>High</td></tr>
+      <tr><td><strong>Bias</strong></td><td><span class="tag r">High</span></td><td>Low</td><td>Low</td></tr>
+      <tr><td><strong>Variance</strong></td><td>Low</td><td>Low</td><td><span class="tag r">High</span></td></tr>
+      <tr><td><strong>Fix</strong></td><td>More features/complexity</td><td>—</td><td>More data/regularisation</td></tr>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="cc"><h4>Bias-Variance Tradeoff Curve</h4><div class="cw"><canvas id="bvChart"></canvas></div></div>
+    <div class="cc"><h4>K-Fold Cross Validation (K=5)</h4><div class="cw"><canvas id="cvChart"></canvas></div></div>
+  </div>
+
+  <div class="tb">
+    <h3>Regularisation</h3>
+    <table class="ct">
+      <tr><th>Method</th><th>Penalty</th><th>Effect</th></tr>
+      <tr><td><strong>Ridge (L2)</strong></td><td>Σβᵢ²</td><td>Shrinks all coefficients toward 0</td></tr>
+      <tr><td><strong>Lasso (L1)</strong></td><td>Σ|βᵢ|</td><td>Can zero out coefficients (feature selection)</td></tr>
+      <tr><td><strong>ElasticNet</strong></td><td>L1 + L2</td><td>Balanced — handles correlated features</td></tr>
+    </table>
+    <div class="co tip"><span class="co-i">💡</span><div class="co-b"><strong>Regularisation = complexity tax.</strong> The model must justify adding complexity by improving performance enough to outweigh the penalty. Prevents memorising training noise.</div></div>
+  </div>
+</section>
+
+<!-- A11 -->
+<section class="mod" id="a11">
+  <div class="mod-hd"><div class="mod-num a">A11</div><h2 class="mod-title">Natural Language Processing — Orientation</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>Core NLP Tasks</h3>
+    <table class="ct">
+      <tr><th>Task</th><th>Description</th><th>Example</th></tr>
+      <tr><td><strong>Tokenisation</strong></td><td>Split text into tokens</td><td>"I love data" → ["I","love","data"]</td></tr>
+      <tr><td><strong>Stop word removal</strong></td><td>Remove low-info words</td><td>"the", "is", "a" removed</td></tr>
+      <tr><td><strong>Stemming</strong></td><td>Root form (crude, rule-based)</td><td>"running" → "run"</td></tr>
+      <tr><td><strong>Lemmatisation</strong></td><td>Dictionary form (smart)</td><td>"better" → "good"</td></tr>
+      <tr><td><strong>POS Tagging</strong></td><td>Grammatical role labels</td><td>"runs" → Verb</td></tr>
+      <tr><td><strong>NER</strong></td><td>Extract named entities</td><td>"Apple in Cupertino" → [ORG, LOC]</td></tr>
+      <tr><td><strong>Sentiment Analysis</strong></td><td>Determine opinion</td><td>"Great product" → Positive</td></tr>
+    </table>
+  </div>
+
+  <div class="dw">
+    <h4>NLP Pipeline — End to End</h4>
+    <svg viewBox="0 0 680 78" style="width:100%;max-width:680px">
+      <defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#888"/></marker></defs>
+      <rect x="4" y="18" width="78" height="38" rx="6" fill="#f0ede6" stroke="var(--border)" stroke-width="1.5"/>
+      <text x="43" y="41" text-anchor="middle" font-size="11" fill="#5a5650" font-weight="600">Raw Text</text>
+      <line x1="82" y1="37" x2="96" y2="37" stroke="#888" stroke-width="1.5" marker-end="url(#a5)"/>
+      <rect x="96" y="18" width="74" height="38" rx="6" fill="rgba(200,65,10,.1)" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="133" y="41" text-anchor="middle" font-size="11" fill="#c8410a" font-weight="600">Clean</text>
+      <line x1="170" y1="37" x2="184" y2="37" stroke="#888" stroke-width="1.5" marker-end="url(#a5)"/>
+      <rect x="184" y="18" width="82" height="38" rx="6" fill="rgba(200,65,10,.1)" stroke="#c8410a" stroke-width="1.5"/>
+      <text x="225" y="41" text-anchor="middle" font-size="11" fill="#c8410a" font-weight="600">Tokenise</text>
+      <line x1="266" y1="37" x2="280" y2="37" stroke="#888" stroke-width="1.5" marker-end="url(#a5)"/>
+      <rect x="280" y="18" width="90" height="38" rx="6" fill="rgba(26,74,138,.1)" stroke="#1a4a8a" stroke-width="1.5"/>
+      <text x="325" y="35" text-anchor="middle" font-size="10" fill="#1a4a8a" font-weight="600">Remove</text>
+      <text x="325" y="49" text-anchor="middle" font-size="10" fill="#1a4a8a" font-weight="600">Stop Words</text>
+      <line x1="370" y1="37" x2="384" y2="37" stroke="#888" stroke-width="1.5" marker-end="url(#a5)"/>
+      <rect x="384" y="18" width="86" height="38" rx="6" fill="rgba(26,74,138,.1)" stroke="#1a4a8a" stroke-width="1.5"/>
+      <text x="427" y="41" text-anchor="middle" font-size="11" fill="#1a4a8a" font-weight="600">Lemmatise</text>
+      <line x1="470" y1="37" x2="484" y2="37" stroke="#888" stroke-width="1.5" marker-end="url(#a5)"/>
+      <rect x="484" y="18" width="82" height="38" rx="6" fill="rgba(26,106,74,.12)" stroke="#1a6b4a" stroke-width="1.5"/>
+      <text x="525" y="41" text-anchor="middle" font-size="11" fill="#1a6b4a" font-weight="600">Vectorise</text>
+      <line x1="566" y1="37" x2="580" y2="37" stroke="#888" stroke-width="1.5" marker-end="url(#a5)"/>
+      <rect x="580" y="18" width="92" height="38" rx="6" fill="#1a1814"/>
+      <text x="626" y="41" text-anchor="middle" font-size="11" fill="#fff" font-weight="600">Model</text>
+    </svg>
+  </div>
+
+  <div class="tb">
+    <h3>Text Representation Methods</h3>
+    <table class="ct">
+      <tr><th>Method</th><th>Description</th><th>Limitation</th></tr>
+      <tr><td><strong>Bag of Words (BoW)</strong></td><td>Word frequency counts, ignores order</td><td>No context or semantics</td></tr>
+      <tr><td><strong>TF-IDF</strong></td><td>Frequency × uniqueness across documents</td><td>Still no word order</td></tr>
+      <tr><td><strong>Word2Vec / GloVe</strong></td><td>Dense vectors — similar words cluster together</td><td>Single static vector per word</td></tr>
+      <tr><td><strong>BERT / GPT (Transformers)</strong></td><td>Context-aware embeddings, state of the art</td><td>Requires large compute</td></tr>
+    </table>
+  </div>
+
+  <div class="cc">
+    <h4>TF-IDF Concept — Word Importance Across Documents</h4>
+    <div class="cw"><canvas id="tfidfChart"></canvas></div>
+  </div>
+</section>
+
+<!-- A12 -->
+<section class="mod" id="a12">
+  <div class="mod-hd"><div class="mod-num a">A12</div><h2 class="mod-title">Deep Learning — Orientation</h2><span class="mod-tag a">ANALYTICS</span></div>
+
+  <div class="tb">
+    <h3>Anatomy of a Neural Network</h3>
+    <p>Input Layer → Hidden Layer(s) → Output Layer. Each neuron computes weighted sum + bias, then applies activation function.</p>
+  </div>
+
+  <div class="dw">
+    <h4>Neural Network — Admission Prediction (GRE + GPA + Rank → Admit)</h4>
+    <svg viewBox="0 0 620 265" style="width:100%;max-width:620px">
+      <text x="65" y="18" text-anchor="middle" font-size="11" font-weight="600" fill="#888">Input Layer</text>
+      <circle cx="65" cy="65" r="22" fill="#eef2ff" stroke="#1a4a8a" stroke-width="2"/>
+      <text x="65" y="63" text-anchor="middle" font-size="10" fill="#1a4a8a" font-weight="600">GRE</text>
+      <text x="65" y="75" text-anchor="middle" font-size="9" fill="#888">x₁</text>
+      <circle cx="65" cy="133" r="22" fill="#eef2ff" stroke="#1a4a8a" stroke-width="2"/>
+      <text x="65" y="131" text-anchor="middle" font-size="10" fill="#1a4a8a" font-weight="600">GPA</text>
+      <text x="65" y="143" text-anchor="middle" font-size="9" fill="#888">x₂</text>
+      <circle cx="65" cy="200" r="22" fill="#eef2ff" stroke="#1a4a8a" stroke-width="2"/>
+      <text x="65" y="198" text-anchor="middle" font-size="10" fill="#1a4a8a" font-weight="600">Rank</text>
+      <text x="65" y="210" text-anchor="middle" font-size="9" fill="#888">x₃</text>
+      <!-- Hidden 1 -->
+      <text x="228" y="18" text-anchor="middle" font-size="11" font-weight="600" fill="#888">Hidden 1</text>
+      <circle cx="228" cy="55" r="19" fill="#fdf0ea" stroke="#c8410a" stroke-width="2"/>
+      <text x="228" y="59" text-anchor="middle" font-size="9" fill="#c8410a" font-weight="600">ReLU</text>
+      <circle cx="228" cy="110" r="19" fill="#fdf0ea" stroke="#c8410a" stroke-width="2"/>
+      <text x="228" y="114" text-anchor="middle" font-size="9" fill="#c8410a" font-weight="600">ReLU</text>
+      <circle cx="228" cy="165" r="19" fill="#fdf0ea" stroke="#c8410a" stroke-width="2"/>
+      <text x="228" y="169" text-anchor="middle" font-size="9" fill="#c8410a" font-weight="600">ReLU</text>
+      <circle cx="228" cy="220" r="19" fill="#fdf0ea" stroke="#c8410a" stroke-width="2"/>
+      <text x="228" y="224" text-anchor="middle" font-size="9" fill="#c8410a" font-weight="600">ReLU</text>
+      <!-- Hidden 2 -->
+      <text x="390" y="18" text-anchor="middle" font-size="11" font-weight="600" fill="#888">Hidden 2</text>
+      <circle cx="390" cy="83" r="19" fill="#fdf0ea" stroke="#c8410a" stroke-width="2"/>
+      <text x="390" y="87" text-anchor="middle" font-size="9" fill="#c8410a" font-weight="600">ReLU</text>
+      <circle cx="390" cy="145" r="19" fill="#fdf0ea" stroke="#c8410a" stroke-width="2"/>
+      <text x="390" y="149" text-anchor="middle" font-size="9" fill="#c8410a" font-weight="600">ReLU</text>
+      <circle cx="390" cy="207" r="19" fill="#fdf0ea" stroke="#c8410a" stroke-width="2"/>
+      <text x="390" y="211" text-anchor="middle" font-size="9" fill="#c8410a" font-weight="600">ReLU</text>
+      <!-- Output -->
+      <text x="554" y="18" text-anchor="middle" font-size="11" font-weight="600" fill="#888">Output</text>
+      <circle cx="554" cy="145" r="26" fill="#dcfce7" stroke="#1a6b4a" stroke-width="2.5"/>
+      <text x="554" y="142" text-anchor="middle" font-size="9" fill="#1a6b4a" font-weight="600">Sigmoid</text>
+      <text x="554" y="156" text-anchor="middle" font-size="9" fill="#166534">P(Admit)</text>
+      <!-- connections -->
+      <g opacity="0.2" stroke="#888" stroke-width="0.8">
+        <line x1="87" y1="65" x2="208" y2="55"/><line x1="87" y1="65" x2="208" y2="110"/><line x1="87" y1="65" x2="208" y2="165"/><line x1="87" y1="65" x2="208" y2="220"/>
+        <line x1="87" y1="133" x2="208" y2="55"/><line x1="87" y1="133" x2="208" y2="110"/><line x1="87" y1="133" x2="208" y2="165"/><line x1="87" y1="133" x2="208" y2="220"/>
+        <line x1="87" y1="200" x2="208" y2="55"/><line x1="87" y1="200" x2="208" y2="110"/><line x1="87" y1="200" x2="208" y2="165"/><line x1="87" y1="200" x2="208" y2="220"/>
+        <line x1="247" y1="55" x2="370" y2="83"/><line x1="247" y1="55" x2="370" y2="145"/><line x1="247" y1="55" x2="370" y2="207"/>
+        <line x1="247" y1="110" x2="370" y2="83"/><line x1="247" y1="110" x2="370" y2="145"/><line x1="247" y1="110" x2="370" y2="207"/>
+        <line x1="247" y1="165" x2="370" y2="83"/><line x1="247" y1="165" x2="370" y2="145"/><line x1="247" y1="165" x2="370" y2="207"/>
+        <line x1="247" y1="220" x2="370" y2="83"/><line x1="247" y1="220" x2="370" y2="145"/><line x1="247" y1="220" x2="370" y2="207"/>
+        <line x1="409" y1="83" x2="526" y2="145"/><line x1="409" y1="145" x2="526" y2="145"/><line x1="409" y1="207" x2="526" y2="145"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="g2">
+    <div class="cc"><h4>Activation Functions Comparison</h4><div class="cw"><canvas id="actChart"></canvas></div></div>
+    <div class="cc"><h4>Architecture Use Cases</h4><div class="cw"><canvas id="archChart"></canvas></div></div>
+  </div>
+
+  <div class="tb">
+    <h3>Architecture Guide</h3>
+    <table class="ct">
+      <tr><th>Architecture</th><th>Best For</th><th>Key Mechanism</th></tr>
+      <tr><td><strong>MLP/ANN</strong></td><td>Tabular/structured data</td><td>Fully connected layers</td></tr>
+      <tr><td><strong>CNN</strong></td><td>Images, spatial data</td><td>Convolutional filters detect local patterns</td></tr>
+      <tr><td><strong>RNN/LSTM</strong></td><td>Sequences, time series</td><td>Hidden state carries memory across steps</td></tr>
+      <tr><td><strong>Transformer</strong></td><td>NLP, large-scale models</td><td>Attention — relate any token to any other</td></tr>
+      <tr><td><strong>GAN</strong></td><td>Image generation</td><td>Generator vs Discriminator adversarial game</td></tr>
+    </table>
+    <div class="co tip"><span class="co-i">💡</span><div class="co-b"><strong>Practical rule:</strong> For structured/tabular data, gradient boosted trees (XGBoost, LightGBM) almost always beat deep learning. DL truly shines on images, audio, and text.</div></div>
+    <div class="co info"><span class="co-i">🏗️</span><div class="co-b"><strong>Big picture:</strong> NLP and Deep Learning are not magic. They are probability + statistics + linear algebra + gradient optimisation stacked into large systems. Everything in S1–S10 is the actual substrate of these methods.</div></div>
+  </div>
+</section>
+
+<!-- Footer -->
+<div style="padding:36px 56px;background:var(--surface);border-top:1.5px solid var(--border);text-align:center">
+  <p style="font-family:var(--fd);font-size:20px;color:var(--text);font-weight:700">All 22 Modules Complete ✓</p>
+  <p style="color:var(--text3);margin-top:6px;font-size:13px">S1–S10 Statistics · A1–A12 Analytics · Good luck tomorrow! 🎯</p>
+</div>
+</main>
+
+<script>
+// ── SIDEBAR ACTIVE ──
+function sa(el,t){
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active','an'));
+  el.classList.add('active');
+  if(t==='a')el.classList.add('an');
+}
+
+// ── QUIZ ──
+const expl={
+  qs1:'The 300-patient average is computed from the sample, not the whole 10,000-patient population. Sample measure = Statistic (x̄). Population measure = Parameter (μ).',
+  qs2:'CV = (SD/Mean)×100 is dimensionless. It removes units, making it the only valid way to compare dispersion across datasets with different scales or currencies.',
+  qs3:'Mutually exclusive means P(A∩B)=0. So P(A∪B) = P(A)+P(B)−0 = 0.3+0.4 = 0.70.',
+  qs4:'Poisson applies to events occurring in a fixed interval (time/space) with a known average rate λ. Here λ=4 calls/hour and x=6.',
+  qs5:'IQ 70 = 100−30 = μ−2σ. IQ 130 = μ+2σ. By the Empirical Rule: 95% of normally distributed data lies within ±2 standard deviations.',
+  qs6:'SE = σ/√n = 40/√100 = 40/10 = 4. Larger n → smaller SE → more precise estimates.',
+  qs7:'Decision rule: p-value < α → Reject H₀. Note: you NEVER "prove" H₀ or accept it — you either reject or fail to reject.',
+  qs8:'Two independent groups, unknown σ → two-sample t-test. Check variance equality first (Levene\'s test): equal → pooled t; unequal → Welch\'s t.',
+  qs9:'df_between = k−1 = 4−1 = 3. df_within = n−k = 40−4 = 36. Total = n−1 = 39 = 3+36. ✓',
+  qs10:'Marketing channel and purchase outcome are both categorical variables. Chi-square tests independence between categoricals. Use ANOVA only for numerical means.',
+  qa4:'Small K → model memorises individual training points → high variance → overfitting. Large K → overly smooth boundary → high bias → underfitting.',
+  qa8:'Adjusted R² penalises for adding useless predictors. A drop in Adj. R² while plain R² rises means the new variables add noise, not signal.',
+  qa9:'In fraud detection, missing actual fraud (FN = False Negative) is costliest. Maximise Recall = TP/(TP+FN). Accept some false alarms to not miss real fraud.'
+};
+function qa(el,r,fid){
+  const opts=el.parentNode.querySelectorAll('.qo');
+  opts.forEach(o=>o.classList.add('dim'));
+  if(r==='c'){el.classList.add('correct');document.getElementById(fid).innerHTML='✅ Correct! '+expl[fid];document.getElementById(fid).className='qf show ok';}
+  else{el.classList.add('wrong');opts.forEach(o=>{if(o.onclick.toString().includes("'c'"))o.classList.add('correct');});document.getElementById(fid).innerHTML='❌ Not quite. '+expl[fid];document.getElementById(fid).className='qf show ko';}
+}
+
+// ── MATH HELPERS ──
+function ncdf(z){const a1=.254829592,a2=-.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=.3275911;const s=z<0?-1:1;z=Math.abs(z)/Math.sqrt(2);const t=1/(1+p*z);const y=1-(((((a5*t+a4)*t)+a3)*t+a2)*t+a1)*t*Math.exp(-z*z);return .5*(1+s*y);}
+function npdf(x,m,s){return Math.exp(-.5*((x-m)/s)**2)/(s*Math.sqrt(2*Math.PI));}
+function fact(n){if(n<=1)return 1;let r=1;for(let i=2;i<=n;i++)r*=i;return r;}
+function C(n,k){return fact(n)/(fact(k)*fact(n-k));}
+function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+
+// ── CALCS ──
+function calcDesc(){
+  const nums=document.getElementById('desc_d').value.split(',').map(x=>parseFloat(x.trim())).filter(x=>!isNaN(x));
+  if(nums.length<2){alert('Need ≥2 numbers');return;}
+  nums.sort((a,b)=>a-b);const n=nums.length;
+  const mean=nums.reduce((a,b)=>a+b,0)/n;
+  const med=n%2===0?(nums[n/2-1]+nums[n/2])/2:nums[Math.floor(n/2)];
+  const v=nums.reduce((a,b)=>a+(b-mean)**2,0)/(n-1);
+  const sd=Math.sqrt(v);const q1=nums[Math.floor(n*0.25)];const q3=nums[Math.floor(n*0.75)];
+  const iqr=q3-q1;const lo=q1-1.5*iqr;const hi=q3+1.5*iqr;
+  const out=nums.filter(x=>x<lo||x>hi);
+  const r=document.getElementById('desc_r');
+  r.innerHTML=`n=${n} | Mean=<b>${mean.toFixed(4)}</b> | Median=<b>${med}</b> | SD=<b>${sd.toFixed(4)}</b> | CV=${(sd/mean*100).toFixed(1)}%<br>Min=${nums[0]} | Q1=${q1} | Q3=${q3} | Max=${nums[n-1]} | IQR=${iqr}<br>Outlier fence: [${lo.toFixed(2)}, ${hi.toFixed(2)}] → ${out.length?'<span class="bad">Outliers: '+out.join(', ')+'</span>':'<span class="ok">No outliers</span>'}`;
+  r.className='res show';
+}
+function calcBayes(){
+  const pr=+document.getElementById('by_p').value,se=+document.getElementById('by_s').value,fp=+document.getElementById('by_f').value;
+  const pB=se*pr+fp*(1-pr);const post=(se*pr)/pB;
+  const r=document.getElementById('by_r');
+  r.innerHTML=`P(+) = ${(se*pr).toFixed(4)} + ${(fp*(1-pr)).toFixed(4)} = ${pB.toFixed(4)}<br>P(Disease | Positive Test) = [${se}×${pr}]/${pB.toFixed(4)} = <b class="${post<.5?'bad':'ok'}">${(post*100).toFixed(2)}%</b><br>${post<.2?'⚠️ Even with positive test, disease probability is LOW! Base rate (prior) dominates.':'✅ Meaningful posterior — test carries weight.'}`;
+  r.className='res show';
+}
+function calcBin(){
+  const n=+document.getElementById('bn_n').value,p=+document.getElementById('bn_p').value,x=+document.getElementById('bn_x').value;
+  if(x>n){alert('x>n');return;}
+  const px=C(n,x)*Math.pow(p,x)*Math.pow(1-p,n-x);
+  let cum=0;for(let i=0;i<=x;i++)cum+=C(n,i)*Math.pow(p,i)*Math.pow(1-p,n-i);
+  const r=document.getElementById('bn_r');
+  r.innerHTML=`P(X=${x}) = C(${n},${x})×${p}^${x}×${(1-p).toFixed(2)}^${n-x} = <b class="ok">${px.toFixed(6)}</b><br>P(X≤${x}) = <b>${cum.toFixed(6)}</b> | E(X)=np=<b>${(n*p).toFixed(2)}</b> | SD=<b>${Math.sqrt(n*p*(1-p)).toFixed(4)}</b>`;
+  r.className='res show';
+}
+function calcZ(){
+  const x=+document.getElementById('zc_x').value,m=+document.getElementById('zc_m').value,s=+document.getElementById('zc_s').value;
+  const z=(x-m)/s;const pL=ncdf(z);
+  const r=document.getElementById('zc_r');
+  r.innerHTML=`Z = (${x}−${m})/${s} = <b class="ok">${z.toFixed(4)}</b><br>P(X<${x}) = P(Z<${z.toFixed(2)}) = <b>${(pL*100).toFixed(2)}%</b> | P(X>${x}) = <b>${((1-pL)*100).toFixed(2)}%</b>`;
+  r.className='res show';
+}
+function calcZT(){
+  const xb=+document.getElementById('zt_x').value,m=+document.getElementById('zt_m').value,s=+document.getElementById('zt_s').value,n=+document.getElementById('zt_n').value;
+  const al=+document.getElementById('zt_a').value,tail=document.getElementById('zt_t').value;
+  const se=s/Math.sqrt(n);const z=(xb-m)/se;
+  let pv,zc;
+  if(tail==='two'){pv=2*(1-ncdf(Math.abs(z)));zc=al==.05?1.96:al==.01?2.576:1.645;}
+  else if(tail==='right'){pv=1-ncdf(z);zc=al==.05?1.645:al==.01?2.326:1.282;}
+  else{pv=ncdf(z);zc=-1.645;}
+  const rej=pv<al;
+  const r=document.getElementById('zt_r');
+  r.innerHTML=`SE=${se.toFixed(4)} | Z=(${xb}−${m})/${se.toFixed(4)}=<b>${z.toFixed(4)}</b><br>p-value=<b>${pv.toFixed(4)}</b> | Z_crit=±${Math.abs(zc).toFixed(3)} | α=${al}<br><b class="${rej?'bad':'ok'}">${rej?'✓ REJECT H₀ — p < α':'✗ FAIL TO REJECT H₀ — p ≥ α'}</b>`;
+  r.className='res show';
+}
+function calcTT(){
+  const xb=+document.getElementById('tt_x').value,m=+document.getElementById('tt_m').value,s=+document.getElementById('tt_s').value,n=+document.getElementById('tt_n').value;
+  const df=n-1;const se=s/Math.sqrt(n);const t=(xb-m)/se;
+  const approxT={2:4.303,5:2.571,10:2.228,20:2.086,30:2.042,60:2.00,120:1.980};
+  let tc=1.96;for(const k of Object.keys(approxT).map(Number)){if(df<=k){tc=approxT[k];break;}}
+  const rej=Math.abs(t)>tc;
+  const r=document.getElementById('tt_r');
+  r.innerHTML=`df=${df} | SE=${se.toFixed(4)} | t=(${xb}−${m})/${se.toFixed(4)}=<b>${t.toFixed(4)}</b><br>t_crit(df=${df},α=0.05,two-tailed)≈±${tc.toFixed(3)}<br><b class="${rej?'bad':'ok'}">${rej?'✓ REJECT H₀ — |t|>t_crit':'✗ FAIL TO REJECT H₀ — |t|<t_crit'}</b>`;
+  r.className='res show';
+}
+function calcChi(){
+  const a=+document.getElementById('ch_a').value,b=+document.getElementById('ch_b').value,c=+document.getElementById('ch_c').value,d=+document.getElementById('ch_d').value;
+  const N=a+b+c+d,r1=a+b,r2=c+d,c1=a+c,c2=b+d;
+  const eA=r1*c1/N,eB=r1*c2/N,eC=r2*c1/N,eD=r2*c2/N;
+  const chi=((a-eA)**2/eA)+((b-eB)**2/eB)+((c-eC)**2/eC)+((d-eD)**2/eD);
+  const rej=chi>3.841;
+  const r=document.getElementById('ch_r');
+  r.innerHTML=`N=${N} | Expected: [${eA.toFixed(2)}, ${eB.toFixed(2)}, ${eC.toFixed(2)}, ${eD.toFixed(2)}]<br>χ²=${chi.toFixed(4)} | df=1 | χ²_critical(α=0.05,df=1)=3.841<br><b class="${rej?'bad':'ok'}">${rej?'✓ REJECT H₀ — Variables are ASSOCIATED':'✗ FAIL TO REJECT H₀ — Variables appear INDEPENDENT'}</b>`;
+  r.className='res show';
+}
+function calcSLR(){
+  const xs=document.getElementById('slr_x').value.split(',').map(Number);
+  const ys=document.getElementById('slr_y').value.split(',').map(Number);
+  if(xs.length!==ys.length||xs.length<2){alert('X and Y must match length (≥2)');return;}
+  const n=xs.length,xb=xs.reduce((a,b)=>a+b,0)/n,yb=ys.reduce((a,b)=>a+b,0)/n;
+  const b1=xs.reduce((s,x,i)=>s+(x-xb)*(ys[i]-yb),0)/xs.reduce((s,x)=>s+(x-xb)**2,0);
+  const b0=yb-b1*xb;
+  const sst=ys.reduce((s,y)=>s+(y-yb)**2,0),sse=xs.reduce((s,x,i)=>s+(ys[i]-(b0+b1*x))**2,0);
+  const r2=(sst-sse)/sst;
+  const r=document.getElementById('slr_r');
+  r.innerHTML=`β₁(slope)=<b class="ok">${b1.toFixed(4)}</b> | β₀(intercept)=<b>${b0.toFixed(4)}</b><br>Ŷ = ${b0.toFixed(4)} + ${b1.toFixed(4)}X<br>SST=${sst.toFixed(4)} | SSR=${(sst-sse).toFixed(4)} | SSE=${sse.toFixed(4)} | R²=<b class="ok">${(r2*100).toFixed(2)}%</b>`;
+  r.className='res show';
+}
+
+// ── CHARTS ──
+const CO={responsive:true,maintainAspectRatio:false};
+const LF={family:'IBM Plex Sans',size:11};
+function lg(lf){return{labels:{font:lf||LF}}}
+
+// Skewness charts
+const skC=document.getElementById('skewChart').getContext('2d');
+new Chart(skC,{type:'bar',data:{labels:Array.from({length:18},(_,i)=>''),datasets:[{label:'Right-skewed',data:[18,14,10,8,6.5,5.5,4.5,3.5,3,2.5,2,1.7,1.4,1.1,.9,.7,.5,.3],backgroundColor:'rgba(200,65,10,.55)',borderColor:'#c8410a',borderWidth:1,borderRadius:3}]},options:{...CO,plugins:{legend:lg()},scales:{x:{display:false},y:{display:false}}}});
+const smC=document.getElementById('symChart').getContext('2d');
+const sxv=[];for(let x=-3.5;x<=3.5;x+=0.4)sxv.push(x);
+new Chart(smC,{type:'bar',data:{labels:sxv,datasets:[{label:'Symmetric',data:sxv.map(x=>npdf(x,0,1)),backgroundColor:'rgba(26,74,138,.55)',borderColor:'#1a4a8a',borderWidth:1,borderRadius:3}]},options:{...CO,plugins:{legend:lg()},scales:{x:{display:false},y:{display:false}}}});
+
+// Empirical Rule
+const emC=document.getElementById('empChart').getContext('2d');
+const emX=[];for(let x=-3.8;x<=3.8;x+=0.08)emX.push(x);
+const emY=emX.map(x=>npdf(x,0,1));
+new Chart(emC,{type:'line',data:{labels:emX.map(x=>x.toFixed(1)),datasets:[
+  {label:'Normal curve',data:emY,borderColor:'#1a1814',backgroundColor:'transparent',borderWidth:2.5,pointRadius:0,fill:false,order:0},
+  {label:'±1σ (68%)',data:emX.map((x,i)=>Math.abs(x)<=1?emY[i]:null),backgroundColor:'rgba(200,65,10,.25)',borderColor:'transparent',pointRadius:0,fill:'origin',order:1},
+  {label:'±2σ (95%)',data:emX.map((x,i)=>Math.abs(x)<=2&&Math.abs(x)>1?emY[i]:null),backgroundColor:'rgba(26,74,138,.2)',borderColor:'transparent',pointRadius:0,fill:'origin',order:2},
+  {label:'±3σ (99.7%)',data:emX.map((x,i)=>Math.abs(x)<=3&&Math.abs(x)>2?emY[i]:null),backgroundColor:'rgba(26,106,74,.2)',borderColor:'transparent',pointRadius:0,fill:'origin',order:3},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{ticks:{maxTicksLimit:8,font:LF}},y:{display:false}}}});
+
+// Contingency bar
+const ctC=document.getElementById('contChart').getContext('2d');
+new Chart(ctC,{type:'bar',data:{labels:['P(A∩B)=0.15','P(A∩¬B)=0.25','P(¬A∩B)=0.20','P(¬A∩¬B)=0.40'],datasets:[{data:[0.15,0.25,0.20,0.40],backgroundColor:['rgba(200,65,10,.7)','rgba(200,65,10,.35)','rgba(26,74,138,.55)','rgba(26,74,138,.25)'],borderRadius:4}]},options:{...CO,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{max:0.5,ticks:{font:LF}},y:{ticks:{font:{family:'IBM Plex Mono',size:11}}}}}});
+
+// Normal distribution chart
+let normC;
+function buildNorm(m,s){
+  const xs=[];for(let x=m-4*s;x<=m+4*s;x+=s/20)xs.push(x);
+  const ys=xs.map(x=>npdf(x,m,s));
+  if(normC)normC.destroy();
+  normC=new Chart(document.getElementById('normChart').getContext('2d'),{type:'line',data:{labels:xs.map(x=>x.toFixed(1)),datasets:[{label:`N(${m},${s}²)`,data:ys,borderColor:'#c8410a',backgroundColor:'rgba(200,65,10,.1)',borderWidth:2.5,pointRadius:0,fill:true}]},options:{...CO,plugins:{legend:lg()},scales:{x:{ticks:{maxTicksLimit:10,font:LF}},y:{display:false}}}});
+}
+buildNorm(100,15);
+function updateNorm(){buildNorm(+document.getElementById('nm_m').value||100,+document.getElementById('nm_s').value||15);}
+
+// Binomial chart
+new Chart(document.getElementById('binChart').getContext('2d'),{type:'bar',data:{labels:Array.from({length:11},(_,i)=>i),datasets:[{label:'P(X=k) n=10 p=0.5',data:Array.from({length:11},(_,k)=>C(10,k)*Math.pow(.5,10)),backgroundColor:Array.from({length:11},(_,k)=>k===5?'rgba(200,65,10,.85)':'rgba(200,65,10,.35)'),borderColor:'#c8410a',borderWidth:1,borderRadius:3}]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'k'}},y:{title:{display:true,text:'P(X=k)'}}}}});
+
+// Poisson chart
+new Chart(document.getElementById('poiChart').getContext('2d'),{type:'bar',data:{labels:Array.from({length:13},(_,i)=>i),datasets:[{label:'P(X=k) λ=4',data:Array.from({length:13},(_,k)=>Math.exp(-4)*Math.pow(4,k)/fact(k)),backgroundColor:Array.from({length:13},(_,k)=>k===4?'rgba(26,74,138,.85)':'rgba(26,74,138,.35)'),borderColor:'#1a4a8a',borderWidth:1,borderRadius:3}]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'k'}},y:{title:{display:true,text:'P(X=k)'}}}}});
+
+// CLT
+let cltP,cltM;
+function popSample(type,n){const r=[];for(let i=0;i<n;i++){if(type==='uniform')r.push(Math.random()*100);else if(type==='skewed')r.push(Math.pow(Math.random(),3)*100);else{const a=50+randn()*8,b=80+randn()*8;r.push(Math.random()<.5?a:b);}}return r;}
+function hist(arr,bins){const mn=Math.min(...arr),mx=Math.max(...arr),w=(mx-mn)/bins;const c=new Array(bins).fill(0),lb=[];for(let i=0;i<bins;i++)lb.push((mn+i*w).toFixed(1));arr.forEach(x=>{let b=Math.floor((x-mn)/w);if(b>=bins)b=bins-1;c[b]++;});return{labels:lb,data:c};}
+function runCLT(){
+  const type=document.getElementById('clt_d').value;const n=+document.getElementById('clt_n').value||30;
+  const pop=popSample(type,1000);
+  const means=Array.from({length:500},()=>{const s=Array.from({length:n},()=>pop[Math.floor(Math.random()*1000)]);return s.reduce((a,b)=>a+b,0)/n;});
+  const h1=hist(pop,20),h2=hist(means,20);
+  if(cltP)cltP.destroy();if(cltM)cltM.destroy();
+  cltP=new Chart(document.getElementById('cltPop').getContext('2d'),{type:'bar',data:{labels:h1.labels,datasets:[{data:h1.data,backgroundColor:'rgba(200,65,10,.5)',borderColor:'#c8410a',borderWidth:1,borderRadius:2}]},options:{...CO,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}}});
+  cltM=new Chart(document.getElementById('cltMeans').getContext('2d'),{type:'bar',data:{labels:h2.labels,datasets:[{data:h2.data,backgroundColor:'rgba(26,74,138,.55)',borderColor:'#1a4a8a',borderWidth:1,borderRadius:2}]},options:{...CO,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}}});
+  const mu=(means.reduce((a,b)=>a+b,0)/500).toFixed(2),sd=Math.sqrt(means.reduce((s,m)=>s+(m-mu)**2,0)/500).toFixed(2);
+  document.getElementById('clt_r').innerHTML=`500 samples of n=${n}. Mean of sample means=<b>${mu}</b> | SD of means≈<b>${sd}</b>. The distribution of sample means looks approximately <b>normal</b> — CLT confirmed! 🎯`;
+  document.getElementById('clt_r').className='res show';
+}
+
+// Rejection region chart
+const rjC=document.getElementById('rejChart').getContext('2d');
+const rjX=[];for(let x=-4;x<=4;x+=0.1)rjX.push(x);
+const rjY=rjX.map(x=>npdf(x,0,1));
+new Chart(rjC,{type:'line',data:{labels:rjX,datasets:[
+  {label:'Distribution',data:rjY,borderColor:'#1a1814',backgroundColor:'transparent',borderWidth:2,pointRadius:0,fill:false},
+  {label:'Reject (two-tailed α=0.05)',data:rjX.map((x,i)=>Math.abs(x)>=1.96?rjY[i]:null),backgroundColor:'rgba(200,65,10,.35)',borderColor:'transparent',pointRadius:0,fill:'origin'},
+  {label:'Do not reject',data:rjX.map((x,i)=>Math.abs(x)<1.96?rjY[i]:null),backgroundColor:'rgba(26,74,138,.12)',borderColor:'transparent',pointRadius:0,fill:'origin'},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{ticks:{maxTicksLimit:9,font:LF}},y:{display:false}}}});
+
+// t-distribution chart
+const tC=document.getElementById('tChart').getContext('2d');
+function tpdf(x,df){return Math.pow(1+x*x/df,-(df+1)/2);}
+new Chart(tC,{type:'line',data:{labels:rjX.map(x=>x.toFixed(1)),datasets:[
+  {label:'Normal (df=∞)',data:rjX.map(x=>npdf(x,0,1)),borderColor:'#1a1814',borderWidth:2,pointRadius:0,fill:false},
+  {label:'t (df=30)',data:rjX.map(x=>tpdf(x,30)*0.4),borderColor:'#1a4a8a',borderWidth:2,pointRadius:0,fill:false,borderDash:[5,3]},
+  {label:'t (df=5)',data:rjX.map(x=>tpdf(x,5)*0.35),borderColor:'#c8410a',borderWidth:2,pointRadius:0,fill:false,borderDash:[3,3]},
+  {label:'t (df=2)',data:rjX.map(x=>tpdf(x,2)*0.3),borderColor:'#1a6b4a',borderWidth:2,pointRadius:0,fill:false,borderDash:[2,2]},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{ticks:{maxTicksLimit:9,font:LF}},y:{display:false}}}});
+
+// ANOVA scatter
+new Chart(document.getElementById('anovaChart').getContext('2d'),{type:'scatter',data:{datasets:[
+  {label:'Group 1 μ=10',data:[{x:1,y:9.5},{x:1,y:10.2},{x:1,y:10.8},{x:1,y:9.1},{x:1,y:10.5}],backgroundColor:'rgba(200,65,10,.7)',pointRadius:8},
+  {label:'Group 2 μ=15',data:[{x:2,y:14.2},{x:2,y:15.8},{x:2,y:14.9},{x:2,y:16.1},{x:2,y:15.0}],backgroundColor:'rgba(26,74,138,.7)',pointRadius:8},
+  {label:'Group 3 μ=12',data:[{x:3,y:11.5},{x:3,y:12.8},{x:3,y:11.9},{x:3,y:12.2},{x:3,y:13.1}],backgroundColor:'rgba(26,106,74,.7)',pointRadius:8},
+  {label:'Group 4 μ=18',data:[{x:4,y:17.5},{x:4,y:18.3},{x:4,y:17.9},{x:4,y:18.7},{x:4,y:17.1}],backgroundColor:'rgba(184,134,11,.7)',pointRadius:8},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'Group'},min:0,max:5,ticks:{stepSize:1}},y:{title:{display:true,text:'Value'}}}}});
+
+// Chi-square distribution
+const chiC=document.getElementById('chiChart').getContext('2d');
+const chiX=[];for(let x=0.1;x<=20;x+=0.2)chiX.push(x);
+function chipdf(x,df){const g=df/2;return Math.pow(x,g-1)*Math.exp(-x/2)/(Math.pow(2,g)*(g-1>0?fact(g-1):1));}
+new Chart(chiC,{type:'line',data:{labels:chiX.map(x=>x.toFixed(1)),datasets:[
+  {label:'df=1',data:chiX.map(x=>Math.min(chipdf(x,1),2)),borderColor:'#c8410a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'df=3',data:chiX.map(x=>chipdf(x,3)),borderColor:'#1a4a8a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'df=5',data:chiX.map(x=>chipdf(x,5)),borderColor:'#1a6b4a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'df=10',data:chiX.map(x=>chipdf(x,10)*1.5),borderColor:'#b8860b',borderWidth:2,pointRadius:0,fill:false},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'χ² value'},ticks:{maxTicksLimit:10,font:LF}},y:{display:false,max:0.3}}}});
+
+// Correlation heatmap (scatter bubble)
+const corrC=document.getElementById('corrChart').getContext('2d');
+const vars=['Age','Salary','Exp','Score','Hours'];
+const corrM=[[1,.7,.85,-.3,.15],[.7,1,.6,-.2,.05],[.85,.6,1,-.1,.2],[-.3,-.2,-.1,1,-.4],[.15,.05,.2,-.4,1]];
+const cData=[];vars.forEach((r,i)=>vars.forEach((c,j)=>cData.push({x:j,y:i,v:corrM[i][j]})));
+new Chart(corrC,{type:'bubble',data:{datasets:[{data:cData.map(d=>({x:d.x,y:d.y,r:Math.abs(d.v)*22})),backgroundColor:cData.map(d=>d.v>0?`rgba(200,65,10,${Math.abs(d.v)*.8})`:`rgba(26,74,138,${Math.abs(d.v)*.8})`)}]},options:{...CO,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>{const d=cData[ctx.dataIndex];return `${vars[d.y]}↔${vars[d.x]}: r=${d.v.toFixed(2)}`;}}},},scales:{x:{min:-.5,max:4.5,ticks:{callback:(v,i)=>vars[i]||'',font:LF},grid:{display:false}},y:{min:-.5,max:4.5,ticks:{callback:(v,i)=>vars[i]||'',font:LF},grid:{display:false}}}}});
+
+// Distribution shapes
+new Chart(document.getElementById('distChart').getContext('2d'),{type:'line',data:{labels:Array.from({length:50},(_,i)=>i),datasets:[
+  {label:'Right-skewed',data:Array.from({length:50},(_,i)=>Math.exp(-i*0.12)*8+Math.random()*.3),borderColor:'#c8410a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'Symmetric (Normal)',data:Array.from({length:50},(_,i)=>npdf((i-25)/6,0,1)*40),borderColor:'#1a4a8a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'Bimodal',data:Array.from({length:50},(_,i)=>npdf((i-15)/5,0,1)*30+npdf((i-35)/5,0,1)*30),borderColor:'#1a6b4a',borderWidth:2,pointRadius:0,fill:false},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{display:false},y:{display:false}}}});
+
+// Elbow chart
+new Chart(document.getElementById('elbowChart').getContext('2d'),{type:'line',data:{labels:[1,2,3,4,5,6,7,8],datasets:[{label:'WCSS',data:[8800,4400,2200,1800,1680,1620,1590,1580],borderColor:'#c8410a',backgroundColor:'rgba(200,65,10,.1)',borderWidth:2.5,pointRadius:6,pointBackgroundColor:[...Array(8)].map((_,i)=>i===2?'#c8410a':'#fff'),pointBorderColor:'#c8410a',pointBorderWidth:2,fill:true}]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'K'}},y:{title:{display:true,text:'WCSS'}}}}});
+
+// K-Means scatter demo
+new Chart(document.getElementById('kmeansChart').getContext('2d'),{type:'scatter',data:{datasets:[
+  {label:'Cluster 1',data:[{x:1.2,y:1.4},{x:1.8,y:.9},{x:.9,y:1.8},{x:1.5,y:1.2},{x:2,y:1.6},{x:1.3,y:.7}],backgroundColor:'rgba(200,65,10,.7)',pointRadius:7},
+  {label:'Cluster 2',data:[{x:5,y:5.2},{x:5.8,y:4.7},{x:4.5,y:5.8},{x:5.5,y:5.5},{x:6,y:4.9},{x:4.8,y:4.4}],backgroundColor:'rgba(26,74,138,.7)',pointRadius:7},
+  {label:'Cluster 3',data:[{x:8,y:2},{x:8.5,y:1.5},{x:7.5,y:2.8},{x:9,y:2.3},{x:8.2,y:1.2},{x:7.8,y:3}],backgroundColor:'rgba(26,106,74,.7)',pointRadius:7},
+  {label:'Centroids',data:[{x:1.5,y:1.3},{x:5.3,y:5.1},{x:8.2,y:2.1}],backgroundColor:['#c8410a','#1a4a8a','#1a6b4a'],pointRadius:14,pointStyle:'crossRot',pointBorderWidth:3},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{min:0,max:10},y:{min:0,max:7}}}});
+
+// Interactive K-Means
+let kmPts=[];
+const kmCanvas=document.getElementById('kmCanvas');
+kmCanvas.addEventListener('click',e=>{
+  const r=kmCanvas.getBoundingClientRect(),sx=kmCanvas.width/r.width,sy=kmCanvas.height/r.height;
+  kmPts.push({x:(e.clientX-r.left)*sx,y:(e.clientY-r.top)*sy});drawKM();
+});
+function clrKM(){kmPts=[];drawKM();}
+function drawKM(){
+  const ctx=kmCanvas.getContext('2d'),K=+document.getElementById('km_k').value;
+  ctx.clearRect(0,0,kmCanvas.width,kmCanvas.height);
+  ctx.fillStyle='#fafaf7';ctx.fillRect(0,0,kmCanvas.width,kmCanvas.height);
+  ctx.fillStyle='#ccc';ctx.font='13px IBM Plex Sans';
+  ctx.fillText(kmPts.length<K?`Add at least ${K} points to see clustering`:'Clusters shown — change K or add more points',16,24);
+  if(kmPts.length<K){kmPts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,6,0,Math.PI*2);ctx.fillStyle='#888';ctx.fill();});return;}
+  const cols=['#c8410a','#1a4a8a','#1a6b4a','#b8860b','#7c3aed','#0891b2'];
+  let cents=kmPts.slice(0,K).map(p=>({x:p.x,y:p.y}));
+  for(let it=0;it<25;it++){
+    const asgn=kmPts.map(p=>{let b=0,bd=Infinity;cents.forEach((c,i)=>{const d=(p.x-c.x)**2+(p.y-c.y)**2;if(d<bd){bd=d;b=i;}});return b;});
+    cents=cents.map((_,i)=>{const pts=kmPts.filter((_,j)=>asgn[j]===i);if(!pts.length)return cents[i];return{x:pts.reduce((s,p)=>s+p.x,0)/pts.length,y:pts.reduce((s,p)=>s+p.y,0)/pts.length};});
+  }
+  const asgn=kmPts.map(p=>{let b=0,bd=Infinity;cents.forEach((c,i)=>{const d=(p.x-c.x)**2+(p.y-c.y)**2;if(d<bd){bd=d;b=i;}});return b;});
+  kmPts.forEach((p,i)=>{ctx.beginPath();ctx.arc(p.x,p.y,7,0,Math.PI*2);ctx.fillStyle=cols[asgn[i]];ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();});
+  cents.forEach((c,i)=>{ctx.beginPath();ctx.arc(c.x,c.y,13,0,Math.PI*2);ctx.strokeStyle=cols[i];ctx.lineWidth=3;ctx.stroke();ctx.fillStyle=cols[i];ctx.font='bold 12px IBM Plex Mono';ctx.fillText('C'+(i+1),c.x-7,c.y+4);});
+}
+drawKM();
+
+// KNN BV chart
+new Chart(document.getElementById('knnBV').getContext('2d'),{type:'line',data:{labels:[1,3,5,7,9,11,15,21,31],datasets:[
+  {label:'Training Accuracy',data:[99,96,94,93,92,91,89,87,83],borderColor:'#c8410a',borderWidth:2,pointRadius:4,fill:false},
+  {label:'Test Accuracy',data:[75,83,85,86,85,84,82,80,77],borderColor:'#1a4a8a',borderWidth:2,pointRadius:4,fill:false},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'K'}},y:{title:{display:true,text:'Accuracy (%)'},min:60,max:100}}}});
+
+// Naïve Bayes class conditionals
+const nbC=document.getElementById('nbChart').getContext('2d');
+const nbX=[];for(let x=40;x<=200;x+=2)nbX.push(x);
+new Chart(nbC,{type:'line',data:{labels:nbX,datasets:[
+  {label:'Class 0 GRE — N(140,15²)',data:nbX.map(x=>npdf(x,140,15)),borderColor:'#c8410a',borderWidth:2,backgroundColor:'rgba(200,65,10,.1)',fill:true,pointRadius:0},
+  {label:'Class 1 GRE — N(165,12²)',data:nbX.map(x=>npdf(x,165,12)),borderColor:'#1a4a8a',borderWidth:2,backgroundColor:'rgba(26,74,138,.1)',fill:true,pointRadius:0},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'GRE Score'},ticks:{maxTicksLimit:10,font:LF}},y:{title:{display:true,text:'P(GRE | class)'},display:true}}}});
+
+// Algorithm map bubble
+new Chart(document.getElementById('algoMap').getContext('2d'),{type:'bubble',data:{datasets:[
+  {label:'Linear Regression',data:[{x:9,y:7,r:13}],backgroundColor:'rgba(200,65,10,.6)'},
+  {label:'Logistic Regression',data:[{x:8.5,y:6.5,r:13}],backgroundColor:'rgba(200,65,10,.45)'},
+  {label:'Naïve Bayes',data:[{x:7.5,y:5.5,r:11}],backgroundColor:'rgba(26,74,138,.55)'},
+  {label:'KNN',data:[{x:5,y:6.5,r:11}],backgroundColor:'rgba(26,74,138,.4)'},
+  {label:'Decision Tree',data:[{x:7,y:7,r:12}],backgroundColor:'rgba(26,106,74,.55)'},
+  {label:'Neural Network',data:[{x:2,y:9,r:15}],backgroundColor:'rgba(184,134,11,.55)'},
+  {label:'K-Means (Unsup.)',data:[{x:5.5,y:3,r:11}],backgroundColor:'rgba(124,58,237,.5)'},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'Interpretability →'},min:0,max:10},y:{title:{display:true,text:'Accuracy Potential →'},min:0,max:10}}}});
+
+// Regression chart
+let regCh;
+function genReg(){
+  const n=22;const xs=Array.from({length:n},(_,i)=>(i+1)+Math.random()*1.5);
+  const m=2.4,b=4;const ys=xs.map(x=>m*x+b+(randn())*7);
+  const xb=xs.reduce((a,b)=>a+b,0)/n,yb=ys.reduce((a,b)=>a+b,0)/n;
+  const b1=xs.reduce((s,x,i)=>s+(x-xb)*(ys[i]-yb),0)/xs.reduce((s,x)=>s+(x-xb)**2,0);
+  const b0=yb-b1*xb;const sst=ys.reduce((s,y)=>s+(y-yb)**2,0),sse=xs.reduce((s,x,i)=>s+(ys[i]-(b0+b1*x))**2,0);
+  const r2=(sst-sse)/sst;
+  if(regCh)regCh.destroy();
+  regCh=new Chart(document.getElementById('regChart').getContext('2d'),{type:'scatter',data:{datasets:[
+    {label:'Data points',data:xs.map((x,i)=>({x,y:ys[i]})),backgroundColor:'rgba(26,74,138,.65)',pointRadius:6},
+    {label:'OLS Line',data:[{x:Math.min(...xs),y:b0+b1*Math.min(...xs)},{x:Math.max(...xs),y:b0+b1*Math.max(...xs)}],type:'line',borderColor:'#c8410a',borderWidth:2.5,pointRadius:0,fill:false},
+  ]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'X'}},y:{title:{display:true,text:'Y'}}}}});
+  document.getElementById('reg_s').innerHTML=`β₁=<b>${b1.toFixed(3)}</b> | β₀=<b>${b0.toFixed(3)}</b> | R²=<b class="ok">${(r2*100).toFixed(1)}%</b><br><em>Interpretation: For every 1-unit increase in X, Y increases by ${b1.toFixed(3)} on average.</em>`;
+  document.getElementById('reg_s').className='res show';
+}
+genReg();
+
+// Residual plot (good vs bad pattern)
+const residC=document.getElementById('residChart').getContext('2d');
+new Chart(residC,{type:'scatter',data:{datasets:[
+  {label:'Good: Random scatter',data:Array.from({length:25},(_,i)=>({x:i+1,y:(Math.random()-.5)*4})),backgroundColor:'rgba(26,106,74,.65)',pointRadius:6},
+  {label:'Bad: Funnel pattern (heteroscedasticity)',data:Array.from({length:25},(_,i)=>({x:i+1,y:(Math.random()-.5)*i*.4})),backgroundColor:'rgba(200,65,10,.65)',pointRadius:6},
+  {label:'Baseline (0)',data:[{x:0,y:0},{x:26,y:0}],type:'line',borderColor:'#888',borderWidth:1.5,borderDash:[5,4],pointRadius:0,fill:false},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'Fitted Values'}},y:{title:{display:true,text:'Residuals'}}}}});
+
+// VIF chart
+new Chart(document.getElementById('vifChart').getContext('2d'),{type:'bar',data:{labels:['Experience','Education','Age','CityDummy','SalaryLag'],datasets:[{label:'VIF',data:[1.2,2.4,8.7,1.1,12.3],backgroundColor:['rgba(26,106,74,.7)','rgba(26,106,74,.7)','rgba(184,134,11,.7)','rgba(26,106,74,.7)','rgba(200,65,10,.8)'],borderRadius:5}]},options:{...CO,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'VIF'},max:15},y:{ticks:{font:{family:'IBM Plex Mono',size:11}}}}}});
+
+// Sigmoid
+const sigC=document.getElementById('sigChart').getContext('2d');
+const sgX=[];for(let x=-7;x<=7;x+=0.2)sgX.push(x);
+new Chart(sigC,{type:'line',data:{labels:sgX.map(x=>x.toFixed(1)),datasets:[
+  {label:'Sigmoid σ(z)',data:sgX.map(x=>1/(1+Math.exp(-x))),borderColor:'#c8410a',backgroundColor:'rgba(200,65,10,.1)',borderWidth:2.5,pointRadius:0,fill:true},
+  {label:'Threshold 0.5',data:sgX.map(()=>.5),borderColor:'#1a4a8a',borderWidth:1.5,pointRadius:0,fill:false,borderDash:[6,4]},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{ticks:{maxTicksLimit:13,font:LF},title:{display:true,text:'z (log-odds)'}},y:{title:{display:true,text:'P(Y=1)'},min:0,max:1}}}});
+
+// ROC curve
+const rocC=document.getElementById('rocChart').getContext('2d');
+const fpr=[0,.02,.06,.12,.18,.26,.35,.48,.65,.82,1];
+const tprG=[0,.18,.44,.66,.79,.88,.94,.97,.985,.995,1];
+const tprR=[0,.02,.06,.12,.18,.26,.35,.48,.65,.82,1];
+new Chart(rocC,{type:'line',data:{labels:fpr,datasets:[
+  {label:'Good model (AUC≈0.92)',data:tprG,borderColor:'#c8410a',backgroundColor:'rgba(200,65,10,.1)',borderWidth:2.5,fill:true,pointRadius:3},
+  {label:'Random (AUC=0.5)',data:tprR,borderColor:'#888',borderWidth:1.5,fill:false,borderDash:[5,5],pointRadius:0},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'FPR (1−Specificity)'},min:0,max:1},y:{title:{display:true,text:'TPR (Recall)'},min:0,max:1}}}});
+
+// Bias-variance chart
+const bvC=document.getElementById('bvChart').getContext('2d');
+const comp=Array.from({length:20},(_,i)=>i+1);
+new Chart(bvC,{type:'line',data:{labels:comp,datasets:[
+  {label:'Bias²',data:comp.map(x=>100/x),borderColor:'#c8410a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'Variance',data:comp.map(x=>x*x*.3),borderColor:'#1a4a8a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'Total Error',data:comp.map((x,i)=>100/x+x*x*.3+10),borderColor:'#1a6b4a',borderWidth:2.5,pointRadius:0,fill:false},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{title:{display:true,text:'Model Complexity'}},y:{display:false}}}});
+
+// CV chart (bar-based K-fold visual)
+new Chart(document.getElementById('cvChart').getContext('2d'),{type:'bar',data:{
+  labels:['Fold 1','Fold 2','Fold 3','Fold 4','Fold 5'],
+  datasets:[
+    {label:'Train',data:[80,80,80,80,80],backgroundColor:'rgba(26,106,74,.55)',borderRadius:4},
+    {label:'Test',data:[20,20,20,20,20],backgroundColor:'rgba(200,65,10,.65)',borderRadius:4},
+  ]
+},options:{...CO,plugins:{legend:lg()},scales:{x:{stacked:true},y:{stacked:true,title:{display:true,text:'% of Data'}}}}});
+
+// TF-IDF chart
+new Chart(document.getElementById('tfidfChart').getContext('2d'),{type:'bar',data:{
+  labels:['the','learning','data','machine','is','analytics','deep','python','neural','model'],
+  datasets:[
+    {label:'TF (frequency)',data:[0.15,0.08,0.12,0.06,0.14,0.04,0.03,0.05,0.02,0.07],backgroundColor:'rgba(26,74,138,.5)',borderRadius:3},
+    {label:'TF-IDF (weighted)',data:[0.01,0.19,0.18,0.22,0.01,0.28,0.30,0.21,0.34,0.16],backgroundColor:'rgba(200,65,10,.65)',borderRadius:3},
+  ]
+},options:{...CO,plugins:{legend:lg()},scales:{x:{ticks:{font:{family:'IBM Plex Mono',size:10}}},y:{title:{display:true,text:'Score'}}}}});
+
+// Activation functions
+const acC=document.getElementById('actChart').getContext('2d');
+const acX=[];for(let x=-4;x<=4;x+=0.2)acX.push(x);
+new Chart(acC,{type:'line',data:{labels:acX.map(x=>x.toFixed(1)),datasets:[
+  {label:'ReLU',data:acX.map(x=>Math.max(0,x)),borderColor:'#c8410a',borderWidth:2.5,pointRadius:0,fill:false},
+  {label:'Sigmoid',data:acX.map(x=>1/(1+Math.exp(-x))),borderColor:'#1a4a8a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'Tanh',data:acX.map(x=>Math.tanh(x)),borderColor:'#1a6b4a',borderWidth:2,pointRadius:0,fill:false},
+  {label:'Leaky ReLU',data:acX.map(x=>x>=0?x:0.1*x),borderColor:'#b8860b',borderWidth:2,pointRadius:0,fill:false,borderDash:[4,2]},
+]},options:{...CO,plugins:{legend:lg()},scales:{x:{ticks:{maxTicksLimit:9,font:LF}},y:{title:{display:true,text:'Output'}}}}});
+
+// Architecture chart
+new Chart(document.getElementById('archChart').getContext('2d'),{type:'radar',data:{
+  labels:['Tabular Data','Images','Audio','Text','Time Series'],
+  datasets:[
+    {label:'MLP/ANN',data:[8,5,4,5,6],backgroundColor:'rgba(200,65,10,.2)',borderColor:'#c8410a',borderWidth:2,pointRadius:4},
+    {label:'CNN',data:[4,10,8,4,5],backgroundColor:'rgba(26,74,138,.2)',borderColor:'#1a4a8a',borderWidth:2,pointRadius:4},
+    {label:'Transformer',data:[6,7,8,10,7],backgroundColor:'rgba(26,106,74,.15)',borderColor:'#1a6b4a',borderWidth:2,pointRadius:4},
+    {label:'LSTM/RNN',data:[5,3,6,7,10],backgroundColor:'rgba(184,134,11,.15)',borderColor:'#b8860b',borderWidth:2,pointRadius:4},
+  ]
+},options:{...CO,plugins:{legend:lg()},scales:{r:{min:0,max:10,ticks:{font:LF,stepSize:2},pointLabels:{font:{family:'IBM Plex Sans',size:11}}}}}});
+
+// Scroll spy
+const secEls=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.ni');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secEls.forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur=s.id;});
+  navLinks.forEach(l=>{
+    const h=l.getAttribute('href')?.slice(1);
+    l.classList.remove('active','an');
+    if(h===cur){l.classList.add('active');if(h.startsWith('a'))l.classList.add('an');}
+  });
+});
+</script>
+</body>
+</html>
