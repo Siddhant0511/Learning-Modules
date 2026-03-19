@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analytics Q&A</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --card: #13161e;
+    --border: #1f2330;
+    --accent: #5b6ef5;
+    --accent2: #38e0b0;
+    --text: #e8eaf2;
+    --muted: #7880a0;
+    --tag-bg: rgba(91,110,245,0.12);
+    --answer-bg: rgba(56,224,176,0.08);
+    --answer-border: rgba(56,224,176,0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #5b6ef5, #38e0b0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+  }
+
+  header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    padding-left: 4px;
+  }
+
+  .grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover {
+    border-color: #2d3348;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    border-radius: 3px 0 0 3px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .q-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: var(--tag-bg);
+    border: 1px solid rgba(91,110,245,0.2);
+    padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .question-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .answer-block {
+    background: var(--answer-bg);
+    border: 1px solid var(--answer-border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .answer-icon {
+    width: 22px;
+    height: 22px;
+    background: var(--accent2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    color: #0d0f14;
+    font-weight: 700;
+  }
+
+  .answer-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--accent2);
+    letter-spacing: 0.01em;
+  }
+
+  .explanation {
+    font-size: 0.93rem;
+    color: #a8aec8;
+    line-height: 1.75;
+    padding-left: 2px;
+  }
+
+  .explanation strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-top: 14px;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 12px 0 16px;
+  }
+
+  @media (max-width: 600px) {
+    .card { padding: 22px 20px; }
+    .question-text { font-size: 0.97rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Analytics Q&amp;A</h1>
+  <p>Questions 2 – 30 &nbsp;·&nbsp; Mercer | Mettl Assessment</p>
+</header>
+
+<div class="grid">
+
+  <!-- Q2 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 02</span>
+      <span class="question-text">In K-Means clustering, if K is chosen too large, what happens?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Over-segmentation</span>
+    </div>
+    <p class="explanation">
+      Choosing K too large means you're creating more clusters than actually exist in the data. The algorithm starts splitting natural groups into tiny, artificial ones. Think of cutting one customer segment into five unnecessarily — the segments lose business meaning. <strong>Too small K = under-segmentation</strong> (merges distinct groups). <strong>Too large K = over-segmentation</strong> (splits groups that should be together).
+    </p>
+    <span class="tag">K-Means · Clustering</span>
+  </div>
+
+  <!-- Q3 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 03</span>
+      <span class="question-text">Type I error occurs when:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">True null is rejected</span>
+    </div>
+    <p class="explanation">
+      Type I error is a <strong>False Positive</strong> — you reject the null hypothesis (H₀) even though it was actually true. You're claiming an effect exists when it doesn't. For example: concluding a drug works when it actually has no effect. This error rate is controlled by your significance level <strong>α</strong>. Type II error (False Negative) is the opposite — failing to reject a false H₀.
+    </p>
+    <span class="tag">Hypothesis Testing</span>
+  </div>
+
+  <!-- Q4 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 04</span>
+      <span class="question-text">Which factor reduces margin of error?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Larger sample</span>
+    </div>
+    <p class="explanation">
+      The formula is: <strong>Margin of Error = Z × (σ / √n)</strong>. As sample size (n) increases, √n increases, so the whole fraction shrinks — meaning the margin of error gets smaller and your estimate becomes more precise. Higher confidence level (Z) <em>increases</em> MoE. Larger variance (σ) also <em>increases</em> MoE. Only a larger sample directly reduces it.
+    </p>
+    <span class="tag">Inferential Statistics</span>
+  </div>
+
+  <!-- Q5 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 05</span>
+      <span class="question-text">You regularize a model heavily. What is the result?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Simpler model</span>
+    </div>
+    <p class="explanation">
+      Regularization (L1/L2) penalizes large coefficients, forcing the model to stay simple. Heavy regularization shrinks many coefficients toward zero, reducing the model's complexity. The result is <strong>higher bias but lower variance</strong> — the model generalizes better but may underfit. It is the direct solution to overfitting, not a cause of it. More regularization = simpler model, not more complex.
+    </p>
+    <span class="tag">Regularization · Bias-Variance</span>
+  </div>
+
+  <!-- Q7 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 07</span>
+      <span class="question-text">Distance-based methods are sensitive to:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Scaling</span>
+    </div>
+    <p class="explanation">
+      Algorithms like <strong>KNN, K-Means, SVM, and PCA</strong> all rely on measuring distances between data points. If one feature has values in the range of 100,000 (like annual salary) and another has values between 0 and 1 (like a ratio), the salary feature will completely dominate the distance calculation — purely because of its scale, not its actual importance. <strong>Always normalize or standardize</strong> features before using any distance-based method.
+    </p>
+    <span class="tag">KNN · K-Means · Feature Scaling</span>
+  </div>
+
+  <!-- Q8 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 08</span>
+      <span class="question-text">A pricing model shows coefficient of discount = +2.5 (positive). Business reality: higher discount reduces revenue. What is likely wrong?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Multicollinearity or confounding</span>
+    </div>
+    <p class="explanation">
+      The sign of the coefficient is completely counter-intuitive. This is a classic sign of a hidden variable distorting the model. For example, high-value products may both receive higher discounts <em>and</em> generate high revenue — making discount appear positively correlated with revenue, when it's really the product value driving both. This is <strong>confounding</strong>. Multicollinearity between predictors can similarly make individual coefficients unreliable and misleading.
+    </p>
+    <span class="tag">Regression · Confounding · Multicollinearity</span>
+  </div>
+
+  <!-- Q9 / Q18 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 09 / 18</span>
+      <span class="question-text">A company wants to compare average sales across 4 regions. Which test is suitable?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">ANOVA</span>
+    </div>
+    <p class="explanation">
+      The <strong>t-test</strong> can only compare means between exactly two groups. When you have three or more groups, you use <strong>ANOVA (Analysis of Variance)</strong>. It tests whether at least one group mean differs from the others. Chi-square is for categorical frequency data, not continuous means. Regression predicts an outcome — it doesn't compare group averages. With 4 regions, ANOVA is the correct choice.
+    </p>
+    <span class="tag">ANOVA · Hypothesis Testing</span>
+  </div>
+
+  <!-- Q10 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 10</span>
+      <span class="question-text">A model works well historically but fails after 1 year. What is the likely reason?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Concept drift</span>
+    </div>
+    <p class="explanation">
+      <strong>Concept drift</strong> occurs when the statistical relationship between the input features and the target variable changes over time. The real world evolves — consumer behaviour shifts, markets change, new patterns emerge — but the model was trained on old, no-longer-valid patterns. Data leakage would cause failure immediately (not after a year). Multicollinearity affects coefficient interpretation but not performance decay over time. This is a classic model monitoring problem.
+    </p>
+    <span class="tag">Model Decay · Concept Drift</span>
+  </div>
+
+  <!-- Q11 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 11</span>
+      <span class="question-text">Adding irrelevant features in clustering leads to:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Noise in segmentation</span>
+    </div>
+    <p class="explanation">
+      In clustering, every feature contributes to the distance calculation. If you add features that have no real relationship to the natural groups in the data, they inject noise into those distances. The algorithm treats irrelevant features as meaningful signals, causing cluster boundaries to become distorted and meaningless. This is part of the <strong>curse of dimensionality</strong> — more features do not mean better clusters; they can actively destroy them.
+    </p>
+    <span class="tag">Clustering · Feature Selection</span>
+  </div>
+
+  <!-- Q12 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 12</span>
+      <span class="question-text">If logistic regression coefficient = 0, it means:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">No impact on log-odds</span>
+    </div>
+    <p class="explanation">
+      In logistic regression, the model predicts <strong>log-odds = β₀ + β₁x₁ + β₂x₂...</strong>. If a coefficient β = 0, that feature's term drops out completely — it contributes nothing to the log-odds. The feature is statistically irrelevant to predicting the outcome. It doesn't mean perfect prediction (that would be a very large coefficient), nor does it indicate multicollinearity on its own.
+    </p>
+    <span class="tag">Logistic Regression</span>
+  </div>
+
+  <!-- Q13 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 13</span>
+      <span class="question-text">Which distribution is appropriate for the number of customer arrivals per hour?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Poisson</span>
+    </div>
+    <p class="explanation">
+      The <strong>Poisson distribution</strong> models the number of times a random event occurs within a fixed interval of time or space — and the events are independent of each other. Classic examples: customers arriving per hour, calls received per day, website clicks per minute, accidents per month. Its key property is that <strong>Mean = Variance = λ</strong>. Normal is for continuous data, Binomial is for fixed trials with two outcomes, Uniform is for equal probability across a range.
+    </p>
+    <span class="tag">Probability Distributions</span>
+  </div>
+
+  <!-- Q14 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 14</span>
+      <span class="question-text">Segmentation is used mainly for:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Customer grouping</span>
+    </div>
+    <p class="explanation">
+      Segmentation is an <strong>unsupervised learning</strong> technique — there is no labelled outcome to predict. The goal is to discover natural groups within the data, most commonly to group customers by shared behaviour, demographics, or purchase patterns. This allows businesses to personalize marketing, product offerings, and strategy for each segment. It does not predict outcomes (that's regression/classification) and doesn't estimate probabilities (that's logistic regression).
+    </p>
+    <span class="tag">Clustering · Segmentation</span>
+  </div>
+
+  <!-- Q15 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 15</span>
+      <span class="question-text">Model predictions shift significantly after adding one extreme data point. Regression is sensitive to:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Outliers</span>
+    </div>
+    <p class="explanation">
+      Linear regression minimizes the <strong>sum of squared errors</strong>. Because errors are squared, a single extreme data point contributes a disproportionately large penalty, pulling the regression line heavily toward it. This is the fundamental sensitivity of OLS regression to outliers. These extreme points with high influence are called <strong>leverage points</strong>. Solutions include detecting and handling outliers beforehand, or using <strong>robust regression</strong> methods that are less sensitive to extreme values.
+    </p>
+    <span class="tag">Regression · Outliers</span>
+  </div>
+
+  <!-- Q16 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 16</span>
+      <span class="question-text">A 95% confidence interval implies:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Long-run 95% intervals contain the true parameter</span>
+    </div>
+    <p class="explanation">
+      This is one of the most commonly misunderstood concepts in statistics. A 95% CI does <em>not</em> mean "there is a 95% probability that the true value lies within this specific interval." The true parameter is a fixed (though unknown) value — it either is or isn't inside any given interval. The correct interpretation is: <strong>if you repeated the sampling process 100 times, approximately 95 of those 100 intervals would contain the true parameter.</strong> It's a statement about the long-run reliability of the method, not about any single interval.
+    </p>
+    <span class="tag">Confidence Intervals · Frequentist Stats</span>
+  </div>
+
+  <!-- Q17 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 17</span>
+      <span class="question-text">Increasing the decision threshold increases:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">False negatives</span>
+    </div>
+    <p class="explanation">
+      The decision threshold is the cutoff above which your model predicts "positive." If you raise it (say from 0.5 to 0.8), the model becomes more conservative — it only predicts positive when very confident. The result: more actual positives get classified as negative, increasing <strong>False Negatives</strong>. Precision goes up (fewer false alarms), but <strong>Recall (Sensitivity) goes down</strong>. This is the fundamental <strong>precision-recall tradeoff</strong> that you manage by adjusting the threshold based on the business cost of each error type.
+    </p>
+    <span class="tag">Classification · Threshold · Precision-Recall</span>
+  </div>
+
+  <!-- Q19 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 19</span>
+      <span class="question-text">If p-value &lt; α, the decision is to:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Reject H₀</span>
+    </div>
+    <p class="explanation">
+      The p-value tells you the probability of observing results as extreme as yours, assuming the null hypothesis is true. If this probability is smaller than your pre-set significance threshold (α, usually 0.05), it means your results are unlikely to have occurred by chance alone. You have sufficient statistical evidence to <strong>reject the null hypothesis</strong>. Think of α as your "false alarm tolerance" — if p is below that tolerance, you reject H₀ and conclude there is a real effect.
+    </p>
+    <span class="tag">Hypothesis Testing · p-value</span>
+  </div>
+
+  <!-- Q20 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 20</span>
+      <span class="question-text">Mean of a Poisson distribution is 3. What is the variance?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">3</span>
+    </div>
+    <p class="explanation">
+      The Poisson distribution has a special and unique property: <strong>Mean = Variance = λ</strong>. If the mean number of events is 3, then the variance is also 3. The standard deviation would be √3 ≈ 1.73. This is what distinguishes Poisson from other distributions — there's only one parameter (λ) that simultaneously defines both the center and the spread of the distribution.
+    </p>
+    <span class="tag">Poisson Distribution</span>
+  </div>
+
+  <!-- Q21 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 21</span>
+      <span class="question-text">Multicollinearity refers to:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Correlated predictors</span>
+    </div>
+    <p class="explanation">
+      Multicollinearity occurs when two or more <strong>independent variables (predictors)</strong> in a regression model are highly correlated with each other. For example, including both "years of experience" and "age" in the same model — they're strongly related. The problem: the model can't isolate the individual effect of each variable, making coefficients unstable, unreliable, and hard to interpret. The overall model fit (R²) may still look good, but individual coefficients become misleading. Detected using <strong>VIF (Variance Inflation Factor)</strong>.
+    </p>
+    <span class="tag">Regression · Multicollinearity</span>
+  </div>
+
+  <!-- Q22 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 22</span>
+      <span class="question-text">Customer income dominates clustering because it has large scale. How to fix?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Standardize features</span>
+    </div>
+    <p class="explanation">
+      When income ranges from ₹20,000 to ₹5,00,000 and another feature like "number of purchases" ranges from 1 to 50, the distance calculations in K-Means are dominated entirely by income — not because it's more important, but purely because of its larger numeric scale. <strong>Standardizing</strong> (Z-score normalization: subtract mean, divide by standard deviation) brings all features to the same scale with mean=0 and SD=1. Removing income entirely would throw away valuable data — standardizing is the right fix.
+    </p>
+    <span class="tag">Feature Scaling · K-Means</span>
+  </div>
+
+  <!-- Q23 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 23</span>
+      <span class="question-text">If training error and test error are both high, the model is:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Underfitting</span>
+    </div>
+    <p class="explanation">
+      The error pattern tells you everything about a model's problem. <strong>Underfitting (High Bias)</strong>: both training and test errors are high — the model hasn't learned even the training data properly; it's too simple. <strong>Overfitting (High Variance)</strong>: training error is low but test error is high — the model memorized training data but fails to generalize. Both errors being high simultaneously is the clearest signal of underfitting. The solution is a more complex model, more features, or less regularization.
+    </p>
+    <span class="tag">Bias-Variance · Underfitting</span>
+  </div>
+
+  <!-- Q24 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 24</span>
+      <span class="question-text">Which distribution is used when population variance is unknown and sample size is small?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">t-distribution</span>
+    </div>
+    <p class="explanation">
+      The <strong>Z-distribution</strong> requires knowing the population standard deviation (σ) — which is rarely known in practice. When σ is unknown and the sample is small (n &lt; 30), you use the <strong>t-distribution</strong>, which accounts for the extra uncertainty by having <em>heavier tails</em> than a normal distribution. As sample size increases, the t-distribution approaches the Z-distribution. The t-distribution has a parameter called <strong>degrees of freedom</strong> (n-1) which determines how "heavy" the tails are.
+    </p>
+    <span class="tag">t-distribution · Inferential Statistics</span>
+  </div>
+
+  <!-- Q25 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 25</span>
+      <span class="question-text">If silhouette score is low, it indicates:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Poor cluster separation</span>
+    </div>
+    <p class="explanation">
+      The <strong>Silhouette Score</strong> measures how similar a point is to its own cluster versus other clusters, ranging from <strong>-1 to +1</strong>. A high score (close to +1) means points are tightly packed within their cluster and far from other clusters — well-separated, meaningful clusters. A low score (close to 0 or negative) means clusters overlap significantly, or points are misassigned. It's the primary metric for evaluating clustering quality when you don't have ground truth labels.
+    </p>
+    <span class="tag">Clustering · Silhouette Score</span>
+  </div>
+
+  <!-- Q26 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 26</span>
+      <span class="question-text">Residual plot shows a funnel shape (variance increasing with prediction). What should the analyst suspect?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Heteroscedasticity</span>
+    </div>
+    <p class="explanation">
+      Regression assumes <strong>homoscedasticity</strong> — that residuals have constant variance across all levels of the fitted values. A <strong>funnel shape</strong> in the residual plot is the classic visual signature of <strong>heteroscedasticity</strong>: the spread of errors is small at low predicted values and grows larger at higher predicted values (or vice versa). This violates a core OLS assumption, making standard errors unreliable and significance tests invalid. Common fixes: log transformation of the target variable, or using <strong>weighted least squares (WLS)</strong>.
+    </p>
+    <span class="tag">Regression Diagnostics · Heteroscedasticity</span>
+  </div>
+
+  <!-- Q27 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 27</span>
+      <span class="question-text">Correlation between X and Y is 0.8. What is the correlation between Y and X?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">0.8</span>
+    </div>
+    <p class="explanation">
+      Correlation is a <strong>symmetric measure</strong>. By definition, r(X, Y) = r(Y, X). The Pearson correlation coefficient measures the linear relationship between two variables, and this relationship is the same regardless of which variable you call X and which you call Y. Flipping the axes on a scatter plot doesn't change how tightly the points cluster around a line — it's the same line. This is a direct property of the formula: Cov(X,Y) / (σx × σy) = Cov(Y,X) / (σy × σx).
+    </p>
+    <span class="tag">Correlation · Statistics</span>
+  </div>
+
+  <!-- Q28 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 28</span>
+      <span class="question-text">In credit scoring, approving a risky customer is costly. Which error is worse?</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">False positive</span>
+    </div>
+    <p class="explanation">
+      In credit scoring context: <strong>Positive = predicted creditworthy, approved.</strong> A <strong>False Positive</strong> = predicted safe, but actually risky → loan is approved → customer defaults → financial loss. A <strong>False Negative</strong> = predicted risky, but actually safe → loan rejected → you lose a good customer, but there's no financial loss. Since the question says "approving a risky customer is costly," the costlier error is the False Positive. This is why banks often set a <strong>high decision threshold</strong> — they'd rather reject some good customers than approve risky ones.
+    </p>
+    <span class="tag">Classification · Business Context · Error Types</span>
+  </div>
+
+  <!-- Q29 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 29</span>
+      <span class="question-text">Correlation between X and Y = 0.92. Business concludes X causes Y. This assumption is:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Risky causal inference</span>
+    </div>
+    <p class="explanation">
+      <strong>Correlation ≠ Causation</strong> — this is one of the most important principles in data analysis. A high correlation only tells you that two variables move together. It does not tell you <em>why</em>. A third hidden variable (a <strong>confounder</strong>) could be driving both X and Y simultaneously. Or the direction could be reversed (Y causes X). Establishing true causation requires <strong>controlled experiments (RCTs), natural experiments, or causal inference frameworks</strong> like instrumental variables. Jumping to causation from correlation alone is always a risky inference.
+    </p>
+    <span class="tag">Causation vs Correlation</span>
+  </div>
+
+  <!-- Q30 -->
+  <div class="card">
+    <div class="card-header">
+      <span class="q-num">Q 30</span>
+      <span class="question-text">Standard normal distribution has:</span>
+    </div>
+    <div class="answer-block">
+      <div class="answer-icon">✓</div>
+      <span class="answer-text">Mean = 0, SD = 1</span>
+    </div>
+    <p class="explanation">
+      The <strong>Standard Normal Distribution (Z-distribution)</strong> is a special case of the normal distribution, always centered at <strong>0</strong> with a standard deviation of <strong>1</strong>. Any normal distribution can be converted into it using the Z-score formula: <strong>Z = (X − μ) / σ</strong>. This standardization is what allows us to use Z-tables to find probabilities. It's the foundation of Z-tests, confidence intervals, and most parametric statistical inference.
+    </p>
+    <span class="tag">Normal Distribution · Z-scores</span>
+  </div>
+
+</div>
+</body>
+</html>
