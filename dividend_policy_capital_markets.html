@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dividend Policy & Capital Markets</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0f1a;
+  --bg2: #111827;
+  --bg3: #1a2235;
+  --bg4: #1e2a40;
+  --teal: #14b8a6;
+  --teal-d: rgba(20,184,166,.12);
+  --amber: #f59e0b;
+  --amber-d: rgba(245,158,11,.1);
+  --rose: #f43f5e;
+  --rose-d: rgba(244,63,94,.1);
+  --indigo: #6366f1;
+  --indigo-d: rgba(99,102,241,.1);
+  --lime: #84cc16;
+  --lime-d: rgba(132,204,22,.1);
+  --sky: #0ea5e9;
+  --sky-d: rgba(14,165,233,.1);
+  --text: #e2e8f0;
+  --muted: #64748b;
+  --border: rgba(255,255,255,.07);
+  --border2: rgba(255,255,255,.12);
+  --r: 14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Figtree',sans-serif;font-weight:300;line-height:1.75;overflow-x:hidden}
+
+/* mesh bg */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 40% at 10% 20%, rgba(20,184,166,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 90% 80%, rgba(245,158,11,.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(99,102,241,.04) 0%, transparent 70%);}
+
+.page{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:52px 22px 100px}
+
+/* HERO */
+.hero{margin-bottom:56px;padding-bottom:40px;border-bottom:1px solid var(--border2)}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.tag::before{content:'';display:block;width:28px;height:1px;background:var(--muted)}
+h1{font-family:'Instrument Serif',serif;font-size:clamp(2.8rem,7vw,4.5rem);font-weight:400;line-height:1.05;color:var(--text)}
+h1 em{font-style:italic;color:var(--teal)}
+h1 .a{color:var(--amber)}
+.hero-sub{margin-top:16px;font-size:.95rem;color:var(--muted);max-width:620px;line-height:1.85}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.pill{padding:5px 13px;border-radius:100px;font-family:'JetBrains Mono',monospace;font-size:11px;border:1px solid;font-weight:400}
+.pt{background:var(--teal-d);border-color:var(--teal);color:var(--teal)}
+.pa{background:var(--amber-d);border-color:var(--amber);color:var(--amber)}
+.pr{background:var(--rose-d);border-color:var(--rose);color:var(--rose)}
+.pi{background:var(--indigo-d);border-color:var(--indigo);color:var(--indigo)}
+.pl2{background:var(--lime-d);border-color:var(--lime);color:var(--lime)}
+.ps{background:var(--sky-d);border-color:var(--sky);color:var(--sky)}
+
+/* NAV TABS */
+.nav{display:flex;gap:3px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:4px;margin-bottom:48px;overflow-x:auto}
+.ntab{flex:1;min-width:120px;padding:10px 16px;border-radius:11px;border:none;background:transparent;color:var(--muted);font-family:'Figtree',sans-serif;font-size:13px;font-weight:400;cursor:pointer;transition:all .2s;text-align:center;white-space:nowrap}
+.ntab:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.ntab.on{background:rgba(20,184,166,.12);color:var(--teal);border:1px solid rgba(20,184,166,.25)}
+.ntab.on.amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.25)}
+
+/* SECTIONS */
+.sec{display:none;animation:fi .3s ease}
+.sec.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION HEADERS */
+.sh{margin-bottom:36px}
+.sh-eye{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.sh-title{font-family:'Instrument Serif',serif;font-size:2.2rem;font-weight:400;line-height:1.15;color:var(--text)}
+.sh-title em{font-style:italic}
+.sh-desc{margin-top:10px;color:var(--muted);font-size:.93rem;max-width:700px;line-height:1.85}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:22px 26px;margin-bottom:18px}
+.card h3{font-family:'Instrument Serif',serif;font-size:1.1rem;font-weight:400;margin-bottom:9px;color:var(--teal)}
+.card h3.a{color:var(--amber)}
+.card p{font-size:.91rem;color:var(--muted);line-height:1.85}
+.card p+p{margin-top:8px}
+.card p strong{color:var(--text);font-weight:500}
+
+/* FORMULA / CALLOUT */
+.fb{background:#070c15;border:1px solid var(--border2);border-left:3px solid var(--teal);border-radius:var(--r);padding:22px 26px;margin-bottom:18px}
+.fb.a{border-left-color:var(--amber)}
+.fb.r{border-left-color:var(--rose)}
+.fb.i{border-left-color:var(--indigo)}
+.fb.s{border-left-color:var(--sky)}
+.fb-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+.fb.a .fb-label{color:var(--amber)}.fb.r .fb-label{color:var(--rose)}.fb.i .fb-label{color:var(--indigo)}.fb.s .fb-label{color:var(--sky)}
+.fb p{font-size:.9rem;color:var(--muted);line-height:1.85}
+.fb p strong{color:var(--text);font-weight:500}
+.fb ul{margin-top:8px;list-style:none}
+.fb ul li{font-size:.9rem;color:var(--muted);padding:4px 0 4px 16px;position:relative;line-height:1.75}
+.fb ul li::before{content:'→';position:absolute;left:0;font-size:11px;color:var(--teal)}
+.fb.a ul li::before{color:var(--amber)}.fb.r ul li::before{color:var(--rose)}.fb.i ul li::before{color:var(--indigo)}.fb.s ul li::before{color:var(--sky)}
+.fb ul li strong{color:var(--text);font-weight:500}
+
+/* FACTOR GRID */
+.fac-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+@media(max-width:600px){.fac-grid{grid-template-columns:1fr}}
+.fac{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .2s}
+.fac:hover{border-color:var(--border2)}
+.fac-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;margin-bottom:8px;padding:3px 9px;border-radius:6px;display:inline-block}
+.fac-title{font-size:.93rem;font-weight:600;color:var(--text);margin-bottom:7px}
+.fac-body{font-size:.85rem;color:var(--muted);line-height:1.75}
+.fac-eg{margin-top:8px;font-size:.82rem;color:var(--muted);background:var(--bg4);border-radius:6px;padding:7px 10px;font-style:italic}
+
+/* PAYOUT TYPES */
+.payout-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px}
+@media(max-width:580px){.payout-grid{grid-template-columns:1fr}}
+.pout{border-radius:12px;padding:20px 22px;border:1px solid}
+.pout-icon{font-size:1.6rem;margin-bottom:10px}
+.pout-title{font-family:'Instrument Serif',serif;font-size:1rem;font-weight:400;margin-bottom:8px}
+.pout-body{font-size:.85rem;line-height:1.8}
+.pout-note{margin-top:10px;font-size:.82rem;padding:7px 10px;border-radius:6px;font-style:italic}
+
+/* COMPARISON TABLE */
+.comp-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:18px}
+.comp-table th{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border2);background:var(--bg2)}
+.comp-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:top}
+.comp-table tr:last-child td{border-bottom:none}
+.comp-table tr:hover td{background:rgba(255,255,255,.02)}
+.comp-table td:first-child{color:var(--text);font-weight:500}
+
+/* CHAIN / FLOW */
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:18px 22px;background:var(--bg3);border-radius:12px;border:1px solid var(--border);margin-bottom:18px}
+.fnode{padding:8px 16px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:500;border:1px solid;text-align:center;line-height:1.5}
+.fn-t{background:var(--teal-d);border-color:var(--teal);color:var(--teal)}
+.fn-a{background:var(--amber-d);border-color:var(--amber);color:var(--amber)}
+.fn-r{background:var(--rose-d);border-color:var(--rose);color:var(--rose)}
+.fn-i{background:var(--indigo-d);border-color:var(--indigo);color:var(--indigo)}
+.fn-l{background:var(--lime-d);border-color:var(--lime);color:var(--lime)}
+.fn-s{background:var(--sky-d);border-color:var(--sky);color:var(--sky)}
+.farr{color:var(--muted);font-size:18px}
+.farr-label{display:flex;flex-direction:column;align-items:center;gap:2px}
+.farr-label .fl{font-size:9.5px;color:var(--muted);font-family:'JetBrains Mono',monospace;text-align:center}
+
+/* ALERT */
+.alert{display:flex;gap:12px;align-items:flex-start;padding:14px 18px;border-radius:10px;margin-bottom:16px}
+.alert.warn{background:var(--rose-d);border:1px solid rgba(244,63,94,.25)}
+.alert.tip{background:var(--lime-d);border:1px solid rgba(132,204,22,.2)}
+.alert.info{background:var(--teal-d);border:1px solid rgba(20,184,166,.2)}
+.alert.gold{background:var(--amber-d);border:1px solid rgba(245,158,11,.25)}
+.alert.indigo{background:var(--indigo-d);border:1px solid rgba(99,102,241,.25)}
+.alert-icon{font-size:1rem;flex-shrink:0;margin-top:2px}
+.alert-body{font-size:.87rem;color:var(--muted);line-height:1.75}
+.alert-body strong{color:var(--text);font-weight:500}
+
+/* VALUATION EXAMPLE */
+.val-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:18px}
+.val-head{padding:14px 22px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
+.val-body{padding:18px 22px}
+.val-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.val-row:last-child{border-bottom:none}
+.val-row .vl{color:var(--muted)}
+.val-row .vv{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--text)}
+.val-row.total{border-top:1px solid var(--border2);border-bottom:none;margin-top:4px;padding-top:12px}
+.val-row.total .vl{font-weight:600;color:var(--text);font-size:13.5px}
+.val-row.total .vv{color:var(--teal);font-size:14px}
+.val-row.sub{padding-left:20px}
+.val-row.sub .vl{color:var(--muted);font-size:12.5px}
+.val-row.highlight{background:rgba(20,184,166,.06);border-radius:6px;padding:10px 8px;margin:4px 0}
+.val-row.highlight .vl{color:var(--teal)}
+
+/* CALC STEPS */
+.calc{background:var(--bg);border-left:2px solid var(--teal);padding:10px 16px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);border-radius:0 7px 7px 0;margin:8px 0;line-height:1.9}
+.calc .t{color:var(--teal)}.calc .a{color:var(--amber)}.calc .r{color:var(--rose)}.calc .i{color:var(--indigo)}.calc .l{color:var(--lime)}.calc .s{color:var(--sky)}
+
+/* INTERMEDIARY DIAGRAM */
+.int-diagram{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:18px}
+@media(max-width:580px){.int-diagram{grid-template-columns:1fr;text-align:center}}
+.int-box{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:20px 16px;text-align:center}
+.int-box .ib-icon{font-size:2rem;margin-bottom:8px}
+.int-box .ib-title{font-weight:600;color:var(--text);font-size:.93rem;margin-bottom:6px}
+.int-box .ib-sub{font-size:.82rem;color:var(--muted);line-height:1.7}
+.int-mid{display:flex;flex-direction:column;align-items:center;gap:8px}
+.int-mid-box{background:var(--bg4);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;text-align:center;min-width:160px}
+.int-mid-box .im-title{font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:4px}
+.int-mid-box .im-sub{font-size:.8rem;color:var(--muted)}
+.int-arr{font-size:20px;color:var(--muted);text-align:center}
+
+/* PRIMARY VS SECONDARY */
+.pmkt-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+@media(max-width:580px){.pmkt-grid{grid-template-columns:1fr}}
+.pmkt{border-radius:12px;padding:20px 22px;border:1px solid}
+.pmkt-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:10px}
+.pmkt-title{font-family:'Instrument Serif',serif;font-size:1.05rem;font-weight:400;margin-bottom:10px}
+.pmkt ul{list-style:none}
+.pmkt ul li{font-size:.85rem;color:var(--muted);padding:4px 0 4px 14px;position:relative;line-height:1.7}
+.pmkt ul li::before{content:'·';position:absolute;left:0;font-size:16px;line-height:1.2}
+.pmkt ul li strong{color:var(--text);font-weight:500}
+.pmkt-bs{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:.82rem;font-family:'JetBrains Mono',monospace}
+
+/* DIVIDER */
+.div{height:1px;background:var(--border2);margin:30px 0}
+
+/* BADGE */
+.badge{display:inline-block;padding:2px 8px;border-radius:100px;font-size:11px;font-family:'JetBrains Mono',monospace}
+.bt2{background:var(--teal-d);color:var(--teal)}
+.ba2{background:var(--amber-d);color:var(--amber)}
+.br2{background:var(--rose-d);color:var(--rose)}
+.bi2{background:var(--indigo-d);color:var(--indigo)}
+.bl2{background:var(--lime-d);color:var(--lime)}
+.bs2{background:var(--sky-d);color:var(--sky)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="tag">Financial Management · Theory Sessions</div>
+  <h1><em>Dividend Policy</em><br>& <span class="a">Capital Markets</span></h1>
+  <p class="hero-sub">Two topics from your notes — expanded with theory, real examples, structured flow, and the "why" behind every concept.</p>
+  <div class="pills">
+    <span class="pill pt">Payout Policy</span>
+    <span class="pill pt">11 Factors</span>
+    <span class="pill pt">4 Payout Forms</span>
+    <span class="pill pa">Capital Markets</span>
+    <span class="pill pa">Valuation · Chester</span>
+    <span class="pill pa">Intermediaries</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="ntab on" onclick="tab('dp1',this,false)">📊 What is Payout Policy?</button>
+  <button class="ntab" onclick="tab('dp2',this,false)">📋 11 Factors</button>
+  <button class="ntab" onclick="tab('dp3',this,false)">💸 Forms of Payout</button>
+  <button class="ntab amber on" onclick="tab('cm1',this,true)" id="cm-tab1">🏛️ Capital Markets</button>
+  <button class="ntab amber" onclick="tab('cm2',this,true)">🔀 Primary vs Secondary</button>
+  <button class="ntab amber" onclick="tab('cm3',this,true)">🏦 Intermediaries</button>
+  <button class="ntab amber" onclick="tab('cm4',this,true)">📐 Valuation · Chester</button>
+</div>
+
+<!-- ════════════════ DIVIDEND POLICY ════════════════ -->
+
+<!-- TAB: What is payout policy -->
+<div id="s-dp1" class="sec on">
+  <div class="sh">
+    <div class="sh-eye">Topic 1 · Dividend Policy</div>
+    <div class="sh-title"><em>What is</em> Payout Policy?</div>
+    <p class="sh-desc">After a company earns profit, it faces a fundamental decision: how much to give back to shareholders, and in what form? This decision is the essence of payout policy.</p>
+  </div>
+
+  <div class="card">
+    <h3>The Core Tension</h3>
+    <p>Every rupee of profit has two possible lives. <strong>Option A: Pay it out</strong> — as a dividend, buyback, or bonus. Shareholders get immediate cash/value. <strong>Option B: Retain it</strong> — reinvest into the business for growth. Shareholders get future (hopefully larger) value.</p>
+    <p>There is no universally "correct" choice. It depends on the company's growth opportunities, shareholder preferences, tax laws, and cash position. The board's decision here is called the <strong>Payout Policy</strong> or <strong>Dividend Policy</strong>.</p>
+  </div>
+
+  <div class="flow">
+    <div class="fnode fn-l">Net Profit (PAT)</div>
+    <span class="farr">→</span>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div class="fnode fn-a" style="font-size:10.5px">Pay Out</div>
+      <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace">Dividend / Buyback / Bonus</div>
+    </div>
+    <span class="farr" style="color:var(--muted);font-size:14px;align-self:center">OR</span>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div class="fnode fn-t" style="font-size:10.5px">Retain</div>
+      <div style="font-size:10px;color:var(--muted);font-family:'JetBrains Mono',monospace">Reinvest in Business</div>
+    </div>
+    <span class="farr">→</span>
+    <div class="fnode fn-i">Future Growth → Higher EPS later</div>
+  </div>
+
+  <div class="card">
+    <h3>The Company vs Project Cost of Capital distinction</h3>
+    <p>Your notes mention: "Difference between company cost of capital and project cost of capital depends on risk of projects." This is important for dividend policy because:</p>
+    <p>If a company's projects earn <strong>more than WACC</strong> → retaining profits and reinvesting creates more value than paying out. Shareholders benefit more from growth. If projects earn <strong>less than WACC</strong> → retaining destroys value. Better to return cash to shareholders who can invest it elsewhere. This is the <strong>rational basis for payout decisions</strong>.</p>
+  </div>
+
+  <div class="fb">
+    <div class="fb-label">The Residual Dividend Theory</div>
+    <p><strong>Core idea:</strong> Pay dividends only after all positive NPV projects have been funded. The dividend is a "residual" — whatever is left after investing in good projects.</p>
+    <ul>
+      <li>If firm has lots of good projects → low or no dividends (reinvest everything)</li>
+      <li>If firm has few good projects → high dividends (nothing better to do with cash)</li>
+      <li><strong>Implication:</strong> Dividends fluctuate. Mature, slower-growth companies pay more. Startups pay nothing.</li>
+    </ul>
+  </div>
+
+  <div class="fb a">
+    <div class="fb-label">Modigliani-Miller (MM) Irrelevance Theory</div>
+    <p>MM argued in a perfect world (no taxes, no transaction costs, no information asymmetry), <strong>dividend policy is irrelevant.</strong> Total shareholder value = dividends + capital gains. If dividend is cut and profits reinvested, the stock price rises by exactly the same amount. Shareholders are indifferent.</p>
+    <ul>
+      <li>But the real world has taxes, information gaps, and market imperfections — which is why payout policy <em>does</em> matter in practice</li>
+      <li>MM forms the theoretical baseline from which all real-world complications are added</li>
+    </ul>
+  </div>
+
+  <div class="alert info">
+    <span class="alert-icon">💡</span>
+    <span class="alert-body"><strong>Why study this then?</strong> Because real markets aren't perfect. Taxes differ on dividends vs capital gains. Some investors need income (retirees). Some companies use dividends as a signal of confidence. These imperfections make payout policy a genuine strategic decision.</span>
+  </div>
+</div>
+
+<!-- TAB: 11 Factors -->
+<div id="s-dp2" class="sec">
+  <div class="sh">
+    <div class="sh-eye">Topic 1 · Dividend Policy</div>
+    <div class="sh-title">The <em>11 Factors</em> that Influence Dividend Decisions</div>
+    <p class="sh-desc">Your notes list 11 factors. Here they are expanded — with the underlying logic and real-world examples for each.</p>
+  </div>
+
+  <div class="fac-grid">
+    <div class="fac">
+      <div class="fac-num" style="background:var(--rose-d);color:var(--rose)">01</div>
+      <div class="fac-title">Taxes</div>
+      <div class="fac-body">In many countries, dividends and capital gains are taxed differently. If dividends are taxed more heavily than capital gains, shareholders prefer the company to retain profits (which raises share price → capital gain). India reintroduced dividend taxation in shareholders' hands in 2020.</div>
+      <div class="fac-eg">Example: A high-income shareholder in the 30% tax bracket receiving ₹10 dividend pays ₹3 tax. If instead the company reinvests and the stock rises ₹10, they only pay long-term capital gains tax (10% over ₹1L threshold). Shareholder prefers retention.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--amber-d);color:var(--amber)">02</div>
+      <div class="fac-title">Earnings</div>
+      <div class="fac-body">Dividends can only be paid from profits — you can't pay dividends out of capital (legally restricted in India under Companies Act). Higher and more stable earnings → more comfortable paying regular dividends. Volatile earnings → lower or no dividends to avoid the negative signal of cutting dividends later.</div>
+      <div class="fac-eg">Example: Infosys consistently earns ₹25,000 Cr+ PAT annually. They comfortably pay ~40% as dividend. A startup with uncertain revenues pays zero.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--teal-d);color:var(--teal)">03</div>
+      <div class="fac-title">Liquidity</div>
+      <div class="fac-body">Profit is an accounting number. Cash is what pays dividends. A company can be "profitable" on paper but have low cash (because of high CapEx, inventory buildup, or receivables). Dividends require actual cash outflow.</div>
+      <div class="fac-eg">Example: A real estate company may show high profit when properties are sold on credit, but until the buyer pays, cash is low. Cannot pay large dividends despite profit.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--indigo-d);color:var(--indigo)">04</div>
+      <div class="fac-title">Growth Prospects</div>
+      <div class="fac-body">Fast-growing companies need cash to fund expansion — new factories, acquisitions, R&D. Paying out profits as dividends would require raising expensive external capital instead. So high-growth firms retain more. Mature, low-growth firms have less use for retained cash — they return it.</div>
+      <div class="fac-eg">Example: Zomato paid zero dividends post-IPO — every rupee went into expansion, marketing, and new cities. HUL (Hindustan Unilever) — mature FMCG, pays ~90% payout. Nothing better to do with cash.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--lime-d);color:var(--lime)">05</div>
+      <div class="fac-title">Life Cycle Stage</div>
+      <div class="fac-body">Companies evolve through stages — startup, growth, maturity, decline. Dividend policy tracks this lifecycle naturally. Early stage: zero dividends (need all cash for survival/growth). Growth: low dividends. Mature: high dividends. Declining: very high dividends or buybacks (limited good projects).</div>
+      <div class="fac-eg">Example: Apple paid no dividends from 1995–2012 during its high-growth phase. In 2012, with $100B+ cash and few reinvestment opportunities at that scale, it initiated buybacks and dividends — classic maturity stage behaviour.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--sky-d);color:var(--sky)">06</div>
+      <div class="fac-title">Shareholder Expectations</div>
+      <div class="fac-body">Companies know their shareholder base. Institutional investors with income mandates (pension funds, insurance companies) need regular dividend income — they pressure for payouts. Retail growth investors may prefer capital gains. The company tries to match what its investor base wants.</div>
+      <div class="fac-eg">Example: A PSU (Public Sector Undertaking) in India has the government as a major shareholder. The government needs dividend income for its budget. PSUs are therefore under pressure to pay high dividends regardless of growth opportunities.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--rose-d);color:var(--rose)">07</div>
+      <div class="fac-title">Bird-in-Hand Theory</div>
+      <div class="fac-body">Gordon and Lintner argued: shareholders prefer a dividend in hand now over uncertain capital gains in the future. A rupee in hand today is worth more than a rupee promised later. Investors paying a higher P/E for dividend-paying stocks demonstrate this preference — they discount the uncertain future at a higher rate.</div>
+      <div class="fac-eg">Example: An investor choosing between Company A (₹5 dividend certain) vs Company B (₹5 expected capital gain in 2 years) typically prefers A — because the future gain might not materialise if the market falls, management changes, or the company takes on bad projects.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--amber-d);color:var(--amber)">08</div>
+      <div class="fac-title">Clientele Effect</div>
+      <div class="fac-body">Different investors are attracted to different dividend policies — like different "clients." High-dividend companies attract income-seeking investors (retirees, low-tax-bracket individuals). Low-dividend / no-dividend companies attract growth investors (high-tax-bracket individuals who prefer capital gains). Once a payout policy is set, changing it forces investor churn — painful for stock price stability.</div>
+      <div class="fac-eg">Example: If TCS suddenly cut its dividend, income-fund managers holding it for income would sell. The selling pressure drops the stock price. Even if the retained cash is reinvested wisely, short-term pain from clientele disruption is real.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--teal-d);color:var(--teal)">09</div>
+      <div class="fac-title">Financial Flexibility</div>
+      <div class="fac-body">Paying out cash reduces the company's financial cushion. If an unexpected opportunity (acquisition, market downturn to expand cheap) arises, the company needs cash reserves. Companies with high uncertainty or operating in volatile industries keep more cash and pay less. Flexible balance sheets enable opportunistic action.</div>
+      <div class="fac-eg">Example: During COVID-2020, many companies suspended dividends to preserve liquidity for uncertainty. Maruti Suzuki skipped its 2020 dividend to protect cash for potential demand shocks and production disruptions.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--indigo-d);color:var(--indigo)">10</div>
+      <div class="fac-title">Contractual Constraints</div>
+      <div class="fac-body">Loan covenants and debenture agreements sometimes restrict dividend payments. A bank giving a ₹500 Cr loan may include a clause: "Dividend cannot exceed 20% of PAT until the loan is repaid." This protects the lender — ensuring the company doesn't drain cash via dividends before repaying debt. Preferred shareholders also have priority dividend rights.</div>
+      <div class="fac-eg">Example: A company undergoing debt restructuring typically cannot pay any dividend until lenders are satisfied with repayment progress. This is a hard legal constraint — board cannot override it.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--lime-d);color:var(--lime)">11</div>
+      <div class="fac-title">Stability of Dividends</div>
+      <div class="fac-body">Investors treat a dividend cut as a very bad signal — it suggests the company's earnings are weaker than reported (information asymmetry). So companies try to maintain or grow dividends even in slightly bad years. They set a "sustainable" payout they can maintain across cycles, preferring stability over maximising any single year. <strong>Dividend signalling</strong>: increasing dividend signals management confidence in future earnings.</div>
+      <div class="fac-eg">Example: Nestle India has grown its dividend every year for over 20 years — even during COVID. This track record of stability commands investor trust and a premium P/E. Cutting it even once would send a shockwave.</div>
+    </div>
+  </div>
+
+  <div class="alert gold">
+    <span class="alert-icon">🎯</span>
+    <span class="alert-body"><strong>The exam-ready summary:</strong> Factors 1–6 are primarily practical/operational constraints. Factors 7–11 are theory-based (Bird-in-Hand, Clientele, Signalling). In any MCQ or theory question: identify which category the factor falls in, then explain the directional impact — does it push toward higher or lower payouts?</span>
+  </div>
+</div>
+
+<!-- TAB: Forms of Payout -->
+<div id="s-dp3" class="sec">
+  <div class="sh">
+    <div class="sh-eye">Topic 1 · Dividend Policy</div>
+    <div class="sh-title"><em>Four Forms</em> of Payout</div>
+    <p class="sh-desc">Dividends are the most visible payout, but companies have four distinct mechanisms to reward shareholders. Each has different tax, signal, and balance sheet implications.</p>
+  </div>
+
+  <div class="payout-grid">
+    <div class="pout" style="background:var(--teal-d);border-color:rgba(20,184,166,.3)">
+      <div class="pout-icon">💰</div>
+      <div class="pout-title" style="color:var(--teal)">Cash Dividend</div>
+      <div class="pout-body" style="color:var(--muted)">The most common form. Company declares a dividend per share — computed as a % of Face Value in India. Cash leaves the company and goes to shareholders. Three types: <strong>Interim dividend</strong> (declared mid-year), <strong>Final dividend</strong> (declared after annual results), and <strong>Special dividend</strong> (one-time windfall distribution).</div>
+      <div class="pout-note" style="background:rgba(20,184,166,.08);color:var(--teal)">Example: TCS declares ₹73/share final dividend + ₹18 special dividend. At FV = ₹1, that's 7300% dividend rate. Cash exits balance sheet. Retained Earnings decrease.</div>
+    </div>
+
+    <div class="pout" style="background:var(--amber-d);border-color:rgba(245,158,11,.3)">
+      <div class="pout-icon">📜</div>
+      <div class="pout-title" style="color:var(--amber)">Bonus Shares</div>
+      <div class="pout-body" style="color:var(--muted)">Free additional shares given to existing shareholders in proportion to their holdings (e.g., 1:1 means 1 free share for every 1 held). No cash changes hands. The company just converts reserves into share capital. <strong>Used by companies who want to reward shareholders but preserve cash for growth.</strong> Share price adjusts proportionally — total value unchanged immediately.</div>
+      <div class="pout-note" style="background:rgba(245,158,11,.08);color:var(--amber)">Note from your slides: "Companies who preserve cash but reward shareholders give bonuses." Infosys has issued multiple bonus shares over decades. Post-bonus, price halves but you hold twice as many. Long-run: if EPS grows, the extra shares multiply your wealth.</div>
+    </div>
+
+    <div class="pout" style="background:var(--rose-d);border-color:rgba(244,63,94,.3)">
+      <div class="pout-icon">🔄</div>
+      <div class="pout-title" style="color:var(--rose)">Share Buyback</div>
+      <div class="pout-body" style="color:var(--muted)">Company uses cash to repurchase its own shares from the open market. Shares bought are cancelled — reducing shares outstanding. This raises EPS (same profit ÷ fewer shares) and often signals management believes the stock is undervalued. Buybacks are often more tax-efficient than dividends because the gain is a capital gain, not income.</div>
+      <div class="pout-note" style="background:rgba(244,63,94,.08);color:var(--rose)">Example: Wipro has done multiple large buybacks (₹9,500 Cr in 2022 at ₹445/share). Post-buyback: fewer shares, higher EPS, higher BVPS. Management sends signal: "We think shares are cheap at this price." India taxed buybacks at company level at 20%, making them less attractive post-2024.</div>
+    </div>
+
+    <div class="pout" style="background:var(--indigo-d);border-color:rgba(99,102,241,.3)">
+      <div class="pout-icon">✂️</div>
+      <div class="pout-title" style="color:var(--indigo)">Stock Split</div>
+      <div class="pout-body" style="color:var(--muted)">The face value of a share is reduced (e.g., ₹10 → ₹2), and shares multiply proportionally (1 share becomes 5). <strong>No cash movement. No change in total equity or EPS in absolute terms</strong> — but per-share EPS and price are both divided by the split ratio. Purpose: make shares more affordable for retail investors, increase liquidity and trading volume.</div>
+      <div class="pout-note" style="background:rgba(99,102,241,.08);color:var(--indigo)">Example: MRF's share price was ~₹1.4L — too expensive for retail investors. A 10:1 split would bring it to ₹14,000, dramatically increasing accessibility and daily trading volumes. Not a wealth event, but a liquidity event.</div>
+    </div>
+  </div>
+
+  <table class="comp-table">
+    <thead>
+      <tr><th>Form</th><th>Cash Impact</th><th>Balance Sheet Effect</th><th>EPS Effect</th><th>Signal Sent</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge bt2">Cash Dividend</span></td>
+        <td>Cash leaves firm</td>
+        <td>Retained Earnings ↓, Cash ↓</td>
+        <td>No change (shares same)</td>
+        <td>Confidence in earnings</td>
+      </tr>
+      <tr>
+        <td><span class="badge ba2">Bonus Shares</span></td>
+        <td>No cash movement</td>
+        <td>Reserves → Share Capital (accounting entry only)</td>
+        <td>Diluted (more shares)</td>
+        <td>"We have reserves; preserving cash for growth"</td>
+      </tr>
+      <tr>
+        <td><span class="badge br2">Buyback</span></td>
+        <td>Cash leaves firm</td>
+        <td>Shares outstanding ↓, Cash ↓, Equity ↓</td>
+        <td>Increases (fewer shares)</td>
+        <td>"Stock is undervalued"</td>
+      </tr>
+      <tr>
+        <td><span class="badge bi2">Stock Split</span></td>
+        <td>No cash movement</td>
+        <td>FV reduced, shares multiplied (no net change)</td>
+        <td>Proportionally lower (but same % return)</td>
+        <td>"Making shares accessible; growing confidently"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="fb r">
+    <div class="fb-label">Key Distinction for Exams</div>
+    <p><strong>Bonus vs Split:</strong> Both give more shares and no cash. But in a bonus, new shares are created from reserves (reserves decrease, share capital increases). In a split, no new shares are created — just the face value shrinks and number multiplies (total share capital stays same, just FV changes).</p>
+    <p style="margin-top:8px"><strong>Dividend vs Buyback:</strong> Both return cash to shareholders. But dividends are mandatory income (taxed as income). Buybacks are optional for the shareholder (only sell if willing) and gains are taxed as capital gains — often more tax-efficient.</p>
+  </div>
+</div>
+
+<!-- ════════════════ CAPITAL MARKETS ════════════════ -->
+
+<!-- TAB: Capital Markets Intro -->
+<div id="s-cm1" class="sec">
+  <div class="sh">
+    <div class="sh-eye">Topic 2 · Capital Markets</div>
+    <div class="sh-title"><em>Financial Markets</em> — The Big Picture</div>
+    <p class="sh-desc">A financial market is a mechanism that transfers money from those who have surplus funds to those who need funds — efficiently, at scale, and with price discovery.</p>
+  </div>
+
+  <div class="card">
+    <h3 class="a">What is a Financial Market?</h3>
+    <p>It is a marketplace for financial instruments — shares, bonds, debentures, commodities, currencies, and derivatives. The fundamental purpose is <strong>capital allocation</strong>: moving money from households with savings to companies and governments that need it to create value.</p>
+    <p>Historically, financial markets were physical — brokers gathered at the Bombay Stock Exchange building on Dalal Street and shouted prices. Today, everything happens electronically. A trade on NSE in Mumbai settles in microseconds with a counterparty in Chennai — entirely digital.</p>
+  </div>
+
+  <div class="flow">
+    <div class="fnode fn-l" style="flex-direction:column;padding:12px 18px">
+      <span>Households</span>
+      <span style="font-size:10px;opacity:.7">Have surplus funds</span>
+    </div>
+    <div class="farr-label">
+      <span class="farr">→</span>
+      <span class="fl">through Financial<br>Markets / Intermediaries</span>
+    </div>
+    <div class="fnode fn-a" style="flex-direction:column;padding:12px 18px">
+      <span>Companies</span>
+      <span style="font-size:10px;opacity:.7">Need funds</span>
+    </div>
+    <span class="farr">+</span>
+    <div class="fnode fn-a" style="flex-direction:column;padding:12px 18px">
+      <span>Governments</span>
+      <span style="font-size:10px;opacity:.7">Infrastructure / deficit</span>
+    </div>
+    <div class="farr-label">
+      <span class="farr">→</span>
+      <span class="fl">create value,<br>grow economy</span>
+    </div>
+    <div class="fnode fn-t" style="flex-direction:column;padding:12px 18px">
+      <span>GDP Growth</span>
+      <span style="font-size:10px;opacity:.7">Returns to households</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="a">Why "efficient" transfer?</h3>
+    <p>Your notes use the word "efficiently." This means the transfer happens with <strong>minimal loss of value</strong> (low transaction costs), <strong>better pricing</strong> due to competition among many buyers and sellers (price discovery), and <strong>speed</strong> — capital moves quickly to where it's needed most.</p>
+    <p>Without financial markets: a factory owner in Rajasthan needs ₹100 Cr. She'd have to individually find thousands of investors, negotiate separately with each, and hope for the best. With financial markets: she lists bonds on BSE, and thousands of investors buy in seconds at a transparent price.</p>
+  </div>
+
+  <div class="card">
+    <h3 class="a">Breadth of Financial Markets</h3>
+    <p>Financial markets extend well beyond stocks and bonds. They include:</p>
+    <ul>
+      <li><strong>Equity markets</strong> — shares of listed companies on NSE/BSE</li>
+      <li><strong>Debt/Bond markets</strong> — government securities, corporate bonds, debentures</li>
+      <li><strong>Commodity markets</strong> — agricultural (mustard, cumin/jeera, guar gum) and metals (gold, silver, crude oil) traded on MCX. These trade in large quantities (tons) — guar gum is used in food processing, oil drilling, and chemicals. Very different from retail purchase but the same price discovery mechanism.</li>
+      <li><strong>Currency markets (Forex)</strong> — USD/INR etc., massive global volumes</li>
+      <li><strong>Derivatives markets</strong> — futures and options based on stocks, indices, and commodities</li>
+    </ul>
+  </div>
+
+  <div class="alert indigo">
+    <span class="alert-icon">🏢</span>
+    <span class="alert-body"><strong>Historical context from your class:</strong> The old Bombay Stock Exchange building on Dalal Street was one of Asia's oldest stock exchanges. Brokers physically gathered, shouted bids (the "open outcry" system), and deals were done on handshakes. Today, NSE's matching engine executes trades in under 100 microseconds. Same function — completely different mechanism.</span>
+  </div>
+</div>
+
+<!-- TAB: Primary vs Secondary -->
+<div id="s-cm2" class="sec">
+  <div class="sh">
+    <div class="sh-eye">Topic 2 · Capital Markets</div>
+    <div class="sh-title"><em>Primary</em> vs Secondary Markets</div>
+    <p class="sh-desc">The most fundamental distinction in capital markets. One creates new securities; the other trades existing ones. And only one of them puts money in the company's account.</p>
+  </div>
+
+  <div class="pmkt-grid">
+    <div class="pmkt" style="background:var(--teal-d);border-color:rgba(20,184,166,.3)">
+      <div class="pmkt-label" style="color:var(--teal)">Primary Market</div>
+      <div class="pmkt-title" style="color:var(--teal)">Company → Investor (New issue)</div>
+      <ul>
+        <li><strong>Company raises fresh capital</strong> by issuing new shares or bonds</li>
+        <li>Money flows directly to the company</li>
+        <li>New securities are created</li>
+        <li>Example: IPO, FPO, Rights Issue, Private Placement</li>
+      </ul>
+      <div class="pmkt-bs" style="background:rgba(20,184,166,.08);color:var(--teal)">
+        Balance Sheet effect:<br>
+        Cash ↑ (company receives money)<br>
+        Share Capital ↑ / Debt ↑ (new securities issued)
+      </div>
+    </div>
+
+    <div class="pmkt" style="background:var(--amber-d);border-color:rgba(245,158,11,.3)">
+      <div class="pmkt-label" style="color:var(--amber)">Secondary Market</div>
+      <div class="pmkt-title" style="color:var(--amber)">Investor → Investor (Existing securities)</div>
+      <ul>
+        <li><strong>Existing shares/bonds are traded</strong> between investors</li>
+        <li>Money flows between investors — not to the company</li>
+        <li>No new securities created</li>
+        <li>Examples: NSE, BSE daily trading</li>
+      </ul>
+      <div class="pmkt-bs" style="background:rgba(245,158,11,.08);color:var(--amber)">
+        Balance Sheet effect:<br>
+        Zero. No impact on the company's<br>cash, debt, or equity.
+      </div>
+    </div>
+  </div>
+
+  <div class="alert warn">
+    <span class="alert-icon">⚠️</span>
+    <span class="alert-body"><strong>Common misconception:</strong> Many people think buying shares on NSE gives money to the company. It doesn't — unless it's an IPO or FPO (primary market). When you buy Reliance shares on NSE today, your money goes to the person selling — Reliance's balance sheet is completely unaffected. The company got its money at IPO in 1977.</span>
+  </div>
+
+  <div class="div"></div>
+  <p style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:var(--text);margin-bottom:18px">Primary Market Mechanisms in Detail</p>
+
+  <div class="fac-grid">
+    <div class="fac">
+      <div class="fac-num" style="background:var(--teal-d);color:var(--teal)">IPO</div>
+      <div class="fac-title">Initial Public Offering</div>
+      <div class="fac-body">A private company sells shares to the general public for the first time. Price is either fixed or determined through a book-building process (price band where investors bid). Company must file a DRHP (Draft Red Herring Prospectus) with SEBI and disclose all financials. Merchant bankers manage the process.</div>
+      <div class="fac-eg">Example: Zomato IPO (2021) — ₹9,375 Cr raised at ₹76/share. Fresh issue of shares brought capital into Zomato's accounts. Post-listing, daily trading on NSE is secondary market.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--indigo-d);color:var(--indigo)">Private Placement</div>
+      <div class="fac-title">Targeted Raise from Specific Investors</div>
+      <div class="fac-body">A "concerted" effort — as your notes say. The company privately approaches a select group of investors (PE funds, HNIs, institutional investors) and offers shares/bonds directly. No public announcement, no regulatory process as heavy as an IPO. Faster and cheaper for the company, but fewer investors get access.</div>
+      <div class="fac-eg">Example: Before Paytm's IPO, SoftBank and Ant Financial invested via private placements — they negotiated directly with Paytm's management at mutually agreed valuations. Not open to the public.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--amber-d);color:var(--amber)">Rights Issue</div>
+      <div class="fac-title">Fresh Shares to Existing Shareholders</div>
+      <div class="fac-body">Company offers existing shareholders the right (not obligation) to buy new shares — at a discount to current market price. This rewards existing shareholders and raises capital. Ratio: e.g., 1:4 means for every 4 shares held, you can buy 1 more at ₹X. If you don't exercise the right, your shareholding gets diluted.</div>
+      <div class="fac-eg">Example: During COVID, Bharti Airtel raised ₹21,000 Cr via rights issue at ₹535/share when market price was ~₹600. Existing shareholders could buy at a ~11% discount. New cash entered Airtel's balance sheet to reduce debt.</div>
+    </div>
+
+    <div class="fac">
+      <div class="fac-num" style="background:var(--lime-d);color:var(--lime)">FPO</div>
+      <div class="fac-title">Follow-on Public Offering</div>
+      <div class="fac-body">Like an IPO, but for a company already listed. Raises additional equity capital from the public after the initial listing. Can be a "fresh issue" (new shares, money to company) or "offer for sale" (existing shareholders sell — no money to company). The latter is common when PE/VC investors want to exit.</div>
+      <div class="fac-eg">Example: LIC's listing in 2022 was partly an OFS — the Indian government sold its existing shares to the public. No fresh capital raised by LIC; the government received the proceeds.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Why does the secondary market matter if it doesn't give money to companies?</h3>
+    <p>The secondary market provides <strong>liquidity</strong> — the ability to exit. Without it, no rational investor would put money into a company at IPO. Why? Because you'd be locked in forever with no way to sell. The existence of a liquid secondary market is what makes the primary market possible.</p>
+    <p>Think of it like real estate. Primary market: buying a flat directly from the developer. Secondary market: resale market between individuals. The resale market (secondary) is what makes the primary market attractive — because buyers know they can sell later if needed.</p>
+  </div>
+</div>
+
+<!-- TAB: Intermediaries -->
+<div id="s-cm3" class="sec">
+  <div class="sh">
+    <div class="sh-eye">Topic 2 · Capital Markets</div>
+    <div class="sh-title">The <em>Intermediaries</em></div>
+    <p class="sh-desc">Capital doesn't move from households to companies by itself. Intermediaries — agents and owners — facilitate this flow. Two fundamentally different types: agents and principals.</p>
+  </div>
+
+  <div class="alert info">
+    <span class="alert-icon">💡</span>
+    <span class="alert-body"><strong>The key distinction:</strong> Some intermediaries act as <strong>agents</strong> (they never own the money — just move it for a fee). Others are <strong>financial intermediaries</strong> (they <em>take ownership</em> of the money, then use it themselves). This distinction drives everything about their risk profile and business model.</span>
+  </div>
+
+  <div class="int-diagram">
+    <div class="int-box">
+      <div class="ib-icon">👨‍👩‍👧‍👦</div>
+      <div class="ib-title">Household / Saver</div>
+      <div class="ib-sub">Has surplus funds.<br>Needs return.<br>Has short-medium term horizon.</div>
+    </div>
+    <div class="int-mid">
+      <div class="int-mid-box" style="border-color:var(--teal)">
+        <div class="im-title" style="color:var(--teal)">Agent Intermediaries</div>
+        <div class="im-sub">Merchant Bankers, Brokers<br>Commission-based. No own funds at risk.</div>
+      </div>
+      <div class="int-arr">↕</div>
+      <div class="int-mid-box" style="border-color:var(--amber)">
+        <div class="im-title" style="color:var(--amber)">Financial Intermediaries</div>
+        <div class="im-sub">Banks, Mutual Funds<br>Own the money. Transform it.</div>
+      </div>
+    </div>
+    <div class="int-box">
+      <div class="ib-icon">🏭</div>
+      <div class="ib-title">Company / Government</div>
+      <div class="ib-sub">Needs funds.<br>Has long-term projects.<br>Can generate returns.</div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+  <p style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--text);margin-bottom:16px">Type 1 — Merchant / Investment Bankers (Agents)</p>
+
+  <div class="fb">
+    <div class="fb-label">Merchant Banker — How They Work</div>
+    <p><strong>Role:</strong> They are experts — they do not invest their own money. They earn a commission (typically 1–3% of the money raised) for providing expertise and distribution.</p>
+    <ul>
+      <li><strong>Regulatory navigation:</strong> Handle SEBI filings, compliance, DRHP preparation — extremely complex legal process that companies cannot do alone</li>
+      <li><strong>Valuation:</strong> Help determine the right IPO price or bond coupon — what price will the market accept?</li>
+      <li><strong>Distribution network:</strong> Have offices across hundreds of cities. Collect applications from retail investors in small towns who would otherwise never know about the IPO.</li>
+      <li><strong>Roadshows:</strong> Present the company story to institutional investors (mutual funds, insurance companies) to generate demand</li>
+      <li>Key: They bear <strong>no principal risk</strong> — if the IPO fails to raise money, they lose their fee but not their own capital</li>
+    </ul>
+  </div>
+
+  <div class="div"></div>
+  <p style="font-family:'Instrument Serif',serif;font-size:1.2rem;color:var(--text);margin-bottom:16px">Type 2 — Financial Intermediaries (Principals)</p>
+
+  <div class="fac-grid">
+    <div class="fac" style="border-color:rgba(245,158,11,.25)">
+      <div class="fac-num" style="background:var(--amber-d);color:var(--amber)">Banks</div>
+      <div class="fac-title">The Maturity Transformers</div>
+      <div class="fac-body">Banks take <strong>ownership</strong> of depositor money. They accept short-term deposits (Fixed Deposits: 1–5 years, Savings Accounts: callable anytime, Recurring Deposits) and provide <strong>long-term loans</strong> to companies (10–30 year project finance). They earn from the <strong>interest rate spread</strong> — borrow cheap, lend expensive.</div>
+      <div class="fac-eg">Maturity transformation: A household needs its FD money back in 2 years (for a child's education). A cement factory needs a loan for 20 years. The bank bridges this gap by pooling thousands of depositors — while some withdraw, most don't simultaneously. This pooling makes long-term corporate finance possible. Bank bears the credit risk.</div>
+    </div>
+
+    <div class="fac" style="border-color:rgba(99,102,241,.25)">
+      <div class="fac-num" style="background:var(--indigo-d);color:var(--indigo)">Mutual Funds</div>
+      <div class="fac-title">The Diversifiers</div>
+      <div class="fac-body">Pool money from thousands of small investors and deploy it into a diversified portfolio of 15–50 stocks/bonds. A retail investor with ₹5,000 cannot buy meaningful stakes in 20 companies — but a mutual fund pools ₹10,000 Cr from 2 lakh investors and achieves diversification at scale. Professional fund managers make investment decisions.</div>
+      <div class="fac-eg">SIP (Systematic Investment Plan) — ₹500/month from a salaried person flows into a diversified equity fund. The fund aggregates millions of such SIPs and invests in Nifty 50 companies. The individual gets exposure to the entire market with ₹500/month — impossible otherwise. Fund earns an expense ratio (~1%).</div>
+    </div>
+  </div>
+
+  <div class="fb a">
+    <div class="fb-label">Other Intermediaries Mentioned in Your Class</div>
+    <p><strong>Post Office Schemes:</strong> The Post Office network (with 1.5 lakh+ offices) acts as an intermediary — collecting money from rural India through Recurring Deposits, Senior Citizen Savings Scheme (SCSS), Public Provident Fund (PPF). Money eventually funds government borrowing. The Post Office is particularly important for financial inclusion — reaching villages where banks don't exist.</p>
+    <ul>
+      <li><strong>Insurance companies:</strong> Collect premiums (long-term, regular), invest in equity and bonds, pay claims. Another form of maturity transformation</li>
+      <li><strong>Pension funds (NPS):</strong> Pool retirement savings, invest over 30–40 years, enormous patient capital for infrastructure projects</li>
+    </ul>
+  </div>
+</div>
+
+<!-- TAB: Valuation Chester -->
+<div id="s-cm4" class="sec">
+  <div class="sh">
+    <div class="sh-eye">Topic 2 · Capital Markets · Case Study</div>
+    <div class="sh-title">Valuing <em>Chester</em> — Unlisted Company</div>
+    <p class="sh-desc">How do you find a fair price for a company that has no market price yet? Chester is preparing for listing. We use peer comparison and apply a listing discount. Here's the full logic.</p>
+  </div>
+
+  <div class="card">
+    <h3 class="a">The Problem</h3>
+    <p>Chester is a private (unlisted) company. It wants to list on a stock exchange (IPO). The investment banker needs to recommend an <strong>issue price</strong> — what price should shares be sold at? Too high → IPO fails (investors won't buy). Too low → company leaves money on the table.</p>
+    <p>Since Chester has no market price, we use <strong>comparable company analysis</strong>: find similar listed companies (peers), look at their valuation multiples, apply those to Chester's financials, then adjust for the fact that Chester is unknown and carries extra risk as a first-time listing.</p>
+  </div>
+
+  <div class="div"></div>
+  <p style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:var(--text);margin-bottom:16px">Step 1 — Peer Multiples (Andrew & Walling)</p>
+
+  <div class="val-box">
+    <div class="val-head" style="background:var(--bg3);color:var(--teal)">
+      <span>Peer Company Multiples (Given)</span>
+      <span style="color:var(--muted);font-size:10px">Listed peers — observable from market data</span>
+    </div>
+    <div class="val-body">
+      <div class="val-row" style="font-weight:600;color:var(--text)">
+        <div class="vl">Multiple</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px">Andrew</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px">Walling</div><div class="vv">Average</div>
+      </div>
+      <div class="val-row">
+        <div class="vl">P/E Ratio</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">18x</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">22x</div><div class="vv" style="color:var(--teal)">20x</div>
+      </div>
+      <div class="val-row">
+        <div class="vl">P/B Ratio</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">2.8x</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">3.2x</div><div class="vv" style="color:var(--teal)">3.0x</div>
+      </div>
+      <div class="val-row">
+        <div class="vl">EV/EBITDA</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">9x</div><div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted)">11x</div><div class="vv" style="color:var(--teal)">10x</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+  <p style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:var(--text);margin-bottom:16px">Step 2 — Apply Multiples to Chester's Financials</p>
+
+  <div class="card">
+    <h3 class="a">Chester's Financial Data (Hypothetical)</h3>
+    <p>EPS = ₹25 · Book Value per Share = ₹200 · EBITDA = ₹500 Cr · Debt = ₹200 Cr · Shares = 10 Cr · Cash = ₹50 Cr</p>
+  </div>
+
+  <div class="calc">
+    <span class="t">Method 1 — P/E Based Price:</span><br>
+    Price = EPS × Average P/E = 25 × 20 = <span class="t">₹500 per share</span><br>
+    <br>
+    <span class="a">Method 2 — P/B Based Price:</span><br>
+    Price = BVPS × Average P/B = 200 × 3.0 = <span class="a">₹600 per share</span><br>
+    <br>
+    <span class="i">Method 3 — EV/EBITDA Based Price:</span><br>
+    EV = EBITDA × multiple = 500 × 10 = ₹5,000 Cr (Enterprise Value)<br>
+    Equity Value = EV − Debt + Cash = 5000 − 200 + 50 = <span class="i">₹4,850 Cr</span><br>
+    Price per share = 4850 / 10 Cr shares = <span class="i">₹485 per share</span><br>
+    <br>
+    <span class="l">Average of three methods:</span><br>
+    (500 + 600 + 485) / 3 = <span class="l">₹528.33 per share</span>
+  </div>
+
+  <div class="div"></div>
+  <p style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:var(--text);margin-bottom:16px">Step 3 — Apply the Listing Discount (20%)</p>
+
+  <div class="fb r">
+    <div class="fb-label">Why a Listing Discount?</div>
+    <p>Chester is new. Nobody has traded its shares before. Investors face two problems:</p>
+    <ul>
+      <li><strong>Information asymmetry:</strong> Insiders (management, existing investors) know far more about Chester than the public does. The public faces uncertainty about true quality — potential hidden problems in financials, pending legal issues, management quality. This "lemons problem" justifies a discount.</li>
+      <li><strong>Illiquidity premium:</strong> In the first days/weeks of trading, volumes may be low. It may be hard to exit quickly. Investors demand a discount for this initial illiquidity risk.</li>
+      <li><strong>Unknown factors:</strong> How will the market react? Is the sector in favour? Are there macroeconomic headwinds? New listings carry more unknowns than established companies.</li>
+    </ul>
+  </div>
+
+  <div class="calc">
+    <span class="t">Fair Value from peers</span> = ₹528.33<br>
+    <span class="r">Apply 20% listing discount:</span><br>
+    Issue Price = 528.33 × (1 − 0.20) = 528.33 × 0.80 = <span class="t">₹422.67 ≈ ₹423 per share</span>
+  </div>
+
+  <div class="alert info">
+    <span class="alert-icon">💡</span>
+    <span class="alert-body"><strong>Important clarification from your class:</strong> The 20% discount is NOT the same as a "discounting rate" in DCF (like WACC). It is NOT bringing future cash flows to the present. It is simply a price reduction — like a new shop giving a 20% opening discount. Two completely different uses of the word "discount."</span>
+  </div>
+
+  <div class="div"></div>
+  <p style="font-family:'Instrument Serif',serif;font-size:1.3rem;color:var(--text);margin-bottom:16px">Relative Valuation vs DCF — When to Use Which?</p>
+
+  <table class="comp-table">
+    <thead>
+      <tr><th>Aspect</th><th>Relative Valuation (Multiples)</th><th>DCF (Discounted Cash Flow)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Data needed</td>
+        <td>Current financials + peer multiples</td>
+        <td>5–10 year free cash flow projections + WACC</td>
+      </tr>
+      <tr>
+        <td>Best for</td>
+        <td>Unlisted companies, info scarce environments, quick assessment</td>
+        <td>Stable, mature companies with predictable cash flows</td>
+      </tr>
+      <tr>
+        <td>Limitations</td>
+        <td>Doesn't capture efficiency, profitability differences, or risk — just says "similar companies trade at X multiple." If peers are overvalued, you'll overprice too.</td>
+        <td>Extremely sensitive to assumptions. 5–10 year projections for an unlisted firm are essentially guesses. GIGO — garbage in, garbage out.</td>
+      </tr>
+      <tr>
+        <td>Used for Chester</td>
+        <td><span class="badge bt2">Yes — primary method</span></td>
+        <td><span class="badge br2">No — too unreliable for unlisted firm</span></td>
+      </tr>
+      <tr>
+        <td>Output</td>
+        <td>Fair price based on what market currently pays for similar companies</td>
+        <td>Intrinsic value based on future cash generation ability</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="fb s">
+    <div class="fb-label">Company vs Project Cost of Capital — closing link to your notes</div>
+    <p>Your notes start with: "Difference between company cost of capital and project cost of capital depends on risk of projects, as the numbers will change accordingly."</p>
+    <p style="margin-top:8px">This connects directly to valuation: Chester has a certain <strong>company WACC</strong> (based on its overall risk). But if Chester's projects have different risk levels — a risky new product line might warrant a <strong>higher project discount rate</strong> than the company-level WACC. In DCF, you'd use the project-specific rate, not the firm-wide WACC. In relative valuation (multiples), this nuance is lost — which is another limitation of the multiples approach.</p>
+  </div>
+
+  <div class="alert gold">
+    <span class="alert-icon">🎯</span>
+    <span class="alert-body"><strong>The full Chester answer in one paragraph:</strong> Chester's fair value is estimated by averaging P/E, P/B, and EV/EBITDA multiples from comparable listed peers (Andrew and Walling). A 20% listing discount is then applied — not a discounting rate, but a price reduction — to account for information asymmetry between insiders and the public, and the risk that unknown factors may emerge post-listing. DCF is rejected as a methodology because reliable 5–10 year projections are impossible for an unlisted company preparing for its first listing.</span>
+  </div>
+</div>
+
+</div><!-- /page -->
+<script>
+const tabs={
+  dp:['dp1','dp2','dp3'],
+  cm:['cm1','cm2','cm3','cm4']
+};
+function tab(name,el,isAmber){
+  // close all
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  // open target
+  document.getElementById('s-'+name).classList.add('on');
+  el.classList.add('on');
+  if(isAmber) el.classList.add('amber');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+// Init: first two tabs active by default handled by HTML
+</script>
+</body>
+</html>
