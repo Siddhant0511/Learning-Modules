@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRM Notes — Great Lakes</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #13151c;
+    --bg3: #1a1d27;
+    --border: #252836;
+    --amber: #f5a623;
+    --amber-dim: rgba(245,166,35,0.12);
+    --amber-glow: rgba(245,166,35,0.25);
+    --teal: #4ecdc4;
+    --teal-dim: rgba(78,205,196,0.1);
+    --rose: #ff6b6b;
+    --rose-dim: rgba(255,107,107,0.1);
+    --violet: #a78bfa;
+    --violet-dim: rgba(167,139,250,0.1);
+    --text: #e8eaf2;
+    --muted: #8892a4;
+    --faint: #3a3f52;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--amber);
+  }
+  .site-header .sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-top: 2px;
+  }
+  .badge {
+    background: var(--amber-dim);
+    border: 1px solid var(--amber);
+    color: var(--amber);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  /* ===== NAV TABS ===== */
+  .tab-nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    padding: 0 32px;
+    overflow-x: auto;
+  }
+  .tab-btn {
+    padding: 14px 22px;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: var(--amber);
+    border-bottom-color: var(--amber);
+  }
+
+  /* ===== LAYOUT ===== */
+  .main { padding: 36px 32px; max-width: 1100px; margin: 0 auto; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== SECTION HEADINGS ===== */
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+  }
+
+  h2 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--amber); margin: 32px 0 12px; }
+  h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--teal); margin: 20px 0 8px; }
+
+  /* ===== CARDS ===== */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0 28px; }
+  .card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--faint); }
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .card-body { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+  .card-body strong { color: var(--text); font-weight: 500; }
+
+  .amber .card-label { color: var(--amber); }
+  .amber .card-title { color: var(--amber); }
+  .amber { border-color: rgba(245,166,35,0.25); background: var(--amber-dim); }
+
+  .teal .card-label { color: var(--teal); }
+  .teal .card-title { color: var(--teal); }
+  .teal { border-color: rgba(78,205,196,0.2); background: var(--teal-dim); }
+
+  .rose .card-label { color: var(--rose); }
+  .rose .card-title { color: var(--rose); }
+  .rose { border-color: rgba(255,107,107,0.2); background: var(--rose-dim); }
+
+  .violet .card-label { color: var(--violet); }
+  .violet .card-title { color: var(--violet); }
+  .violet { border-color: rgba(167,139,250,0.2); background: var(--violet-dim); }
+
+  /* ===== INLINE TAG ===== */
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 2px 3px;
+    vertical-align: middle;
+  }
+  .tag-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,166,35,0.3); }
+  .tag-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(78,205,196,0.3); }
+  .tag-rose { background: var(--rose-dim); color: var(--rose); border: 1px solid rgba(255,107,107,0.3); }
+  .tag-violet { background: var(--violet-dim); color: var(--violet); border: 1px solid rgba(167,139,250,0.3); }
+
+  /* ===== TEST SELECTOR ===== */
+  .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin: 0 0 24px; }
+  .test-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+  }
+  .test-btn:hover { border-color: var(--amber); }
+  .test-btn.active { border-color: var(--amber); background: var(--amber-dim); }
+  .test-btn .t-name { font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--text); }
+  .test-btn .t-when { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+  .test-detail { display: none; }
+  .test-detail.active {
+    display: block;
+    background: var(--bg3);
+    border: 1px solid var(--amber);
+    border-radius: 10px;
+    padding: 28px;
+    margin-top: 8px;
+  }
+
+  /* ===== DECISION TREE ===== */
+  .dtree {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin: 16px 0 28px;
+  }
+  .dtree table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .dtree th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--bg2);
+    color: var(--amber);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
+  }
+  .dtree td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .dtree tr:last-child td { border-bottom: none; }
+  .dtree tr:hover td { background: rgba(255,255,255,0.02); }
+  .dt-test { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--teal); font-size: 0.88rem; }
+
+  /* ===== INFO BLOCKS ===== */
+  .info-block {
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-size: 0.875rem;
+    border-left: 3px solid;
+  }
+  .info-amber { background: var(--amber-dim); border-color: var(--amber); }
+  .info-teal { background: var(--teal-dim); border-color: var(--teal); }
+  .info-rose { background: var(--rose-dim); border-color: var(--rose); }
+  .info-violet { background: var(--violet-dim); border-color: var(--violet); }
+  .info-block strong { font-weight: 600; }
+
+  /* ===== CODE / FORMULA BLOCKS ===== */
+  .formula {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 0.82rem;
+    margin: 10px 0;
+    color: var(--teal);
+    line-height: 1.8;
+  }
+
+  /* ===== QP SOLUTIONS ===== */
+  .qp-selector { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .qp-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .qp-btn:hover { color: var(--text); border-color: var(--faint); }
+  .qp-btn.active { color: var(--amber); border-color: var(--amber); background: var(--amber-dim); }
+
+  .qp-paper { display: none; }
+  .qp-paper.active { display: block; }
+
+  .q-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .q-header:hover { background: rgba(255,255,255,0.02); }
+  .q-header.open { border-bottom-color: var(--border); }
+  .q-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    background: var(--amber-dim);
+    color: var(--amber);
+    border: 1px solid rgba(245,166,35,0.3);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .q-title-text { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9rem; flex: 1; }
+  .q-marks { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+  .q-chevron { color: var(--muted); font-size: 0.8rem; transition: transform 0.3s; }
+  .q-header.open .q-chevron { transform: rotate(180deg); }
+
+  .q-body { display: none; padding: 20px 24px; }
+  .q-body.open { display: block; }
+
+  .sub-q { margin: 16px 0; }
+  .sub-q-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .sub-q-ans {
+    background: var(--bg2);
+    border-left: 2px solid var(--teal);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .ans-header {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+
+  /* ===== OUTPUT READER ===== */
+  .output-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin: 12px 0;
+  }
+  .output-row { display: flex; gap: 8px; align-items: flex-start; margin: 8px 0; font-size: 0.875rem; }
+  .output-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--amber); min-width: 160px; padding-top: 2px; }
+  .output-val { color: var(--text); }
+  .output-interp { color: var(--muted); font-size: 0.82rem; font-style: italic; }
+
+  .step-list { list-style: none; counter-reset: steps; }
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 14px;
+    margin: 10px 0;
+    align-items: flex-start;
+    font-size: 0.875rem;
+  }
+  .step-list li::before {
+    content: counter(steps);
+    min-width: 24px;
+    height: 24px;
+    background: var(--amber-dim);
+    color: var(--amber);
+    border: 1px solid rgba(245,166,35,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    flex-shrink: 0;
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 3px; }
+
+  /* ===== TABLE ===== */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 12px 0; }
+  .data-table th { background: var(--bg2); color: var(--amber); font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .data-table .hl { color: var(--teal); font-weight: 500; }
+  .data-table .sig { color: var(--rose); font-weight: 600; }
+  .data-table .nsig { color: var(--muted); }
+
+  /* ===== SEPARATOR ===== */
+  hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  p { margin: 8px 0; }
+  ul, ol { margin: 8px 0 8px 20px; }
+  li { margin: 4px 0; font-size: 0.875rem; color: var(--muted); }
+  li strong { color: var(--text); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } .main { padding: 20px 16px; } .tab-btn { padding: 12px 14px; font-size: 0.8rem; } }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="site-header h1" style="font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:0.05em;color:var(--amber);">BRM — Business Research Methods</div>
+    <div class="sub">PGDM 2025-27 · Great Lakes Gurgaon · Term 3</div>
+  </div>
+  <div class="badge">COMPLETE NOTES + QP SOLUTIONS</div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('vars',this)">📐 Variables</button>
+  <button class="tab-btn" onclick="switchTab('tests',this)">🔬 SPSS Tests</button>
+  <button class="tab-btn" onclick="switchTab('outputs',this)">📊 Reading Outputs</button>
+  <button class="tab-btn" onclick="switchTab('advanced',this)">🧮 Advanced Tests</button>
+  <button class="tab-btn" onclick="switchTab('solutions',this)">📝 QP Solutions</button>
+</nav>
+
+<!-- ================================================================ -->
+<!--  TAB 1: VARIABLES                                                  -->
+<!-- ================================================================ -->
+<div class="main">
+
+<div id="tab-vars" class="tab-panel active">
+  <div class="section-title">Variables in Research</div>
+  <div class="section-desc">Understanding the different types of variables is the foundation of all hypothesis testing and research design.</div>
+
+  <div class="card-grid">
+    <div class="card amber">
+      <div class="card-label">IV</div>
+      <div class="card-title">Independent Variable</div>
+      <div class="card-body">The variable you <strong>manipulate or control</strong> to see its effect. The "cause" in cause-effect.<br><br>
+        <strong>Examples:</strong> Platform type (App vs Website), Type of detergent, Gender, Tenure, AR vs Non-AR media
+      </div>
+    </div>
+    <div class="card teal">
+      <div class="card-label">DV</div>
+      <div class="card-title">Dependent Variable</div>
+      <div class="card-body">The variable being <strong>measured/observed</strong>. The "effect" or outcome. Changes in response to the IV.<br><br>
+        <strong>Examples:</strong> Usefulness score, Whiteness meter reading, Motivation, Willingness to Pay Premium
+      </div>
+    </div>
+    <div class="card rose">
+      <div class="card-label">CV</div>
+      <div class="card-title">Control Variable</div>
+      <div class="card-body">Variables <strong>held constant</strong> so they don't confound results. Deliberately managed by the researcher.<br><br>
+        <strong>Examples:</strong> Age group, Device type, Prior brand loyalty, Income level, Frequency of app use
+      </div>
+    </div>
+    <div class="card violet">
+      <div class="card-label">EV</div>
+      <div class="card-title">Extraneous Variable</div>
+      <div class="card-body">Uncontrolled factors that <strong>could affect the DV</strong> but aren't the focus. If not managed, become confounding variables.<br><br>
+        <strong>Examples:</strong> Mood of respondent, Time of day, Noise in environment
+      </div>
+    </div>
+    <div class="card amber">
+      <div class="card-label">MED</div>
+      <div class="card-title">Mediating Variable</div>
+      <div class="card-body">Explains <strong>HOW or WHY</strong> the IV affects the DV. It is both an outcome of IV and a cause of DV (the mechanism in the middle).<br><br>
+        <strong>Example:</strong> IV=Holacracy → Med=Employee Satisfaction → DV=Motivation<br>
+        <em style="color:var(--muted);">IV → Mediator → DV</em>
+      </div>
+    </div>
+    <div class="card teal">
+      <div class="card-label">MOD</div>
+      <div class="card-title">Moderating Variable</div>
+      <div class="card-body">Changes the <strong>strength or direction</strong> of the IV→DV relationship. It's an interaction variable.<br><br>
+        <strong>Example:</strong> Gender moderates effect of AR on purchase intent (AR works differently for males vs females)<br>
+        <em style="color:var(--muted);">IV × Moderator → DV</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-amber info-block">
+    <strong>Mediator vs Moderator — Quick Memory Trick:</strong><br>
+    Mediator = the <em>middle man</em> (explains the process). Moderator = the <em>modifier</em> (changes the strength/direction). Mediation answers "how?", Moderation answers "when?" or "for whom?"
+  </div>
+
+  <h2>Types of Data / Measurement Scales</h2>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-label" style="color:var(--amber)">NOMINAL</div>
+      <div class="card-body">Categories with no order. <strong>Examples:</strong> Gender (M/F), Platform (App/Website), AR/NonAR. Use: Frequency, Cross-Tabulation.</div>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color:var(--teal)">ORDINAL</div>
+      <div class="card-body">Ranked categories, unequal gaps. <strong>Examples:</strong> Likert scale (1-5), Tenure categories. Use: Median, Non-parametric tests.</div>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color:var(--rose)">INTERVAL</div>
+      <div class="card-body">Equal gaps, no true zero. <strong>Examples:</strong> Temperature (°C), Likert treated as interval in SPSS. Use: T-tests, ANOVA.</div>
+    </div>
+    <div class="card">
+      <div class="card-label" style="color:var(--violet)">RATIO</div>
+      <div class="card-body">Equal gaps + true zero. <strong>Examples:</strong> Sales revenue, Age in years, Distance. Use: All parametric tests, Regression.</div>
+    </div>
+  </div>
+
+  <h2>Hypothesis Structure</h2>
+  <div class="info-block info-teal">
+    <strong>H₀ (Null Hypothesis):</strong> Assumes NO effect, NO difference, NO relationship. Always contains = (or ≤ or ≥).<br>
+    <strong>H₁ / Hₐ (Alternate Hypothesis):</strong> The research claim. Contains ≠ (two-tailed) or > or < (one-tailed).
+  </div>
+  <div class="formula">
+H₀: μ₁ = μ₂    (no significant difference between groups)
+H₁: μ₁ ≠ μ₂   (there is a significant difference) ← Two-tailed
+
+H₀: μ ≤ 3      (mean is not greater than 3)
+H₁: μ > 3      ← One-tailed (directional)
+
+Decision Rule: If p-value &lt; α (0.05) → Reject H₀
+               If p-value ≥ α (0.05) → Fail to Reject H₀
+  </div>
+
+  <h2>Sampling Plan — 5 Steps</h2>
+  <ol class="step-list">
+    <li><strong>Define the Population:</strong> Who is your target? (e.g., all iQMetrix employees who experienced Holacracy)</li>
+    <li><strong>Determine the Sampling Frame:</strong> The actual list you'll draw from (e.g., employee database where Holacracy was rolled out)</li>
+    <li><strong>Select Sampling Technique:</strong> Probability (Simple Random, Stratified, Cluster) or Non-Probability (Convenience, Purposive, Snowball)</li>
+    <li><strong>Determine Sample Size:</strong> Based on population size, margin of error, confidence level (typically use formula or rule of thumb: N ≥ 100 for t-tests, N ≥ 200 for SEM/Factor Analysis)</li>
+    <li><strong>Execute the Sampling Process:</strong> Distribute questionnaires, collect data systematically</li>
+  </ol>
+
+  <h2>Research Design Types</h2>
+  <div class="two-col">
+    <div class="info-block info-amber">
+      <strong>Experimental Design:</strong> Researcher manipulates IV. Has treatment and control groups. Best for establishing causality. Used in Adidas AR experiment, Detergent study.
+    </div>
+    <div class="info-block info-teal">
+      <strong>Survey/Descriptive Design:</strong> No manipulation. Measures variables as they exist. Used in iQMetrix Holacracy study (questionnaire-based).
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="info-block info-violet">
+      <strong>Factorial Design:</strong> Tests multiple IVs and their interactions simultaneously. E.g., 2×2 design = 2 levels of IV1 × 2 levels of IV2. Used in Two-Way ANOVA (Detergent × Temperature, AUGTARGET × Mediatype).
+    </div>
+    <div class="info-block info-rose">
+      <strong>Cross-Sectional:</strong> Data collected at one point in time. Vs Longitudinal: multiple time points. Most MBA exam cases use cross-sectional data.
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!--  TAB 2: SPSS TESTS                                                 -->
+<!-- ================================================================ -->
+<div id="tab-tests" class="tab-panel">
+  <div class="section-title">SPSS Tests — Complete Guide</div>
+  <div class="section-desc">Click on any test to see when to use it, hypothesis structure, and key rules.</div>
+
+  <h2>Quick Decision Table</h2>
+  <div class="dtree">
+    <table>
+      <tr>
+        <th>SITUATION</th>
+        <th>VARIABLES</th>
+        <th>TEST TO USE</th>
+        <th>EXAM TRIGGER WORDS</th>
+      </tr>
+      <tr><td>Distribution of one category</td><td>1 Categorical</td><td class="dt-test">Frequency</td><td>"How many", "distribution", "breakdown"</td></tr>
+      <tr><td>Relationship between 2 categories</td><td>2 Categorical</td><td class="dt-test">Cross-Tabulation (Chi-Square)</td><td>"Association", "cross-tab", "row vs column"</td></tr>
+      <tr><td>Compare sample mean to known value</td><td>1 group, 1 continuous DV</td><td class="dt-test">One Sample T-Test</td><td>"Is mean > 3?", "greater than", "compare to benchmark"</td></tr>
+      <tr><td>Compare 2 independent groups</td><td>1 nominal IV (2 groups), 1 continuous DV</td><td class="dt-test">Independent Samples T-Test</td><td>"Differ between App & Website", "males vs females"</td></tr>
+      <tr><td>Compare same group, 2 time points / conditions</td><td>1 group measured twice</td><td class="dt-test">Paired Samples T-Test</td><td>"Before & after", "same respondents", "pre-post"</td></tr>
+      <tr><td>Compare 3+ independent groups</td><td>1 nominal IV (3+ groups), 1 continuous DV</td><td class="dt-test">One-Way ANOVA</td><td>"Tenure (8 groups)", "age bracket differences"</td></tr>
+      <tr><td>Compare groups with 2+ IVs</td><td>2+ nominal IVs, 1 continuous DV</td><td class="dt-test">Two-Way / N-Way ANOVA</td><td>"Factorial design", "interaction effect", "2×2"</td></tr>
+      <tr><td>ANOVA but remove covariate effect</td><td>2+ IVs + 1 covariate, 1 DV</td><td class="dt-test">ANCOVA</td><td>"Controlling for", "removing effect of", "adjusted means"</td></tr>
+      <tr><td>Strength of relationship between 2 continuous variables</td><td>2 continuous</td><td class="dt-test">Correlation (Pearson)</td><td>"Relationship between", "associated with", "r value"</td></tr>
+      <tr><td>Predict DV from 1+ IVs</td><td>1+ continuous IVs, 1 continuous DV</td><td class="dt-test">Regression</td><td>"Predict", "impact on", "effect of X on Y"</td></tr>
+    </table>
+  </div>
+
+  <!-- Test buttons -->
+  <div class="test-grid" id="testGrid">
+    <button class="test-btn" onclick="showTest('freq', this)">
+      <div class="t-name">Frequency</div>
+      <div class="t-when">1 categorical variable</div>
+    </button>
+    <button class="test-btn" onclick="showTest('crosstab', this)">
+      <div class="t-name">Cross-Tabulation</div>
+      <div class="t-when">2 categorical variables</div>
+    </button>
+    <button class="test-btn" onclick="showTest('onesample', this)">
+      <div class="t-name">One Sample T-Test</div>
+      <div class="t-when">Compare mean to value</div>
+    </button>
+    <button class="test-btn" onclick="showTest('indept', this)">
+      <div class="t-name">Independent T-Test</div>
+      <div class="t-when">2 different groups</div>
+    </button>
+    <button class="test-btn" onclick="showTest('paired', this)">
+      <div class="t-name">Paired T-Test</div>
+      <div class="t-when">Same group, 2 measures</div>
+    </button>
+    <button class="test-btn" onclick="showTest('oneway', this)">
+      <div class="t-name">One-Way ANOVA</div>
+      <div class="t-when">3+ groups, 1 IV</div>
+    </button>
+    <button class="test-btn" onclick="showTest('nway', this)">
+      <div class="t-name">N-Way ANOVA</div>
+      <div class="t-when">2+ IVs, factorial</div>
+    </button>
+    <button class="test-btn" onclick="showTest('ancova', this)">
+      <div class="t-name">ANCOVA</div>
+      <div class="t-when">ANOVA + covariate</div>
+    </button>
+    <button class="test-btn" onclick="showTest('corr', this)">
+      <div class="t-name">Correlation</div>
+      <div class="t-when">Relationship, r value</div>
+    </button>
+    <button class="test-btn" onclick="showTest('reg', this)">
+      <div class="t-name">Regression</div>
+      <div class="t-when">Predict DV from IV</div>
+    </button>
+  </div>
+
+  <!-- Test details -->
+  <div id="detail-freq" class="test-detail">
+    <h2>Frequency Analysis</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Understand how data is distributed across categories of a single variable. Produces count and percentage for each value.</div>
+    <h3>When to Use</h3>
+    <p>Profile your sample. First step in any analysis. Use for nominal/ordinal variables like Gender, Age bracket, Tenure, Platform type.</p>
+    <h3>No Hypothesis Needed</h3>
+    <p>Frequency is purely descriptive — no hypothesis testing involved. Results show frequencies, valid %, cumulative %.</p>
+    <h3>Key Output Fields</h3>
+    <div class="formula">
+Frequency = Count of cases in each category
+Valid Percent = % excluding missing values
+Cumulative Percent = Running total of valid %
+    </div>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Descriptive Statistics → Frequencies</div>
+  </div>
+
+  <div id="detail-crosstab" class="test-detail">
+    <h2>Cross-Tabulation (Chi-Square)</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Examine the relationship/association between two categorical variables. Answers: "Does one category variable depend on another?"</div>
+    <h3>When to Use</h3>
+    <p>Both variables are nominal/ordinal. E.g., Is AR usage associated with gender? Does platform preference depend on age group?</p>
+    <h3>Hypothesis</h3>
+    <div class="formula">
+H₀: There is no association between Variable A and Variable B
+H₁: There is a significant association between Variable A and Variable B
+
+Decision: If p (Asymp. Sig) &lt; 0.05 → Reject H₀
+    </div>
+    <h3>Key Check — Assumptions</h3>
+    <ul>
+      <li>Expected cell count ≥ 5 in at least 80% of cells (else use Fisher's Exact Test)</li>
+      <li>Cramer's V or Phi tells you strength of association (0–1)</li>
+    </ul>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Descriptive Statistics → Crosstabs → Statistics → Chi-Square</div>
+  </div>
+
+  <div id="detail-onesample" class="test-detail">
+    <h2>One Sample T-Test</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Compare the mean of ONE group to a known/hypothesized population value (test value). E.g., Is mean satisfaction > 3 (midpoint)?</div>
+    <h3>When to Use</h3>
+    <p>One group, one continuous DV, comparing to a benchmark value. Common with Likert scales: "Is usefulness rated significantly above neutral (3)?"</p>
+    <h3>Hypothesis (Example: Is Hol_Imp > 3?)</h3>
+    <div class="formula">
+H₀: μ ≤ 3    (Holacracy satisfaction is not greater than 3)
+H₁: μ > 3    (Holacracy satisfaction is greater than 3) ← One-tailed
+
+Test Value = 3 (entered in SPSS)
+
+Decision: If p &lt; 0.05 → Reject H₀ → Mean is significantly > 3
+    </div>
+    <h3>Key Output</h3>
+    <ul>
+      <li><strong>t value:</strong> test statistic</li>
+      <li><strong>df:</strong> n - 1</li>
+      <li><strong>Sig (2-tailed):</strong> Divide by 2 for one-tailed</li>
+      <li><strong>Mean Difference:</strong> Sample mean minus test value</li>
+      <li><strong>95% CI:</strong> Confidence interval around the difference</li>
+    </ul>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Compare Means → One-Sample T Test → enter Test Value</div>
+  </div>
+
+  <div id="detail-indept" class="test-detail">
+    <h2>Independent Samples T-Test</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Compare means of TWO INDEPENDENT groups on a continuous DV. "Do these two different groups differ in their average score?"</div>
+    <h3>When to Use</h3>
+    <p>Two groups of different people: App vs Website users, Males vs Females, AR vs Non-AR users. DV must be continuous (interval/ratio).</p>
+    <h3>Hypothesis (Example: App vs Website Usefulness)</h3>
+    <div class="formula">
+H₀: μ(App) = μ(Website)   → No significant difference in usefulness
+H₁: μ(App) ≠ μ(Website)  → There is a significant difference (two-tailed)
+
+Decision: If p &lt; 0.05 → Reject H₀ → Groups differ significantly
+    </div>
+    <h3>Critical Rule — Levene's Test</h3>
+    <div class="info-block info-rose">
+      <strong>ALWAYS check Levene's Test first before reading t-test results!</strong><br>
+      Levene's p > 0.05 → Use "Equal variances assumed" row<br>
+      Levene's p ≤ 0.05 → Use "Equal variances NOT assumed" row
+    </div>
+    <h3>Key Output</h3>
+    <table class="data-table">
+      <tr><th>Field</th><th>What It Means</th></tr>
+      <tr><td>Levene's F & Sig</td><td>Tests if variances are equal. Tells you which row to use.</td></tr>
+      <tr><td>t value</td><td>Test statistic. Magnitude indicates separation between means.</td></tr>
+      <tr><td>df</td><td>Degrees of freedom</td></tr>
+      <tr><td>Sig. (2-tailed)</td><td>p-value. Compare to 0.05.</td></tr>
+      <tr><td>Mean Difference</td><td>Group 1 mean − Group 2 mean. Sign shows direction.</td></tr>
+      <tr><td>95% CI</td><td>Range of plausible mean differences. If it doesn't cross 0 → significant.</td></tr>
+    </table>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Compare Means → Independent-Samples T Test → Grouping Variable → Define Groups</div>
+  </div>
+
+  <div id="detail-paired" class="test-detail">
+    <h2>Paired Samples T-Test</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Compare two measurements from the SAME subjects/respondents. Pre-test vs post-test, or two related variables (HOL_IMP vs STAY for same employee).</div>
+    <h3>When to Use</h3>
+    <p>Same respondents measured twice (before/after intervention), or comparing two related variables from the same person. E.g., "Does Holacracy satisfaction predict stay intentions?" can also be examined via paired t-test when both are measured on same person and you want to compare their mean levels.</p>
+    <h3>Hypothesis</h3>
+    <div class="formula">
+H₀: μ(difference) = 0    → No significant difference between paired measures
+H₁: μ(difference) ≠ 0   → Significant difference exists
+
+Decision: If p &lt; 0.05 → Reject H₀
+    </div>
+    <h3>Key Output</h3>
+    <ul>
+      <li><strong>Paired Differences Mean:</strong> Average of (score1 - score2)</li>
+      <li><strong>t value, Sig (2-tailed):</strong> Same interpretation as independent t-test</li>
+      <li><strong>95% CI:</strong> If it doesn't cross 0 → significant difference</li>
+    </ul>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Compare Means → Paired-Samples T Test</div>
+  </div>
+
+  <div id="detail-oneway" class="test-detail">
+    <h2>One-Way ANOVA</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Compare means of 3 or more independent groups on a continuous DV. Extension of independent t-test for more than 2 groups.</div>
+    <h3>When to Use</h3>
+    <p>One nominal IV with 3+ categories. E.g., Does Holacracy satisfaction differ across 8 tenure groups? Does motivation differ across 3 age brackets?</p>
+    <h3>Hypothesis (Example: Tenure vs Hol_Imp)</h3>
+    <div class="formula">
+H₀: μ₁ = μ₂ = μ₃ = ... = μₖ   (All group means are equal, tenure doesn't matter)
+H₁: At least one group mean differs    (Tenure matters)
+
+Decision: If F sig &lt; 0.05 → Reject H₀
+    </div>
+    <h3>Key Output — ANOVA Table</h3>
+    <table class="data-table">
+      <tr><th>Source</th><th>What It Is</th></tr>
+      <tr><td>Between Groups (Regression)</td><td>Variation due to the IV (treatment effect)</td></tr>
+      <tr><td>Within Groups (Error/Residual)</td><td>Variation within each group (random error)</td></tr>
+      <tr><td>F = MSB / MSW</td><td>Ratio of between to within group variance. Larger F → more likely significant</td></tr>
+      <tr><td>Sig.</td><td>p-value. If &lt; 0.05 → at least one group differs</td></tr>
+    </table>
+    <div class="info-block info-rose"><strong>Post-Hoc Tests:</strong> ANOVA only tells you that groups differ — NOT which ones. Use Tukey's HSD or Bonferroni post-hoc tests to find which specific group pairs are different.</div>
+    <h3>Assumptions</h3>
+    <ul>
+      <li>Normality within each group (use Levene's test for homogeneity)</li>
+      <li>Independence of observations</li>
+      <li>DV is interval/ratio scale</li>
+    </ul>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Compare Means → One-Way ANOVA → Post Hoc → Tukey</div>
+  </div>
+
+  <div id="detail-nway" class="test-detail">
+    <h2>Two-Way / N-Way ANOVA (Factorial ANOVA)</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Test the effect of TWO OR MORE independent variables (and their interaction) on one DV simultaneously. Also called Between-Subjects ANOVA or Factorial ANOVA.</div>
+    <h3>When to Use</h3>
+    <p>Factorial experimental design with 2+ IVs. E.g., AUGTARGET (onbody/ontoenv) AND mediatype (AR/NonAR) → WTP. Detergent type AND water temperature → Whiteness.</p>
+    <h3>Hypothesis — Three Sets (for 2-Way ANOVA)</h3>
+    <div class="formula">
+1. MAIN EFFECT of IV1:
+   H₀: AUGTARGET has no effect on WTPayprimium
+   H₁: AUGTARGET significantly affects WTPayprimium
+
+2. MAIN EFFECT of IV2:
+   H₀: Mediatype has no effect on WTPayprimium
+   H₁: Mediatype significantly affects WTPayprimium
+
+3. INTERACTION EFFECT (IV1 × IV2):
+   H₀: The interaction of AUGTARGET and mediatype has no effect on WTPayprimium
+   H₁: The interaction significantly affects WTPayprimium
+    </div>
+    <h3>Key Output — Tests of Between-Subjects Effects</h3>
+    <table class="data-table">
+      <tr><th>Row</th><th>What to Check</th></tr>
+      <tr><td>Corrected Model</td><td>Overall model fit. If sig &lt; 0.05, the model is significant.</td></tr>
+      <tr><td>IV1 (e.g., AUGTARGET)</td><td>Main effect of first IV. F value & Sig. p &lt; 0.05 → significant.</td></tr>
+      <tr><td>IV2 (e.g., mediatype)</td><td>Main effect of second IV.</td></tr>
+      <tr><td>IV1 * IV2 (Interaction)</td><td>Interaction effect. p &lt; 0.05 → the effect of one IV depends on the level of the other IV.</td></tr>
+      <tr><td>R Squared</td><td>% variance in DV explained by all IVs combined.</td></tr>
+    </table>
+    <div class="info-block info-violet"><strong>Interaction Effect:</strong> When significant, it means the effect of IV1 on DV is DIFFERENT depending on the level of IV2. Plot an interaction plot (line graph) to visualize. If lines are parallel → no interaction. If lines cross or diverge → interaction exists.</div>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → General Linear Model → Univariate → Fixed Factors → Plots</div>
+  </div>
+
+  <div id="detail-ancova" class="test-detail">
+    <h2>ANCOVA — Analysis of Covariance</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Like ANOVA, but also <strong>statistically controls</strong> for the effect of one or more continuous covariates. Removes noise from the analysis to get purer IV effects.</div>
+    <h3>When to Use</h3>
+    <p>When you suspect a continuous variable (covariate) is influencing your DV and you want to "remove" its effect before comparing groups. E.g., Compare usefulness of App vs Website while controlling for prior tech experience.</p>
+    <h3>Hypothesis</h3>
+    <div class="formula">
+H₀: After controlling for [covariate], group means on DV are equal
+H₁: After controlling for [covariate], group means differ significantly
+
+Same ANOVA table structure, but covariate appears as an extra row.
+If covariate Sig &lt; 0.05 → it was indeed related to DV (good to control)
+    </div>
+    <h3>Key Concepts</h3>
+    <ul>
+      <li><strong>Covariate:</strong> Continuous variable whose effect is removed (e.g., age, income, prior experience)</li>
+      <li><strong>Adjusted Means:</strong> Group means after removing covariate effect — these are what you compare</li>
+      <li><strong>Assumption:</strong> Homogeneity of regression slopes (covariate relationship must be same across groups)</li>
+    </ul>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → General Linear Model → Univariate → Fixed Factors + Covariate(s)</div>
+  </div>
+
+  <div id="detail-corr" class="test-detail">
+    <h2>Correlation (Pearson's r)</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Measure the strength and direction of the linear relationship between two continuous variables. Does NOT imply causation.</div>
+    <h3>When to Use</h3>
+    <p>Both variables are continuous (interval/ratio). E.g., Is Holacracy satisfaction related to Motivation? What is the relationship between HOL_IMP, STAY, REC, MOT?</p>
+    <h3>Hypothesis</h3>
+    <div class="formula">
+H₀: ρ = 0   (No linear relationship between Variable A and Variable B)
+H₁: ρ ≠ 0   (There is a significant linear relationship)
+
+Decision: If p (Sig. 1-tailed or 2-tailed) &lt; 0.05 → Reject H₀
+    </div>
+    <h3>Interpreting Pearson's r</h3>
+    <table class="data-table">
+      <tr><th>r Value</th><th>Strength of Relationship</th><th>Direction</th></tr>
+      <tr><td>0.00 – 0.19</td><td>Very weak / negligible</td><td rowspan="3">Positive r = same direction<br>Negative r = opposite direction</td></tr>
+      <tr><td>0.20 – 0.39</td><td>Weak</td></tr>
+      <tr><td>0.40 – 0.59</td><td>Moderate</td></tr>
+      <tr><td>0.60 – 0.79</td><td>Strong</td><td></td></tr>
+      <tr><td>0.80 – 1.00</td><td>Very strong</td><td></td></tr>
+    </table>
+    <div class="info-block info-rose"><strong>Important:</strong> Correlation ≠ Causation! A high r value only tells you variables move together, not that one causes the other. For causation → use Regression or experimental design.</div>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Correlate → Bivariate → Pearson checkbox</div>
+  </div>
+
+  <div id="detail-reg" class="test-detail">
+    <h2>Regression (Simple / Multiple)</h2>
+    <div class="info-block info-amber"><strong>Purpose:</strong> Predict the value of a DV from one or more IVs. Quantifies the direction and magnitude of effect. Establishes a predictive equation.</div>
+    <h3>When to Use</h3>
+    <p>You want to predict or explain a continuous DV using one or more IVs. E.g., Does Holacracy satisfaction predict Motivation? Does HOL_IMP predict STAY?</p>
+    <h3>Hypothesis</h3>
+    <div class="formula">
+H₀: β = 0   (IV has no significant impact on DV / slope = 0)
+H₁: β ≠ 0   (IV has a significant impact on DV)
+
+Decision: If ANOVA F sig &lt; 0.05 → Model is significant
+           If Coefficients t sig &lt; 0.05 → That specific IV is significant
+    </div>
+    <h3>Key Output — 3 Tables to Read</h3>
+    <h3 style="color:var(--amber)">1. Model Summary</h3>
+    <table class="data-table">
+      <tr><th>Field</th><th>Meaning</th></tr>
+      <tr><td>R</td><td>Correlation coefficient between predicted and actual DV</td></tr>
+      <tr><td>R Square (R²)</td><td>% of variance in DV explained by IV(s). R²=0.206 → IV explains 20.6% of DV's variance.</td></tr>
+      <tr><td>Adjusted R²</td><td>Penalizes for adding more IVs. More reliable for multiple regression.</td></tr>
+    </table>
+    <h3 style="color:var(--amber)">2. ANOVA Table</h3>
+    <p>Tests if the overall regression model is significant. F value and Sig — if p &lt; 0.05, model works.</p>
+    <h3 style="color:var(--amber)">3. Coefficients Table</h3>
+    <table class="data-table">
+      <tr><th>Field</th><th>Meaning</th></tr>
+      <tr><td>B (Constant)</td><td>Y-intercept. Value of DV when IV = 0.</td></tr>
+      <tr><td>B (IV)</td><td>Slope. For each 1-unit increase in IV, DV changes by B units.</td></tr>
+      <tr><td>Std. Error</td><td>Precision of B estimate. Smaller = better.</td></tr>
+      <tr><td>Beta (β)</td><td>Standardized coefficient. Useful for comparing IVs in multiple regression. Range: -1 to +1.</td></tr>
+      <tr><td>t & Sig</td><td>Tests if this specific IV's coefficient is significant (p &lt; 0.05).</td></tr>
+    </table>
+    <div class="formula">
+Regression Equation:
+DV = B(Constant) + B(IV) × IV
+
+Example: MOT = 2.418 + 0.375 × HOL_IMP
+
+Interpretation: For every 1-point increase in HOL_IMP (satisfaction with Holacracy),
+Motivation (MOT) increases by 0.375 points, holding all else constant.
+    </div>
+    <div class="info-block info-teal"><strong>SPSS Path:</strong> Analyze → Regression → Linear → DV in Dependent, IVs in Independent(s)</div>
+  </div>
+
+</div>
+
+<!-- ================================================================ -->
+<!--  TAB 3: READING OUTPUTS                                            -->
+<!-- ================================================================ -->
+<div id="tab-outputs" class="tab-panel">
+  <div class="section-title">Reading SPSS Outputs</div>
+  <div class="section-desc">Step-by-step guides for interpreting actual SPSS tables — using examples from your question papers.</div>
+
+  <h2>Independent Samples T-Test — Adidas (Q1, 2024 Paper)</h2>
+  <p style="color:var(--muted); font-size:0.875rem; margin-bottom:16px;">Group Statistics: App (N=177, M=3.06) vs Website (N=175, M=4.23)</p>
+  
+  <ul class="step-list">
+    <li><strong>Check Group Statistics:</strong> Website mean (4.23) > App mean (3.06). There appears to be a difference. Website is rated higher for usefulness.</li>
+    <li><strong>Check Levene's Test:</strong> F=0.609, p=0.436. Since p > 0.05, variances are equal. Use <em>Equal variances assumed</em> row.</li>
+    <li><strong>Read T-Test Result (Equal variances row):</strong> t = -13.527, df = 350, Sig.(2-tailed) = 0.013. Since p = 0.013 &lt; 0.05, we REJECT H₀.</li>
+    <li><strong>Check Mean Difference:</strong> -1.6536. App is rated 1.65 points lower than Website in usefulness.</li>
+    <li><strong>Check 95% CI:</strong> [-1.8655, -0.4784] — does NOT cross zero → confirms significant difference.</li>
+  </ul>
+  
+  <div class="info-block info-teal">
+    <strong>Conclusion:</strong> There is a statistically significant difference in perceived usefulness between the Adidas App and Website (t = -13.527, p = 0.013 &lt; 0.05). The Website (M=4.23) is rated significantly higher in usefulness than the App (M=3.06).
+  </div>
+
+  <hr>
+
+  <h2>Two-Way ANOVA — Adidas WTP (Q2, 2024 Paper)</h2>
+  <p style="color:var(--muted); font-size:0.875rem; margin-bottom:16px;">Tests of Between-Subjects Effects: DV = WTPayprimium; IVs = AUGTARGET, Mediatype</p>
+
+  <table class="data-table">
+    <tr><th>Source</th><th>F Value</th><th>Sig.</th><th>Significant?</th><th>Conclusion</th></tr>
+    <tr><td>AUGTARGET</td><td>0.001</td><td class="nsig">0.971</td><td>NO</td><td>Whether augmentation is on-body or on-environment does NOT significantly affect WTP</td></tr>
+    <tr><td>Mediatype (AR vs NonAR)</td><td>26.804</td><td class="sig">0.000</td><td>YES ✓</td><td>AR users have significantly higher WTP than Non-AR users</td></tr>
+    <tr><td>AUGTARGET × Mediatype</td><td>1.195</td><td class="nsig">0.275</td><td>NO</td><td>No interaction — AR effect is the same regardless of augmentation target</td></tr>
+    <tr><td>Corrected Model</td><td>9.216</td><td class="sig">0.000</td><td>YES ✓</td><td>Overall model is significant</td></tr>
+    <tr><td colspan="2">R² = 0.079</td><td colspan="3">IVs explain only 7.9% of variance in WTP — other factors matter too</td></tr>
+  </table>
+
+  <div class="info-block info-teal">
+    <strong>Conclusion:</strong> Only Media Type (AR vs NonAR) significantly affects WTP (F=26.804, p=0.000). The type of augmentation target (body vs environment) does not matter, nor does the combination of both IVs.
+  </div>
+
+  <hr>
+
+  <h2>Regression — HOL_IMP predicting MOT (Q4, 2021 Paper)</h2>
+  
+  <ol class="step-list">
+    <li><strong>Model Summary:</strong> R² = 0.206 → HOL_IMP explains 20.6% of variance in Motivation. Remaining 79.4% is due to other factors.</li>
+    <li><strong>ANOVA Table:</strong> F = 64.996, Sig = 0.000 &lt; 0.05 → The regression model is statistically significant and valid.</li>
+    <li><strong>Coefficients:</strong> B(Constant) = 2.418, B(HOL_IMP) = 0.375, Sig = 0.000 &lt; 0.05 → HOL_IMP is a significant predictor.</li>
+    <li><strong>Write the Equation:</strong> MOT = 2.418 + 0.375 × HOL_IMP</li>
+    <li><strong>Interpret direction:</strong> Positive B → As HOL_IMP increases, MOT increases. For every 1 unit rise in Holacracy satisfaction, motivation rises by 0.375 units.</li>
+  </ol>
+  
+  <div class="info-block info-teal">
+    <strong>Conclusion:</strong> Holacracy satisfaction (HOL_IMP) significantly and positively predicts employee motivation (β=0.454, t=8.062, p=0.000). The model explains 20.6% of variance in motivation (R²=0.206).
+  </div>
+
+  <hr>
+
+  <h2>Correlation Matrix — iQMetrix Study (Q4, 2021 Paper)</h2>
+  <table class="data-table">
+    <tr><th></th><th>HOL_IMP</th><th>STAY</th><th>REC</th><th>MOT</th><th>TOT_FEED</th></tr>
+    <tr><td>HOL_IMP</td><td>—</td><td class="hl">.414</td><td class="hl">.459</td><td class="hl">.430</td><td>.224</td></tr>
+    <tr><td>STAY</td><td class="hl">.414</td><td>—</td><td class="hl">.643</td><td class="hl">.640</td><td>.387</td></tr>
+    <tr><td>REC</td><td class="hl">.459</td><td class="hl">.643</td><td>—</td><td class="hl">.641</td><td>.335</td></tr>
+  </table>
+  <div class="info-block info-amber">
+    All pairs have Sig = 0.000 &lt; 0.05 → All correlations are statistically significant. STAY-REC (r=0.643) and STAY-MOT (r=0.640) are the strongest relationships — staying intention is strongly linked to recommendation and motivation. HOL_IMP-TOT_FEED (r=0.224) is the weakest — feedback quality has weak relationship with Holacracy satisfaction.
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!--  TAB 4: ADVANCED TESTS                                             -->
+<!-- ================================================================ -->
+<div id="tab-advanced" class="tab-panel">
+  <div class="section-title">Advanced Statistical Tests</div>
+  <div class="section-desc">Factor Analysis and Discriminant Analysis — frequently tested in Great Lakes BRM exams.</div>
+
+  <h2>Factor Analysis</h2>
+  <div class="info-block info-amber"><strong>Purpose:</strong> Reduce a large number of correlated variables into a smaller set of underlying <em>factors</em> or dimensions. An interdependence technique — no IV/DV distinction.</div>
+  
+  <h3>When to Use</h3>
+  <ul>
+    <li>You have many variables and want to simplify them</li>
+    <li>You want to identify underlying constructs (e.g., 7 lifestyle statements → 3 personality factors)</li>
+    <li>Preparing data for regression by creating composite variables</li>
+    <li>Questionnaire validation</li>
+  </ul>
+
+  <h3>Prerequisites Before Running Factor Analysis</h3>
+  <ol class="step-list">
+    <li><strong>Sample Size:</strong> Minimum 5-10 observations per variable, preferably N ≥ 200</li>
+    <li><strong>Interval/Ratio Data:</strong> Variables should be continuous (Likert treated as interval)</li>
+    <li><strong>Correlations must exist:</strong> Variables should be correlated with each other</li>
+    <li><strong>KMO > 0.5:</strong> Kaiser-Meyer-Olkin measure of sampling adequacy must be acceptable</li>
+    <li><strong>Bartlett's Test significant:</strong> p &lt; 0.05 confirms correlations are not all zero</li>
+  </ol>
+
+  <h3>Reading Factor Analysis Output — Step by Step</h3>
+
+  <div class="output-box">
+    <div style="font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--amber); margin-bottom:12px;">Table 1: KMO and Bartlett's Test</div>
+    <div class="output-row">
+      <div class="output-label">KMO Value</div>
+      <div>
+        <div class="output-val">Rule: Must be > 0.5 to proceed</div>
+        <div class="output-interp">0.50–0.59 = barely acceptable | 0.60–0.69 = mediocre | 0.70–0.79 = good | 0.80+ = excellent<br>Example: KMO = 0.750 → Good. Factor analysis is appropriate.</div>
+      </div>
+    </div>
+    <div class="output-row">
+      <div class="output-label">Bartlett's Sig.</div>
+      <div>
+        <div class="output-val">Must be p &lt; 0.05</div>
+        <div class="output-interp">Confirms that the correlation matrix is not an identity matrix (i.e., variables ARE correlated). Example: p = 0.000 → Significant ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="output-box">
+    <div style="font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--amber); margin-bottom:12px;">Table 2: Total Variance Explained</div>
+    <div class="output-row">
+      <div class="output-label">Eigenvalue</div>
+      <div>
+        <div class="output-val">Kaiser's Rule: Retain components with Eigenvalue > 1</div>
+        <div class="output-interp">Example (Lifestyle study): Components 1, 2, 3 all have eigenvalues > 1 → retain 3 factors</div>
+      </div>
+    </div>
+    <div class="output-row">
+      <div class="output-label">% Variance & Cumulative %</div>
+      <div>
+        <div class="output-val">Target: Cumulative % should be ≥ 60% (ideally higher)</div>
+        <div class="output-interp">Example: 3 factors explain 80.65% of total variance → Excellent</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="output-box">
+    <div style="font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:var(--amber); margin-bottom:12px;">Table 3: Component Matrix vs Rotated Component Matrix</div>
+    <div class="info-block info-rose" style="margin: 8px 0 12px;">
+      <strong>ALWAYS USE THE ROTATED COMPONENT MATRIX (Varimax rotation)</strong> — The unrotated matrix often has variables loading on multiple components, making interpretation difficult. Varimax rotation simplifies the structure: each variable loads primarily on ONE factor.
+    </div>
+    <div class="output-row">
+      <div class="output-label">Factor Loading</div>
+      <div>
+        <div class="output-val">Threshold: |loading| > 0.5 is considered significant for interpreting</div>
+        <div class="output-interp">Higher loading = stronger association between variable and that factor</div>
+      </div>
+    </div>
+    <div class="output-row">
+      <div class="output-label">Naming Factors</div>
+      <div>
+        <div class="output-val">Look at all variables loading on each factor and find a common theme</div>
+        <div class="output-interp">Example: "Quiet at home" + "Magazines" + "Homebody" → Name = Introversion / Home Orientation</div>
+      </div>
+    </div>
+  </div>
+
+  <h3>Lifestyle Study Example (Q5, 2021 Paper)</h3>
+  <table class="data-table">
+    <tr><th>Factor</th><th>Variables Loading</th><th>Loadings</th><th>Factor Name</th></tr>
+    <tr>
+      <td class="hl">Factor 1</td>
+      <td>Quiet evening at home<br>Magazines > movies<br>Homebody</td>
+      <td>.897<br>.762<br>.868</td>
+      <td>Introversion / Home Orientation</td>
+    </tr>
+    <tr>
+      <td class="hl">Factor 2</td>
+      <td>Not buy billboard products<br>Advertising is waste</td>
+      <td>.867<br>.817</td>
+      <td>Anti-Advertising Attitude</td>
+    </tr>
+    <tr>
+      <td class="hl">Factor 3</td>
+      <td>Always check prices<br>Save and cash coupons</td>
+      <td>.860<br>.911</td>
+      <td>Price/Value Consciousness</td>
+    </tr>
+  </table>
+  <div class="info-block info-teal">
+    <strong>3 factors explain 80.65% of total variance.</strong> The 7 lifestyle variables can be reduced to 3 underlying personality dimensions. Marketers can use these 3 segments for targeted campaigns.
+  </div>
+
+  <hr>
+
+  <h2>Discriminant Analysis</h2>
+  <div class="info-block info-amber"><strong>Purpose:</strong> Classify observations into pre-defined groups based on a set of predictor variables. "Can we predict which group a case belongs to based on these variables?"</div>
+
+  <h3>When to Use</h3>
+  <ul>
+    <li>DV is categorical (group membership: Developed/Underdeveloped country, Customer/Non-customer)</li>
+    <li>IVs are continuous (discriminating variables: GNI, Health expenditure, Birth rate)</li>
+    <li>Goal: find the linear combination of IVs that best separates the groups</li>
+  </ul>
+
+  <h3>Reading Discriminant Analysis Output</h3>
+  <div class="output-box">
+    <div class="output-row">
+      <div class="output-label">Eigenvalue</div>
+      <div><div class="output-val">Larger = better discrimination. % variance = how much this function explains.</div></div>
+    </div>
+    <div class="output-row">
+      <div class="output-label">Canonical Correlation</div>
+      <div><div class="output-val">Correlation between discriminant scores and group. Range 0–1. Closer to 1 = better separation. Example: 0.862 = strong discrimination</div></div>
+    </div>
+    <div class="output-row">
+      <div class="output-label">Wilks' Lambda</div>
+      <div><div class="output-val">Ranges 0–1. Closer to 0 = better discrimination. If Sig. &lt; 0.05 → function significantly separates groups. Example: λ=0.258, p=0.000 ✓</div></div>
+    </div>
+    <div class="output-row">
+      <div class="output-label">Structure Matrix</div>
+      <div><div class="output-val">Correlation of each variable with the discriminant function. Tells you which variables are most important for discrimination. GNI (.876) > Health exp (.720) > Birth rate (-.544)</div></div>
+    </div>
+    <div class="output-row">
+      <div class="output-label">Classification Table</div>
+      <div><div class="output-val">% of cases correctly classified. Overall accuracy = (correctly classified / total) × 100. Example: 26+32 out of 60 = 96.7% accuracy</div></div>
+    </div>
+  </div>
+  
+  <div class="info-block info-teal">
+    <strong>Country Classification Example Conclusion:</strong> The discriminant function significantly separates developed from underdeveloped countries (Wilks' λ=0.258, p=0.000). GNI per capita is the strongest discriminating variable. The model correctly classifies 96.7% of countries — excellent predictive ability.
+  </div>
+</div>
+
+<!-- ================================================================ -->
+<!--  TAB 5: QP SOLUTIONS                                               -->
+<!-- ================================================================ -->
+<div id="tab-solutions" class="tab-panel">
+  <div class="section-title">Question Paper Solutions</div>
+  <div class="section-desc">Detailed model answers for all three BRM end-term papers.</div>
+
+  <div class="qp-selector">
+    <button class="qp-btn active" onclick="switchQP('qp2024', this)">April 2024 (35 Marks)</button>
+    <button class="qp-btn" onclick="switchQP('qp2021', this)">May 2021 (40 Marks)</button>
+    <button class="qp-btn" onclick="switchQP('qp2023', this)">March 2023 (40 Marks)</button>
+  </div>
+
+  <!-- ===== 2024 PAPER ===== -->
+  <div id="qp-qp2024" class="qp-paper active">
+    <div class="info-block info-amber" style="margin-bottom:20px;">
+      <strong>April 2024 | PGDM 2023-25 | Max: 35 Marks | 90 mins | 2 pages</strong><br>
+      Adidas Brand Perception Study — Independent T-Test, Two-Way ANOVA, Research Design for Zara
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q1</span>
+        <span class="q-title-text">Analysis of Adidas Brand Perception Study — App vs Website Usefulness</span>
+        <span class="q-marks">11 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q">
+          <span class="sub-q-label">Part (a) — 1 Mark | Identify IV and DV</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Independent Variable (IV):</strong> Platform Type — App vs Website (categorical, 2 groups)<br>
+            <strong>Dependent Variable (DV):</strong> Usefulness Score — measured on a 5-point Likert scale (treated as interval/continuous)
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (b) — 1 Mark | State the Hypothesis</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>H₀:</strong> There is no significant difference in the perceived usefulness of the Adidas App and Website (μ_App = μ_Website)<br>
+            <strong>H₁:</strong> There is a significant difference in the perceived usefulness of the Adidas App and Website (μ_App ≠ μ_Website) — Two-tailed
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (c) — 1 Mark | Specify which test and why</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Test Used:</strong> Independent Samples T-Test<br><br>
+            <strong>Why:</strong> (1) The IV is categorical with exactly 2 independent groups (App users vs Website users — different respondents). (2) The DV (Usefulness) is measured on a 5-point Likert scale, treated as interval/continuous. (3) The two groups are independent — different people used the App vs the Website. These three conditions satisfy the requirements for an Independent Samples T-Test.
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (d) — 2 Marks | Suggest control variables</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            The following variables should be controlled to ensure the experiment's internal validity:<br><br>
+            1. <strong>Tech-savviness / Digital literacy</strong> — More tech-literate users may rate apps higher regardless of actual quality<br>
+            2. <strong>Frequency of use</strong> — Users who use the app/website more often may rate it differently due to familiarity bias<br>
+            3. <strong>Device type</strong> — App experience varies on Android vs iOS; website experience varies by browser<br>
+            4. <strong>Prior brand experience / loyalty</strong> — Existing Adidas fans may rate all platforms higher due to brand sentiment<br>
+            5. <strong>Age / demographic</strong> — Younger users may be more comfortable with apps; older users with websites
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (e) — 2 Marks | Interpret the results</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Step 1 — Group Statistics:</strong> Website (M=4.23, SD=0.91, N=175) vs App (M=3.06, SD=0.76, N=177). Website mean is visibly higher.<br><br>
+            <strong>Step 2 — Levene's Test:</strong> F = 0.609, Sig = 0.436 > 0.05 → Variances are equal. We use the "Equal variances assumed" row.<br><br>
+            <strong>Step 3 — T-Test Result:</strong> t = -13.527, df = 350, Sig. (2-tailed) = 0.013 < 0.05 → Reject H₀<br><br>
+            <strong>Step 4 — Mean Difference:</strong> -1.6536 (App rated 1.65 points lower). 95% CI: [-1.8655, -0.4784] — does not include zero → confirms significant difference.<br><br>
+            <strong>Conclusion:</strong> There is a statistically significant difference in perceived usefulness between the Adidas App and Website. The Website is significantly more useful than the App (p = 0.013 &lt; 0.05).
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (f) — 4 Marks | Recommendations to Adidas</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            Based on the finding that the Website (M=4.23) is rated significantly more useful than the App (M=3.06):<br><br>
+            1. <strong>Improve App UX:</strong> Adidas should invest in app interface redesign — simplify navigation, reduce load times, and improve product search/filter functionality. The 1.65-point gap in usefulness is substantial and commercially risky given the growing mobile-first consumer base.<br><br>
+            2. <strong>Benchmark App Against Website:</strong> Conduct a feature-parity audit — identify what the Website does well (e.g., detailed product info, smooth checkout) and replicate it on the App.<br><br>
+            3. <strong>AR/Interactive Features:</strong> If the App has AR features, ensure they work smoothly — a buggy AR experience can disproportionately hurt usefulness ratings.<br><br>
+            4. <strong>User Feedback Loop:</strong> Add in-app feedback prompts after purchase/browsing sessions to continuously capture usefulness gaps.<br><br>
+            5. <strong>Focus on Brand Perception via Website:</strong> Since the Website already has high usefulness (4.23/5), Adidas should continue leveraging it for brand storytelling, lookbooks, and campaigns while the App is being improved.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q2</span>
+        <span class="q-title-text">Analysis for Willingness to Pay — AR Augmentation Study (Two-Way ANOVA)</span>
+        <span class="q-marks">11 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q">
+          <span class="sub-q-label">Part (a) — 1 Mark | Identify IV and DV</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Independent Variables (IVs) — 2 IVs:</strong><br>
+            1. AUGTARGET — Whether augmentation is on-body (onbody) or on-environment (ontoenv) — Categorical, 2 levels<br>
+            2. Mediatype — Whether media uses Augmented Reality (AR) or Non-AR — Categorical, 2 levels<br><br>
+            <strong>Dependent Variable (DV):</strong> WTPayPrimium — Willingness to Pay Premium — Continuous
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (b) — 1 Mark | State the Hypothesis</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer — Three Sets of Hypotheses</div>
+            <strong>H₀₁:</strong> AUGTARGET has no significant effect on Willingness to Pay Premium<br>
+            <strong>H₁₁:</strong> AUGTARGET has a significant effect on WTP<br><br>
+            <strong>H₀₂:</strong> Mediatype (AR vs NonAR) has no significant effect on WTP<br>
+            <strong>H₁₂:</strong> Mediatype has a significant effect on WTP<br><br>
+            <strong>H₀₃:</strong> The interaction between AUGTARGET and Mediatype has no significant effect on WTP<br>
+            <strong>H₁₃:</strong> The interaction significantly affects WTP
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (c) — 1 Mark | Test Used and Why</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Test Used:</strong> Two-Way ANOVA (Factorial ANOVA / Between-Subjects ANOVA)<br><br>
+            <strong>Why:</strong> There are TWO categorical independent variables (AUGTARGET and Mediatype), each with 2 levels, and one continuous dependent variable (WTPayPrimium). This constitutes a 2×2 factorial design. Two-Way ANOVA is specifically designed to test main effects of two IVs AND their interaction effect simultaneously — making it the appropriate test here. Since subjects are in only one condition (between-subjects), it is specifically a Between-Subjects factorial ANOVA.
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (d) — 2 Marks | Control Variables</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            1. <strong>Income level / purchasing power</strong> — Higher income individuals inherently have higher WTP regardless of AR<br>
+            2. <strong>Brand loyalty to Adidas</strong> — Loyal customers may pay premium regardless of media type<br>
+            3. <strong>Prior experience with AR technology</strong> — AR-savvy users may respond differently from AR-naïve users<br>
+            4. <strong>Product category preference</strong> — WTP for body products (shoes, apparel) vs environment products (furniture, wall paint) differs inherently<br>
+            5. <strong>Age and demographic</strong> — Younger consumers are more AR-comfortable and have different WTP thresholds
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (e) — 2 Marks | Interpret the Results</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            Reading the Tests of Between-Subjects Effects table:<br><br>
+            <strong>Corrected Model:</strong> F = 9.216, p = 0.000 &lt; 0.05 → The overall model is statistically significant. The combination of IVs explains variance in WTP.<br><br>
+            <strong>AUGTARGET:</strong> F = 0.001, p = 0.971 > 0.05 → NOT significant. We fail to reject H₀₁. Whether augmentation is on-body or on-environment does NOT significantly affect WTP.<br><br>
+            <strong>Mediatype:</strong> F = 26.804, p = 0.000 &lt; 0.05 → SIGNIFICANT. Reject H₀₂. AR media significantly increases WTP compared to Non-AR media. This is the strongest effect.<br><br>
+            <strong>Interaction (AUGTARGET × Mediatype):</strong> F = 1.195, p = 0.275 > 0.05 → NOT significant. Reject H₀₃ fails. The effect of AR on WTP does not depend on augmentation target placement.<br><br>
+            <strong>R² = 0.079:</strong> The model explains 7.9% of variance in WTP — meaningful but modest. Other factors also play a large role.
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (f) — 4 Marks | Recommendations to Adidas</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            1. <strong>Invest in AR Marketing — It Works:</strong> Since AR media significantly increases WTP (p=0.000, F=26.804), Adidas should prioritize AR-enabled advertising and virtual try-on experiences. AR is a direct lever for premium pricing power.<br><br>
+            2. <strong>Augmentation Placement is Irrelevant:</strong> Whether AR is used on body (shoes, apparel) or environment (wall displays, tables) does not change WTP. Adidas can choose the augmentation target based on creative/UX factors rather than revenue optimization.<br><br>
+            3. <strong>Focus on AR Experience Quality:</strong> Since there's no interaction effect, the AR advantage is universal. All product categories can benefit from AR investment — both wearables and home accessories.<br><br>
+            4. <strong>Address Low R²:</strong> Only 7.9% of WTP variance is explained by these factors. Adidas should investigate other WTP drivers — pricing perception, product quality beliefs, social influence, and brand prestige — through further research.<br><br>
+            5. <strong>Non-AR Content Revamp:</strong> Since Non-AR media leads to lower WTP, existing non-AR campaigns may need richer visual storytelling, influencer tie-ups, or premium brand messaging to compensate for the lack of immersive experience.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q3</span>
+        <span class="q-title-text">How has this course added value to you?</span>
+        <span class="q-marks">3 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Sample Answer Framework</div>
+          Discuss 3 concrete learnings:<br><br>
+          1. <strong>Test Selection Framework:</strong> Previously I could not distinguish when to use t-test vs ANOVA vs regression. BRM gave me a systematic decision framework based on number of groups, type of variables, and research objective — something directly applicable in analytics projects and future managerial roles.<br><br>
+          2. <strong>SPSS Output Interpretation:</strong> I can now read Levene's test, Sig. values, regression coefficients, and factor loadings — translating statistical software output into business-meaningful insights. This connects directly to my analytics specialization.<br><br>
+          3. <strong>Research Design Thinking:</strong> Understanding control variables, mediators, and moderators has sharpened how I frame business problems. In my architecture background, I understood structural design — BRM taught me how to design rigorous research structures for business questions, bridging my two worlds.
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q4</span>
+        <span class="q-title-text">Zara — Comprehensive Research Design & Execution Plan</span>
+        <span class="q-marks">10 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <p style="color:var(--muted); font-size:0.875rem; margin-bottom:16px;">Research Question: Should Zara prioritize sustainability in advertising? Is there a gender difference in its impact?</p>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (a) — 2 Marks | Hypotheses Development</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>H₁:</strong> Sustainability-focused advertisements positively and significantly influence customer engagement with Zara (Main effect).<br>
+            H₀₁: Sustainability-focused ads do not significantly influence customer engagement.<br><br>
+            <strong>H₂:</strong> There is a significant difference in the impact of sustainability-focused advertisements on engagement between male and female consumers (Gender moderation).<br>
+            H₀₂: Gender does not significantly moderate the relationship between sustainability ads and customer engagement.
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (b) — 2 Marks | Variable Specification</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Independent Variable (IV):</strong> Type of Advertisement — Sustainability-focused vs Non-sustainability-focused (Categorical, 2 levels, manipulated by researcher)<br><br>
+            <strong>Dependent Variable (DV):</strong> Customer Engagement — measured via engagement score on a 7-point Likert scale covering: intent to share, purchase intention, emotional connection, and brand recall<br><br>
+            <strong>Moderating Variable:</strong> Gender — Male vs Female (Categorical). Tests whether the IV→DV relationship differs by gender.<br><br>
+            <strong>Control Variables:</strong> Prior environmental consciousness, age group, income level, prior Zara brand experience, geographic region
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (c) — 2 Marks | Sampling Method</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Sampling Technique:</strong> Stratified Random Sampling<br><br>
+            <strong>Rationale:</strong> Since gender is a key variable, the population is stratified by gender (Male/Female) to ensure proportional representation of both groups. Within each stratum, simple random sampling is used.<br><br>
+            <strong>Sample Characteristics:</strong> Target population = Zara customers aged 18–45 in major Indian metros (Delhi, Mumbai, Bangalore). Sample size = 300 (150 male, 150 female). This ensures adequate power for Two-Way ANOVA analysis. Respondents are existing Zara customers (verified via purchase history or loyalty program).
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (d) — 2 Marks | Data Analysis Approach</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Experimental Stimuli:</strong> Two advertisement versions will be created:<br>
+            • <em>Treatment group:</em> Sustainability-focused Zara ad (featuring eco-friendly materials, conscious production, environmental messaging)<br>
+            • <em>Control group:</em> Standard Zara fashion ad (no sustainability messaging)<br>
+            Participants are randomly assigned to one condition (between-subjects design).<br><br>
+            <strong>Statistical Test:</strong> Two-Way ANOVA (Between-Subjects Factorial ANOVA)<br><br>
+            <strong>Why Two-Way ANOVA:</strong> Two categorical IVs (Ad Type × Gender), one continuous DV (Engagement Score), and the need to test the interaction effect simultaneously. This allows testing whether gender moderates the sustainability-engagement relationship — exactly what the research question asks.
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (e) — 2 Marks | Expected Outcomes and Recommendations</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Expected Outcomes:</strong><br>
+            • Sustainability ads are expected to generate higher engagement than non-sustainability ads (H₁ confirmed).<br>
+            • Female consumers are expected to show significantly higher engagement with sustainability content than males, based on literature on eco-consciousness by gender (H₂ confirmed).<br><br>
+            <strong>Recommendations if H₁ confirmed:</strong> Zara should adopt sustainability messaging as a core pillar of its global marketing communications — positioning itself as a responsible fashion brand.<br><br>
+            <strong>Recommendations if H₂ confirmed (interaction effect significant):</strong> Zara should segment campaigns by gender — stronger sustainability messaging for female audiences (social media, influencer partnerships) while for male audiences, combining sustainability with performance/product quality narratives.<br><br>
+            <strong>If no gender difference:</strong> A single unified sustainability campaign can be rolled out globally without gender-based segmentation, simplifying campaign execution and budget allocation.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2021 PAPER ===== -->
+  <div id="qp-qp2021" class="qp-paper">
+    <div class="info-block info-amber" style="margin-bottom:20px;">
+      <strong>May 2021 | PGDM 2020-22 | Max: 40 Marks | 120 mins</strong><br>
+      iQMetrix Holacracy Case — Research Objectives, Sampling, Hypothesis Testing, Regression, Factor Analysis
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q1</span>
+        <span class="q-title-text">Taplow's Three Research Objectives</span>
+        <span class="q-marks">6 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Answer</div>
+          The three core research objectives for the iQMetrix Holacracy study were:<br><br>
+          1. <strong>Assess employee experience under Holacracy:</strong> Understand what it was like for employees to work at iQMetrix under the Holacracy structure — covering staying intentions, motivation, and recommendation of the company as a workplace. (Measured via STAY1, STAY2, MOT1, MOT2, REC1, REC2)<br><br>
+          2. <strong>Evaluate perceived organizational improvement from Holacracy:</strong> Determine whether employees perceived that the adoption of Holacracy had actually improved the company — its processes, structure, and outcomes. (Measured via HOL_IMP)<br><br>
+          3. <strong>Assess quality and effectiveness of feedback mechanisms:</strong> Examine whether employees were receiving feedback that was accurate, useful, timely, well-organized, and motivating under the Holacracy system. (Measured via FEEDBACK1–FEEDBACK7, TOT_FEED)
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q2</span>
+        <span class="q-title-text">Sampling Plan</span>
+        <span class="q-marks">4 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Answer</div>
+          <strong>1. Define the Population:</strong> All employees at iQMetrix who were working under the Holacracy management structure at the time of the study.<br><br>
+          <strong>2. Determine the Sampling Frame:</strong> The employee database / HR records of iQMetrix, specifically from departments where Holacracy had been fully rolled out. This ensures the sampling frame matches the population.<br><br>
+          <strong>3. Select Sampling Technique:</strong> Stratified Random Sampling — Stratified by Department (to ensure all Holacracy-practicing departments are represented) and by Tenure (since employee perceptions may differ across experience levels). Within each stratum, Simple Random Sampling.<br><br>
+          <strong>4. Determine Sample Size:</strong> A minimum of 100–200 employees (to enable parametric testing across 8 tenure groups and gender). Given the questionnaire has ~15+ items, n ≥ 200 is ideal.<br><br>
+          <strong>5. Execute the Sampling Process:</strong> Distribute questionnaire via company email/intranet portal. Ensure anonymity to reduce social desirability bias. Set a 2-week response window with one follow-up reminder.
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q3</span>
+        <span class="q-title-text">Tests, Hypotheses for Four Sub-Parts</span>
+        <span class="q-marks">10 Marks (2.5 each)</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q">
+          <span class="sub-q-label">Part (a) | Do males and females differ in Hol_Imp satisfaction?</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Test: Independent Samples T-Test</div>
+            <strong>H₀:</strong> Males and females do not differ in their opinion of satisfaction with Holacracy (μ_Male = μ_Female)<br>
+            <strong>H₁:</strong> Males and females differ significantly in their satisfaction with Holacracy (μ_Male ≠ μ_Female)<br><br>
+            <strong>Why Independent T-Test:</strong> IV = Gender (categorical, 2 groups: Male/Female). DV = HOL_IMP (Likert, treated as interval/continuous). Two different groups of people (not the same person measured twice). Exactly 2 groups → t-test (not ANOVA).
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (b) | Does tenure matter in Hol_Imp satisfaction?</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Test: One-Way ANOVA</div>
+            <strong>H₀:</strong> Tenure does not significantly affect employee satisfaction with Holacracy (μ₁ = μ₂ = ... = μ₈)<br>
+            <strong>H₁:</strong> At least one tenure group differs significantly in satisfaction with Holacracy<br><br>
+            <strong>Why One-Way ANOVA:</strong> IV = Tenure (categorical, 8 groups: &lt;3 months through 15+ years). DV = HOL_IMP (continuous). More than 2 groups → use ANOVA not t-test. One IV → One-Way ANOVA. Follow with Tukey post-hoc to identify which tenure groups differ.
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (c) | Is Hol_Imp satisfaction greater than 3?</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Test: One Sample T-Test</div>
+            <strong>H₀:</strong> Mean satisfaction with Holacracy is ≤ 3 (HOL_IMP ≤ 3 — not greater than neutral)<br>
+            <strong>H₁:</strong> Mean satisfaction with Holacracy is > 3 (HOL_IMP > 3) — One-tailed test<br><br>
+            <strong>Why One Sample T-Test:</strong> We are comparing the mean of ONE sample to a known/specified test value (3 = midpoint of Likert scale). There is only one group, no second group to compare against. The question asks if the score is "greater than" — directional, so one-tailed. Test Value = 3 entered in SPSS.
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (d) | Does Holacracy satisfaction predict Stay intentions?</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Test: Simple Linear Regression</div>
+            <strong>H₀:</strong> Holacracy satisfaction (HOL_IMP) has no significant impact on stay intentions (STAY) — β = 0<br>
+            <strong>H₁:</strong> Holacracy satisfaction significantly predicts stay intentions — β ≠ 0<br><br>
+            <strong>Why Regression:</strong> The question asks whether HOL_IMP <em>predicts</em> STAY — this is a cause-effect directional relationship requiring regression. IV = HOL_IMP (continuous), DV = STAY (continuous). The correlation table (r = 0.414) suggests a relationship exists — regression quantifies the predictive equation and explains % variance.<br><br>
+            <em style="color:var(--rose); font-size:0.82rem;">Note: The handwritten answer sheet says "Paired t-test" for this — that is incorrect. Paired t-test compares means of the same variable at two time points. To test prediction/causality between two continuous variables, regression is the correct choice.</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q4</span>
+        <span class="q-title-text">Interpret Regression Output — HOL_IMP predicting MOT</span>
+        <span class="q-marks">10 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Full Interpretation</div>
+          <strong>Variables:</strong> DV = MOT (Motivation), IV = HOL_IMP (Satisfaction with Holacracy)<br><br>
+          <strong>Hypothesis:</strong><br>
+          H₀: HOL_IMP has no significant impact on Motivation (β = 0)<br>
+          H₁: HOL_IMP significantly predicts Motivation (β ≠ 0)<br><br>
+          <strong>Correlation:</strong> From the correlation table, r(HOL_IMP, MOT) = 0.430, p = 0.000 — Moderate positive and significant correlation.<br><br>
+          <strong>Model Summary:</strong> R = 0.454, R² = 0.206, Adjusted R² = 0.203. HOL_IMP explains 20.6% of the variance in Motivation. While significant, 79.4% of motivation variance is explained by other factors not included in this model.<br><br>
+          <strong>ANOVA Table:</strong> F = 64.996, Sig = 0.000 &lt; 0.05. The regression model is statistically significant and valid.<br><br>
+          <strong>Coefficients:</strong> B(Constant) = 2.418 (t=15.392, p=0.000). B(HOL_IMP) = 0.375 (β=0.454, t=8.062, p=0.000). Both are significant.<br><br>
+          <strong>Regression Equation:</strong> MOT = 2.418 + 0.375 × HOL_IMP<br><br>
+          <strong>Interpretation:</strong> For every 1-unit increase in Holacracy satisfaction (HOL_IMP), employee motivation (MOT) increases by 0.375 units. The positive coefficient confirms a positive relationship. Even when HOL_IMP = 0 (hypothetically), base motivation = 2.418.<br><br>
+          <strong>Decision:</strong> Since p = 0.000 &lt; 0.05, we reject H₀. Holacracy satisfaction is a significant positive predictor of motivation at 95% confidence level.<br><br>
+          <strong>Business Conclusion:</strong> iQMetrix should focus on improving employee perceptions of Holacracy — as doing so will directly improve employee motivation. Interventions like clearer role definitions, Holacracy training, and better circle structures would increase both HOL_IMP and, consequently, MOT.
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q5</span>
+        <span class="q-title-text">Factor Analysis — Lifestyle Variables (Case 2)</span>
+        <span class="q-marks">10 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Full Interpretation</div>
+          <strong>Test Used:</strong> Principal Component Analysis (Factor Analysis) — an interdependence technique used to reduce 7 lifestyle variables into a smaller number of underlying factors.<br><br>
+          <strong>KMO Test:</strong> KMO = 0.750 > 0.5 — Good. Factor analysis is appropriate and the sample is adequate.<br><br>
+          <strong>Bartlett's Test:</strong> χ² = 64.994, df = 21, p = 0.000 &lt; 0.05 — Significant. Variables are sufficiently correlated for factor analysis to be meaningful.<br><br>
+          <strong>Number of Factors:</strong> Using Kaiser's criterion (Eigenvalue > 1), 3 components are retained. These 3 factors explain 80.65% of the total variance — which is excellent (target ≥ 60%).<br><br>
+          <strong>Why Rotated Matrix:</strong> The unrotated component matrix shows some variables loading on multiple components (e.g., "Not buy billboard products" loads on both F1 and F2). Varimax rotation redistributes variance to achieve a simpler, clearer structure. The Rotated Component Matrix should always be used for interpretation.<br><br>
+          <strong>Factor Interpretation:</strong><br>
+          Factor 1 — INTROVERSION/HOME ORIENTATION: Quiet evening at home (.897), Magazines > movies (.762), Homebody (.868) → These people prefer quiet, home-based activities over social outings.<br>
+          Factor 2 — ANTI-ADVERTISING STANCE: Not buy billboard products (.867), Advertising is waste (.817) → Skeptical of advertising and resistant to commercial messaging.<br>
+          Factor 3 — PRICE/SAVINGS CONSCIOUSNESS: Always check prices (.860), Save and cash coupons (.911) → Value-oriented, economically cautious consumers.<br><br>
+          <strong>Recommendation:</strong> Marketers can use these 3 factors to create distinct consumer segments:<br>
+          • Factor 1 segment → Target via content marketing, home media, OTT platforms rather than outdoor events<br>
+          • Factor 2 segment → Avoid traditional advertising; use product reviews, word-of-mouth, and editorial content<br>
+          • Factor 3 segment → Prioritize discount campaigns, loyalty programs, and price-comparison platforms
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 2023 PAPER ===== -->
+  <div id="qp-qp2023" class="qp-paper">
+    <div class="info-block info-amber" style="margin-bottom:20px;">
+      <strong>March 2023 | PGDM 2022-24 | Max: 40 Marks | 120 mins</strong><br>
+      Factor Analysis (Sales), Two-Way ANOVA (Detergent), Discriminant Analysis (Countries)
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q1</span>
+        <span class="q-title-text">Factor Analysis — Sales Performance (Tables i–iv)</span>
+        <span class="q-marks">10 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Complete Interpretation</div>
+          <strong>Context:</strong> A company wants to verify if Sales Growth, Sales Profitability, and New Account Sales truly represent a single underlying "sales performance" construct.<br><br>
+          <strong>Table (i) — KMO and Bartlett's Test:</strong><br>
+          KMO = 0.747 > 0.5 — Good. Factor analysis is appropriate for this dataset.<br>
+          Bartlett's p = 0.000 &lt; 0.05 — Significant. The three variables are sufficiently correlated. Factor analysis is justified.<br><br>
+          <strong>Table (ii) — Communalities:</strong><br>
+          Sales Growth = 0.952, Sales Profitability = 0.924, New Account Sales = 0.894. All communalities are very high (close to 1.0). This means the single extracted factor captures over 89–95% of the variance in each variable individually — excellent fit.<br><br>
+          <strong>Table (iii) — Total Variance Explained:</strong><br>
+          Component 1: Eigenvalue = 2.769, explains 92.295% of total variance. Only 1 component has eigenvalue > 1 → Only 1 factor is retained.<br>
+          Components 2 and 3 have eigenvalues &lt; 1 (0.164 and 0.067) → Not retained.<br>
+          One factor explaining 92.3% of variance is exceptionally strong — confirms a single underlying construct.<br><br>
+          <strong>Table (iv) — Component Matrix:</strong><br>
+          All three variables load very highly on Component 1:<br>
+          Sales Growth = 0.976, Sales Profitability = 0.961, New Account Sales = 0.945<br>
+          All loadings are above 0.9 — these three variables are essentially measuring the same underlying construct.<br><br>
+          <strong>Managerial Conclusion:</strong> The factor analysis confirms that Sales Growth, Sales Profitability, and New Account Sales all load onto a single factor — which can be called <em>"Overall Sales Performance."</em><br><br>
+          <strong>Managerial Implications:</strong><br>
+          1. The company's existing composite performance measure is valid — all three indicators move together as one construct.<br>
+          2. A single composite score (weighted combination) can be used to evaluate sales executive performance, rather than tracking three separate metrics — simplifying appraisal systems.<br>
+          3. Since a sales executive who performs well on one dimension performs well on all three, the company should design training and incentives that holistically improve overall sales performance, not just individual metrics.<br>
+          4. The high communalities suggest minimal redundancy loss — using just this one composite factor captures almost all the information from three separate metrics.
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q2</span>
+        <span class="q-title-text">Two-Way ANOVA — Detergent Type × Water Temperature on Whiteness</span>
+        <span class="q-marks">10 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q">
+          <span class="sub-q-label">Part (a) | Which statistical test?</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Answer</div>
+            <strong>Test:</strong> Two-Way ANOVA (Between-Subjects Factorial ANOVA)<br><br>
+            <strong>Why:</strong> There are TWO categorical IVs — Detergent Type (Mighty Good vs Super Max) and Water Temperature (Hot vs Cold) — creating a 2×2 factorial design. The DV — Whiteness meter reading — is continuous. Two-Way ANOVA allows us to simultaneously test two main effects AND the interaction effect between the IVs, while assuming normality and equal variances (as stated in the problem).
+          </div>
+        </div>
+        <div class="sub-q">
+          <span class="sub-q-label">Part (b) | Interpret SPSS Output (Tables v and vi)</span>
+          <div class="sub-q-ans">
+            <div class="ans-header">Three Research Questions Addressed</div>
+            <strong>(i) Does detergent type affect whiteness?</strong><br>
+            Descriptive: Mighty Good (M=53.56) vs Super Max (M=58.32)<br>
+            Tests of Between-Subjects Effects: Detergent F = 3.551, Sig = 0.065 > 0.05<br>
+            → NOT significant at 5% level. We fail to reject H₀. There is no statistically significant difference between Mighty Good and Super Max detergents in whitening power at α = 0.05. (Note: it is marginally significant at 10% level, p = 0.065)<br><br>
+            <strong>(ii) Does water temperature affect whiteness?</strong><br>
+            Descriptive: Hot water (M=50.08) vs Cold water (M=63.38)<br>
+            Tests of Between-Subjects Effects: Water F = 30.063, Sig = 0.000 &lt; 0.05<br>
+            → SIGNIFICANT. Reject H₀. Cold water washing produces significantly whiter clothes than hot water washing. The difference is large and practically meaningful (13.3 points on whiteness scale).<br><br>
+            <strong>(iii) Is there an interaction effect?</strong><br>
+            Detergent × Water: F = 0.455, Sig = 0.503 > 0.05<br>
+            → NOT significant. The effect of detergent type on whiteness does NOT change depending on whether you use hot or cold water. The two variables act independently.<br><br>
+            <strong>Managerial Implications:</strong><br>
+            1. <strong>Water temperature matters most:</strong> Cold water is significantly better for whitening. Both detergent brands should emphasize cold-water washing in their usage instructions and marketing.<br>
+            2. <strong>Detergent brand doesn't matter much:</strong> There's no significant statistical difference between Mighty Good and Super Max at 5% significance — a key finding for consumers making purchasing decisions primarily based on whitening claims.<br>
+            3. <strong>No synergy to exploit:</strong> Since there is no interaction, there's no specific "detergent + temperature" combination that is dramatically superior — simplifying consumer guidance.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q3</span>
+        <span class="q-title-text">Purpose of Factor Analysis + Conditions Required</span>
+        <span class="q-marks">5 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Answer</div>
+          <strong>Purpose of Factor Analysis (2 marks):</strong><br>
+          1. <strong>Data Reduction:</strong> Reduce a large number of variables into a smaller, manageable set of factors without significant loss of information.<br>
+          2. <strong>Identify Underlying Constructs:</strong> Uncover latent dimensions or constructs that explain the correlations among observed variables.<br>
+          3. <strong>No Dependent Variable:</strong> Unlike regression, factor analysis is an interdependence technique — it examines the entire variable set without distinguishing IV from DV.<br>
+          4. <strong>Questionnaire Validation:</strong> Used to confirm whether survey items measure what they claim to measure (construct validity).<br><br>
+          <strong>Conditions Required Before Factor Analysis (3 marks):</strong><br>
+          1. <strong>KMO > 0.5:</strong> Kaiser-Meyer-Olkin measure must be above 0.5. Values ≥ 0.7 are good. If KMO &lt; 0.5, factor analysis should not be performed.<br>
+          2. <strong>Bartlett's Test of Sphericity significant:</strong> p &lt; 0.05. Confirms that the correlation matrix is not an identity matrix — i.e., variables are correlated with each other.<br>
+          3. <strong>Sample Size:</strong> Minimum 5 observations per variable; ideally N ≥ 100–200. Very small samples yield unreliable factor solutions.<br>
+          4. <strong>Interval/Ratio Data:</strong> Variables should be continuous. Likert scale items (at least 5 points) are typically treated as interval.<br>
+          5. <strong>Absence of Multicollinearity:</strong> Variables should be correlated but not perfectly correlated (r should not be close to 1.0 for any pair).
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-header" onclick="toggleQ(this)">
+        <span class="q-num">Q4 (Q from page 3)</span>
+        <span class="q-title-text">Discriminant Analysis — Developed vs Underdeveloped Countries</span>
+        <span class="q-marks">15 Marks</span>
+        <span class="q-chevron">▼</span>
+      </div>
+      <div class="q-body">
+        <div class="sub-q-ans">
+          <div class="ans-header">Complete Interpretation of Tables vii–xii</div>
+          <strong>Context:</strong> Can GNI per capita, Health Expenditure per capita, and Birth Rate discriminate between Developed (Group 1) and Underdeveloped (Group 0) countries?<br><br>
+
+          <strong>Table (vii) — Eigenvalues:</strong><br>
+          Eigenvalue = 2.880 — Indicates the discriminant function is quite powerful. 100% of between-group variance is explained by this single function. Canonical Correlation = 0.862 — Very strong. The discriminant function shares 74.3% of variance with group membership (0.862²=0.743).<br><br>
+
+          <strong>Table (viii) — Wilks' Lambda:</strong><br>
+          λ = 0.258 (much closer to 0 than to 1) → Excellent discrimination. The function substantially separates developed from underdeveloped countries. Chi-Square = 76.611, df = 3, p = 0.000 &lt; 0.05 → The discriminant function is statistically significant.<br><br>
+
+          <strong>Table (ix) — Classification Results:</strong><br>
+          Group 0 (Underdeveloped): 26/28 correctly classified = 92.9% accuracy<br>
+          Group 1 (Developed): 32/32 correctly classified = 100% accuracy<br>
+          Overall accuracy = 58/60 = 96.7% — Excellent predictive performance. Only 2 underdeveloped countries were misclassified as developed (perhaps emerging economies on the cusp).<br><br>
+
+          <strong>Table (x) — Standardized Discriminant Function Coefficients:</strong><br>
+          GNI = 0.994 (very high) → GNI per capita is by far the most important variable for discriminating between groups<br>
+          Health_exp = -0.176 → Relatively minor negative contribution<br>
+          Birth_rate = -0.471 → Moderate negative contribution (higher birth rate → more likely underdeveloped)<br><br>
+
+          <strong>Table (xi) — Structure Matrix (Pooled within-groups correlations):</strong><br>
+          GNI (.876) > Health_exp (.720) > Birth_rate (-.544)<br>
+          Confirms GNI is the strongest single discriminating variable, followed by health expenditure, then birth rate. The structure matrix is generally considered more reliable than standardized coefficients for variable importance.<br><br>
+
+          <strong>Table (xii) — Canonical Discriminant Function Coefficients:</strong><br>
+          Discriminant Score = -0.072 × Birth_rate + (-0.151) [constant]<br>
+          (GNI and Health_exp coefficients appear rounded to .000 due to scale differences — their standardized versions confirm importance)<br><br>
+
+          <strong>Managerial/Policy Implications:</strong><br>
+          1. <strong>GNI is the primary classifier:</strong> Policymakers and international organizations (World Bank, IMF) are right to use GNI per capita as the primary criterion for classifying economies — the statistical analysis validates this.<br>
+          2. <strong>Healthcare investment matters:</strong> Health expenditure per capita is a strong secondary discriminator — developed nations invest significantly more in healthcare. Policies to increase health spending can be a pathway from developing to developed status.<br>
+          3. <strong>Birth rate as an indicator:</strong> Higher birth rates are associated with underdeveloped status. Family planning and education policies can address this demographic pressure.<br>
+          4. <strong>The model is highly reliable:</strong> 96.7% accuracy means this 3-variable model can reliably classify countries — useful for development economics research and aid allocation decisions.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- end .main -->
+
+<script>
+  // Tab switching
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Test detail switching
+  function showTest(name, btn) {
+    document.querySelectorAll('.test-detail').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.test-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('detail-'+name).classList.add('active');
+    btn.classList.add('active');
+    document.getElementById('detail-'+name).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // QP switching
+  function switchQP(name, btn) {
+    document.querySelectorAll('.qp-paper').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.qp-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('qp-'+name).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Q accordion
+  function toggleQ(header) {
+    const body = header.nextElementSibling;
+    const isOpen = header.classList.contains('open');
+    header.classList.toggle('open', !isOpen);
+    body.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
