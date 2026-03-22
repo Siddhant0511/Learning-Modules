@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBA Strategy Notes | Sessions 11–20</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2230;
+    --border: #30363d;
+    --gold: #d4a841;
+    --gold-dim: #a07d2e;
+    --teal: #39c5bb;
+    --pink: #e8567a;
+    --blue: #58a6ff;
+    --green: #3fb950;
+    --text: #e6edf3;
+    --text-dim: #8b949e;
+    --note-bg: #1a2235;
+    --note-border: #3d5a80;
+    --extra-bg: #1a2a1a;
+    --extra-border: #3b6b3b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: linear-gradient(135deg, #0d1117 0%, #131c2e 100%);
+    border-bottom: 1px solid var(--gold-dim);
+    padding: 40px 24px 32px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 38px);
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+  .site-header p { color: var(--text-dim); font-size: 13px; margin-top: 4px; }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 96px;
+    z-index: 99;
+  }
+  .nav-tab {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'IBM Plex Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { border-color: var(--gold); color: var(--gold); }
+  .nav-tab.active { background: var(--gold); border-color: var(--gold); color: #0d1117; font-weight: 600; }
+
+  /* ── MAIN LAYOUT ── */
+  .main { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  /* ── SESSION CARD ── */
+  .session-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 32px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+    display: none;
+  }
+  .session-card.active { display: block; }
+  .session-card:hover { border-color: var(--gold-dim); }
+
+  .session-header {
+    background: linear-gradient(135deg, var(--surface2) 0%, #0f1a2e 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .session-number {
+    background: var(--gold);
+    color: #0d1117;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 13px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .session-title {
+    flex: 1;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--text);
+  }
+  .session-subtitle { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; color: var(--text-dim); font-weight: 400; margin-top: 2px; }
+  .chevron { color: var(--text-dim); font-size: 18px; transition: transform 0.3s; }
+  .session-card.collapsed .chevron { transform: rotate(-90deg); }
+
+  .session-body { padding: 24px; display: block; }
+  .session-card.collapsed .session-body { display: none; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-dim); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .dot-note { background: var(--note-border); }
+  .dot-extra { background: var(--extra-border); }
+
+  /* ── BLOCKS ── */
+  .block-note {
+    background: var(--note-bg);
+    border-left: 3px solid var(--note-border);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .block-note-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5d8ab8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .block-extra {
+    background: var(--extra-bg);
+    border-left: 3px solid var(--extra-border);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .block-extra-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #5dab5d;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  /* ── TOPIC SECTION ── */
+  .topic-section { margin-bottom: 28px; }
+  .topic-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--gold);
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .topic-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+  }
+  .tag-s { background: #1c3a5c; color: var(--blue); }
+
+  /* ── 2x2 MATRIX ── */
+  .matrix-2x2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .matrix-header-row { display: contents; }
+  .matrix-cell {
+    background: var(--surface2);
+    padding: 12px 14px;
+  }
+  .matrix-cell.header {
+    background: #0f1a2e;
+    color: var(--gold);
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+  }
+  .matrix-cell.axis {
+    background: #0f1a2e;
+    color: var(--text-dim);
+    font-size: 11px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    text-align: center;
+    padding: 16px 8px;
+  }
+  .matrix-label { font-weight: 600; color: var(--teal); font-size: 13px; }
+  .matrix-example { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+  .matrix-full {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .mf-corner { background: #0f1a2e; padding: 10px; }
+  .mf-col-header { background: #0f1a2e; color: var(--gold); font-weight: 600; font-size: 12px; text-align: center; padding: 10px 12px; }
+  .mf-row-header {
+    background: #0f1a2e;
+    color: var(--text-dim);
+    font-size: 11px;
+    padding: 12px 8px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+  }
+  .mf-cell { background: var(--surface2); padding: 12px 14px; }
+
+  /* ── FRAMEWORK GRID ── */
+  .framework-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .fw-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .fw-card-title { font-weight: 600; color: var(--teal); font-size: 13px; margin-bottom: 6px; }
+  .fw-card-body { font-size: 13px; color: var(--text-dim); }
+
+  /* ── HIGHLIGHT BOX ── */
+  .highlight-box {
+    background: #1a1a0d;
+    border: 1px solid var(--gold-dim);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .highlight-box strong { color: var(--gold); }
+
+  /* ── DIAMOND ── */
+  .diamond-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 12px 0;
+    max-width: 500px;
+  }
+  .diamond-cell {
+    background: var(--surface2);
+    padding: 14px;
+    font-size: 13px;
+  }
+  .diamond-cell .dc-title { font-weight: 600; color: var(--pink); font-size: 13px; margin-bottom: 4px; }
+  .diamond-center {
+    background: #0f1a2e;
+    border: 1px solid var(--gold-dim);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--gold);
+    font-size: 12px;
+    margin: 8px auto;
+    max-width: 500px;
+  }
+
+  /* ── QUIZ ── */
+  .quiz-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  .quiz-block h4 {
+    font-family: 'Playfair Display', serif;
+    color: var(--teal);
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  .quiz-q {
+    margin-bottom: 16px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 14px;
+    border: 1px solid var(--border);
+  }
+  .quiz-q p { font-size: 13px; font-weight: 500; margin-bottom: 10px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-opt {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
+  .quiz-opt.correct { background: #1a3d1a; border-color: var(--green); color: var(--green); }
+  .quiz-opt.wrong { background: #3d1a1a; border-color: var(--pink); color: var(--pink); }
+  .quiz-feedback { margin-top: 8px; font-size: 12px; color: var(--text-dim); display: none; }
+
+  /* ── COMPARISON TABLE ── */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  .comp-table th { background: #0f1a2e; color: var(--gold); padding: 10px 12px; text-align: left; font-weight: 600; border: 1px solid var(--border); }
+  .comp-table td { padding: 9px 12px; border: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  .comp-table tr:nth-child(even) td { background: #0d1117; }
+  .comp-table tr:nth-child(odd) td { background: var(--surface2); }
+
+  /* ── ERRC GRID ── */
+  .errc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .errc-card { border-radius: 8px; padding: 14px; }
+  .errc-E { background: #2d1a1a; border: 1px solid #7b3b3b; }
+  .errc-R { background: #1a2a2d; border: 1px solid #3b6b7b; }
+  .errc-Ra { background: #2d2a1a; border: 1px solid #7b6b3b; }
+  .errc-C { background: #1a2d1a; border: 1px solid #3b7b3b; }
+  .errc-card .errc-letter { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; margin-bottom: 4px; }
+  .errc-E .errc-letter { color: var(--pink); }
+  .errc-R .errc-letter { color: var(--blue); }
+  .errc-Ra .errc-letter { color: var(--gold); }
+  .errc-C .errc-letter { color: var(--green); }
+  .errc-card .errc-word { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 8px; color: var(--text-dim); }
+  .errc-card .errc-body { font-size: 12px; color: var(--text); }
+
+  /* ── PILL TAGS ── */
+  .pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .pill-gold { background: #2d2209; border: 1px solid var(--gold-dim); color: var(--gold); }
+  .pill-teal { background: #092d2d; border: 1px solid var(--teal); color: var(--teal); }
+  .pill-blue { background: #0f1f38; border: 1px solid var(--blue); color: var(--blue); }
+  .pill-pink { background: #2d0f1a; border: 1px solid var(--pink); color: var(--pink); }
+
+  /* ── FORMULA ── */
+  .formula {
+    background: #0f1a2e;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    padding: 14px 18px;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px;
+    color: var(--blue);
+    margin: 12px auto;
+    max-width: 360px;
+    letter-spacing: 1px;
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar { display: flex; gap: 4px; justify-content: center; padding: 8px 0; background: var(--bg); }
+  .pb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+  .pb-dot.active { background: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .errc-grid { grid-template-columns: 1fr; }
+    .framework-grid { grid-template-columns: 1fr; }
+    .matrix-full { grid-template-columns: auto 1fr 1fr; }
+    .nav-tabs { top: 80px; }
+  }
+
+  /* ── ALL SESSIONS VISIBLE TOGGLE ── */
+  .show-all .session-card { display: block !important; }
+
+  /* ── STRUCTURE ── */
+  .ir-grid {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 12px 0;
+    font-size: 12px;
+  }
+  .ir-label {
+    background: #0f1a2e;
+    color: var(--text-dim);
+    padding: 8px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    font-size: 11px;
+  }
+  .ir-header {
+    background: #0f1a2e;
+    color: var(--gold);
+    font-weight: 600;
+    text-align: center;
+    padding: 8px;
+  }
+  .ir-cell { background: var(--surface2); padding: 12px; }
+  .ir-cell .ir-name { font-weight: 600; color: var(--teal); font-size: 13px; margin-bottom: 4px; }
+  .ir-cell .ir-examples { font-size: 11px; color: var(--text-dim); }
+
+  .org-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 12px 0;
+  }
+  .org-table th {
+    background: #0f1a2e;
+    color: var(--gold);
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    font-weight: 600;
+  }
+  .org-table td {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .org-table tr:nth-child(odd) td { background: var(--surface2); }
+  .org-table tr:nth-child(even) td { background: var(--bg); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>MBA Strategy Notes</h1>
+  <p>Sessions 11–20 &nbsp;|&nbsp; Your Notes + Deep Dive from Course Material</p>
+</header>
+
+<div class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" onclick="showSession('all')">All</button>
+  <button class="nav-tab" onclick="showSession('s11')">S11</button>
+  <button class="nav-tab" onclick="showSession('s12')">S12</button>
+  <button class="nav-tab" onclick="showSession('s13')">S13</button>
+  <button class="nav-tab" onclick="showSession('s14')">S14</button>
+  <button class="nav-tab" onclick="showSession('s15')">S15</button>
+  <button class="nav-tab" onclick="showSession('s16')">S16</button>
+  <button class="nav-tab" onclick="showSession('s17')">S17</button>
+  <button class="nav-tab" onclick="showSession('s18-20')">S18-20</button>
+  <button class="nav-tab" onclick="showSession('quiz')">🧠 Quiz</button>
+</div>
+
+<div class="main" id="mainContent">
+
+<!-- ═══════════════════════════════ SESSION 11 ═══════════════════════════ -->
+<div class="session-card active" id="card-s11">
+  <div class="session-header" onclick="toggleCard('card-s11')">
+    <div class="session-number">11</div>
+    <div>
+      <div class="session-title">Competitive Advantage & Shared Value</div>
+      <div class="session-subtitle">Patagonia Case · V-C Wedge · CSR vs CSV</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive (from course)</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Streisand Effect <span class="topic-tag tag-s">S11</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Streisand Effect</strong> — Social phenomenon where an attempt to hide, remove or censor a piece of information has the <em>unintended consequence</em> of publicizing it more widely, usually facilitated by the internet.</p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p>Patagonia's "Don't Buy This Jacket" (Black Friday 2011) is the textbook case. A campaign designed to raise awareness about overconsumption caused a <strong>30% increase in sales</strong>. Indian parallel: <strong>Zerodha's</strong> CEO openly discourages over-trading — yet this builds immense trust, making them India's largest broker with $0 ad spend.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Patagonia's Purpose Model <span class="topic-tag tag-s">S11</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>Patagonia aim → create long lasting sustainable clothing. They donated <strong>1% of yearly profit</strong> to environmental care.</p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p>In 2022, Yvon Chouinard transferred Patagonia (~$3B) to the <strong>Holdfast Collective</strong> — all profits go to nature. Structure split:</p>
+        <div class="framework-grid" style="grid-template-columns:1fr 1fr; margin-top:10px;">
+          <div class="fw-card" style="border-color: #3d5a80;">
+            <div class="fw-card-title">🍳 The Kitchen (Purpose Trust)</div>
+            <div class="fw-card-body">100% Voting Rights. Decides mission & strategy. Paid $17.5M gift tax.</div>
+          </div>
+          <div class="fw-card" style="border-color: #3b6b3b;">
+            <div class="fw-card-title">💰 The Register (Holdfast Collective)</div>
+            <div class="fw-card-body">98% Economic Rights. Receives dividends. Zero Votes. $180M paid to Earth (2022–2025).</div>
+          </div>
+        </div>
+        <p style="margin-top:8px; font-size:12px; color:var(--text-dim)">Indian parallel: <strong>Tata Group</strong> — ~66% of Tata Sons held by philanthropic trusts, similar stewardship model.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Economic Value Created (V – C) <span class="topic-tag tag-s">S12</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <div class="formula">V − C = Economic Value Created</div>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p><strong>V</strong> = Max Willingness to Pay (WTP) &nbsp;|&nbsp; <strong>C</strong> = Total cost to produce &nbsp;|&nbsp; <strong>P</strong> = Actual price charged.</p>
+        <div class="framework-grid" style="grid-template-columns:1fr 1fr; margin-top:10px;">
+          <div class="fw-card"><div class="fw-card-title">Differentiation</div><div class="fw-card-body">Raise V above competitors → charge premium P.</div></div>
+          <div class="fw-card"><div class="fw-card-title">Cost Leadership</div><div class="fw-card-body">Deliver same V at lower C → offer lower price.</div></div>
+        </div>
+        <p style="margin-top:8px; font-size:12px;"><strong>Fabindia</strong> (High C, High V via heritage) vs <strong>Zudio</strong> (Low C, Medium V via scale).</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">CSR vs CSV</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <table class="comp-table">
+          <tr><th></th><th>CSR (Old)</th><th>CSV (New)</th></tr>
+          <tr><td>Focus</td><td>Philanthropy</td><td>Joint Value Creation</td></tr>
+          <tr><td>Action</td><td>Reactive (PR)</td><td>Proactive (Core Strategy)</td></tr>
+          <tr><td>Example</td><td>Fair-trade purchasing</td><td>Transform supply chain</td></tr>
+        </table>
+        <p style="font-size:12px; margin-top:8px;"><strong>Larry Fink (BlackRock, $10T AUM)</strong>: "ESG is not politics — it is capitalism. Ignoring climate risk is investment risk."</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SESSION 12 ═══════════════════════════ -->
+<div class="session-card active" id="card-s12">
+  <div class="session-header" onclick="toggleCard('card-s12')">
+    <div class="session-number">12</div>
+    <div>
+      <div class="session-title">Generic Strategies & Blue Ocean</div>
+      <div class="session-subtitle">Porter's Matrix · ERRC Framework · Value Innovation</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Porter's Generic Strategies Matrix <span class="topic-tag tag-s">S12</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>2×2 Matrix: Competitive Scale (Broad/Narrow) × Strategic Position (Cost/Differentiation)</p>
+      </div>
+      <div class="matrix-full">
+        <div class="mf-corner"></div>
+        <div class="mf-col-header">COST</div>
+        <div class="mf-col-header">DIFFERENTIATION</div>
+        <div class="mf-row-header">BROAD</div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--blue); margin-bottom:4px;">Cost Leadership</div>
+          <div style="font-size:11px; color:var(--text-dim)">Walmart, IKEA, Tata Steel, Nirma</div>
+        </div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--pink); margin-bottom:4px;">Differentiation</div>
+          <div style="font-size:11px; color:var(--text-dim)">Apple, Nike, Titan, Amul</div>
+        </div>
+        <div class="mf-row-header">NARROW</div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--blue); margin-bottom:4px;">Focused Cost Leadership</div>
+          <div style="font-size:11px; color:var(--text-dim)">Spirit Airlines, Monster, IndiGo, Zepto</div>
+        </div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--pink); margin-bottom:4px;">Focused Differentiation</div>
+          <div style="font-size:11px; color:var(--text-dim)">Rolls Royce, Lush, Maybach, ICICI Wealth Mgmt</div>
+        </div>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p>⚠ <strong>"Stuck in the Middle" Trap</strong> — Firms that fail to choose clearly between cost and differentiation end up being outcompeted by both sides. Example: <strong>JetBlue</strong> tried to straddle both, allowing Southwest (cost) and Delta (diff) to outperform it. Indian parallel: <strong>Micromax</strong> was squeezed out by Xiaomi (cost) and Samsung (diff).</p>
+        <p style="margin-top:8px;"><strong>IndiGo insight</strong>: Air India earns double revenue per plane yet loses ₹10,859 Cr. IndiGo runs 5.3 flights/plane/day vs 3.9 for Air India — cost efficiency wins over revenue volume.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">ERRC Framework (Blue Ocean) <span class="topic-tag tag-s">S12</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>ERRC = <strong>Eliminate, Reduce, Raise, Create</strong></p>
+      </div>
+      <div class="errc-grid">
+        <div class="errc-card errc-E">
+          <div class="errc-letter">E</div>
+          <div class="errc-word">Eliminate</div>
+          <div class="errc-body">Remove factors the industry takes for granted. <br><em>↓ Lowers Cost</em></div>
+        </div>
+        <div class="errc-card errc-R">
+          <div class="errc-letter">R</div>
+          <div class="errc-word">Reduce</div>
+          <div class="errc-body">Cut factors below industry standard. <br><em>↓ Lowers Cost</em></div>
+        </div>
+        <div class="errc-card errc-Ra">
+          <div class="errc-letter">R</div>
+          <div class="errc-word">Raise</div>
+          <div class="errc-body">Lift factors above industry standard. <br><em>↑ Increases Value</em></div>
+        </div>
+        <div class="errc-card errc-C">
+          <div class="errc-letter">C</div>
+          <div class="errc-word">Create</div>
+          <div class="errc-body">Add factors the industry has never offered. <br><em>↑ Increases Value</em></div>
+        </div>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive — IPL as Blue Ocean</div>
+        <table class="comp-table">
+          <tr><th>Action</th><th>Cirque du Soleil</th><th>IPL (Cricket)</th></tr>
+          <tr><td>Eliminate</td><td>Animals, star performers</td><td>5-day format, draws</td></tr>
+          <tr><td>Reduce</td><td>Thrill/danger, humor</td><td>Technical purist elements</td></tr>
+          <tr><td>Raise</td><td>Venue elegance</td><td>Speed, prize money, tech</td></tr>
+          <tr><td>Create</td><td>Artistic theme, music</td><td>Bollywood + city-franchise loyalty</td></tr>
+        </table>
+        <p style="margin-top:6px; font-size:12px;">Blue Ocean insight: IPL didn't steal fans from Test Cricket — it attracted <em>entirely new demographics</em> (families, casual viewers). <strong>Market expansion, not share capture.</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SESSION 13 ═══════════════════════════ -->
+<div class="session-card active" id="card-s13">
+  <div class="session-header" onclick="toggleCard('card-s13')">
+    <div class="session-number">13</div>
+    <div>
+      <div class="session-title">Innovation, Entrepreneurship & Platforms</div>
+      <div class="session-subtitle">Schumpeter's Theory · 4 I's · Industry Life Cycle · Platforms</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Schumpeter's Creative Destruction <span class="topic-tag tag-s">S13</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Blockbuster replaced by Netflix.</strong></p>
+        <p style="margin-top:6px;"><strong>Schumpeter's theory</strong> — How superior formats ruthlessly replace the old.</p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p>"Stabilized capitalism is a contradiction in terms." The 'Perennial Gale' incessantly destroys old industries and creates new ones. Blockbuster's 9,000 stores became <em>liabilities</em> when streaming arrived — assets of the old era become anchors in the new.</p>
+        <p style="margin-top:6px; font-size:12px;">🇮🇳 Indian parallel: PCO booths evaporated overnight with Jio's cheap data. Kirana stores now face the same gale from e-commerce.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">4 I's of Innovation <span class="topic-tag tag-s">S13</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>4 I's → <strong>Idea, Invention, Innovation, Imitation</strong></p>
+      </div>
+      <div class="framework-grid">
+        <div class="fw-card"><div class="fw-card-title">💡 Idea</div><div class="fw-card-body">Abstract concept from basic research. Einstein's light theory → wireless comm. ISRO Mangalyaan concept.</div></div>
+        <div class="fw-card"><div class="fw-card-title">🔬 Invention</div><div class="fw-card-body">Transforms idea into a new product/process. Patents vs. Trade Secrets. Coca-Cola recipe (secret) vs. Intel 4004 (patent).</div></div>
+        <div class="fw-card"><div class="fw-card-title">🚀 Innovation</div><div class="fw-card-body"><strong>Commercialization</strong> of invention. Google's PageRank = invention; Google Ads = innovation. Netflix DVD → Streaming.</div></div>
+        <div class="fw-card"><div class="fw-card-title">🔁 Imitation</div><div class="fw-card-body">Competitors copy success → innovator must find the next gale. Streaming wars after Netflix. Quick-commerce copies after Blinkit.</div></div>
+      </div>
+      <div class="highlight-box">
+        <strong>Key Insight:</strong> Innovation is <em>not</em> invention. It is the <strong>commercialization</strong> of an invention. Paytm didn't invent QR codes — it commercialized them for India's mass market.
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Industry Life Cycle & Strategic Shift <span class="topic-tag tag-s">S13</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Strategic shift</strong> → Adapting to the Life Cycle: <strong>Introduction → Growth → Shakeout → Maturity/Decline</strong></p>
+      </div>
+      <table class="comp-table">
+        <tr><th>Stage</th><th>Core Competency</th><th>Global Example</th><th>India Example</th></tr>
+        <tr><td><strong>Introduction</strong></td><td>R&D and Design</td><td>Tesla EVs (2010s)</td><td>Tata Nexon EV (now)</td></tr>
+        <tr><td><strong>Growth</strong></td><td>Marketing & Scale</td><td>Smartphones (2000s)</td><td>Flipkart vs Amazon</td></tr>
+        <tr><td><strong>Shakeout</strong></td><td>Efficiency & Cost Control</td><td>US Airlines (mergers)</td><td>Telecom post-Jio</td></tr>
+        <tr><td><strong>Maturity/Decline</strong></td><td>Harvest or Exit</td><td>Kodak (film)</td><td>PCO booths</td></tr>
+      </table>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Types of Innovation (Market × Technology Matrix)</div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+      </div>
+      <div class="matrix-full">
+        <div class="mf-corner"></div>
+        <div class="mf-col-header">EXISTING MARKET</div>
+        <div class="mf-col-header">NEW MARKET</div>
+        <div class="mf-row-header">NEW TECH</div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--pink); margin-bottom:4px;">Disruptive</div>
+          <div style="font-size:11px; color:var(--text-dim)">Digital photography, Streaming. India: Jio (4G disrupting voice).</div>
+        </div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--gold); margin-bottom:4px;">Radical</div>
+          <div style="font-size:11px; color:var(--text-dim)">The Internet, The Airplane. India: UPI (transformed digital payments).</div>
+        </div>
+        <div class="mf-row-header">EXISTING TECH</div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--green); margin-bottom:4px;">Incremental</div>
+          <div style="font-size:11px; color:var(--text-dim)">iPhone 13→14. India: Maruti Swift updates.</div>
+        </div>
+        <div class="mf-cell">
+          <div style="font-weight:600; color:var(--blue); margin-bottom:4px;">Architectural</div>
+          <div style="font-size:11px; color:var(--text-dim)">Canon desktop copiers vs Xerox. India: Godrej Chotukool (low-cost fridge for rural).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Platform vs Pipeline Businesses</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <div class="framework-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="fw-card" style="border-color:var(--blue)">
+            <div class="fw-card-title">Pipeline (Linear)</div>
+            <div class="fw-card-body">Design → Make → Sell. Fixed supply cost. Global: Blackberry. India: Bajaj Auto.</div>
+          </div>
+          <div class="fw-card" style="border-color:var(--green)">
+            <div class="fw-card-title">Platform (Network)</div>
+            <div class="fw-card-body">Connect producers & consumers. Network effects = near-zero marginal cost. Global: Uber, Airbnb. India: Zomato, Ola, Flipkart.</div>
+          </div>
+        </div>
+        <p style="margin-top:8px; font-size:12px;">Platform businesses scale faster because adding one more user costs almost nothing, while value grows exponentially via network effects.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SESSION 14 ═══════════════════════════ -->
+<div class="session-card active" id="card-s14">
+  <div class="session-header" onclick="toggleCard('card-s14')">
+    <div class="session-number">14</div>
+    <div>
+      <div class="session-title">Corporate Strategy: Vertical Integration & Diversification</div>
+      <div class="session-subtitle">Flywheel Effect · Make vs Buy · Related vs Unrelated Diversification</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Flywheel Effect <span class="topic-tag tag-s">S14</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Flywheel effect</strong> → Series of small wins build upon each other over time, creating self-reinforcing momentum that eventually becomes difficult to stop.</p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive — Amazon Flywheel</div>
+        <div class="highlight-box">
+          <strong>Lower Prices → More Traffic → More Sellers → Better Selection → Better Experience → Lower Cost Structure → Lower Prices</strong>
+        </div>
+        <p style="font-size:12px; margin-top:8px;">By 2025, Amazon earns $716.9B revenue. AWS alone runs at $132B annualized — funded by the flywheel effect of retail scale. Generative AI (Rufus assistant, 250M+ users) now powers the next loop.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Business vs Corporate Strategy</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <div class="framework-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="fw-card" style="border-color:var(--blue)">
+            <div class="fw-card-title">Business Strategy</div>
+            <div class="fw-card-body">"<em>How</em> to compete?" — Cost leadership vs. Differentiation.</div>
+          </div>
+          <div class="fw-card" style="border-color:var(--gold)">
+            <div class="fw-card-title">Corporate Strategy</div>
+            <div class="fw-card-body">"<em>Where</em> to compete?" — 3 dimensions: Value Chain, Products/Services, Geography.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Make vs Buy (Transaction Cost Economics)</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p>Nobel Laureate Ronald Coase's key insight: when <strong>C<sub>in-house</sub> < C<sub>market</sub></strong>, vertically integrate (Make).</p>
+        <table class="comp-table">
+          <tr><th></th><th>Make (Firm)</th><th>Buy (Market)</th></tr>
+          <tr><td><strong>Advantages</strong></td><td>Command & control, deep knowledge, quality</td><td>High-powered incentives, flexibility, competition</td></tr>
+          <tr><td><strong>Disadvantages</strong></td><td>Bureaucracy, Principal-Agent problems</td><td>Search costs, opportunism, info asymmetry</td></tr>
+          <tr><td><strong>India Example</strong></td><td>Reliance integrates backward (oil for textiles)</td><td>Maruti uses vast vendor ecosystem in Gurugram</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Types of Diversification</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <div class="framework-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="fw-card" style="border-color:var(--teal)">
+            <div class="fw-card-title">Related Diversification</div>
+            <div class="fw-card-body">Links exist between SBUs. Economies of scope. Global: Disney (Movies+Parks+Merchandise). India: ITC (FMCG+Hotels+Agri).</div>
+          </div>
+          <div class="fw-card" style="border-color:var(--pink)">
+            <div class="fw-card-title">Unrelated (Conglomerate)</div>
+            <div class="fw-card-body">Few links. Often succeeds in emerging markets to fill voids. Global: Berkshire Hathaway. India: Tata Sons (Steel+Salt+Software).</div>
+          </div>
+        </div>
+        <p style="margin-top:8px; font-size:12px;"><strong>Diversification Discount:</strong> Related diversification yields highest performance. Extreme conglomeration often destroys value due to coordination complexity.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SESSION 15 ═══════════════════════════ -->
+<div class="session-card active" id="card-s15">
+  <div class="session-header" onclick="toggleCard('card-s15')">
+    <div class="session-number">15</div>
+    <div>
+      <div class="session-title">Strategic Alliances, Mergers & Acquisitions</div>
+      <div class="session-subtitle">Build-Borrow-Buy Framework · Types of Alliances · M&A Pitfalls</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Build, Borrow, Buy Framework <span class="topic-tag tag-s">S15</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Build, Borrow, Buy Framework</strong></p>
+      </div>
+      <div class="framework-grid">
+        <div class="fw-card" style="border-color:var(--blue)">
+          <div class="fw-card-title">🏗 BUILD (Internal)</div>
+          <div class="fw-card-body">Use when internal resources are highly relevant. High control, slow. India: Zomato (own delivery fleet). Global: Meta Threads (vs buying Twitter).</div>
+        </div>
+        <div class="fw-card" style="border-color:var(--teal)">
+          <div class="fw-card-title">🤝 BORROW (Alliance)</div>
+          <div class="fw-card-body">Use when resources can be traded/partnered. Faster than build, cheaper than buy. India: Ola + PhonePe. Global: Lyft + GM + Waymo.</div>
+        </div>
+        <div class="fw-card" style="border-color:var(--gold)">
+          <div class="fw-card-title">🛒 BUY (Acquisition)</div>
+          <div class="fw-card-body">When you need extreme closeness and can integrate. Fastest but riskiest. India: Walmart buys Flipkart ($16B). Global: Disney buys Pixar ($7.4B).</div>
+        </div>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive — Decision Flow</div>
+        <p>Ask in sequence: (1) Are internal resources relevant? → BUILD. (2) Are resources tradable? → BORROW via contract. (3) Need closeness? → BORROW via JV. (4) Can you integrate? → BUY. If none apply → Rethink strategy.</p>
+        <p style="margin-top:8px; font-size:12px; color:var(--pink);">⚠ <strong>Microsoft + Nokia</strong>: $9.4B acquisition failed. Integration was impossible. Nokia's culture clashed. Nearly entire deal written off. Lesson: BUY only when integration is genuinely feasible.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Types of Alliances</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <table class="comp-table">
+          <tr><th>Type</th><th>Governance</th><th>Knowledge</th><th>Example</th></tr>
+          <tr><td><strong>Non-Equity</strong> (most common)</td><td>Contract (licensing, supply)</td><td>Explicit only</td><td>BioNTech-Pfizer vaccine; Starbucks-Tata India entry</td></tr>
+          <tr><td><strong>Equity Alliance</strong></td><td>One partner takes minority stake</td><td>Explicit + Tacit</td><td>GM in Lyft ($500M); Coca-Cola in Monster</td></tr>
+          <tr><td><strong>Joint Venture</strong> (least common)</td><td>New legal entity created</td><td>Both</td><td>Vistara (Tata + Singapore Airlines 51:49); Hulu (Disney+Comcast)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">M&A Pitfalls</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <div class="pill-row">
+          <span class="pill pill-pink">Winner's Curse — Overpaying in bidding wars</span>
+          <span class="pill pill-pink">Culture Clash — Talent exits post-merger</span>
+          <span class="pill pill-pink">Synergy Illusion — 1+1 often < 2</span>
+        </div>
+        <p style="margin-top:8px; font-size:12px;"><strong>Snapdeal + FreeCharge (India):</strong> Bought for ~$400M to build an Alibaba-like ecosystem. Sold 2 years later for ~$60M. Integration failed while Amazon/Flipkart took market share.</p>
+        <p style="margin-top:6px; font-size:12px;"><strong>Tesla Alliance Strategy:</strong> Before becoming a trillion-dollar firm, Tesla borrowed from Daimler ($50M + engineering), Toyota (factory access), and Panasonic (battery JV, $5B Gigafactory).</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SESSION 16 ═══════════════════════════ -->
+<div class="session-card active" id="card-s16">
+  <div class="session-header" onclick="toggleCard('card-s16')">
+    <div class="session-number">16</div>
+    <div>
+      <div class="session-title">Global Strategy: Competing Around the World</div>
+      <div class="session-subtitle">CAGE Framework · Integration-Responsiveness · Porter's Diamond</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">CAGE Distance Framework <span class="topic-tag tag-s">S16</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>CAGE</strong> = Cultural, Administrative, Geographic, Economic</p>
+      </div>
+      <div class="framework-grid">
+        <div class="fw-card" style="border-color:#7b6b3b">
+          <div class="fw-card-title" style="color:var(--gold)">C — Cultural</div>
+          <div class="fw-card-body">Values, religion, language. McDonald's beef ban in India → Maharaja Mac. Gillette Guard redesigned for Indian shaving habits (cup of water, no running tap).</div>
+        </div>
+        <div class="fw-card" style="border-color:#7b3b3b">
+          <div class="fw-card-title" style="color:var(--pink)">A — Administrative</div>
+          <div class="fw-card-body">Laws, currency, politics. Vodafone India tax saga — govt passed retrospective law overriding Supreme Court ruling. Unpredictability = huge FDI barrier.</div>
+        </div>
+        <div class="fw-card" style="border-color:#3b6b7b">
+          <div class="fw-card-title" style="color:var(--blue)">G — Geographic</div>
+          <div class="fw-card-body">Physical, climate, time zones. Amul fresh milk export to US impossible — partnered with Michigan Milk Producers instead (switched from Export to Alliance).</div>
+        </div>
+        <div class="fw-card" style="border-color:#3b7b3b">
+          <div class="fw-card-title" style="color:var(--green)">E — Economic</div>
+          <div class="fw-card-body">Income, infrastructure. Tata Nano failed because Indians view cars as status symbols — "world's cheapest car" was aspirationally toxic.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Integration-Responsiveness Framework <span class="topic-tag tag-s">S16</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>2×2: Pressure for Local Responsiveness vs Pressure for Cost Reductions</p>
+      </div>
+      <div class="ir-grid">
+        <div class="mf-corner"></div>
+        <div class="ir-header">LOW Cost Pressure</div>
+        <div class="ir-header">HIGH Cost Pressure</div>
+        <div class="ir-label">HIGH Local Pressure</div>
+        <div class="ir-cell">
+          <div class="ir-name">Multidomestic</div>
+          <div class="ir-examples">Max local responsiveness, duplicated functions. Nestlé (customizes food by country). India: Godrej Consumer (tailors for Africa/Indonesia).</div>
+        </div>
+        <div class="ir-cell">
+          <div class="ir-name">Transnational</div>
+          <div class="ir-examples">"Think Global, Act Local." Most complex. Unilever (standardize back-end, local front-end). India: Tata Motors (JLR tech + Indian ops).</div>
+        </div>
+        <div class="ir-label">LOW Local Pressure</div>
+        <div class="ir-cell">
+          <div class="ir-name">International</div>
+          <div class="ir-examples">Leverage home competencies globally, minimal adaptation. Rolex (sells luxury worldwide unchanged). India: Royal Enfield (Himalayan sold globally as-is).</div>
+        </div>
+        <div class="ir-cell">
+          <div class="ir-name">Global Standardization</div>
+          <div class="ir-examples">Economies of scale, standardized products. Lenovo. India: TCS/Infosys (standardized IT services, Global Delivery Model).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Porter's Diamond — National Competitive Advantage <span class="topic-tag tag-s">S16</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>Porter's Diamond: Competitive Intensity (in focal industry) ↔ Factor Conditions ↔ Demand Conditions ↔ Related & Supporting Industries</p>
+      </div>
+      <div class="diamond-center">Competitive Intensity in Focal Industry</div>
+      <div class="diamond-container">
+        <div class="diamond-cell">
+          <div class="dc-title">Factor Conditions</div>
+          <div style="font-size:12px; color:var(--text-dim)">Skilled labor, infrastructure. India: TCS/Infosys leverage English-speaking engineers. Silicon Valley: engineering talent density.</div>
+        </div>
+        <div class="diamond-cell">
+          <div class="dc-title">Demand Conditions</div>
+          <div style="font-size:12px; color:var(--text-dim)">Sophisticated local customers force innovation. Finland's Nokia: remote populations needed reliable comms. India: UPI born from demonetization demand.</div>
+        </div>
+        <div class="diamond-cell">
+          <div class="dc-title">Related & Supporting Industries</div>
+          <div style="font-size:12px; color:var(--text-dim)">Strong supplier clusters. Toyota's network of world-class suppliers. Chennai auto cluster: Hyundai, BMW, Ford.</div>
+        </div>
+        <div class="diamond-cell">
+          <div class="dc-title">Competitive Intensity</div>
+          <div style="font-size:12px; color:var(--text-dim)">Fierce domestic rivalry forces efficiency. German Autobahn → superior auto engineering. India: Jio price wars → world's cheapest mobile data.</div>
+        </div>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p>Natural resources ≠ competitive advantage. Venezuela (resource-rich) has no leading global firms. Japan and Singapore (resource-poor) have dominant global industries because <strong>constraint breeds creativity</strong>.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SESSION 17 ═══════════════════════════ -->
+<div class="session-card active" id="card-s17">
+  <div class="session-header" onclick="toggleCard('card-s17')">
+    <div class="session-number">17</div>
+    <div>
+      <div class="session-title">Organizational Design: Structure, Culture & Control</div>
+      <div class="session-subtitle">Mechanistic vs Organic · Culture Onion · Inertia Trap</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Mechanistic vs Organic Organizations <span class="topic-tag tag-s">S17</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Mechanistic</strong> org → formalization↑, specialization↑; uses <em>cost leadership strategy</em></p>
+        <p><strong>Organic</strong> org → formalization↓, specialization↓; uses <em>differentiation strategy</em></p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <table class="org-table">
+          <tr><th>Feature</th><th>Mechanistic</th><th>Organic</th></tr>
+          <tr><td>Specialization</td><td>High, rigid division</td><td>Low, flexible</td></tr>
+          <tr><td>Formalization</td><td>High, detailed rules</td><td>Low, general guidance</td></tr>
+          <tr><td>Centralization</td><td>Top-down decisions</td><td>Distributed (decentralized)</td></tr>
+          <tr><td>Hierarchy</td><td>Tall, narrow span</td><td>Flat, wide span</td></tr>
+          <tr><td>Strategy fit</td><td>Cost Leadership</td><td>Differentiation</td></tr>
+          <tr><td>India example</td><td>Indian Railways, Maruti Suzuki</td><td>Zerodha, Early Zomato</td></tr>
+          <tr><td>Global example</td><td>McDonald's</td><td>W.L. Gore (no job titles), Zappos</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Evolution of Org Structure <span class="topic-tag tag-s">S17</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>Evolution of org. structure: <strong>Simple → Functional → Multidivisional (M-Form) → Matrix</strong></p>
+      </div>
+      <div class="framework-grid">
+        <div class="fw-card"><div class="fw-card-title">Simple</div><div class="fw-card-body">Startup. Founder decides all. Flat, generalist. Fast but doesn't scale. Example: Kirana store, early Facebook.</div></div>
+        <div class="fw-card"><div class="fw-card-title">Functional</div><div class="fw-card-body">Departments by function (R&D, Marketing, Finance). Good for cost leadership. Example: Walmart, Maruti.</div></div>
+        <div class="fw-card"><div class="fw-card-title">Multidivisional (M-Form)</div><div class="fw-card-body">SBUs with own P&L. Good for diversification. Example: Tata Group, Google → Alphabet (2015).</div></div>
+        <div class="fw-card"><div class="fw-card-title">Matrix</div><div class="fw-card-body">Dual reporting (function + geography). Good for transnational firms. Complex — "two bosses." Example: Unilever.</div></div>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Organizational Culture (The Culture Onion) <span class="topic-tag tag-s">S17</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p>The culture union → <strong>Artifacts, Norms, Values</strong></p>
+      </div>
+      <div class="framework-grid">
+        <div class="fw-card" style="border-color:var(--blue)">
+          <div class="fw-card-title">Artifacts (Outer)</div>
+          <div class="fw-card-body">Visible, tangible. Easy to observe, hard to decipher. Zappos: pays employees $2K to quit. Google: free food, scooters. Indian startups: founders in open offices.</div>
+        </div>
+        <div class="fw-card" style="border-color:var(--teal)">
+          <div class="fw-card-title">Norms (Middle)</div>
+          <div class="fw-card-body">Unwritten behavioral rules. "Always consult before deciding" (W.L. Gore). "Don't leave until client is satisfied" (consulting).</div>
+        </div>
+        <div class="fw-card" style="border-color:var(--gold)">
+          <div class="fw-card-title">Values & Beliefs (Core)</div>
+          <div class="fw-card-body">Underlying reasons for behavior. Tata: "Integrity & Stewardship" explains no mass layoffs. Zappos: "Deliver Wow" explains the $2K offer.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">The Inertia Trap</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p>Structures optimized for a past environment become cages when markets shift. Success breeds complacency.</p>
+        <table class="comp-table">
+          <tr><th>Company</th><th>Mastery</th><th>The Shift</th><th>Outcome</th></tr>
+          <tr><td>Hindustan Motors 🇮🇳</td><td>Ambassador car, government monopoly</td><td>1991 liberalization, Maruti entry</td><td>Shut down 2014</td></tr>
+          <tr><td>Blockbuster 🌍</td><td>Video rental stores</td><td>Netflix + internet</td><td>Bankrupt</td></tr>
+          <tr><td>Kodak 🌍</td><td>Film photography</td><td>Digital photography</td><td>Bankruptcy (2012)</td></tr>
+          <tr><td>Nokia 🌍</td><td>Robust hardware phones</td><td>Software ecosystems</td><td>Acquired by Microsoft</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ SESSIONS 18–20 ═══════════════════════════ -->
+<div class="session-card active" id="card-s18-20">
+  <div class="session-header" onclick="toggleCard('card-s18-20')">
+    <div class="session-number">18-20</div>
+    <div>
+      <div class="session-title">Corporate Governance, Ethics & Business Models</div>
+      <div class="session-subtitle">Agency Theory · Information Asymmetry · Razor-Blade · Socratic First Principles</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot dot-note"></div>Your Notes</div>
+      <div class="legend-item"><div class="legend-dot dot-extra"></div>Deep Dive</div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Agency Theory <span class="topic-tag tag-s">S18</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Agency Theory</strong> — Arises when goals of the owners & the shareholders/people running the industry <em>do not align</em>.</p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <div class="framework-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="fw-card" style="border-color:var(--blue)">
+            <div class="fw-card-title">Adverse Selection (Before)</div>
+            <div class="fw-card-body">Agent hides info to secure deal. Example: Nikola Motors — CEO rolled truck down hill to fake a demo. India: TCS Recruitment Scam (bribes for unqualified hires).</div>
+          </div>
+          <div class="fw-card" style="border-color:var(--pink)">
+            <div class="fw-card-title">Moral Hazard (After)</div>
+            <div class="fw-card-body">Agent takes undue risks when they don't bear the cost. Example: 2008 banks took subprime risks knowing govts would bail them out. India: PNB & Nirav Modi — bank officials issued unauthorized guarantees.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Information Asymmetry & Market for Lemons <span class="topic-tag tag-s">S18-20</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Information asymmetry</strong> → one party knows more than the other. Referenced in your notes as a key concept.</p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive — Akerlof's Lemons (Nobel Prize, 1970)</div>
+        <div class="framework-grid">
+          <div class="fw-card" style="border-color:#7b6b3b">
+            <div class="fw-card-title">🍑 Peach (Good car)</div>
+            <div class="fw-card-body">Worth $10K. Seller knows quality. Won't sell at $7K average price → exits market.</div>
+          </div>
+          <div class="fw-card" style="border-color:#7b3b3b">
+            <div class="fw-card-title">🍋 Lemon (Bad car)</div>
+            <div class="fw-card-body">Worth $4K. Gets $7K from uninformed buyer → profit. Stays in market. Result: only lemons remain.</div>
+          </div>
+        </div>
+        <div class="highlight-box" style="margin-top:10px;">
+          <strong>Fix (Signaling):</strong> Peach sellers offer warranties → proves quality. Lemon sellers won't — it would cost them too much when the car breaks.
+        </div>
+        <p style="font-size:12px; margin-top:8px;">India example: Pre-RERA real estate market — builders held vast private information over buyers. Post-RERA: mandated disclosures reduce asymmetry.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Socratic First Principles & Razor-Blade Model <span class="topic-tag tag-s">S20</span></div>
+      <div class="block-note">
+        <div class="block-note-label">📓 Your Notes</div>
+        <p><strong>Socratic first principles?</strong> &nbsp;|&nbsp; <strong>Razor, Blade</strong> (as a business model)</p>
+      </div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <p><strong>Razor & Blade (Bait and Hook)</strong> — Sell the durable platform at low/no margin; earn on high-margin consumable.</p>
+        <div class="framework-grid" style="margin-top:10px; grid-template-columns:1fr 1fr;">
+          <div class="fw-card" style="border-color:var(--teal)">
+            <div class="fw-card-title">🌍 Nespresso</div>
+            <div class="fw-card-body"><strong>Bait:</strong> Coffee machine (at cost). <strong>Hook:</strong> Proprietary pods (~85% margin). Lock-in: patented capsule design.</div>
+          </div>
+          <div class="fw-card" style="border-color:var(--teal)">
+            <div class="fw-card-title">🇮🇳 Eureka Forbes (Aquaguard)</div>
+            <div class="fw-card-body"><strong>Bait:</strong> RO/UV water purifier. <strong>Hook:</strong> Annual Maintenance Contract + filters (~₹599/yr). Contributes ~30% of total revenue.</div>
+          </div>
+        </div>
+        <p style="margin-top:8px; font-size:12px;"><strong>Socratic First Principles</strong> in strategy = strip away assumptions, find the root cause. E.g., "Why does a firm exist?" → Coase's transaction cost theory. "What is an organization?" → 4 building blocks.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Bad Apple vs Bad Barrel</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <table class="comp-table">
+          <tr><th></th><th>Bad Apple</th><th>Bad Barrel</th></tr>
+          <tr><td>Focus</td><td>Individual greed/intent</td><td>Systemic pressure, toxic culture</td></tr>
+          <tr><td>Bad examples</td><td>A single embezzler</td><td>VW, Wells Fargo, Enron, Satyam, ICICI</td></tr>
+          <tr><td>Good examples</td><td>—</td><td>Tata (26/11 response), J&J Tylenol crisis</td></tr>
+          <tr><td>Fix</td><td>Fire the individual</td><td>Culture change + ethical leadership</td></tr>
+        </table>
+        <p style="margin-top:8px; font-size:12px;"><strong>Wells Fargo:</strong> Employees opened millions of fake accounts to hit extreme daily sales targets. The <em>barrel</em> punished honesty. <strong>Tata 26/11:</strong> Employees stayed to save guests — the <em>barrel</em> rewarded service.</p>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Corporate Fraud Hall of Shame</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <table class="comp-table">
+          <tr><th>Company</th><th>The Lie</th><th>The Enabler</th><th>Outcome</th></tr>
+          <tr><td>Theranos</td><td>Edison machine didn't work</td><td>High-profile board without expertise</td><td>Holmes: 11.25 yrs prison</td></tr>
+          <tr><td>Wirecard 🌍</td><td>€1.9B cash didn't exist</td><td>Complex subsidiary web</td><td>Insolvency; COO fled to Moscow</td></tr>
+          <tr><td>FTX</td><td>Customer funds were safe</td><td>No independent board, no controls</td><td>SBF: 25 yrs prison</td></tr>
+          <tr><td>Satyam 🇮🇳</td><td>₹7,000 Cr inflated cash</td><td>Weak oversight, promoter control</td><td>Raju: 7 yrs prison; acquired by Tech Mahindra</td></tr>
+          <tr><td>Byju's 🇮🇳</td><td>Siphoned $533M US loan</td><td>Rapid acquisitions, no controls</td><td>Insolvency (CIRP 2025)</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="topic-section">
+      <div class="topic-title">Key Business Model Types</div>
+      <div class="block-extra">
+        <div class="block-extra-label">📖 Deep Dive</div>
+        <div class="framework-grid">
+          <div class="fw-card"><div class="fw-card-title">Razor-Blade</div><div class="fw-card-body">Low-margin platform, high-margin consumable. Nespresso, Aquaguard, HP printers.</div></div>
+          <div class="fw-card"><div class="fw-card-title">Subscription</div><div class="fw-card-body">Recurring revenue. Country Delight (dairy), Netflix, Dollar Shave Club.</div></div>
+          <div class="fw-card"><div class="fw-card-title">Freemium</div><div class="fw-card-body">Free base, paid premium. Jio free data → paid ecosystem. Spotify free → Premium.</div></div>
+          <div class="fw-card"><div class="fw-card-title">Ecosystem Bundle</div><div class="fw-card-body">Walled garden. Amazon Prime (shipping + video). Jio (connectivity + content + commerce).</div></div>
+          <div class="fw-card"><div class="fw-card-title">Long Tail</div><div class="fw-card-body">Sell less of more (rare items to niche buyers). Amazon, YouTube — tech enables serving micro-niches profitably.</div></div>
+          <div class="fw-card"><div class="fw-card-title">Ultra-Low Cost</div><div class="fw-card-body">D-Mart: owns real estate (no rent), pays suppliers in 7 days for discounts, limited SKUs in massive volume.</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ QUIZ ═══════════════════════════════ -->
+<div class="session-card" id="card-quiz">
+  <div class="session-header" onclick="toggleCard('card-quiz')">
+    <div class="session-number" style="background:var(--teal); color:#000;">🧠</div>
+    <div>
+      <div class="session-title">Quick Quiz — Sessions 11–20</div>
+      <div class="session-subtitle">Test yourself on all key concepts</div>
+    </div>
+    <span class="chevron">▾</span>
+  </div>
+  <div class="session-body">
+    <div class="quiz-block">
+      <h4>Quick-Fire Quiz</h4>
+
+      <div class="quiz-q" id="q1">
+        <p>1. A company sells a durable machine at cost and profits from recurring consumables. This is the ___ business model.</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q1',this,'wrong')">Long Tail</button>
+          <button class="quiz-opt" onclick="answerQuiz('q1',this,'correct')">Razor & Blade (Bait and Hook)</button>
+          <button class="quiz-opt" onclick="answerQuiz('q1',this,'wrong')">Freemium</button>
+          <button class="quiz-opt" onclick="answerQuiz('q1',this,'wrong')">Subscription</button>
+        </div>
+        <div class="quiz-feedback" id="q1-fb">✅ Correct! Nespresso machines + pods, Aquaguard + AMC are classic examples.</div>
+      </div>
+
+      <div class="quiz-q" id="q2">
+        <p>2. Schumpeter's theory that superior formats ruthlessly replace old ones is called:</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q2',this,'wrong')">Flywheel Effect</button>
+          <button class="quiz-opt" onclick="answerQuiz('q2',this,'wrong')">CAGE Framework</button>
+          <button class="quiz-opt" onclick="answerQuiz('q2',this,'correct')">Creative Destruction (Perennial Gale)</button>
+          <button class="quiz-opt" onclick="answerQuiz('q2',this,'wrong')">Blue Ocean Strategy</button>
+        </div>
+        <div class="quiz-feedback" id="q2-fb">✅ Correct! Blockbuster's stores became liabilities when Netflix + internet arrived — the "gale" destroyed them.</div>
+      </div>
+
+      <div class="quiz-q" id="q3">
+        <p>3. In the Build-Borrow-Buy framework, when resources are highly tradable via contracts, the firm should:</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q3',this,'wrong')">Acquire the target firm</button>
+          <button class="quiz-opt" onclick="answerQuiz('q3',this,'correct')">Borrow via licensing/contract (Non-Equity Alliance)</button>
+          <button class="quiz-opt" onclick="answerQuiz('q3',this,'wrong')">Build the resource internally</button>
+          <button class="quiz-opt" onclick="answerQuiz('q3',this,'wrong')">Create a Joint Venture</button>
+        </div>
+        <div class="quiz-feedback" id="q3-fb">✅ Correct! BioNTech-Pfizer was a licensing agreement — highly tradable IP. Acquisition would have been wasteful.</div>
+      </div>
+
+      <div class="quiz-q" id="q4">
+        <p>4. CAGE stands for:</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q4',this,'wrong')">Commercial, Accounting, Geographic, Ethical</button>
+          <button class="quiz-opt" onclick="answerQuiz('q4',this,'correct')">Cultural, Administrative, Geographic, Economic</button>
+          <button class="quiz-opt" onclick="answerQuiz('q4',this,'wrong')">Competitive, Advantage, Growth, Entry</button>
+          <button class="quiz-opt" onclick="answerQuiz('q4',this,'wrong')">Cultural, Agile, Governance, Economic</button>
+        </div>
+        <div class="quiz-feedback" id="q4-fb">✅ Correct! All four dimensions define how "far apart" two markets really are in business terms.</div>
+      </div>
+
+      <div class="quiz-q" id="q5">
+        <p>5. A Mechanistic organization typically uses which business strategy?</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q5',this,'correct')">Cost Leadership</button>
+          <button class="quiz-opt" onclick="answerQuiz('q5',this,'wrong')">Differentiation</button>
+          <button class="quiz-opt" onclick="answerQuiz('q5',this,'wrong')">Blue Ocean</button>
+          <button class="quiz-opt" onclick="answerQuiz('q5',this,'wrong')">Focused Differentiation</button>
+        </div>
+        <div class="quiz-feedback" id="q5-fb">✅ Correct! High formalization + centralization → efficiency → cost leadership. Example: McDonald's, Maruti Suzuki.</div>
+      </div>
+
+      <div class="quiz-q" id="q6">
+        <p>6. The Streisand Effect refers to:</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q6',this,'wrong')">A strategy where you discredit a rival publicly</button>
+          <button class="quiz-opt" onclick="answerQuiz('q6',this,'correct')">Attempting to suppress information, which paradoxically publicizes it further</button>
+          <button class="quiz-opt" onclick="answerQuiz('q6',this,'wrong')">Using celebrity endorsements to boost brand recall</button>
+          <button class="quiz-opt" onclick="answerQuiz('q6',this,'wrong')">A social media advertising technique</button>
+        </div>
+        <div class="quiz-feedback" id="q6-fb">✅ Correct! Patagonia's "Don't Buy This Jacket" → 30% increase in sales. The attempt to suppress overconsumption made it viral.</div>
+      </div>
+
+      <div class="quiz-q" id="q7">
+        <p>7. Agency Theory's "Moral Hazard" occurs:</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q7',this,'wrong')">Before a contract, when agent hides flaws</button>
+          <button class="quiz-opt" onclick="answerQuiz('q7',this,'correct')">After a contract, when secured agents take undue risks</button>
+          <button class="quiz-opt" onclick="answerQuiz('q7',this,'wrong')">When markets have too many competing products</button>
+          <button class="quiz-opt" onclick="answerQuiz('q7',this,'wrong')">During M&A integration</button>
+        </div>
+        <div class="quiz-feedback" id="q7-fb">✅ Correct! 2008 banks took subprime risks knowing governments would bail them out — upside kept, downside socialized.</div>
+      </div>
+
+      <div class="quiz-q" id="q8">
+        <p>8. The Flywheel Effect (S14) is best described as:</p>
+        <div class="quiz-options">
+          <button class="quiz-opt" onclick="answerQuiz('q8',this,'wrong')">First-mover advantage in a new market</button>
+          <button class="quiz-opt" onclick="answerQuiz('q8',this,'wrong')">Porter's framework for competitive advantage</button>
+          <button class="quiz-opt" onclick="answerQuiz('q8',this,'correct')">Self-reinforcing loops of small wins that create compounding momentum</button>
+          <button class="quiz-opt" onclick="answerQuiz('q8',this,'wrong')">A merger strategy to consolidate market share</button>
+        </div>
+        <div class="quiz-feedback" id="q8-fb">✅ Correct! Amazon's flywheel: Lower Prices → More Traffic → More Sellers → Better Selection → Lower Cost → Lower Prices.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── Toggle session collapse ──
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('collapsed');
+}
+
+// ── Show specific session or all ──
+function showSession(session) {
+  // update tabs
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  const cards = document.querySelectorAll('.session-card');
+  const main = document.getElementById('mainContent');
+
+  if (session === 'all') {
+    cards.forEach(c => { c.style.display = 'block'; c.classList.remove('collapsed'); });
+    return;
+  }
+
+  cards.forEach(c => { c.style.display = 'none'; });
+
+  if (session === 'quiz') {
+    const q = document.getElementById('card-quiz');
+    q.style.display = 'block';
+    q.classList.remove('collapsed');
+    return;
+  }
+
+  const target = document.getElementById('card-' + session);
+  if (target) {
+    target.style.display = 'block';
+    target.classList.remove('collapsed');
+  }
+}
+
+// ── Quiz logic ──
+function answerQuiz(qId, btn, result) {
+  const q = document.getElementById(qId);
+  const allBtns = q.querySelectorAll('.quiz-opt');
+  allBtns.forEach(b => { b.disabled = true; });
+  btn.classList.add(result);
+  const fb = document.getElementById(qId + '-fb');
+  if (fb) {
+    fb.style.display = 'block';
+    if (result === 'wrong') {
+      fb.textContent = '❌ Not quite. ' + fb.textContent.replace('✅ Correct! ', '');
+      fb.style.color = '#e8567a';
+    } else {
+      fb.style.color = '#3fb950';
+    }
+  }
+}
+
+// ── Init: expand all on load ──
+document.querySelectorAll('.session-card').forEach(c => c.classList.remove('collapsed'));
+</script>
+
+</body>
+</html>
