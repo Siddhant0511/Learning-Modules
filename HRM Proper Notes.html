@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Resource Management - Master Notes</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --bg-cream: #f8f7f2;
+            --text-ink: #1a1a1a;
+            --border-light: #e4e0d5;
+            --accent-red: #b91c1c;
+            --accent-blue: #475569;
+            --accent-green: #78aba8;
+            --accent-yellow: #ca8a04;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-ink);
+        }
+
+        .font-playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .editorial-card {
+            background-color: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            box-shadow: none; /* Flat design requirement */
+        }
+
+        .eyebrow {
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-cream);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1cdbf;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b5b0a1;
+        }
+    </style>
+</head>
+<body class="font-inter antialiased text-[#1a1a1a] selection:bg-[#78aba8] selection:text-white">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col lg:flex-row gap-12">
+        
+        <!-- Navigation Sidebar -->
+        <aside class="lg:w-1/4 lg:flex-shrink-0">
+            <div class="sticky top-12">
+                <div class="mb-8">
+                    <h1 class="font-playfair text-4xl font-bold mb-2 leading-tight">Human <br><span class="italic text-[#b91c1c] font-normal">Resource</span> <br>Management</h1>
+                    <p class="text-sm text-[#475569] mt-4 font-medium">Comprehensive Master Notes</p>
+                    <p class="text-xs text-gray-500 mt-1">Dr. Vibhav Singh</p>
+                </div>
+
+                <nav class="flex flex-col space-y-2" id="nav-menu">
+                    <a href="#pms" class="nav-link inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[#e4e0d5]/70 text-[#1a1a1a]">
+                        <i data-lucide="target" class="w-4 h-4 mr-3 text-[#b91c1c]"></i> Performance Management
+                    </a>
+                    <a href="#lnd" class="nav-link inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[#e4e0d5]/70 text-[#1a1a1a]">
+                        <i data-lucide="book-open" class="w-4 h-4 mr-3 text-[#475569]"></i> Training & Development
+                    </a>
+                    <a href="#comp" class="nav-link inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[#e4e0d5]/70 text-[#1a1a1a]">
+                        <i data-lucide="coins" class="w-4 h-4 mr-3 text-[#ca8a04]"></i> Compensation & Benefits
+                    </a>
+                    <a href="#diversity" class="nav-link inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[#e4e0d5]/70 text-[#1a1a1a]">
+                        <i data-lucide="users" class="w-4 h-4 mr-3 text-[#78aba8]"></i> Diversity Management
+                    </a>
+                    <a href="#er" class="nav-link inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[#e4e0d5]/70 text-[#1a1a1a]">
+                        <i data-lucide="shield-alert" class="w-4 h-4 mr-3 text-[#b91c1c]"></i> Employee Relations
+                    </a>
+                    <a href="#ihrm" class="nav-link inline-flex items-center rounded-full px-5 py-2.5 text-sm font-medium transition-colors hover:bg-[#e4e0d5]/70 text-[#1a1a1a]">
+                        <i data-lucide="globe" class="w-4 h-4 mr-3 text-[#475569]"></i> International HRM
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="lg:w-3/4 space-y-12 pb-24">
+
+            <!-- Section 1: Performance Management -->
+            <section id="pms" class="editorial-card p-8 lg:p-12 scroll-mt-12">
+                <span class="eyebrow text-[#475569] mb-4 block">Section I</span>
+                <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-6">Performance <span class="italic text-[#b91c1c] font-normal">Management System</span> (PMS)</h2>
+                
+                <p class="mb-6 text-lg leading-relaxed">
+                    Defining, measuring, motivating, and developing the employee's goal-oriented performance on a continuing basis.
+                </p>
+
+                <div class="bg-[#f8f7f2] border border-[#e4e0d5] rounded-lg p-6 mb-8">
+                    <h3 class="font-playfair font-semibold text-xl mb-4">The PMS Process</h3>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-800">
+                        <li><span class="font-medium">Set goals together</span> (Start of the year)</li>
+                        <li><span class="font-medium">Tracking progress & Mid-year Review</span></li>
+                        <li><span class="font-medium">Year-end Appraisal</span></li>
+                        <li><span class="font-medium">Rewards & Development</span></li>
+                    </ol>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h4 class="font-semibold text-sm uppercase tracking-wider mb-3 text-[#78aba8]">Current Trends</h4>
+                        <ul class="list-disc list-outside ml-4 space-y-2 text-gray-700 text-sm">
+                            <li>Continuous Performance Management System (Regular check-ins & growth conversations).</li>
+                            <li>Decoupling development feedback from pay.</li>
+                            <li>Agile goal settings (OKRs).</li>
+                            <li>Reduced role of strict ratings.</li>
+                            <li>Hybrid & Remote context sensitivity.</li>
+                            <li>Enhanced Manager capabilities.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm uppercase tracking-wider mb-3 text-[#78aba8]">Who Does the Appraisal?</h4>
+                        <ul class="list-disc list-outside ml-4 space-y-2 text-gray-700 text-sm">
+                            <li><strong>Immediate Supervisor:</strong> Still the heart of most processes; best positioned to observe.</li>
+                            <li><strong>360-Degree Feedback:</strong> Includes subordinates, peers, and external stakeholders.</li>
+                            <li><strong>Peer Appraisal & Self-Rating.</strong></li>
+                            <li><strong>Rating Committees.</strong></li>
+                            <li><em>Note: HR acts as an advisor; the final decision lies with the operating manager.</em></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="font-playfair font-semibold text-2xl mt-8 mb-4">Appraisal Techniques</h3>
+                <div class="space-y-4 text-gray-800">
+                    <p><strong>1. Graphic Rating Scale:</strong> Used to assess generic job dimensions like communication, teamwork, and know-how.</p>
+                    <p><strong>2. Alternation Ranking:</strong> Cross out names not known well, then alternately rank the highest (+ve) and lowest (-ve) on the specific performance dimension until all are ranked.</p>
+                    <p><strong>3. Critical Incidents Method:</strong> The supervisor keeps a log of positive and negative examples of subordinate's work-related behavior. Discussed every 6 months. Provides concrete examples but doesn't produce relative ratings easily for pay raises.</p>
+                    <p><strong>4. Bell Curve:</strong> Used to reward top talent, motivate the majority, and weed out underperformers.</p>
+                    
+                    <div class="bg-white border border-[#e4e0d5] p-4 rounded-lg my-2 shadow-sm">
+                        <p class="font-semibold text-gray-900 mb-2">5. BARS (Behaviorally Anchored Rating Scale):</p>
+                        <p class="text-sm mb-2">Combines narratives, critical incidents, and quantified scales by anchoring a scale with specific behavioral examples of good/poor performance. Highly accurate and consistent.</p>
+                        <strong class="text-xs uppercase tracking-wider text-gray-500">Steps to Develop BARS:</strong>
+                        <ol class="list-decimal list-inside text-sm text-gray-700 mt-1">
+                            <li>Write critical incidents.</li>
+                            <li>Develop performance dimensions.</li>
+                            <li>Reallocate incidents.</li>
+                            <li>Scale the incidents.</li>
+                            <li>Develop a final instrument.</li>
+                        </ol>
+                    </div>
+
+                    <p><strong>6. MBO (Management by Objectives):</strong> Cascading goals from Corporate Strategic Goals &rarr; Departmental &rarr; Individual Goals &rarr; Action Plans. Requires regular progress reviews.</p>
+                </div>
+
+                <div class="mt-8 border-t border-[#e4e0d5] pt-8">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-playfair font-semibold text-xl mb-4 text-[#b91c1c]">Evaluation Biases</h3>
+                            <ul class="space-y-3 text-sm text-gray-700">
+                                <li><strong>Recency Effect:</strong> Focusing only on the most recent behavior rather than the entire review period.</li>
+                                <li><strong>Halo/Horn Effect:</strong> One positive (Halo) or negative (Horn) trait influences the evaluator to rate all other aspects accordingly.</li>
+                                <li><strong>Central Tendency Bias:</strong> Rating everyone around the middle of the scale to avoid very high or low ratings.</li>
+                                <li><strong>Leniency Bias:</strong> Rating everyone too positively.</li>
+                                <li><strong>Similar-to-me Bias:</strong> Favoring employees who share similar characteristics with the evaluator.</li>
+                            </ul>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="bg-[#f8f7f2] p-5 rounded-md border border-[#e4e0d5]">
+                                <h4 class="font-semibold text-sm uppercase tracking-wider mb-2 text-[#475569]">AI in PMS</h4>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li><strong>Digital Goal Setting:</strong> Betterworks, Lattice, 15Five, WorkBoard.</li>
+                                    <li><strong>Continuous Feedback:</strong> Culture Amp, Reflektive.</li>
+                                    <li><strong>People Analytics:</strong> E.g., Microsoft Viva tracks collaboration patterns and burnout risks.</li>
+                                    <li><strong>Automated Nudges:</strong> Reminders for missed 1-on-1s or feedback check-ins.</li>
+                                    <li><strong>Performance Dashboards:</strong> Workday, SuccessFactors.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-sm uppercase tracking-wider mb-2 text-[#475569]">Conducting the Interview</h4>
+                                <p class="text-sm text-gray-700">A successful appraisal interview requires the manager to: <strong>Prepare</strong>, <strong>Plan</strong>, act as a <strong>Coach</strong>, and remain <strong>Objective</strong> throughout the conversation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: L&D -->
+            <section id="lnd" class="editorial-card p-8 lg:p-12 scroll-mt-12">
+                <span class="eyebrow text-[#475569] mb-4 block">Section II</span>
+                <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-6">Training & <span class="italic text-[#475569] font-normal">Development</span></h2>
+                
+                <p class="mb-6 text-gray-800">
+                    <strong>Onboarding:</strong> Employee orientation programs provide new employees the basic background information required to perform their jobs satisfactorily.
+                </p>
+
+                <h3 class="font-playfair font-semibold text-2xl mb-4">The ADDIE Process</h3>
+                <div class="flex flex-wrap gap-2 mb-8">
+                    <span class="px-3 py-1 bg-[#475569] text-white text-xs font-semibold rounded-full uppercase tracking-wider">Analysis</span>
+                    <span class="px-3 py-1 bg-[#f8f7f2] border border-[#e4e0d5] text-xs font-semibold rounded-full uppercase tracking-wider">Design</span>
+                    <span class="px-3 py-1 bg-[#f8f7f2] border border-[#e4e0d5] text-xs font-semibold rounded-full uppercase tracking-wider">Development</span>
+                    <span class="px-3 py-1 bg-[#f8f7f2] border border-[#e4e0d5] text-xs font-semibold rounded-full uppercase tracking-wider">Implementation</span>
+                    <span class="px-3 py-1 bg-[#f8f7f2] border border-[#e4e0d5] text-xs font-semibold rounded-full uppercase tracking-wider">Evaluation</span>
+                </div>
+
+                <div class="space-y-6 text-gray-800">
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#b91c1c] mb-2">1. Training Needs Analysis (TNA)</h4>
+                        <p class="text-sm mb-2">Globally, 50-70% of training programs fail because they do not address the real issue. We must identify: <em>"Can't do"</em> (requires training) vs. <em>"Won't do"</em> (requires motivation/management).</p>
+                        <ul class="list-disc list-inside ml-2 text-sm text-gray-700 space-y-1">
+                            <li><strong>New Employees (Task Analysis):</strong> Detailed study of the job to determine specific skills required (Uses JD & JS). Lower levels require more training.</li>
+                            <li><strong>Current Employees (Performance Analysis):</strong> Verifying performance deficiency and determining if training is the solution (Uses Performance Appraisals).</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#b91c1c] mb-2">2. Designing the Program</h4>
+                        <ul class="list-disc list-inside ml-2 text-sm text-gray-700 space-y-1">
+                            <li><strong>SMART Objectives:</strong> Address specific deficiencies (knowledge, skills, attitudes).</li>
+                            <li><strong>Motivational Environment:</strong> Accommodate trainee abilities, secure top-management support, ensure self-efficacy.</li>
+                            <li><strong>Meaningful Learning:</strong> Provide a bird's-eye view, familiar examples, organize content logically.</li>
+                            <li><strong>Skills Transfer:</strong> Make it obvious. Provide practice, let trainees learn at their own pace. Ensure conditions resemble the actual work environment.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#b91c1c] mb-2">3. Implementing the Training</h4>
+                        <div class="grid md:grid-cols-2 gap-4 mt-3">
+                            <div class="border border-[#e4e0d5] p-4 rounded-lg">
+                                <h5 class="font-semibold text-sm mb-2">Hands-on / On-the-Job Methods</h5>
+                                <ul class="text-xs text-gray-600 space-y-2">
+                                    <li><strong>Apprenticeship:</strong> Structured combination of classroom & OJT. (High cost, highly effective, best for skilled trades).</li>
+                                    <li><strong>Informal Learning:</strong> Observing peers, daily tasks. (Low cost, moderate effectiveness).</li>
+                                    <li><strong>Job Instruction Training (JIT):</strong> Step-by-step approach. (Moderate cost, high effectiveness).</li>
+                                    <li><strong>Behavior Modeling:</strong> Show right/wrong way, practice, feedback. (High effectiveness, best for soft skills/customer service).</li>
+                                    <li><strong>Coaching / Job Rotation / Peer Training.</strong></li>
+                                </ul>
+                            </div>
+                            <div class="border border-[#e4e0d5] p-4 rounded-lg">
+                                <h5 class="font-semibold text-sm mb-2">Off-the-Job / Media / Simulations</h5>
+                                <ul class="text-xs text-gray-600 space-y-2">
+                                    <li><strong>Lectures & Presentations:</strong> Best for factual info to large groups. (Low cost, moderate effectiveness).</li>
+                                    <li><strong>Vestibule Training:</strong> Training in a separate area using identical equipment to avoid slowing down production. (High cost, high effectiveness).</li>
+                                    <li><strong>Simulated Learning:</strong> Software mimicking real-life high-stakes situations (e.g., pilots, surgeons). (High cost, very high effectiveness).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#b91c1c] mb-2">Management Development</h4>
+                        <p class="text-sm text-gray-700">While training is task-oriented, management development expands leadership abilities. Includes: Executive Coaching (identifying strengths/weaknesses), Corporate Universities, Outside Seminars (NHRDN, AIMA, CII).</p>
+                    </div>
+
+                    <div class="bg-[#f8f7f2] p-6 rounded-lg">
+                        <h4 class="font-playfair font-semibold text-xl mb-3">4. Training Evaluation</h4>
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="flex-1">
+                                <strong class="text-sm uppercase tracking-wider text-[#78aba8] block mb-2">Kirkpatrick Model</strong>
+                                <ol class="list-decimal list-inside text-sm text-gray-700 space-y-1">
+                                    <li><strong>Reaction:</strong> Initial participant feedback (surveys).</li>
+                                    <li><strong>Learning:</strong> Info absorbed (tests/assessments).</li>
+                                    <li><strong>Behavior:</strong> Application on the job (observation).</li>
+                                    <li><strong>Results:</strong> Business level impact (ROI, metrics).</li>
+                                </ol>
+                            </div>
+                            <div class="flex-1 border-l border-[#e4e0d5] pl-6">
+                                <strong class="text-sm uppercase tracking-wider text-[#78aba8] block mb-2">70:20:10 Framework</strong>
+                                <ul class="text-sm text-gray-700 space-y-2">
+                                    <li><strong>70%</strong> - Experiential Learning (The "Do")</li>
+                                    <li><strong>20%</strong> - Social Learning (The "Share")</li>
+                                    <li><strong>10%</strong> - Formal Learning (The "Learn")</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Compensation & Benefits -->
+            <section id="comp" class="editorial-card p-8 lg:p-12 scroll-mt-12">
+                <span class="eyebrow text-[#ca8a04] mb-4 block">Section III</span>
+                <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-6">Compensation & <span class="italic font-normal">Benefits</span></h2>
+                
+                <p class="mb-4 text-gray-800">
+                    <strong>Direct Financial Payments:</strong> Wages, salaries, incentives, commissions, and bonuses.<br>
+                    <strong>Indirect Financial Payments:</strong> Financial benefits like insurance, vacations, pensions.
+                </p>
+
+                <h3 class="font-playfair font-semibold text-xl mt-6 mb-3">Aligning Total Rewards with Strategy</h3>
+                <p class="text-sm text-gray-700 mb-6">
+                    Total rewards include traditional pay, incentives, benefits, challenging jobs, career development, and recognition programs. The future reward experience is holistic, workforce-centric, and embedded in the culture (moving from just "Rewards" to a "Workforce Value Proposition").
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#b91c1c] mb-2">Establishing Pay Rates</h4>
+                        <ul class="space-y-3 text-sm text-gray-700">
+                            <li><strong>Market-Based Approach:</strong> Benchmarking against market pay. Data sourced from consultancy firms (Hey Group, Aon) rather than Glassdoor.
+                                <ul class="list-disc list-inside ml-4 mt-1 text-xs">
+                                    <li><em>Below Market:</em> Startups, or when labor supply > demand.</li>
+                                    <li><em>Above Market:</em> To resist attrition for highly stressful jobs (e.g., Nurses), or when demand > supply.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Job Evaluation Method:</strong> Assigning weights to skills and competencies (higher weights to cognitive skills vs. physical labor).</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#b91c1c] mb-2">Executive Pay</h4>
+                        <p class="text-sm text-gray-700 mb-2">Determined by job complexity, employer's ability to pay, and executive human capital. Basic pay gets less weight; highly focused on variable pay & ESOPs.</p>
+                        <ul class="list-disc list-inside text-sm text-gray-700">
+                            <li><strong>Short-term Incentives:</strong> Annual bonus (eligibility often tied to salary grade/band). Target bonus limits set per position based on actual performance and company fund size.</li>
+                            <li><strong>Long-term Incentives:</strong> Stock Options (right to purchase shares at a specific price) and Golden Parachutes (payout upon termination/ownership change).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 mb-8">
+                    <h4 class="font-semibold text-sm uppercase tracking-wider mb-3">Incentives for Sales</h4>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <strong class="text-sm block text-gray-800">Fixed Salary</strong>
+                            <p class="text-xs text-gray-600 mt-1">Simple to switch territories, but can demotivate high performers.</p>
+                        </div>
+                        <div class="flex-1 border-l border-[#e4e0d5] pl-4">
+                            <strong class="text-sm block text-gray-800">Commission</strong>
+                            <p class="text-xs text-gray-600 mt-1">Attracts high performers, but they may neglect non-selling duties (customer service).</p>
+                        </div>
+                        <div class="flex-1 border-l border-[#e4e0d5] pl-4">
+                            <strong class="text-sm block text-gray-800">Combination</strong>
+                            <p class="text-xs text-gray-600 mt-1">Most common approach (e.g., 70% Base, 30% Incentive).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 border-t border-[#e4e0d5] pt-8">
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#ca8a04] mb-2">Non-Financial & Recognition Awards</h4>
+                        <p class="text-sm text-gray-700 mb-2">While financials are critical at lower levels, non-financial rewards become crucial differentiators at higher levels.</p>
+                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li><strong>Recognition Programs:</strong> Formal programs like "Employee of the Month".</li>
+                            <li><strong>Social Recognition:</strong> Informal manager-employee exchanges, praise, and approval.</li>
+                            <li><strong>Performance Feedback:</strong> Qualitative/quantitative info on performance.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg text-[#ca8a04] mb-2">Benefits Administration</h4>
+                        <p class="text-sm text-gray-700 mb-2">Key policy issues regarding indirect financial payments:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li>Determining who receives coverage (and if retirees are included).</li>
+                            <li>Handling probationary periods.</li>
+                            <li>Financing benefits and cost-containment.</li>
+                            <li>Communicating options (unemployment, vacation, sick leave, severance, pension, work-life).</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Diversity Management -->
+            <section id="diversity" class="editorial-card p-8 lg:p-12 scroll-mt-12">
+                <span class="eyebrow text-[#78aba8] mb-4 block">Section IV</span>
+                <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-6">Diversity <span class="italic font-normal">Management</span></h2>
+                
+                <p class="text-gray-800 text-lg mb-6">
+                    In an employment context, diversity is defined as the collective mixture of differences and similarities. Having a strategy to promote D&I helps CEOs navigate global complexities (PwC Report).
+                </p>
+
+                <div class="bg-[#f8f7f2] border border-[#e4e0d5] rounded-lg p-6 mb-8">
+                    <h3 class="font-playfair font-semibold text-xl mb-3">Strategic Management of Diversity</h3>
+                    <p class="text-sm text-gray-700 mb-3">True diversity management goes beyond hiring. It requires:</p>
+                    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-800">
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 mr-2 text-[#78aba8]"></i> Top Leadership commitment</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 mr-2 text-[#78aba8]"></i> Diversity as part of the org's strategy</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 mr-2 text-[#78aba8]"></i> Linking diversity to performance</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 mr-2 text-[#78aba8]"></i> Inclusive recruitment & succession planning</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-4 h-4 mr-2 text-[#78aba8]"></i> Continuous diversity training</li>
+                    </ul>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="font-playfair font-semibold text-xl mb-3">Dimensions of Diversity</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <strong class="text-sm text-[#78aba8] uppercase tracking-wider">Primary Dimensions</strong>
+                                <p class="text-sm text-gray-600">Inborn differences with a lifelong impact: Race, Physical Ability, Sexual Orientation, Ethnicity, Gender, Age.</p>
+                            </div>
+                            <div>
+                                <strong class="text-sm text-[#78aba8] uppercase tracking-wider">Secondary Dimensions</strong>
+                                <p class="text-sm text-gray-600">Acquired or changed throughout life: Education, Marital/Parental Status, Work Background, Income, Geography, Military Experience, Religion.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-5 rounded-lg border border-[#e4e0d5]">
+                        <h3 class="font-playfair font-semibold text-xl mb-3">The DEIB Framework (AON Hewitt)</h3>
+                        <ul class="text-sm space-y-2 text-gray-700">
+                            <li><strong>Diversity:</strong> Bringing together different voices & viewpoints.</li>
+                            <li><strong>Equity:</strong> Recognizing barriers and ensuring impartial, fair practices.</li>
+                            <li><strong>Inclusion:</strong> Equal access to opportunities and resources.</li>
+                            <li><strong>Belonging:</strong> Cultivating a space where individuals can be their authentic selves.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="font-playfair font-semibold text-2xl mb-4 border-b border-[#e4e0d5] pb-2">Types of Diversity & Interventions</h3>
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Generational Diversity</h4>
+                        <p class="text-sm text-gray-600 mt-1">Impacts communication, motivation, and leadership. 50% of workers in Indian orgs consider generational conflict an issue (SHRM).<br>
+                        <em>Intervention:</em> <strong>Reverse Mentoring</strong> (e.g., Max Life Insurance where Gen Z/Millennials mentor CXOs on digital tools and social media).</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Gender Diversity</h4>
+                        <p class="text-sm text-gray-600 mt-1">India has a massive working female population, yet women remain underrepresented in the C-Suite. Gender roles still affect perceptions.<br>
+                        <em>Intervention:</em> <strong>WoW (Women of Wipro) Mentoring Program</strong>. Grooming high-potential middle-management women to create an inclusive leadership team, resulting in increased promotion rates.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Disability</h4>
+                        <p class="text-sm text-gray-600 mt-1">Despite acts, representation can be low due to perceived concerns over safety, cost, and social skills. However, inclusive hiring increases loyalty and public image.<br>
+                        <em>Intervention:</em> <strong>Lemon Tree Hotels</strong>. Over 13% of employees are persons with disabilities (hearing/speech impaired, orthopedically handicapped, Down Syndrome, Autistic).</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Sexual Orientation</h4>
+                        <p class="text-sm text-gray-600 mt-1">40% of the LGBT workforce report facing harassment. Companies are adopting same-sex partner benefits, gender-neutral restrooms, and health insurance covering gender-confirmation.<br>
+                        <em>Intervention:</em> <strong>Google's "Gayglers"</strong>. An employee resource group offering immense support, helping attract top talent.</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center bg-[#f8f7f2] p-6 rounded-lg">
+                    <h4 class="font-playfair font-semibold text-xl mb-2">Stages of Diversity Awareness (M. Bennett)</h4>
+                    <p class="text-sm text-gray-600 flex justify-center items-center gap-2 flex-wrap">
+                        <span class="text-red-500 font-medium">Denial</span> &rarr;
+                        <span class="text-orange-500 font-medium">Defense</span> &rarr;
+                        <span class="text-yellow-600 font-medium">Minimizing Differences</span> &rarr;
+                        <span class="text-blue-500 font-medium">Acceptance</span> &rarr;
+                        <span class="text-indigo-500 font-medium">Adaptation</span> &rarr;
+                        <span class="text-green-600 font-medium">Integration</span>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 5: Employee Relations -->
+            <section id="er" class="editorial-card p-8 lg:p-12 scroll-mt-12">
+                <span class="eyebrow text-[#b91c1c] mb-4 block">Section V</span>
+                <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-6">Employee <span class="italic font-normal">Relations & Safety</span></h2>
+                
+                <p class="mb-6 text-gray-800">
+                    The process of acquiring, training, appraising, and compensating employees, and attending to their labor relations, health, safety, and fairness concerns.
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="font-playfair font-semibold text-xl mb-3">Workplace Unfairness & Justice</h3>
+                        <p class="text-sm text-gray-600 mb-2">Unfair treatment reduces morale, increases stress, and impacts performance. Employees of abusive supervisors are highly likely to quit.</p>
+                        <p class="text-sm text-gray-600"><strong>Why Treat Employees Fairly?</strong> Perceptions of fairness (Distributive and Procedural Justice) strongly correlate with enhanced employee commitment, satisfaction, and organizational citizenship behaviors. Climate surveys help assess these relations.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-playfair font-semibold text-xl mb-3">Trade Unions</h3>
+                        <p class="text-sm text-gray-600 mb-2">People unionize to protect themselves from management's whims, feeling unity is the only way to get a fair share. They mainly organize around pay and working conditions.</p>
+                        <p class="text-sm text-gray-600">Union workers generally receive significantly better benefits (paid leave, insurance) and are less impacted by downsizings since they aren't entirely "at will."</p>
+                    </div>
+                </div>
+
+                <div class="border border-[#b91c1c]/30 bg-[#b91c1c]/5 p-6 rounded-lg mb-8">
+                    <h3 class="font-playfair font-semibold text-2xl text-[#b91c1c] mb-2">Visakha Guidelines & Sexual Harassment</h3>
+                    <p class="text-sm text-gray-800 mb-6">Guidelines laid down by the Supreme Court of India. It is the employer's duty to prevent, deter, and provide procedures for resolving acts of sexual harassment.</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-gray-700 mb-6">
+                        <div class="bg-white p-3 rounded shadow-sm"><strong>Visual:</strong> Ogling, Staring, Posters</div>
+                        <div class="bg-white p-3 rounded shadow-sm"><strong>Verbal:</strong> Lewd comments, Whistling, Requests for dates, Dirty jokes</div>
+                        <div class="bg-white p-3 rounded shadow-sm"><strong>Written:</strong> Love letters, Obscene emails/poems</div>
+                        <div class="bg-white p-3 rounded shadow-sm"><strong>Physical/Power:</strong> Touching, Patting, Threatening job loss, Force</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 text-sm">
+                        <div>
+                            <h4 class="font-semibold text-[#b91c1c] mb-2">Costs of Harassment</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li><strong>To Employee:</strong> Emotional distress, loss of self-esteem, illness (ulcers, stress), absenteeism, loss of job/career disruption.</li>
+                                <li><strong>To Employer:</strong> Poor morale, low productivity, turnover, litigation costs, damaged public image.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-[#b91c1c] mb-2">Responsibilities</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li><strong>Manager:</strong> Acknowledge legal liability, lead by example, respond promptly/fairly, understand why women remain silent, create a no-retribution culture.</li>
+                                <li><strong>Employee:</strong> Ask "Do I consent? Does it violate my dignity?", read policies, promptly report incidents.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-xs text-[#b91c1c] font-medium mt-4 italic text-center">* Behavior unwanted by the recipient may be harassment regardless of intent.</p>
+                </div>
+
+                <h3 class="font-playfair font-semibold text-2xl mb-4 border-b border-[#e4e0d5] pb-2">Workplace Health Hazards & Safety</h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-sm text-[#475569] uppercase tracking-wider mb-2">Health Issues</h4>
+                        <ul class="text-sm text-gray-600 space-y-1 list-disc ml-4">
+                            <li>Chemicals & Industrial Hygiene (e.g., Asbestos).</li>
+                            <li>Infectious Diseases.</li>
+                            <li>Alcoholism & Substance Abuse.</li>
+                            <li>Stress, Burnout, and Depression.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-[#475569] uppercase tracking-wider mb-2">Ergonomics & Wellness</h4>
+                        <ul class="text-sm text-gray-600 space-y-1 list-disc ml-4">
+                            <li>Solving computer-related ergonomic problems.</li>
+                            <li>Repetitive motion disorders.</li>
+                            <li>Workplace smoking policies.</li>
+                            <li>Comprehensive Wellness Programs.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-[#475569] uppercase tracking-wider mb-2">Occupational Security</h4>
+                        <ul class="text-sm text-gray-600 space-y-1 list-disc ml-4">
+                            <li>Crime prevention & Security measures.</li>
+                            <li>Employee screening & supervisory training.</li>
+                            <li>Preventing violence toward women.</li>
+                            <li>Managing Employee Privacy and breaches.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: IHRM -->
+            <section id="ihrm" class="editorial-card p-8 lg:p-12 scroll-mt-12">
+                <span class="eyebrow text-[#475569] mb-4 block">Section VI</span>
+                <h2 class="font-playfair text-3xl md:text-4xl font-bold mb-6">International <span class="italic font-normal">HRM (IHRM)</span></h2>
+                
+                <p class="mb-4 text-gray-800">
+                    IHRM involves the concepts and techniques employers use to manage the HR challenges of their international operations. It focuses on three main topics:
+                </p>
+                <ol class="list-decimal list-inside text-sm text-gray-700 mb-8 space-y-1">
+                    <li>Managing human resources in global companies (selecting, training, compensating).</li>
+                    <li>Managing expatriate employees (those sent abroad).</li>
+                    <li>Comparing HRM practices in different countries.</li>
+                </ol>
+
+                <h3 class="font-playfair font-semibold text-2xl mb-4 border-b border-[#e4e0d5] pb-2">International Staffing Policies</h3>
+                <div class="grid md:grid-cols-3 gap-4 mb-8">
+                    <div class="bg-[#f8f7f2] p-4 rounded border border-[#e4e0d5]">
+                        <h4 class="font-semibold text-sm mb-1">Ethnocentric Approach</h4>
+                        <p class="text-xs text-gray-600">Hires <strong>Parent Country Nationals (PCNs)</strong>. Citizens of the country where the MNC is headquartered. Used in MNCs with international strategic orientation.</p>
+                    </div>
+                    <div class="bg-[#f8f7f2] p-4 rounded border border-[#e4e0d5]">
+                        <h4 class="font-semibold text-sm mb-1">Polycentric Approach</h4>
+                        <p class="text-xs text-gray-600">Hires <strong>Host Country Nationals (HCNs)</strong>. Lowers recruiting/training costs and reduces adjustment/communication problems.</p>
+                    </div>
+                    <div class="bg-[#f8f7f2] p-4 rounded border border-[#e4e0d5]">
+                        <h4 class="font-semibold text-sm mb-1">Geocentric Approach</h4>
+                        <p class="text-xs text-gray-600">Hires <strong>Third Country Nationals (TCNs)</strong>. Recruits globally based on skill, irrespective of nationality (transnational orientation).</p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="font-playfair font-semibold text-xl mb-3">Selecting International Managers</h3>
+                        <p class="text-sm text-gray-700 mb-2">Firms must avoid early expatriate returns. Success depends heavily on:</p>
+                        <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                            <li>Screening, testing, and being realistic.</li>
+                            <li>Fluency in local language.</li>
+                            <li>Managing family pressures (e.g., pre/school age children).</li>
+                            <li>Legal issues and sending women abroad.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 border border-[#e4e0d5] p-5 rounded">
+                        <h4 class="font-semibold text-sm mb-2 text-[#475569]">Case Study: Brazil Subsidiary (Hofstede)</h4>
+                        <p class="text-xs text-gray-600 mb-2">When deciding who leads a Brazilian subsidiary (Indian Expat, Local Brazilian, or Global Exec), one must consider Brazilian culture:</p>
+                        <ul class="list-disc list-inside text-xs text-gray-600">
+                            <li>Relationship-Oriented Culture</li>
+                            <li>High Power Distance & Collectivist Tendencies</li>
+                            <li>High-Context Communication Style</li>
+                            <li>Emotional Expressiveness & Flexibility toward time.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-playfair font-semibold text-xl mb-2">Cross-Cultural Training (CCT)</h3>
+                        <p class="text-sm text-gray-700">Crucial for expats to reduce stress, boost self-awareness, and provide coping strategies. Training should cover local history, politics, business norms, cultural values, and why moving is difficult. Strategic HR planning must focus on global competencies.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h3 class="font-playfair font-semibold text-xl mb-2">Compensation & Performance</h3>
+                            <p class="text-sm text-gray-700 mb-3"><strong>Balance Sheet Approach:</strong> Equalizes purchasing power across countries so the expat maintains their home standard of living. Includes foreign service premiums, hardship allowances, and mobility premiums.</p>
+                            <p class="text-sm text-gray-700"><strong>Appraising Expats:</strong> Adapt criteria to the local job/situation, weight the evaluation toward the on-site manager, and use a same-country former expat for advice.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-playfair font-semibold text-xl mb-2">Repatriation & Security</h3>
+                            <p class="text-sm text-gray-700 mb-3"><strong>Reverse Culture Shock:</strong> 40% to 60% of expats quit within 3 years of returning home. Issues include dissatisfaction with the home standard of living, unutilized international KSA (Knowledge, Skills, Abilities), and co-workers uninterested in their experiences.</p>
+                            <p class="text-sm text-gray-700"><strong>Labor Relations & Safety:</strong> Requires taking protective measures regarding global terrorism, safety, and procuring Kidnapping & Ransom (K&R) insurance.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Simple ScrollSpy logic for the sidebar highlighting
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    // Adjust threshold slightly
+                    if (scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('bg-[#e4e0d5]', 'font-bold');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('bg-[#e4e0d5]', 'font-bold');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
