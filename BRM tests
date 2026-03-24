@@ -1,1 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering Statistical Tests</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Playfair Display for the heavy, elegant headings. Inter for clean body text. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        cream: '#f8f7f2', // The warm off-white background
+                        ink: '#1a1a1a', // Deep black for text
+                        'muted-ink': '#5a5a5a',
+                        'accent-red': '#cc4a33',
+                        'accent-red-light': '#fcedea',
+                        'accent-blue': '#2c4f74',
+                        'accent-blue-light': '#edf3f8',
+                        'accent-green': '#437a54',
+                        'accent-green-light': '#eef6f0',
+                        'accent-yellow': '#b5862a',
+                        'accent-purple': '#735a8f',
+                        'border-subtle': '#e4e0d5'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8f7f2;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f8f7f2; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4d0c5; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a499; 
+        }
+        .eyebrow-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #888;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .eyebrow-line::before {
+            content: "";
+            height: 1px;
+            width: 2rem;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body class="text-ink antialiased">
 
+    <!-- Header Section -->
+    <header class="pt-24 pb-12 px-6 sm:px-8 lg:px-12 max-w-[1000px] mx-auto">
+        
+        <div class="eyebrow-line mb-8">
+            STATISTICS FUNDAMENTALS · COMPLETE PRIMER
+        </div>
+
+        <h1 class="text-6xl md:text-[5.5rem] font-black font-serif leading-[1.05] tracking-tight mb-8">
+            Comparing Means,<br/>
+            <span class="italic text-accent-red">made simple.</span>
+        </h1>
+
+        <p class="max-w-3xl text-[1.1rem] text-muted-ink leading-relaxed mb-10 font-light">
+            T-tests, ANOVAs, and ANCOVAs — and all the statistical terms you hear in research but nobody explains simply: covariates, interaction effects, main effects, and dependent variables. With clear examples tying it all together.
+        </p>
+
+        <!-- Top Pill Navigation -->
+        <div class="flex flex-wrap gap-3 mb-16">
+            <a href="#t-test" class="px-5 py-2 rounded-full border border-accent-red text-accent-red text-sm font-medium hover:bg-accent-red-light transition-colors">T-Tests</a>
+            <a href="#anova" class="px-5 py-2 rounded-full border border-accent-blue text-accent-blue text-sm font-medium hover:bg-accent-blue-light transition-colors">ANOVA</a>
+            <a href="#ancova" class="px-5 py-2 rounded-full border border-accent-green text-accent-green text-sm font-medium hover:bg-accent-green-light transition-colors">ANCOVA</a>
+            <a href="#decision-tree" class="px-5 py-2 rounded-full border border-accent-yellow text-accent-yellow text-sm font-medium hover:bg-[#fbf4e6] transition-colors">Which Test?</a>
+        </div>
+
+        <hr class="border-border-subtle" />
+    </header>
+
+    <!-- Sticky Segmented Nav (Optional, but adds to the aesthetic) -->
+    <div class="sticky top-6 z-50 max-w-[1000px] mx-auto px-6 sm:px-8 lg:px-12 mb-16 hidden md:block">
+        <nav class="flex items-center justify-between border border-border-subtle rounded-2xl bg-white/80 backdrop-blur-md shadow-sm px-2 py-2">
+            <a href="#t-test" class="px-6 py-2 rounded-xl text-sm font-medium text-accent-red bg-accent-red-light">T-Tests</a>
+            <a href="#anova" class="px-6 py-2 rounded-xl text-sm text-muted-ink hover:text-ink transition-colors">ANOVA</a>
+            <a href="#ancova" class="px-6 py-2 rounded-xl text-sm text-muted-ink hover:text-ink transition-colors">ANCOVA</a>
+            <a href="#decision-tree" class="px-6 py-2 rounded-xl text-sm text-muted-ink hover:text-ink transition-colors flex items-center gap-2">
+                <i data-lucide="git-branch" class="w-4 h-4"></i> Interactive Guide
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-[1000px] mx-auto px-6 sm:px-8 lg:px-12 pb-32 space-y-24">
+
+        <!-- ================= T-TESTS SECTION ================= -->
+        <section id="t-test" class="scroll-mt-32">
+            <div class="uppercase tracking-[0.15em] text-xs text-muted-ink mb-3 font-medium">Statistical Family 1</div>
+            <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink mb-6">The <span class="italic">T-Test</span></h2>
+            
+            <p class="text-lg text-muted-ink mb-10 leading-relaxed font-light">
+                An inferential statistical test used to determine if there is a significant difference between the means of exactly <strong>one or two groups</strong>. It is generally used when the dataset is small (n < 30) or the population standard deviation is unknown.
+            </p>
+
+            <div class="space-y-6">
+                <!-- One-Sample -->
+                <div class="bg-white rounded-2xl p-8 border border-border-subtle shadow-sm">
+                    <h3 class="text-xl font-serif font-bold text-accent-red mb-4 border-b border-border-subtle pb-4">One-Sample T-Test</h3>
+                    <p class="text-muted-ink mb-6 font-light">
+                        Compares the mean of a single sample to a known or hypothesized population mean.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-sm">
+                        <div>
+                            <strong class="text-ink block mb-2 font-medium">When to use:</strong>
+                            <p class="text-muted-ink font-light">When you have one group and a standard value to compare it against.</p>
+                        </div>
+                        <div>
+                            <strong class="text-ink block mb-2 font-medium">Example:</strong>
+                            <p class="text-muted-ink font-light italic">A bakery claims their bread loaves weigh exactly 500g. You buy 20 loaves, calculate their mean weight, and see if your sample mean significantly differs from the claimed 500g.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Independent -->
+                <div class="bg-white rounded-2xl p-8 border border-border-subtle shadow-sm">
+                    <h3 class="text-xl font-serif font-bold text-accent-red mb-4 border-b border-border-subtle pb-4">Independent (Two-Sample) T-Test</h3>
+                    <p class="text-muted-ink mb-6 font-light">
+                        Compares the means of two distinct, unrelated groups to see if they differ significantly.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-sm">
+                        <div>
+                            <strong class="text-ink block mb-2 font-medium">When to use:</strong>
+                            <p class="text-muted-ink font-light">When testing two entirely separate groups of subjects (between-subjects design).</p>
+                        </div>
+                        <div>
+                            <strong class="text-ink block mb-2 font-medium">Example:</strong>
+                            <p class="text-muted-ink font-light italic">Testing a new study drug. Group A gets the drug, Group B gets a placebo. You compare the final recovery times. The subjects in A have no relation to subjects in B.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paired -->
+                <div class="bg-white rounded-2xl p-8 border border-border-subtle shadow-sm">
+                    <h3 class="text-xl font-serif font-bold text-accent-red mb-4 border-b border-border-subtle pb-4">Paired (Dependent) T-Test</h3>
+                    <p class="text-muted-ink mb-6 font-light">
+                        Compares the means of two related groups. Typically, the same subjects are tested twice.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8 text-sm">
+                        <div>
+                            <strong class="text-ink block mb-2 font-medium">When to use:</strong>
+                            <p class="text-muted-ink font-light">For "Before & After" studies on the exact same subjects, or perfectly matched pairs.</p>
+                        </div>
+                        <div>
+                            <strong class="text-ink block mb-2 font-medium">Example:</strong>
+                            <p class="text-muted-ink font-light italic">Measuring the blood pressure of 30 patients before starting a diet, and measuring the blood pressure of those exact same 30 patients after 6 weeks on the diet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-border-subtle" />
+
+        <!-- ================= ANOVA SECTION ================= -->
+        <section id="anova" class="scroll-mt-32">
+            <div class="uppercase tracking-[0.15em] text-xs text-muted-ink mb-3 font-medium">Statistical Family 2</div>
+            <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink mb-6">The <span class="italic">ANOVA</span></h2>
+            
+            <p class="text-lg text-muted-ink mb-8 leading-relaxed font-light">
+                Analysis of Variance (ANOVA) is used to compare the means of <strong>three or more groups</strong>. It analyzes the variance <em>between</em> the groups compared to the variance <em>within</em> the groups.
+            </p>
+
+            <div class="bg-accent-blue-light border border-[#d0e0ed] p-6 md:p-8 rounded-2xl mb-10">
+                <h4 class="font-serif font-bold text-accent-blue text-xl mb-3">The "Multiple T-Test" Problem</h4>
+                <p class="text-muted-ink font-light text-sm md:text-base leading-relaxed">
+                    Why not just run multiple t-tests? If you have 4 groups (A, B, C, D) and compare them using t-tests, you'd run 6 tests. Every test has a built-in error rate (alpha = 0.05). If you run 6 tests, your chance of a false positive compounds drastically (nearly 26%). <strong>ANOVA solves this by running a single global test</strong>, keeping your error rate at exactly 5%.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- One-Way ANOVA -->
+                <div class="bg-white rounded-2xl p-8 border border-border-subtle shadow-sm flex flex-col">
+                    <div class="text-xs font-semibold text-accent-blue tracking-wider uppercase mb-2">1 Independent Variable</div>
+                    <h3 class="text-2xl font-serif font-bold text-ink mb-4">One-Way ANOVA</h3>
+                    <p class="text-muted-ink font-light text-sm mb-6 flex-grow">
+                        Tests the effect of a single independent variable (factor) that has 3 or more categorical levels on a continuous dependent variable.
+                    </p>
+                    <div class="bg-cream p-5 rounded-xl border border-border-subtle">
+                        <strong class="text-ink text-sm block mb-2">Example: Diet Types</strong>
+                        <p class="text-muted-ink font-light text-sm italic">
+                            Does diet type affect weight loss? <br/>
+                            IV: Diet Type (Keto, Vegan, Med).<br/>
+                            DV: Pounds lost.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- N-Way ANOVA -->
+                <div class="bg-white rounded-2xl p-8 border border-border-subtle shadow-sm flex flex-col">
+                    <div class="text-xs font-semibold text-accent-blue tracking-wider uppercase mb-2">2+ Independent Variables</div>
+                    <h3 class="text-2xl font-serif font-bold text-ink mb-4">Two-Way ANOVA</h3>
+                    <p class="text-muted-ink font-light text-sm mb-6 flex-grow">
+                        Evaluates the effect of two or more independent variables. Crucially, it allows you to look at <strong>Interaction Effects</strong>.
+                    </p>
+                    <div class="bg-cream p-5 rounded-xl border border-border-subtle">
+                        <strong class="text-ink text-sm block mb-2">Example: Diet & Exercise</strong>
+                        <p class="text-muted-ink font-light text-sm italic">
+                            Does Keto only work well with High exercise, while Vegan works well with Low exercise? Two-way ANOVA reveals these hidden combinations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-border-subtle" />
+
+        <!-- ================= ANCOVA SECTION ================= -->
+        <section id="ancova" class="scroll-mt-32">
+            <div class="uppercase tracking-[0.15em] text-xs text-muted-ink mb-3 font-medium">Statistical Family 3</div>
+            <h2 class="text-4xl md:text-5xl font-serif font-bold text-ink mb-6">The <span class="italic">ANCOVA</span></h2>
+            
+            <p class="text-lg text-muted-ink mb-10 leading-relaxed font-light">
+                Analysis of Covariance (ANCOVA) is an extension of ANOVA. It tests differences between group means, but mathematically <strong>adjusts these means</strong> to account for the effects of continuous variables not central to the study.
+            </p>
+
+            <div class="bg-white rounded-2xl border border-border-subtle shadow-sm overflow-hidden">
+                <div class="grid md:grid-cols-2">
+                    <div class="p-8 md:p-10 border-b md:border-b-0 md:border-r border-border-subtle">
+                        <h3 class="text-xl font-serif font-bold text-accent-green mb-4">What are Covariates?</h3>
+                        <p class="text-muted-ink font-light leading-relaxed mb-6">
+                            A covariate is a continuous "nuisance" variable you suspect influences your dependent variable. 
+                        </p>
+                        <p class="text-muted-ink font-light leading-relaxed">
+                            By adding it to the model, ANCOVA "partials out" its variance. This reduces background noise, making your main test much more sensitive and accurate.
+                        </p>
+                    </div>
+                    
+                    <div class="p-8 md:p-10 bg-accent-green-light">
+                        <h3 class="text-xl font-serif font-bold text-accent-green mb-4">The Classic Example</h3>
+                        <p class="text-muted-ink font-light text-sm mb-4 leading-relaxed">
+                            You test 3 teaching methods (A, B, C) on Final Math Scores. <br><br>
+                            <strong>Problem:</strong> If Group A coincidentally gets all the math geniuses, Method A looks best falsely.
+                        </p>
+                        <p class="text-ink font-medium text-sm leading-relaxed">
+                            <strong>Solution:</strong> Give a "Pre-test" before the experiment. Make the Pre-test score your <span class="text-accent-green">Covariate</span>. ANCOVA statistically equalizes all students' starting knowledge, revealing the pure effect of the teaching methods.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= INTERACTIVE DECISION TREE ================= -->
+        <section id="decision-tree" class="scroll-mt-32 pt-12">
+            
+            <div class="border border-border-subtle bg-white rounded-3xl p-8 md:p-14 shadow-sm relative overflow-hidden">
+                
+                <div class="mb-10 text-center">
+                    <div class="uppercase tracking-[0.15em] text-xs text-accent-yellow mb-3 font-semibold">Interactive Tool</div>
+                    <h2 class="text-3xl md:text-4xl font-serif font-bold text-ink mb-4">Which test should I use?</h2>
+                    <p class="text-muted-ink font-light">Answer these questions to find the exact statistical test you need.</p>
+                </div>
+
+                <div class="bg-cream rounded-2xl p-6 md:p-10 border border-border-subtle min-h-[300px] flex flex-col justify-center transition-all duration-300" id="quiz-container">
+                    
+                    <!-- Question 1 -->
+                    <div id="step-1" class="quiz-step block">
+                        <h3 class="text-xl font-serif font-bold text-ink mb-6 text-center">1. What are you comparing?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                            <button onclick="nextStep(2, '1-sample')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-yellow/10 transition-colors border border-border-subtle hover:border-accent-yellow group">
+                                <span class="block font-medium text-ink group-hover:text-accent-yellow transition-colors mb-1">One group</span>
+                                <span class="block text-sm text-muted-ink font-light">Against a target/known value</span>
+                            </button>
+                            <button onclick="nextStep(2, 'groups')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-yellow/10 transition-colors border border-border-subtle hover:border-accent-yellow group">
+                                <span class="block font-medium text-ink group-hover:text-accent-yellow transition-colors mb-1">Multiple groups</span>
+                                <span class="block text-sm text-muted-ink font-light">Against each other</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Question 2 (If Groups) -->
+                    <div id="step-2" class="quiz-step hidden">
+                        <h3 class="text-xl font-serif font-bold text-ink mb-6 text-center">2. How many groups are there?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                            <button onclick="nextStep(3, '2-groups')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-yellow/10 transition-colors border border-border-subtle hover:border-accent-yellow group">
+                                <span class="block font-medium text-ink group-hover:text-accent-yellow transition-colors">Exactly Two Groups</span>
+                            </button>
+                            <button onclick="nextStep(4, '3-groups')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-yellow/10 transition-colors border border-border-subtle hover:border-accent-yellow group">
+                                <span class="block font-medium text-ink group-hover:text-accent-yellow transition-colors">Three or More Groups</span>
+                            </button>
+                        </div>
+                        <div class="text-center mt-8">
+                            <button onclick="resetQuiz()" class="text-sm text-muted-ink hover:text-ink font-medium tracking-wide transition">&larr; START OVER</button>
+                        </div>
+                    </div>
+
+                    <!-- Question 3 (If 2 Groups) -->
+                    <div id="step-3" class="quiz-step hidden">
+                        <h3 class="text-xl font-serif font-bold text-ink mb-6 text-center">3. Are the participants related?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                            <button onclick="showResult('Independent T-Test')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-red-light transition-colors border border-border-subtle hover:border-accent-red group">
+                                <span class="block font-medium text-ink group-hover:text-accent-red transition-colors mb-1">No</span>
+                                <span class="block text-sm text-muted-ink font-light">They are completely separate groups.</span>
+                            </button>
+                            <button onclick="showResult('Paired T-Test')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-red-light transition-colors border border-border-subtle hover:border-accent-red group">
+                                <span class="block font-medium text-ink group-hover:text-accent-red transition-colors mb-1">Yes</span>
+                                <span class="block text-sm text-muted-ink font-light">e.g., Before/After on the same people.</span>
+                            </button>
+                        </div>
+                        <div class="text-center mt-8">
+                            <button onclick="resetQuiz()" class="text-sm text-muted-ink hover:text-ink font-medium tracking-wide transition">&larr; START OVER</button>
+                        </div>
+                    </div>
+
+                    <!-- Question 4 (If 3+ Groups) -->
+                    <div id="step-4" class="quiz-step hidden">
+                        <h3 class="text-xl font-serif font-bold text-ink mb-6 text-center">3. Do you have a Covariate?</h3>
+                        <p class="text-center text-muted-ink text-sm mb-6 -mt-4 max-w-lg mx-auto">Do you need to control for a continuous nuisance variable (like a pre-test score)?</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                            <button onclick="nextStep(5, 'no-covariate')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-blue-light transition-colors border border-border-subtle hover:border-accent-blue group">
+                                <span class="block font-medium text-ink group-hover:text-accent-blue transition-colors mb-1">No</span>
+                                <span class="block text-sm text-muted-ink font-light">Just categorical group differences.</span>
+                            </button>
+                            <button onclick="showResult('ANCOVA')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-green-light transition-colors border border-border-subtle hover:border-accent-green group">
+                                <span class="block font-medium text-ink group-hover:text-accent-green transition-colors mb-1">Yes</span>
+                                <span class="block text-sm text-muted-ink font-light">I have a continuous variable to control.</span>
+                            </button>
+                        </div>
+                        <div class="text-center mt-8">
+                            <button onclick="resetQuiz()" class="text-sm text-muted-ink hover:text-ink font-medium tracking-wide transition">&larr; START OVER</button>
+                        </div>
+                    </div>
+
+                    <!-- Question 5 (If 3+ Groups, no covariate) -->
+                    <div id="step-5" class="quiz-step hidden">
+                        <h3 class="text-xl font-serif font-bold text-ink mb-6 text-center">4. How many Independent Variables?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                            <button onclick="showResult('One-Way ANOVA')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-blue-light transition-colors border border-border-subtle hover:border-accent-blue group">
+                                <span class="block font-medium text-ink group-hover:text-accent-blue transition-colors mb-1">Just One</span>
+                                <span class="block text-sm text-muted-ink font-light">e.g., Only checking Diet Type.</span>
+                            </button>
+                            <button onclick="showResult('Two-Way ANOVA')" class="text-left p-6 rounded-xl bg-white hover:bg-accent-blue-light transition-colors border border-border-subtle hover:border-accent-blue group">
+                                <span class="block font-medium text-ink group-hover:text-accent-blue transition-colors mb-1">Two or More</span>
+                                <span class="block text-sm text-muted-ink font-light">e.g., Diet Type AND Exercise Level.</span>
+                            </button>
+                        </div>
+                        <div class="text-center mt-8">
+                            <button onclick="resetQuiz()" class="text-sm text-muted-ink hover:text-ink font-medium tracking-wide transition">&larr; START OVER</button>
+                        </div>
+                    </div>
+
+                    <!-- Result Box -->
+                    <div id="result-box" class="quiz-step hidden text-center py-6">
+                        <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white border border-border-subtle text-ink mb-6 shadow-sm">
+                            <i data-lucide="check" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-muted-ink text-sm uppercase tracking-widest font-medium mb-3">You should use a</h3>
+                        <h2 id="final-result" class="text-4xl md:text-5xl font-black font-serif text-ink mb-10 italic">Test Name</h2>
+                        <div>
+                            <button onclick="resetQuiz()" class="px-8 py-3 rounded-full border border-ink text-ink font-medium hover:bg-ink hover:text-white transition-colors text-sm">
+                                Start Again
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border-subtle py-12 text-center mt-12">
+        <p class="text-xs tracking-[0.2em] text-muted-ink uppercase">Designed for Clarity.</p>
+    </footer>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Quiz Logic
+        function hideAllSteps() {
+            document.querySelectorAll('.quiz-step').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+        }
+
+        function nextStep(stepNumber, condition) {
+            hideAllSteps();
+            if (condition === '1-sample') {
+                showResult('One-Sample T-Test');
+            } else {
+                const nextEl = document.getElementById('step-' + stepNumber);
+                if(nextEl) {
+                    nextEl.classList.remove('hidden');
+                    nextEl.classList.add('block');
+                }
+            }
+        }
+
+        function showResult(testName) {
+            hideAllSteps();
+            
+            // Assign color based on result for extra aesthetic points
+            const resEl = document.getElementById('final-result');
+            resEl.innerText = testName;
+            
+            if(testName.includes('T-Test')) resEl.className = "text-4xl md:text-5xl font-black font-serif text-accent-red mb-10 italic";
+            else if(testName.includes('ANOVA')) resEl.className = "text-4xl md:text-5xl font-black font-serif text-accent-blue mb-10 italic";
+            else if(testName.includes('ANCOVA')) resEl.className = "text-4xl md:text-5xl font-black font-serif text-accent-green mb-10 italic";
+            else resEl.className = "text-4xl md:text-5xl font-black font-serif text-ink mb-10 italic";
+
+            document.getElementById('result-box').classList.remove('hidden');
+            document.getElementById('result-box').classList.add('block');
+            
+            // Trigger animation
+            resEl.style.transform = 'scale(0.95)';
+            resEl.style.opacity = '0';
+            setTimeout(() => {
+                resEl.style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                resEl.style.transform = 'scale(1)';
+                resEl.style.opacity = '1';
+            }, 50);
+        }
+
+        function resetQuiz() {
+            hideAllSteps();
+            document.getElementById('step-1').classList.remove('hidden');
+            document.getElementById('step-1').classList.add('block');
+        }
+
+        // Active State for Navigation
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('bg-accent-red-light', 'text-accent-red');
+                    link.classList.add('text-muted-ink');
+                    
+                    // Reset custom colors for active states based on section
+                    link.classList.remove('bg-accent-red-light', 'text-accent-red', 'bg-accent-blue-light', 'text-accent-blue', 'bg-accent-green-light', 'text-accent-green', 'bg-[#fbf4e6]', 'text-accent-yellow');
+
+                    if (link.getAttribute('href').includes(current)) {
+                        if(current === 't-test') {
+                            link.classList.add('bg-accent-red-light', 'text-accent-red');
+                        } else if(current === 'anova') {
+                            link.classList.add('bg-accent-blue-light', 'text-accent-blue');
+                        } else if(current === 'ancova') {
+                            link.classList.add('bg-accent-green-light', 'text-accent-green');
+                        } else if(current === 'decision-tree') {
+                            link.classList.add('bg-[#fbf4e6]', 'text-accent-yellow');
+                        }
+                        link.classList.remove('text-muted-ink');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
