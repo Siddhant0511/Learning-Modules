@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<<htmlhtml lang="en">
+<<headhead>
+    <<metameta charset="UTF-8">
+    <<metameta name="viewport" content="width=device-width, initial-scale=1.0">
+    <<titletitle>PRISM // NEURAL_SKILLS</title>
+    <<linklink rel="preconnect" href="https://fonts.googleapis.com">
+    <<linklink rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <<linklink href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <<stylestyle>
+        :root {
+            --bg-deep: #050508;
+            --bg-midnight: #0a0a1a;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --text-main: #f8faff;
+            --text-muted: rgba(248, 250, 255, 0.5);
+
+            --accent-design: linear-gradient(135deg, #00f2ff, #ff00f2);
+            --accent-eng: linear-gradient(135deg, #ccff00, #00ff6a);
+            --accent-intel: linear-gradient(135deg, #8a2be2, #0000ff);
+            --accent-data: linear-gradient(135deg, #ffbf00, #ff4500);
+
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --transition-fluid: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at center, var(--bg-midnight), var(--bg-deep));
+            color: var(--text-main);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Interactive Iridescent Background */
+        .bg-aura {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .aura-blob {
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            transition: transform 0.2s ease-out;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(5, 5, 8, 0.5);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(to right, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-filters {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition-fluid);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* The Glass Cluster */
+        .cluster {
+            padding: 120px 2rem 6rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .glass-card {
+            position: relative;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            transition: var(--transition-fluid);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        /* The Prism Refraction Effect */
+        .refraction-bar {
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 0%;
+            background: var(--card-accent);
+            transition: height 0.4s ease;
+            z-index: 2;
+        }
+
+        .glass-card:hover .refraction-bar {
+            height: 100%;
+        }
+
+        .card-category {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Detailing */
+        .complexity-meter {
+            display: flex;
+            gap: 6px;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 4px; height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .dot.filled {
+            background: var(--card-accent);
+            box-shadow: 0 0 8px var(--card-accent);
+        }
+
+        /* Side Panel */
+        .prism-panel {
+            position: fixed;
+            top: 0; right: -500px;
+            width: 500px; height: 100%;
+            background: rgba(5, 5, 8, 0.8);
+            backdrop-filter: blur(40px);
+            border-left: 1px solid var(--glass-border);
+            z-index: 200;
+            transition: right 0.6s var(--transition-fluid);
+            padding: 4rem 3rem;
+        }
+
+        .prism-panel.active {
+            right: 0;
+        }
+
+        .panel-close {
+            position: absolute;
+            top: 2rem; left: 2rem;
+            background: none; border: none;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+        }
+
+        .panel-content h2 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .panel-desc {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .tag-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tag {
+            padding: 0.4rem 1rem;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.05);
+            font-size: 0.7rem;
+            border-radius: 100px;
+            color: var(--text-main);
+            transition: var(--transition-fluid);
+        }
+
+        .tag:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        /* Animations */
+        .crystallize {
+            animation: crystallize 0.8s var(--transition-fluid) forwards;
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+        }
+
+        @keyframes crystallize {
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .hide-card {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <<divdiv class="bg-aura" id="aura">
+        <<divdiv class="aura-blob" style="background: #00f2ff; top: 10%; left: 10%;"></div>
+        <<divdiv class="aura-blob" style="background: #ff00f2; bottom: 10%; right: 10%;"></div>
+        <<divdiv class="aura-blob" style="background: #8a2be2; top: 40%; left: 40%;"></div>
+    </div>
+
+    <<headerheader>
+        <<divdiv class="logo">Prism // Skills</div>
+        <<divdiv class="nav-filters">
+            <<buttonbutton class="nav-btn active" onclick="filter('all')">All</button>
+            <<buttonbutton class="nav-btn" onclick="filter('design')">Design</button>
+            <<buttonbutton class="nav-btn" onclick="filter('eng')">Eng</button>
+            <<buttonbutton class="nav-btn" onclick="filter('intel')">Intel</button>
+            <<buttonbutton class="nav-btn" onclick="filter('data')">Data</button>
+        </div>
+    </header>
+
+    <<mainmain class="cluster" id="cluster">
+        <!-- Cards Injected Here -->
+    </main>
+
+    <<divdiv class="prism-panel" id="panel">
+        <<buttonbutton class="panel-close" onclick="closePanel()">← Back to Prism</button>
+        <<divdiv class="panel-content" id="panel-content"></div>
+    </div>
+
+    <<scriptscript>
+        const SKILLS_DATA = [
+            {
+                id: 'frontend-design',
+                category: 'design',
+                accent: 'var(--accent-design)',
+                title: 'Frontend Design',
+                desc: 'Production-grade interfaces with bold, intentional aesthetics. Eradicates "AI Slop" via precision typography.',
+                complexity: 5,
+                tags: ['UX/UI', 'Anti-Grav', 'Typography', 'Motion'],
+                full: 'The pinnacle of visual engineering. Specializes in creating distinctive, production-grade frontend interfaces that avoid generic patterns. Implements a-typical spatial compositions and professional-grade motion.'
+            },
+            {
+                id: 'web-artifacts-builder',
+                category: 'design',
+                accent: 'var(--accent-design)',
+                title: 'Web Artifacts Builder',
+                desc: 'Engineers complex, single-file React/Tailwind artifacts. High-density functionality wrapped in portable HTML.',
+                complexity: 4,
+                tags: ['React', 'Tailwind', 'shadcn/ui', 'Bundling'],
+                full: 'A high-performance suite for creating elaborate, multi-component artifacts. Uses a professional stack (React 18, TypeScript, Vite) and bundles them into a single, self-contained portable HTML file.'
+            },
+            {
+                id: 'theme-factory',
+                category: 'design',
+                accent: 'var(--accent-design)',
+                title: 'Theme Factory',
+                desc: 'Curated library of 10 professional visual identities. Precise color palettes and font pairings.',
+                complexity: 3,
+                tags: ['Branding', 'Palettes', 'Typography'],
+                full: 'Provides cohesive visual identities including precise hex codes and font pairings. Can generate custom, high-end themes on-the-fly to match specific project vibes.'
+            },
+            {
+                id: 'superpowers',
+                category: 'eng',
+                accent: 'var(--accent-eng)',
+                title: 'GStack Framework',
+                desc: 'The operational core: Think → Plan → Build → Review → Test → Ship. Replaces guesswork with process.',
+                complexity: 5,
+                tags: ['Workflow', 'Engineering', 'TDD', 'GStack'],
+                full: 'A systematic approach to software engineering. Focuses on pain-centricity and the "Iron Law" of root-cause investigation to ensure a zero-defect shipping cycle.'
+            },
+            {
+                id: 'webapp-testing',
+                category: 'eng',
+                accent: 'var(--accent-eng)',
+                title: 'Web App Testing',
+                desc: 'Browser-level verification using Playwright. Reconnaissance-then-action pattern for UI stability.',
+                complexity: 4,
+                tags: ['Playwright', 'Automation', 'QA', 'DOM'],
+                full: 'Advanced toolkit for interacting with local web apps. Handles complex server lifecycles and uses automated screenshots to identify selectors and verify behavior.'
+            },
+            {
+                id: 'security-audit',
+                category: 'eng',
+                accent: 'var(--accent-eng)',
+                title: 'Security Audit',
+                desc: 'Rigorous vulnerability scanning. Prevents XSS, Injection, and unsafe execution patterns.',
+                complexity: 4,
+                tags: ['SecOps', 'OWASP', 'Audit', 'Remediation'],
+                full: 'A security-first approach to code modification. Scans every change for injections and unsafe defaults, replacing them with secure-by-design alternatives.'
+            },
+            {
+                id: 'cognitive-arch',
+                category: 'intel',
+                accent: 'var(--accent-intel)',
+                title: 'Cognitive Architecture',
+                desc: 'Context engineering and reasoning optimization. Maximizes intelligence while minimizing token waste.',
+                complexity: 5,
+                tags: ['LLM', 'Context', 'Reasoning', 'Memory'],
+                full: 'Deep strategies for maximizing agent reasoning. Implements progressive disclosure and source-grounded synthesis to maintain a high-fidelity project brain.'
+            },
+            {
+                id: 'claude-api',
+                category: 'intel',
+                accent: 'var(--accent-intel)',
+                title: 'Claude API Integration',
+                desc: 'Mastery of Anthropic SDKs and Managed Agents. High-capability implementation for AI-driven apps.',
+                complexity: 4,
+                tags: ['SDK', 'API', 'Managed Agents', 'Opus'],
+                full: 'Technical mastery of official Anthropic SDKs. Focuses on high-end model selection, adaptive thinking, and server-side compaction for complex agentic workflows.'
+            },
+            {
+                id: 'pdf-proc',
+                category: 'data',
+                accent: 'var(--accent-data)',
+                title: 'Document Processing',
+                desc: 'High-fidelity extraction from PDF, DOCX, PPTX, and XLSX. Converts raw data into structured knowledge.',
+                complexity: 3,
+                tags: ['Parsing', 'Data Extraction', 'PDF', 'Office'],
+                full: 'Specialized tools to read and synthesize information from various binary document formats, turning them into structured study notes and pedagogical flows.'
+            },
+            {
+                id: 'mcp-builder',
+                category: 'eng',
+                accent: 'var(--accent-eng)',
+                title: 'MCP Tool Builder',
+                desc: 'Engineers Model Context Protocol servers. Extends LLM capabilities via well-designed external tools.',
+                complexity: 4,
+                tags: ['MCP', 'TypeScript', 'Zod', 'API'],
+                full: 'Comprehensive guide for creating MCP servers that permit LLMs to engage with external services via structured tools and a rigorous development process.'
+            }
+        ];
+
+        function render(filter = 'all') {
+            const cluster = document.getElementById('cluster');
+            cluster.innerHTML = '';
+
+            SKILLS_DATA.forEach((skill, i) => {
+                if (filter !== 'all' && skill.category !== filter) return;
+
+                const card = document.createElement('div');
+                card.className = 'glass-card crystallize';
+                card.style.animationDelay = `${i * 0.1}s`;
+                card.style.setProperty('--card-accent', skill.accent);
+
+                let dots = '';
+                for(let d=0; d<<55; d++) {
+                    dots += `<<divdiv class="dot ${d << skill skill.complexity ? 'filled' : ''}"></div>`;
+                }
+
+                card.innerHTML = `
+                    <<divdiv class="refraction-bar"></div>
+                    <<divdiv class="card-category">${skill.category}</div>
+                    <<divdiv class="card-title">${skill.title}</div>
+                    <<divdiv class="card-desc">${skill.desc}</div>
+                    <<divdiv class="complexity-meter">${dots}</div>
+                `;
+
+                card.onclick = () => openPanel(skill);
+                cluster.appendChild(card);
+            });
+        }
+
+        function filter(cat) {
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('active');
+                if(b.innerText.toLowerCase() === cat || (cat === 'all' && b.innerText === 'All')) b.classList.add('active');
+            });
+            render(cat);
+        }
+
+        function openPanel(skill) {
+            const panel = document.getElementById('panel');
+            const content = document.getElementById('panel-content');
+
+            content.innerHTML = `
+                <<divdiv class="card-category" style="color: ${skill.accent}; margin-bottom: 1rem;">${skill.category} // MODULE</div>
+                <h2>${skill.title}</h2>
+                <<pp class="panel-desc">${skill.full}</p>
+                <<divdiv class="tag-wrap">
+                    ${skill.tags.map(t => `<<spanspan class="tag">${t}</span>`).join('')}
+                </div>
+            `;
+
+            panel.style.setProperty('--card-accent', skill.accent);
+            panel.classList.add('active');
+        }
+
+        function closePanel() {
+            document.getElementById('panel').classList.remove('active');
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) - 0.5;
+            const y = (e.clientY / window.innerHeight) - 0.5;
+
+            document.querySelectorAll('.aura-blob').forEach((blob, i) => {
+                const shift = (i + 1) * 20;
+                blob.style.transform = `translate(${x * shift}px, ${y * shift}px)`;
+            });
+        });
+
+        window.onload = () => render();
+    </script>
+</body>
+</html>
