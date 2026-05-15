@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractor Workforce Stability</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --dark-bg: #0a0a0a;
+            --dark-surface: #141414;
+            --light-bg: #ffffff;
+            --light-surface: #f5f5f5;
+
+            --text-dark: #111111;
+            --text-muted-dark: #666666;
+            --text-light: #ffffff;
+            --text-muted-light: #a0a0a0;
+
+            --brand-blue: #2F5AF4;
+            --brand-purple: #6A35FF;
+            --brand-cyan: #00D2FF;
+            --brand-orange: #FF9900;
+            --brand-grey: #8A9AAB;
+            --brand-green: #00C875;
+            --brand-red: #FF3366;
+
+            --font-sans: 'DM Sans', sans-serif;
+            --font-serif: 'Playfair Display', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #222;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .presentation-window {
+            width: 100vw;
+            height: 56.25vw;
+            max-height: 100vh;
+            max-width: 177.78vh;
+            background: var(--light-bg);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .slides-container {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            padding: 5rem 6rem;
+            position: relative;
+            background: var(--light-bg);
+            display: flex;
+            flex-direction: column;
+            opacity: 0.3;
+            transition: opacity 0.6s;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide.dark {
+            background: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        .slide.gradient {
+            background: linear-gradient(135deg, #2F5AF4 0%, #6A35FF 100%);
+            color: var(--text-light);
+        }
+
+        .slide.split {
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .split-half {
+            flex: 1;
+            padding: 5rem 6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .split-left-light {
+            background: var(--light-bg);
+            color: var(--text-dark);
+        }
+
+        .split-right-dark {
+            background: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        .split-right-blue {
+            background: var(--brand-blue);
+            color: var(--text-light);
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .serif {
+            font-family: var(--font-serif);
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-muted-dark);
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+        }
+
+        .dark p,
+        .gradient p {
+            color: var(--text-muted-light);
+        }
+
+        .huge-number {
+            font-size: 7rem;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 0.5rem;
+        }
+
+        .number-label {
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted-dark);
+        }
+
+        .dark .number-label {
+            color: var(--text-muted-light);
+        }
+
+        .top-label {
+            position: absolute;
+            top: 2rem;
+            left: 6rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brand-blue);
+        }
+
+        .dark .top-label,
+        .gradient .top-label {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Layout Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            height: 100%;
+            align-items: center;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .grid-top-bottom {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        /* Dashboard Cards */
+        .dash-card {
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .dark .dash-card {
+            background: #111;
+            border-color: #222;
+        }
+
+        /* CSS Charts - Static */
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .bar-label {
+            width: 140px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 28px;
+            background: #f0f0f0;
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .dark .bar-track {
+            background: #222;
+        }
+
+        .bar-fill {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.5rem;
+            color: white;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        /* Vertical Charts with Axes */
+        .vertical-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 180px;
+            position: relative;
+            border-bottom: 1px dashed #eaeaea;
+            padding-bottom: 10px;
+        }
+
+        .dark .vertical-chart {
+            border-bottom-color: #333;
+        }
+
+        .v-bar {
+            width: 40px;
+            background: transparent;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .v-bar-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .v-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .v-val {
+            position: absolute;
+            top: -25px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Multi-Bar Groups */
+        .group-chart-container {
+            display: flex;
+            justify-content: space-around;
+            height: 120px;
+            align-items: flex-end;
+            border-bottom: 1px dashed #eaeaea;
+            padding-bottom: 10px;
+        }
+
+        .group-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            height: 100%;
+            justify-content: flex-end;
+        }
+
+        .group-bar-wrap {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 100%;
+        }
+
+        .group-v-bar {
+            width: 30px;
+            border-radius: 3px 3px 0 0;
+            position: relative;
+        }
+
+        .group-label {
+            position: absolute;
+            bottom: -30px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        /* SVG Line Chart */
+        .svg-chart {
+            width: 100%;
+            height: 150px;
+            overflow: visible;
+        }
+
+        .svg-line {
+            fill: none;
+            stroke: var(--brand-blue);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .svg-point {
+            fill: #fff;
+            stroke: var(--brand-blue);
+            stroke-width: 2;
+        }
+
+        hr.divider {
+            border: 0;
+            height: 1px;
+            background: #eaeaea;
+            margin: 2rem 0;
+            width: 100%;
+        }
+
+        .dark hr.divider {
+            background: #333;
+        }
+
+        /* Navigation Hints */
+        .controls {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .ctrl-btn {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Print Styles for PDF Export */
+        @media print {
+            body { 
+                background: white !important; 
+                overflow: visible !important; 
+                display: block !important; 
+                height: auto !important; 
+            }
+            .presentation-window { 
+                overflow: visible !important; 
+                width: 100% !important; 
+                height: auto !important; 
+                max-width: none !important; 
+                max-height: none !important;
+                box-shadow: none !important;
+            }
+            .controls, .top-label::before { display: none !important; }
+            #slider { 
+                display: block !important; 
+                transform: none !important; 
+                width: 100% !important;
+                height: auto !important;
+            }
+            .slide {
+                flex: none !important;
+                width: 100% !important;
+                height: 100vh !important;
+                page-break-after: always !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                position: relative !important;
+                box-shadow: none !important;
+                border: none !important;
+                margin: 0 !important;
+                padding: 3rem !important;
+                display: flex !important;
+            }
+            .slide-counter { bottom: 20px !important; right: 20px !important; }
+            h2 { color: #1C2B59 !important; }
+        }
+
+        .slide-counter {
+            position: absolute;
+            bottom: 2rem;
+            left: 6rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted-dark);
+        }
+
+        .dark .slide-counter,
+        .gradient .slide-counter {
+            color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="presentation-window">
+        <div class="slides-container" id="slider">
+
+            <!-- SLIDE 1: Title -->
+            <section class="slide gradient">
+                <div class="top-label">Workforce Diagnostics</div>
+                <div class="grid-2">
+                    <div>
+                        <h1 style="font-size: 4.5rem; font-weight: 400; line-height: 1.05;">Contractor
+                            Stability<br>Diagnostics<br>FY 23-26</h1>
+                        <p style="color: #fff; font-size: 1.2rem; opacity: 0.9; margin-top: 2rem;">A deep dive into
+                            Absenteeism and Attrition at the Alwar Plant, identifying root causes and actionable
+                            strategies.</p>
+                    </div>
+                </div>
+                <div class="slide-counter">01</div>
+            </section>
+
+            <!-- SLIDE 2: Absenteeism Baseline -->
+            <section class="slide">
+                <div class="top-label">Part 1 &mdash; Absenteeism (Siddhant)</div>
+                <div class="grid-2">
+                    <div>
+                        <h2 class="serif">Absenteeism Predicts Quitting</h2>
+                        <p>By the time HR notices attrition, the signal was visible months earlier in attendance data.
+                            Flight risk can be accurately modeled.</p>
+                    </div>
+                    <div>
+                        <div style="display: flex; gap: 3rem;">
+                            <div>
+                                <div class="serif" style="font-size: 4.5rem;">20.6<span
+                                        style="font-size: 2rem;">%</span></div>
+                                <div class="number-label">Active Employees</div>
+                            </div>
+                            <div>
+                                <div class="serif" style="font-size: 4.5rem;">38.5<span
+                                        style="font-size: 2rem;">%</span></div>
+                                <div class="number-label">Later Quits</div>
+                            </div>
+                        </div>
+                        <div class="chart-container"
+                            style="margin-top: 3rem; max-width: 400px; padding-bottom: 10px; border-bottom: 1px dashed #eaeaea;">
+                            <div class="bar-row">
+                                <div class="bar-label">Later Quit</div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="background: var(--text-dark); width: 38.5%;">38.5%
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bar-row">
+                                <div class="bar-label">Active</div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="background: #ccc; color: #333; width: 20.6%;">20.6%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">02</div>
+            </section>
+
+            <!-- SLIDE 3: Monthly Volatility & Rising Baseline -->
+            <section class="slide">
+                <div class="top-label">Yearly & Monthly Trends</div>
+                <div class="grid-top-bottom">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                            <h2 style="font-size: 2rem;">Macro Volatility & Baseline Shifts</h2>
+                            <p style="margin-bottom: 0;">FY24-FY26 Timeline reveals an expanding baseline exacerbated by
+                                seasonal spikes.</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div class="dash-card" style="flex: 1;">
+                            <h4 style="margin-bottom: 1rem; color: var(--text-muted-dark);">Monthly Volatility
+                                (FY24-FY26)</h4>
+                            <svg class="svg-chart" viewBox="0 0 1000 150">
+                                <line x1="0" y1="20" x2="1000" y2="20" stroke="#f0f0f0" stroke-dasharray="4" />
+                                <line x1="0" y1="75" x2="1000" y2="75" stroke="#f0f0f0" stroke-dasharray="4" />
+                                <line x1="0" y1="130" x2="1000" y2="130" stroke="#f0f0f0" stroke-dasharray="4" />
+                                <text x="0" y="15" font-size="12" fill="#aaa">40%</text>
+                                <text x="0" y="70" font-size="12" fill="#aaa">29%</text>
+                                <text x="0" y="125" font-size="12" fill="#aaa">22%</text>
+                                <path class="svg-line"
+                                    d="M 40 30 Q 80 40 100 80 T 180 90 T 260 140 T 320 60 T 380 90 T 420 100 T 480 60 T 540 85 T 600 65 T 660 110 T 720 120 T 780 105 T 840 70 T 900 125 T 960 90 T 1000 40" />
+                                <circle class="svg-point" cx="40" cy="30" r="4" />
+                                <circle class="svg-point" cx="100" cy="80" r="4" />
+                                <circle class="svg-point" cx="180" cy="90" r="4" />
+                                <circle class="svg-point" cx="260" cy="140" r="4" />
+                                <circle class="svg-point" cx="320" cy="60" r="4" />
+                                <circle class="svg-point" cx="480" cy="60" r="4" />
+                                <circle class="svg-point" cx="600" cy="65" r="4" />
+                                <circle class="svg-point" cx="720" cy="120" r="4" />
+                                <circle class="svg-point" cx="840" cy="70" r="4" />
+                                <circle class="svg-point" cx="1000" cy="40" r="4" />
+                            </svg>
+                            <div
+                                style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 500; color: #aaa; margin-top: 15px; padding: 0 10px;">
+                                <span>Q1 FY24</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Q1
+                                    FY25</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Q1
+                                    FY26</span><span>Latest</span>
+                            </div>
+                        </div>
+
+                        <div class="dash-card" style="flex: 1; padding-bottom: 3rem;">
+                            <h4 style="margin-bottom: 1rem; color: var(--text-muted-dark);">The Rising Baseline: FY24 vs
+                                FY25 vs Latest</h4>
+                            <div class="group-chart-container">
+                                <div class="group-col">
+                                    <div class="group-bar-wrap">
+                                        <div class="group-v-bar" style="height: 60%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-grey);"></div>
+                                        </div>
+                                        <div class="group-v-bar" style="height: 65%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-purple);"></div>
+                                        </div>
+                                        <div class="group-v-bar" style="height: 70%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-orange);"></div>
+                                        </div>
+                                    </div>
+                                    <div class="group-label">FY 24-25</div>
+                                </div>
+                                <div class="group-col">
+                                    <div class="group-bar-wrap">
+                                        <div class="group-v-bar" style="height: 70%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-grey);"></div>
+                                        </div>
+                                        <div class="group-v-bar" style="height: 75%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-purple);"></div>
+                                        </div>
+                                        <div class="group-v-bar" style="height: 80%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-orange);"></div>
+                                        </div>
+                                    </div>
+                                    <div class="group-label">FY 25-26</div>
+                                </div>
+                                <div class="group-col">
+                                    <div class="group-bar-wrap">
+                                        <div class="group-v-bar" style="height: 75%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-grey);"></div>
+                                        </div>
+                                        <div class="group-v-bar" style="height: 85%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-purple);"></div>
+                                        </div>
+                                        <div class="group-v-bar" style="height: 90%;">
+                                            <div class="v-bar-fill" style="background: var(--brand-orange);"></div>
+                                        </div>
+                                    </div>
+                                    <div class="group-label">Feb 26 (Latest)</div>
+                                </div>
+                            </div>
+                            <div
+                                style="display: flex; justify-content: center; gap: 1rem; margin-top: 2rem; font-size: 0.8rem;">
+                                <span style="display:flex; align-items:center; gap: 4px;"><span
+                                        style="display:inline-block; width:10px; height:10px; background:var(--brand-grey);"></span>
+                                    Normal</span>
+                                <span style="display:flex; align-items:center; gap: 4px;"><span
+                                        style="display:inline-block; width:10px; height:10px; background:var(--brand-purple);"></span>
+                                    Wedding Saaya</span>
+                                <span style="display:flex; align-items:center; gap: 4px;"><span
+                                        style="display:inline-block; width:10px; height:10px; background:var(--brand-orange);"></span>
+                                    Rabi Harvest</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">03</div>
+            </section>
+
+            <!-- SLIDE 4: Cultural vs Environmental Drivers -->
+            <section class="slide">
+                <div class="top-label">Seasonal & Cultural</div>
+                <div class="grid-top-bottom">
+                    <div>
+                        <h2 style="font-size: 2rem;">Cultural vs Environmental Drivers</h2>
+                        <p>Comparing the impact of Weather, Agriculture, and Festivals. The Heatwave Paradox shows
+                            extreme heat lowers absence vs normal summer.</p>
+                    </div>
+
+                    <div class="dash-card" style="position: relative; padding-bottom: 3rem;">
+                        <!-- Vertical dashed line for baseline -->
+                        <div
+                            style="position: absolute; left: 50%; top: 1rem; bottom: 3rem; width: 1px; border-left: 1px dashed var(--brand-red); z-index: 1;">
+                        </div>
+                        <!-- Horizontal axis -->
+                        <div
+                            style="position: absolute; left: 2rem; right: 2rem; bottom: 2rem; height: 1px; border-bottom: 1px dashed #eaeaea;">
+                        </div>
+
+                        <div class="bar-row">
+                            <div class="bar-label">Normal Baseline</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-grey); width: 50%;">24.9%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row" style="margin-top: 1rem;">
+                            <div class="bar-label">Post Monsoon</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-blue); width: 48%;">24.1%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Extreme Heatwave</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-blue); width: 52%;">25.2%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Winter Cool</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-blue); width: 55%;">26.5%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Summer Warm</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-blue); width: 60%;">29.1%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row" style="margin-top: 1rem;">
+                            <div class="bar-label">Wedding Saaya</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-orange); width: 56%;">27.5%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Rabi Harvest</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-orange); width: 58%;">28.0%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row" style="margin-top: 1rem;">
+                            <div class="bar-label">Holi</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-purple); width: 62%;">29.7%</div>
+                            </div>
+                        </div>
+                        <div class="bar-row">
+                            <div class="bar-label">Eid</div>
+                            <div class="bar-track">
+                                <div class="bar-fill" style="background: var(--brand-purple); width: 70%;">33.7%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">04</div>
+            </section>
+
+            <!-- SLIDE 5: Workforce Demographics -->
+            <section class="slide">
+                <div class="top-label">Workforce Demographics</div>
+                <div class="grid-top-bottom">
+                    <div>
+                        <h2 style="font-size: 2rem;">Demographic Drivers</h2>
+                        <p>The epicenter of absenteeism occurs where 0-3 Month Tenure intersects with Semi-Skilled
+                            labor. ML proves Tenure holds 91.7% predictive weight.</p>
+                    </div>
+
+                    <div class="grid-2" style="gap: 2rem;">
+                        <div class="dash-card" style="height: 100%; padding-bottom: 3rem;">
+                            <h4 style="margin-bottom: 0.5rem;">Tenure Risk Profile</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 2rem;">The catastrophic 0-3 month drop-off.</p>
+                            <div class="vertical-chart">
+                                <div class="v-bar" style="height: 54%;">
+                                    <div class="v-val">54.0%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-red);"></div>
+                                    <div class="v-label">0-3 mo</div>
+                                </div>
+                                <div class="v-bar" style="height: 25%;">
+                                    <div class="v-val">25.0%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-blue);"></div>
+                                    <div class="v-label">3-6 mo</div>
+                                </div>
+                                <div class="v-bar" style="height: 18%;">
+                                    <div class="v-val">18.0%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-blue);"></div>
+                                    <div class="v-label">6-12 mo</div>
+                                </div>
+                                <div class="v-bar" style="height: 22%;">
+                                    <div class="v-val">22.0%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-blue);"></div>
+                                    <div class="v-label">1-2 yr</div>
+                                </div>
+                                <div class="v-bar" style="height: 24%;">
+                                    <div class="v-val">24.0%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-blue);"></div>
+                                    <div class="v-label">2-5 yr</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dash-card" style="height: 100%; padding-bottom: 3rem;">
+                            <h4 style="margin-bottom: 0.5rem;">Skill Volatility</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 2rem;">Semi-skilled workers carry the highest
+                                absence rate.</p>
+                            <div class="vertical-chart">
+                                <div class="v-bar" style="height: 32%;">
+                                    <div class="v-val">32%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-purple);"></div>
+                                    <div class="v-label">High-Skill</div>
+                                </div>
+                                <div class="v-bar" style="height: 27%;">
+                                    <div class="v-val">27%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-purple);"></div>
+                                    <div class="v-label">Skilled</div>
+                                </div>
+                                <div class="v-bar" style="height: 45.5%;">
+                                    <div class="v-val">45.5%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-red);"></div>
+                                    <div class="v-label">Semi-Skill</div>
+                                </div>
+                                <div class="v-bar" style="height: 33%;">
+                                    <div class="v-val">33%</div>
+                                    <div class="v-bar-fill" style="background: var(--brand-purple);"></div>
+                                    <div class="v-label">Un-Skill</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">05</div>
+            </section>
+
+            <!-- SLIDE 6: Hidden Behaviors -->
+            <section class="slide">
+                <div class="top-label">Hidden Behaviors & ML</div>
+                <div class="grid-top-bottom">
+                    <div>
+                        <h2 style="font-size: 2rem;">Behavioral Anomalies</h2>
+                        <p>Machine learning highlights specific behavioral patterns decoupled from environmental
+                            factors.</p>
+                    </div>
+
+                    <div class="grid-2" style="gap: 2rem;">
+                        <div class="dash-card" style="height: 100%;">
+                            <h4 style="margin-bottom: 0.5rem;">The Mid-Month Flight</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 1rem;">Absenteeism peaking after contractor
+                                payouts (Day 14-23).</p>
+                            <div
+                                style="position: relative; height: 200px; border-bottom: 1px dashed #eaeaea; padding-top: 2rem;">
+                                <div
+                                    style="position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,51,102,0.3) 0%, rgba(255,255,255,0) 100%); clip-path: polygon(0% 80%, 20% 75%, 40% 65%, 50% 30%, 70% 25%, 85% 70%, 100% 80%, 100% 100%, 0% 100%);">
+                                </div>
+                                <div
+                                    style="position: absolute; left: 45%; top: 0; bottom: 0; width: 1px; border-left: 1px dashed #aaa;">
+                                </div>
+                                <div
+                                    style="position: absolute; left: 45%; top: 0; font-size: 0.7rem; color: #888; transform: translateX(-50%);">
+                                    Payouts End</div>
+                                <div
+                                    style="display: flex; justify-content: space-between; position: absolute; bottom: -20px; width: 100%; font-size: 0.7rem;">
+                                    <span>1</span><span>7</span><span>14</span><span>21</span><span>28</span><span>31</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dash-card" style="height: 100%; padding-bottom: 3rem;">
+                            <h4 style="margin-bottom: 0.5rem;">Migration vs Fatigue (Streaks)</h4>
+                            <p style="font-size: 0.85rem; margin-bottom: 2rem;">Nearly 30% of absences are blocks of 3+
+                                days, indicating structural travel/migration.</p>
+                            <div class="chart-container"
+                                style="width: 100%; max-width: none; margin-top: 0; position: relative;">
+                                <div
+                                    style="position: absolute; left: 0; right: 0; bottom: -1rem; height: 1px; border-bottom: 1px dashed #eaeaea;">
+                                </div>
+                                <div class="bar-row" style="margin-bottom: 1.5rem;">
+                                    <div class="bar-label" style="width: 100px;">1 Day</div>
+                                    <div class="bar-track" style="height: 20px; background: transparent;">
+                                        <div class="bar-fill"
+                                            style="background: var(--brand-grey); border-radius: 4px; width: 60%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row" style="margin-bottom: 1.5rem;">
+                                    <div class="bar-label" style="width: 100px;">2 Days</div>
+                                    <div class="bar-track" style="height: 20px; background: transparent;">
+                                        <div class="bar-fill"
+                                            style="background: var(--brand-green); border-radius: 4px; width: 15%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row" style="margin-bottom: 1.5rem;">
+                                    <div class="bar-label" style="width: 100px;">3+ Days</div>
+                                    <div class="bar-track" style="height: 20px; background: transparent;">
+                                        <div class="bar-fill"
+                                            style="background: var(--brand-green); border-radius: 4px; width: 22%;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bar-row">
+                                    <div class="bar-label" style="width: 100px;">6+ Days</div>
+                                    <div class="bar-track" style="height: 20px; background: transparent;">
+                                        <div class="bar-fill"
+                                            style="background: var(--brand-green); border-radius: 4px; width: 7.6%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">06</div>
+            </section>
+
+            <!-- SLIDE 7: Vendor Risk Profile -->
+            <section class="slide">
+                <div class="top-label">Vendor Intelligence</div>
+                <div class="grid-top-bottom">
+                    <div>
+                        <h2 style="font-size: 2rem;">Vendor Risk Profile</h2>
+                        <p>Comparing Absence Rate (%) against total Scheduled Days volume.</p>
+                    </div>
+
+                    <div class="dash-card" style="height: 100%; position: relative; padding: 2rem 2rem 1rem 2rem;">
+                        <svg class="svg-chart" viewBox="0 0 1000 350"
+                            style="width: 100%; height: 320px; overflow: visible;">
+                            <!-- Horizontal Grid Lines and Axes -->
+                            <line x1="0" y1="250" x2="1000" y2="250" stroke="#f0f0f0" stroke-width="1" />
+                            <text x="0" y="245" font-size="12" fill="#888">10%</text>
+
+                            <line x1="0" y1="200" x2="1000" y2="200" stroke="#f0f0f0" stroke-width="1" />
+                            <text x="0" y="195" font-size="12" fill="#888">20%</text>
+
+                            <line x1="0" y1="150" x2="1000" y2="150" stroke="#f0f0f0" stroke-width="1" />
+                            <text x="0" y="145" font-size="12" fill="#888">30%</text>
+
+                            <line x1="0" y1="100" x2="1000" y2="100" stroke="#f0f0f0" stroke-width="1" />
+                            <text x="0" y="95" font-size="12" fill="#888">40%</text>
+
+                            <line x1="0" y1="50" x2="1000" y2="50" stroke="#f0f0f0" stroke-width="1" />
+                            <text x="0" y="45" font-size="12" fill="#888">50%</text>
+
+                            <text x="1000" y="245" font-size="12" fill="#888" text-anchor="end">18K</text>
+                            <text x="1000" y="185" font-size="12" fill="#888" text-anchor="end">38K</text>
+                            <text x="1000" y="125" font-size="12" fill="#888" text-anchor="end">58K</text>
+                            <text x="1000" y="65" font-size="12" fill="#888" text-anchor="end">78K</text>
+                            <text x="1000" y="5" font-size="12" fill="#888" text-anchor="end">98K</text>
+
+                            <!-- Baseline Axis -->
+                            <line x1="0" y1="300" x2="1000" y2="300" stroke="#ccc" stroke-width="1.5" />
+
+                            <!-- Bars (Absence Rate) - 1% = 5px -->
+                            <!-- SRD: 51.46% -->
+                            <rect x="30" y="43" width="40" height="257" fill="var(--brand-red)" rx="4" />
+                            <text x="50" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">SRD</text>
+
+                            <!-- USL: 41.47% -->
+                            <rect x="130" y="93" width="40" height="207" fill="var(--brand-red)" rx="4" />
+                            <text x="150" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">USL</text>
+
+                            <!-- VI: 32.72% -->
+                            <rect x="230" y="136" width="40" height="164" fill="var(--text-dark)" rx="4" />
+                            <text x="250" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">VI</text>
+
+                            <!-- IE: 32.48% -->
+                            <rect x="330" y="138" width="40" height="162" fill="var(--text-dark)" rx="4" />
+                            <text x="350" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">IE</text>
+
+                            <!-- OJS: 30.59% -->
+                            <rect x="430" y="147" width="40" height="153" fill="var(--text-dark)" rx="4" />
+                            <text x="450" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">OJS</text>
+
+                            <!-- AOT: 29.03% -->
+                            <rect x="530" y="155" width="40" height="145" fill="var(--text-dark)" rx="4" />
+                            <text x="550" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">AOT</text>
+
+                            <!-- ZLS: 28.39% -->
+                            <rect x="630" y="158" width="40" height="142" fill="var(--text-dark)" rx="4" />
+                            <text x="650" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">ZLS</text>
+
+                            <!-- ISS: 28.31% -->
+                            <rect x="730" y="159" width="40" height="141" fill="var(--text-dark)" rx="4" />
+                            <text x="750" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">ISS</text>
+
+                            <!-- ALM: 27.80% -->
+                            <rect x="830" y="161" width="40" height="139" fill="var(--text-dark)" rx="4" />
+                            <text x="850" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">ALM</text>
+
+                            <!-- MH: 27.27% -->
+                            <rect x="930" y="164" width="40" height="136" fill="var(--text-dark)" rx="4" />
+                            <text x="950" y="330" font-size="14" font-family="var(--font-sans)" font-weight="500"
+                                text-anchor="middle" fill="#111">MH</text>
+
+                            <!-- Line Chart connecting dots (Scheduled Days) - 1K = 3px -->
+                            <path stroke="var(--brand-blue)" stroke-width="3" fill="none"
+                                d="M 50 296 L 150 276 L 250 282 L 350 216 L 450 254 L 550 37 L 650 280 L 750 182 L 850 244 L 950 289" />
+                            <circle cx="50" cy="296" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="150" cy="276" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="250" cy="282" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="350" cy="216" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="450" cy="254" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="550" cy="37" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="650" cy="280" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="750" cy="182" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="850" cy="244" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                            <circle cx="950" cy="289" r="5" fill="#fff" stroke="var(--brand-blue)" stroke-width="2" />
+                        </svg>
+                        <div style="text-align: center; font-size: 0.8rem; margin-top: 1rem;">
+                            <span
+                                style="display:inline-block; width:12px; height:12px; background:var(--text-dark); vertical-align:middle; margin-right:4px;"></span>
+                            Absence Rate &nbsp;&nbsp;&nbsp;
+                            <span
+                                style="display:inline-block; width:20px; height:2px; background:var(--brand-blue); vertical-align:middle; margin-right:4px;"></span>
+                            Scheduled Days
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">07</div>
+            </section>
+
+            <!-- SLIDE 8: Attrition Title (Divider) -->
+            <section class="slide split">
+                <div class="split-half split-left-light">
+                    <div class="top-label">Part 2 &mdash; Attrition (Suhani)</div>
+                    <div>
+                        <h2 style="font-size: 4rem;">The Attrition Crisis</h2>
+                        <p style="font-size: 1.2rem;">Understanding the structural headcount flow, exit tenure, and the
+                            financial impact of maintaining our contractor base.</p>
+                    </div>
+                </div>
+                <div class="split-half split-right-blue">
+                    <div style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 3rem; border-radius: 8px;">
+                            <div class="huge-number">76.0%</div>
+                            <div class="number-label" style="color: #fff;">Current Attrition Rate (FY25-26)</div>
+                            <p style="color: rgba(255,255,255,0.8); margin-top: 1rem; margin-bottom: 0;">Up from 60.8%
+                                two years ago, representing nearly 9,000 exits in the current year.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">08</div>
+            </section>
+
+            <!-- SLIDE 9: Attrition Across Financial Years -->
+            <section class="slide">
+                <div class="top-label">Macro Trends</div>
+                <div class="grid-top-bottom">
+                    <div>
+                        <h2 style="font-size: 2rem;">Attrition Across Financial Years</h2>
+                    </div>
+                    <div>
+                        <div class="grid-3" style="gap: 2rem;">
+                            <div class="dash-card"
+                                style="border-top: 6px solid var(--brand-orange); text-align: center; border-color: #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                                <div
+                                    style="font-weight: 600; font-size: 1.1rem; color: var(--text-muted-dark); margin-bottom: 2rem;">
+                                    FY2023-24</div>
+                                <div
+                                    style="font-size: 5rem; font-weight: 700; color: var(--brand-orange); line-height: 1; margin-bottom: 3rem;">
+                                    60.8%</div>
+                                <div style="font-size: 0.9rem; font-weight: 600; color: #111;">Total exits = 5,417</div>
+                                <div style="font-size: 0.8rem; color: #666;">of 8,910 exposed</div>
+                            </div>
+                            <div class="dash-card"
+                                style="border-top: 6px solid var(--brand-cyan); text-align: center; border-color: #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                                <div
+                                    style="font-weight: 600; font-size: 1.1rem; color: var(--text-muted-dark); margin-bottom: 2rem;">
+                                    FY2024-25</div>
+                                <div
+                                    style="font-size: 5rem; font-weight: 700; color: var(--brand-cyan); line-height: 1; margin-bottom: 3rem;">
+                                    75.3%</div>
+                                <div style="font-size: 0.9rem; font-weight: 600; color: #111;">Total exits = 7,405</div>
+                                <div style="font-size: 0.8rem; color: #666;">of 9,831 exposed</div>
+                            </div>
+                            <div class="dash-card"
+                                style="border-top: 6px solid var(--brand-red); text-align: center; border-color: #eaeaea; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                                <div
+                                    style="font-weight: 600; font-size: 1.1rem; color: var(--text-muted-dark); margin-bottom: 2rem;">
+                                    FY2025-26</div>
+                                <div
+                                    style="font-size: 5rem; font-weight: 700; color: var(--brand-red); line-height: 1; margin-bottom: 3rem;">
+                                    76.0%</div>
+                                <div style="font-size: 0.9rem; font-weight: 600; color: #111;">Total exits = 8,952</div>
+                                <div style="font-size: 0.8rem; color: #666;">of 11,781 exposed</div>
+                            </div>
+                        </div>
+                        <div
+                            style="background: #f8f9fa; border-left: 4px solid var(--brand-blue); color: #111; padding: 1.5rem 2rem; font-size: 1.1rem; margin-top: 2rem;">
+                            Attrition has plateaued at a critical ceiling with a net increase of 15.20% over the
+                            financial years. Median tenure of the exiter in FY 25-26 is just 3.4 months.
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">09</div>
+            </section>
+
+            <!-- SLIDE 10: Headcount Flow Per FY -->
+            <section class="slide">
+                <div class="top-label">Hiring Velocity</div>
+                <div class="grid-top-bottom">
+                    <div>
+                        <h2 style="font-size: 2rem; text-transform: uppercase; color: #1C2B59; text-align: center;">
+                            Headcount Flow Per FY</h2>
+                    </div>
+                    <div class="grid-2" style="gap: 4rem; align-items: start;">
+                        <!-- Left: Chart -->
+                        <div style="position: relative; padding-top: 2rem;">
+                            <div style="text-align: center; font-weight: 600; margin-bottom: 2rem;">Joiners Vs Exiters
+                            </div>
+                            <div
+                                style="display: flex; justify-content: center; gap: 2rem; font-size: 0.8rem; margin-bottom: 3rem;">
+                                <span style="display:flex; align-items:center; gap: 8px;"><span
+                                        style="display:inline-block; width:12px; height:12px; background:var(--brand-blue);"></span>
+                                    New Joiners</span>
+                                <span style="display:flex; align-items:center; gap: 8px;"><span
+                                        style="display:inline-block; width:12px; height:12px; background:var(--brand-red);"></span>
+                                    Exits in Year</span>
+                            </div>
+
+                            <div class="group-chart-container"
+                                style="height: 300px; border-bottom: none; position: relative; justify-content: center; gap: 5rem;">
+                                <!-- Zero line -->
+                                <div
+                                    style="position: absolute; top: 50%; left: 0; right: 0; border-bottom: 1px solid #ccc; z-index: 0;">
+                                </div>
+
+                                <!-- Y Axis Labels -->
+                                <div
+                                    style="position: absolute; left: -40px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.7rem; color: #888;">
+                                    <span>15,000</span><span>10,000</span><span>5,000</span><span>0</span><span>-5,000</span><span>-10,000</span>
+                                </div>
+
+                                <!-- FY 23-24 -->
+                                <div class="group-col" style="width: 110px; justify-content: center;">
+                                    <div
+                                        style="position: absolute; bottom: 50%; width: 50px; height: 25%; background: var(--brand-blue); left: 50%; transform: translateX(-50%); border-radius: 4px 4px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-25px; width:100%; text-align:center; font-size:0.85rem; font-weight: 600;">
+                                            7,486</div>
+                                    </div>
+                                    <div
+                                        style="position: absolute; top: 50%; width: 50px; height: 18%; background: var(--brand-red); left: 50%; transform: translateX(-50%); border-radius: 0 0 4px 4px;">
+                                        <div
+                                            style="position:absolute; bottom:-25px; width:100%; text-align:center; font-size:0.85rem; font-weight: 600;">
+                                            -5,417</div>
+                                    </div>
+                                    <div class="group-label"
+                                        style="bottom: 0px; font-weight: 700; width: 100%; text-align: center; font-size: 0.9rem;">FY 23-24
+                                    </div>
+                                </div>
+                                <!-- FY 24-25 -->
+                                <div class="group-col" style="width: 110px; justify-content: center;">
+                                    <div
+                                        style="position: absolute; bottom: 50%; width: 50px; height: 21%; background: var(--brand-blue); left: 50%; transform: translateX(-50%); border-radius: 4px 4px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-25px; width:100%; text-align:center; font-size:0.85rem; font-weight: 600;">
+                                            6,338</div>
+                                    </div>
+                                    <div
+                                        style="position: absolute; top: 50%; width: 50px; height: 24.6%; background: var(--brand-red); left: 50%; transform: translateX(-50%); border-radius: 0 0 4px 4px;">
+                                        <div
+                                            style="position:absolute; bottom:-25px; width:100%; text-align:center; font-size:0.85rem; font-weight: 600;">
+                                            -7,405</div>
+                                    </div>
+                                    <div class="group-label"
+                                        style="bottom: 0px; font-weight: 700; width: 100%; text-align: center; font-size: 0.9rem;">FY 24-25
+                                    </div>
+                                </div>
+                                <!-- FY 25-26 -->
+                                <div class="group-col" style="width: 110px; justify-content: center;">
+                                    <div
+                                        style="position: absolute; bottom: 50%; width: 50px; height: 31%; background: var(--brand-blue); left: 50%; transform: translateX(-50%); border-radius: 4px 4px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-25px; width:100%; text-align:center; font-size:0.85rem; font-weight: 600;">
+                                            9,355</div>
+                                    </div>
+                                    <div
+                                        style="position: absolute; top: 50%; width: 50px; height: 29.8%; background: var(--brand-red); left: 50%; transform: translateX(-50%); border-radius: 0 0 4px 4px;">
+                                        <div
+                                            style="position:absolute; bottom:-25px; width:100%; text-align:center; font-size:0.85rem; font-weight: 600;">
+                                            -8,952</div>
+                                    </div>
+                                    <div class="group-label"
+                                        style="bottom: 0px; font-weight: 700; width: 100%; text-align: center; font-size: 0.9rem;">FY 25-26
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Net Change -->
+                        <div>
+                            <div
+                                style="text-align: right; color: var(--brand-grey); font-weight: 700; letter-spacing: 2px; margin-bottom: 0.5rem;">
+                                NET HEADCOUNT CHANGE</div>
+
+                            <div class="dash-card"
+                                style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; border-left: 4px solid var(--brand-green);">
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">
+                                        FY2023-24</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted-dark); font-style: italic;">
+                                        Hiring outpaced exits</div>
+                                </div>
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--brand-green);">+2,069</div>
+                            </div>
+
+                            <div class="dash-card"
+                                style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; border-left: 4px solid var(--brand-red);">
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">
+                                        FY2024-25</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted-dark); font-style: italic;">
+                                        Net loss of headcount</div>
+                                </div>
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--brand-red);">-1,067</div>
+                            </div>
+
+                            <div class="dash-card"
+                                style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; border-left: 4px solid var(--brand-orange);">
+                                <div>
+                                    <div style="font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">
+                                        FY2025-26</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted-dark); font-style: italic;">
+                                        Net positive only after 47% hiring surge</div>
+                                </div>
+                                <div style="font-size: 2rem; font-weight: 700; color: var(--brand-orange);">+403</div>
+                            </div>
+
+                            <div
+                                style="background: rgba(47, 90, 244, 0.05); color: var(--text-dark); border-left: 4px solid var(--brand-blue); padding: 1rem 1.5rem; font-size: 0.9rem; line-height: 1.4;">
+                                <strong>FY25-26</strong> needed 47% more hiring than the prior year just to keep the
+                                seat filled. The business is paying recruitment cost three times to retain one role.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">10</div>
+            </section>
+
+            <!-- SLIDE 11: Exit Tenure Comparison -->
+            <section class="slide">
+                <div class="top-label">Tenure Risk</div>
+                <div class="grid-top-bottom">
+                    <div>
+                        <h2 style="font-size: 2rem; text-transform: uppercase; color: #1C2B59; text-align: center;">Exit
+                            Tenure Comparison</h2>
+                    </div>
+                    <div class="grid-2" style="gap: 4rem; align-items: start;">
+                        <!-- Left: Stacked Bar Chart -->
+                        <div style="position: relative;">
+                            <div style="text-align: center; color: #1C2B59; margin-bottom: 1rem; font-weight: 500;">
+                                Distribution of Exiter Tenure (% within each FY)</div>
+
+                            <div
+                                style="display: flex; justify-content: center; gap: 1rem; font-size: 0.8rem; margin-bottom: 2rem;">
+                                <span style="display:flex; align-items:center; gap: 4px;"><span
+                                        style="display:inline-block; width:12px; height:12px; background:var(--brand-blue);"></span>
+                                    3-6 months</span>
+                                <span style="display:flex; align-items:center; gap: 4px;"><span
+                                        style="display:inline-block; width:12px; height:12px; background:var(--brand-orange);"></span>
+                                    1-3 months</span>
+                                <span style="display:flex; align-items:center; gap: 4px;"><span
+                                        style="display:inline-block; width:12px; height:12px; background:var(--brand-red);"></span>
+                                    &lt;1 month</span>
+                            </div>
+
+                            <div
+                                style="display: flex; height: 280px; position: relative; padding-left: 40px; border-bottom: 1px solid #ccc; justify-content: space-around;">
+                                <!-- Y Axis -->
+                                <div
+                                    style="position: absolute; left: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.7rem; color: #888; border-right: 1px solid #ccc; padding-right: 10px;">
+                                    <span>90%</span><span>80%</span><span>70%</span><span>60%</span><span>50%</span><span>40%</span><span>30%</span><span>20%</span><span>10%</span><span>0%</span>
+                                </div>
+
+                                <!-- FY 23-24 -->
+                                <div
+                                    style="width: 80px; display: flex; flex-direction: column; justify-content: flex-end; position: relative;">
+                                    <div
+                                        style="height: 33.1%; background: var(--brand-blue); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        33.1</div>
+                                    <div
+                                        style="height: 30.8%; background: var(--brand-orange); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        30.8</div>
+                                    <div
+                                        style="height: 10.1%; background: var(--brand-red); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        10.1</div>
+                                    <div
+                                        style="position: absolute; bottom: -25px; width: 100%; text-align: center; font-weight: 600; font-size: 0.85rem; color: #1C2B59;">
+                                        FY23-24</div>
+                                </div>
+
+                                <!-- FY 24-25 -->
+                                <div
+                                    style="width: 80px; display: flex; flex-direction: column; justify-content: flex-end; position: relative;">
+                                    <div
+                                        style="height: 17.9%; background: var(--brand-blue); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        17.9</div>
+                                    <div
+                                        style="height: 26.1%; background: var(--brand-orange); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        26.1</div>
+                                    <div
+                                        style="height: 24.8%; background: var(--brand-red); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        24.8</div>
+                                    <div
+                                        style="position: absolute; bottom: -25px; width: 100%; text-align: center; font-weight: 600; font-size: 0.85rem; color: #1C2B59;">
+                                        FY24-25</div>
+                                </div>
+
+                                <!-- FY 25-26 -->
+                                <div
+                                    style="width: 80px; display: flex; flex-direction: column; justify-content: flex-end; position: relative;">
+                                    <div
+                                        style="height: 24.7%; background: var(--brand-blue); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        24.7</div>
+                                    <div
+                                        style="height: 24.2%; background: var(--brand-orange); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        24.2</div>
+                                    <div
+                                        style="height: 35.8%; background: var(--brand-red); color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600;">
+                                        35.8</div>
+                                    <div
+                                        style="position: absolute; bottom: -25px; width: 100%; text-align: center; font-weight: 600; font-size: 0.85rem; color: #1C2B59;">
+                                        FY25-26</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Callouts -->
+                        <div
+                            style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; padding-bottom: 2rem;">
+                            <div class="dash-card"
+                                style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; border-left: 4px solid var(--brand-red); margin-bottom: 0.5rem;">
+                                <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-dark);">52%</div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted-dark); font-weight: 500;">of all
+                                    leavers exit within 3 months</div>
+                            </div>
+
+                            <div class="dash-card"
+                                style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; border-left: 4px solid var(--brand-orange); margin-bottom: 0.5rem;">
+                                <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-dark);">77%</div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted-dark); font-weight: 500;">of all
+                                    leavers exit within 6 months</div>
+                            </div>
+
+                            <div class="dash-card"
+                                style="padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; border-left: 4px solid var(--brand-blue); margin-bottom: 0.5rem;">
+                                <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-dark);">2.8</div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted-dark); font-weight: 500;">median
+                                    tenure of an exiter<br>(overall)</div>
+                            </div>
+
+                            <div
+                                style="background: rgba(47, 90, 244, 0.05); border-left: 4px solid var(--brand-blue); padding: 1rem 1.5rem; font-size: 0.85rem; line-height: 1.4;">
+                                <ul style="padding-left: 1.5rem; color: var(--text-dark); margin: 0;">
+                                    <li style="margin-bottom: 0.25rem;">Poor onboarding experience is reflected for exit
+                                        tenure of less than a month</li>
+                                    <li style="margin-bottom: 0.25rem;">For 1-3 months, it is due to Probation period
+                                        exits</li>
+                                    <li>Culture misalignment makes it difficult for workers to stay in 3-6 months</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">11</div>
+            </section>
+
+
+
+            <!-- SLIDE 13: ATTRITION RATE BY DEMOGRAPHIC -->
+            <section class="slide">
+                <div class="top-label">Demographics</div>
+                <h2 style="font-size: 2rem; text-transform: uppercase; color: #1C2B59; margin-bottom: 2rem;">
+                    Attrition Profile Dashboard</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 1.5rem; height: 100%;">
+                    
+                    <!-- Top Left: Gender (Horizontal Bars) -->
+                    <div class="dash-card" style="padding: 1.5rem;">
+                        <h3 style="font-size: 1.2rem; color: #1C2B59; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Gender Disparity</span>
+                            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted-dark);">Latest: FY25-26</span>
+                        </h3>
+                        
+                        <div class="bar-row" style="margin-bottom: 1.5rem;">
+                            <div class="bar-label" style="width: 80px; font-weight: 600;">Male</div>
+                            <div class="bar-track" style="height: 36px; background: #f0f0f0;">
+                                <div class="bar-fill" style="background: var(--brand-red); width: 77%; font-size: 1rem;">77%</div>
+                            </div>
+                            <div style="margin-left: 1rem; font-size: 0.85rem; color: var(--brand-red); font-weight: 700; width: 60px;">&Delta; +15.5%</div>
+                        </div>
+                        
+                        <div class="bar-row">
+                            <div class="bar-label" style="width: 80px; font-weight: 600;">Female</div>
+                            <div class="bar-track" style="height: 36px; background: #f0f0f0;">
+                                <div class="bar-fill" style="background: var(--brand-blue); width: 58%; font-size: 1rem;">58%</div>
+                            </div>
+                            <div style="margin-left: 1rem; font-size: 0.85rem; color: var(--brand-red); font-weight: 700; width: 60px;">&Delta; +23.2%</div>
+                        </div>
+                        
+                        <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-muted-dark); border-top: 1px dashed #eaeaea; padding-top: 1rem;">
+                            Female workers retain significantly better (58% vs 77%), despite a larger relative jump in attrition since FY24.
+                        </div>
+                    </div>
+
+                    <!-- Top Right: Marital Status (Stat Cards) -->
+                    <div class="dash-card" style="padding: 1.5rem;">
+                        <h3 style="font-size: 1.2rem; color: #1C2B59; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Marital Status Shift</span>
+                            <span style="font-size: 0.8rem; font-weight: 400; color: var(--text-muted-dark);">3-Year Trend</span>
+                        </h3>
+                        
+                        <div style="display: flex; gap: 1.5rem; height: calc(100% - 3rem);">
+                            <div style="flex: 1; background: #f8f9fa; border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; position: relative; border-left: 4px solid var(--brand-orange);">
+                                <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; font-size: 1.1rem;">Single</div>
+                                <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem;">
+                                    <span style="font-size: 2.5rem; font-weight: 700; color: var(--brand-orange); line-height: 1;">78%</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #666;">
+                                    <span>FY24: 59%</span>
+                                    <span style="color: var(--brand-red); font-weight: 600;">+18.5%</span>
+                                </div>
+                            </div>
+                            
+                            <div style="flex: 1; background: #f8f9fa; border-radius: 8px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; position: relative; border-left: 4px solid var(--brand-blue);">
+                                <div style="font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; font-size: 1.1rem;">Married</div>
+                                <div style="display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 1rem;">
+                                    <span style="font-size: 2.5rem; font-weight: 700; color: var(--brand-blue); line-height: 1;">74%</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #666;">
+                                    <span>FY24: 62%</span>
+                                    <span style="color: var(--brand-red); font-weight: 600;">+11.7%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom: Skill Level (Vertical Grouped Bar) -->
+                    <div class="dash-card" style="padding: 1.5rem; grid-column: 1 / -1;">
+                        <h3 style="font-size: 1.2rem; color: #1C2B59; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span>Skill Level Escalation (FY24 &rarr; FY26)</span>
+                            <div style="display: flex; gap: 1rem; font-size: 0.8rem; font-weight: 400;">
+                                <span style="display:flex; align-items:center; gap: 4px;"><span style="display:inline-block; width:10px; height:10px; background:var(--brand-blue); border-radius: 2px;"></span> FY24</span>
+                                <span style="display:flex; align-items:center; gap: 4px;"><span style="display:inline-block; width:10px; height:10px; background:var(--brand-orange); border-radius: 2px;"></span> FY25</span>
+                                <span style="display:flex; align-items:center; gap: 4px;"><span style="display:inline-block; width:10px; height:10px; background:var(--brand-red); border-radius: 2px;"></span> FY26</span>
+                            </div>
+                        </h3>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end; height: 180px; padding-bottom: 1rem; border-bottom: 1px dashed #eaeaea;">
+                            
+                            <!-- Semi-Skilled -->
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1;">
+                                <div style="display: flex; align-items: flex-end; gap: 4px; height: 130px; width: 100%; justify-content: center;">
+                                    <div style="width: 25px; height: 66%; background: var(--brand-blue); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">66%</span></div>
+                                    <div style="width: 25px; height: 79%; background: var(--brand-orange); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">79%</span></div>
+                                    <div style="width: 25px; height: 79%; background: var(--brand-red); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">79%</span></div>
+                                </div>
+                                <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-dark);">Semi-Skilled</div>
+                                <div style="font-size: 0.8rem; color: var(--brand-red); font-weight: 700; background: rgba(255,51,102,0.1); padding: 2px 6px; border-radius: 4px;">&Delta; +13.7%</div>
+                            </div>
+
+                            <!-- Skilled -->
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1;">
+                                <div style="display: flex; align-items: flex-end; gap: 4px; height: 130px; width: 100%; justify-content: center;">
+                                    <div style="width: 25px; height: 29%; background: var(--brand-blue); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">29%</span></div>
+                                    <div style="width: 25px; height: 31%; background: var(--brand-orange); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">31%</span></div>
+                                    <div style="width: 25px; height: 69%; background: var(--brand-red); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">69%</span></div>
+                                </div>
+                                <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-dark);">Skilled</div>
+                                <div style="font-size: 0.8rem; color: var(--brand-red); font-weight: 700; background: rgba(255,51,102,0.1); padding: 2px 6px; border-radius: 4px;">&Delta; +39.6%</div>
+                            </div>
+
+                            <!-- Highly-Skilled -->
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1;">
+                                <div style="display: flex; align-items: flex-end; gap: 4px; height: 130px; width: 100%; justify-content: center;">
+                                    <div style="width: 25px; height: 2%; background: var(--brand-blue); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">2%</span></div>
+                                    <div style="width: 25px; height: 19%; background: var(--brand-orange); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">19%</span></div>
+                                    <div style="width: 25px; height: 44%; background: var(--brand-red); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">44%</span></div>
+                                </div>
+                                <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-dark);">Highly-Skilled</div>
+                                <div style="font-size: 0.8rem; color: var(--brand-red); font-weight: 700; background: rgba(255,51,102,0.1); padding: 2px 6px; border-radius: 4px;">&Delta; +42.1%</div>
+                            </div>
+
+                            <!-- Un-Skilled -->
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1;">
+                                <div style="display: flex; align-items: flex-end; gap: 4px; height: 130px; width: 100%; justify-content: center;">
+                                    <div style="width: 25px; height: 0%; background: var(--brand-blue); position: relative; border-radius: 3px 3px 0 0;"></div>
+                                    <div style="width: 25px; height: 44%; background: var(--brand-orange); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">44%</span></div>
+                                    <div style="width: 25px; height: 72%; background: var(--brand-red); position: relative; border-radius: 3px 3px 0 0;"><span style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 0.75rem; font-weight:600;">72%</span></div>
+                                </div>
+                                <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-dark);">Un-Skilled</div>
+                                <div style="font-size: 0.8rem; color: var(--brand-red); font-weight: 700; background: rgba(255,51,102,0.1); padding: 2px 6px; border-radius: 4px;">&Delta; +72.0%</div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="slide-counter">12</div>
+            </section>
+
+            <!-- SLIDE 14: T-TEST FINDINGS & INTERPRETATION -->
+            <section class="slide">
+                <div class="top-label">Statistical Analysis</div>
+                <h2
+                    style="font-size: 2rem; text-transform: uppercase; color: #1C2B59; text-align: center; margin-bottom: 0.5rem;">
+                    T-Test Findings & Interpretation</h2>
+                
+                <div style="background: rgba(28, 43, 89, 0.05); border-left: 4px solid #1C2B59; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #444;">
+                    <strong>What is a T-Test?</strong> It compares the <em>means (averages)</em> of two groups (Stayers vs. Exiters) for continuous variables like Age and Tenure. It tells us if the difference in averages is statistically significant or just random noise.
+                </div>
+
+                <div style="display: flex; flex-direction: column; height: 100%; gap: 1rem;">
+                    <div class="grid-2" style="gap: 3rem; align-items: stretch; height: 350px;">
+                        <!-- Left: Chart -->
+                        <div style="position: relative; padding-top: 1rem; height: 100%; display: flex; flex-direction: column; justify-content: flex-end;">
+                            <div
+                                style="display: flex; justify-content: center; gap: 2rem; font-size: 0.9rem; margin-bottom: 2rem;">
+                                <span style="display:flex; align-items:center; gap: 8px;"><span
+                                        style="display:inline-block; width:16px; height:16px; background:var(--brand-red); border-radius: 4px;"></span>
+                                    Age at join</span>
+                                <span style="display:flex; align-items:center; gap: 8px;"><span
+                                        style="display:inline-block; width:16px; height:16px; background:var(--brand-orange); border-radius: 4px;"></span>
+                                    Current age</span>
+                                <span style="display:flex; align-items:center; gap: 8px;"><span
+                                        style="display:inline-block; width:16px; height:16px; background:var(--brand-cyan); border-radius: 4px;"></span>
+                                    Tenure months</span>
+                            </div>
+
+                            <div class="group-chart-container"
+                                style="height: 220px; position: relative; justify-content: space-around; border-bottom: 2px solid #ccc; padding-bottom: 0;">
+                                <!-- Y Axis Labels -->
+                                <div
+                                    style="position: absolute; left: -40px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-between; font-size: 0.8rem; color: #888; border-right: 1px solid #eaeaea; padding-right: 10px;">
+                                    <span>0.6</span><span>0.3</span><span>0</span>
+                                </div>
+                                <!-- Horizontal Grid Lines -->
+                                <div
+                                    style="position: absolute; left: 0; right: 0; top: 50%; border-bottom: 1px dashed #f0f0f0; z-index: 0;">
+                                </div>
+
+                                <!-- FY 23-24 -->
+                                <div class="group-col"
+                                    style="width: 100px; flex-direction: row; align-items: flex-end; z-index: 1;">
+                                    <div
+                                        style="width: 33.33%; height: 34.6%; background: var(--brand-red); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .208</div>
+                                    </div>
+                                    <div
+                                        style="width: 33.33%; height: 34.8%; background: var(--brand-orange); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .209</div>
+                                    </div>
+                                    <div
+                                        style="width: 33.33%; height: 55.5%; background: var(--brand-cyan); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .333</div>
+                                    </div>
+                                    <div class="group-label"
+                                        style="bottom: -25px; width: 100%; text-align: center; font-size: 0.9rem; font-weight: 600;">
+                                        FY23-24</div>
+                                </div>
+
+                                <!-- FY 24-25 -->
+                                <div class="group-col"
+                                    style="width: 100px; flex-direction: row; align-items: flex-end; z-index: 1;">
+                                    <div
+                                        style="width: 33.33%; height: 50.1%; background: var(--brand-red); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .301</div>
+                                    </div>
+                                    <div
+                                        style="width: 33.33%; height: 37.3%; background: var(--brand-orange); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .224</div>
+                                    </div>
+                                    <div
+                                        style="width: 33.33%; height: 21.1%; background: var(--brand-cyan); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .127</div>
+                                    </div>
+                                    <div class="group-label"
+                                        style="bottom: -25px; width: 100%; text-align: center; font-size: 0.9rem; font-weight: 600;">
+                                        FY24-25</div>
+                                </div>
+
+                                <!-- FY 25-26 -->
+                                <div class="group-col"
+                                    style="width: 100px; flex-direction: row; align-items: flex-end; z-index: 1;">
+                                    <div
+                                        style="width: 33.33%; height: 37.0%; background: var(--brand-red); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .222</div>
+                                    </div>
+                                    <div
+                                        style="width: 33.33%; height: 29.3%; background: var(--brand-orange); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .176</div>
+                                    </div>
+                                    <div
+                                        style="width: 33.33%; height: 39.6%; background: var(--brand-cyan); position: relative; border-radius: 3px 3px 0 0;">
+                                        <div
+                                            style="position:absolute; top:-20px; width:100%; text-align:center; font-size:0.75rem; font-weight: 600;">
+                                            .238</div>
+                                    </div>
+                                    <div class="group-label"
+                                        style="bottom: -25px; width: 100%; text-align: center; font-size: 0.9rem; font-weight: 600;">
+                                        FY25-26</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Interpretations -->
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem; height: 100%;">
+                            <div class="dash-card" style="border-left: 6px solid var(--brand-red); padding: 2rem; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                                <div
+                                    style="font-weight: 700; color: var(--text-dark); font-size: 1.2rem; margin-bottom: 0.75rem;">
+                                    Age at join (d &approx; -0.2)</div>
+                                <div style="font-size: 1.05rem; color: var(--text-muted-dark); line-height: 1.6;">
+                                    Exiters are 1.5–2.4 years younger than stayers. Statistically significant but small
+                                    effect size. Age modulates exit risk, but isn't the primary driver.
+                                </div>
+                            </div>
+
+                            <div class="dash-card" style="border-left: 6px solid var(--brand-cyan); padding: 2rem; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                                <div
+                                    style="font-weight: 700; color: var(--text-dark); font-size: 1.2rem; margin-bottom: 0.75rem;">
+                                    Tenure (d = -0.33 to -0.12)</div>
+                                <div style="font-size: 1.05rem; color: var(--text-muted-dark); line-height: 1.6;">
+                                    In FY24, exiters served 6 fewer months. By FY26, the gap shrank to ~1 month: nobody
+                                    is staying long enough for tenure to be a strong discriminator.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom: Conclusion -->
+                    <div class="dash-card"
+                        style="background: var(--brand-red); color: white; border: none; margin-top: auto; padding: 1.5rem 2rem;">
+                        <div style="font-size: 1.2rem; line-height: 1.5; font-weight: 500;">
+                            <strong>Conclusion:</strong> Every test is significant (p&lt;0.0001), but Cohen's d never
+                            exceeds 0.35. Attrition is structural and categorical, not solely driven by age or tenure
+                            profiles.
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">13</div>
+            </section>
+
+            <!-- SLIDE 15: CHI-SQUARE FINDINGS -->
+            <section class="slide">
+                <div class="top-label">Statistical Analysis</div>
+                <h2 style="font-size: 2rem; text-transform: uppercase; color: #1C2B59; text-align: center; margin-bottom: 0.5rem;">
+                    CHI-SQUARE FINDINGS</h2>
+                
+                <div style="background: rgba(28, 43, 89, 0.05); border-left: 4px solid #1C2B59; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #444;">
+                    <strong>What is Chi-Square?</strong> It tests the relationship between <em>categorical variables</em> (e.g., Dept, Vendor) and Attrition. We use <strong>Cramér's V</strong> (the values below) to measure the strength of association: >0.1 is small, >0.3 is moderate, and >0.5 is a strong relationship.
+                </div>
+                
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <!-- Table -->
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: center;">
+                        <thead>
+                            <tr style="background: #1C2B59; color: white;">
+                                <th style="padding: 1rem; text-align: left; border: 1px solid white;">Categorical Predictor</th>
+                                <th style="padding: 1rem; border: 1px solid white;">FY2023-24</th>
+                                <th style="padding: 1rem; border: 1px solid white;">FY2024-25</th>
+                                <th style="padding: 1rem; border: 1px solid white;">FY2025-26</th>
+                                <th style="padding: 1rem; text-align: left; border: 1px solid white;">3-Year Pattern</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 1rem; text-align: left; font-weight: 700; color: #1C2B59; border: 1px solid #e2e8f0; border-left: none;">Department</td>
+                                <td style="padding: 1rem; background: var(--brand-red); color: white; font-weight: 600; border: 1px solid white;">0.568 &middot; STRONG</td>
+                                <td style="padding: 1rem; background: var(--brand-orange); color: white; font-weight: 600; border: 1px solid white;">0.222 &middot; MODERATE</td>
+                                <td style="padding: 1rem; background: var(--brand-orange); color: white; font-weight: 600; border: 1px solid white;">0.227 &middot; MODERATE</td>
+                                <td style="padding: 1rem; text-align: left; color: var(--text-muted-dark); border: 1px solid #e2e8f0; border-right: none;">Was dominant in FY23-24, normalised since &mdash; but still significant</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; text-align: left; font-weight: 700; color: #1C2B59; border: 1px solid #e2e8f0; border-left: none;">Contractor</td>
+                                <td style="padding: 1rem; background: var(--brand-red); color: white; font-weight: 600; border: 1px solid white;">0.391 &middot; STRONG</td>
+                                <td style="padding: 1rem; background: var(--brand-blue); color: white; font-weight: 600; border: 1px solid white;">0.149 &middot; SMALL</td>
+                                <td style="padding: 1rem; background: var(--brand-blue); color: white; font-weight: 600; border: 1px solid white;">0.158 &middot; SMALL</td>
+                                <td style="padding: 1rem; text-align: left; color: var(--text-muted-dark); border: 1px solid #e2e8f0; border-right: none;">Halved in influence; vendor segmentation needs revisit</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; text-align: left; font-weight: 700; color: #1C2B59; border: 1px solid #e2e8f0; border-left: none;">WorkSkill</td>
+                                <td style="padding: 1rem; background: var(--brand-blue); color: white; font-weight: 600; border: 1px solid white;">0.186 &middot; SMALL</td>
+                                <td style="padding: 1rem; background: var(--brand-red); color: white; font-weight: 600; border: 1px solid white;">0.446 &middot; STRONG</td>
+                                <td style="padding: 1rem; background: var(--brand-blue); color: white; font-weight: 600; border: 1px solid white;">0.145 &middot; SMALL</td>
+                                <td style="padding: 1rem; text-align: left; color: var(--text-muted-dark); border: 1px solid #e2e8f0; border-right: none;">Spiked in FY24-25 &mdash; Semi-Skilled hiring wave drove it</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; text-align: left; font-weight: 700; color: #1C2B59; border: 1px solid #e2e8f0; border-left: none;">Nature of Work</td>
+                                <td style="padding: 1rem; background: var(--brand-blue); color: white; font-weight: 600; border: 1px solid white;">0.139 &middot; SMALL</td>
+                                <td style="padding: 1rem; background: var(--brand-red); color: white; font-weight: 600; border: 1px solid white;">0.405 &middot; STRONG</td>
+                                <td style="padding: 1rem; background: var(--brand-blue); color: white; font-weight: 600; border: 1px solid white;">0.172 &middot; SMALL</td>
+                                <td style="padding: 1rem; text-align: left; color: var(--text-muted-dark); border: 1px solid #e2e8f0; border-right: none;">Mirrors WorkSkill &mdash; same underlying segmentation</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; text-align: left; font-weight: 700; color: #1C2B59; border: 1px solid #e2e8f0; border-left: none;">Gender</td>
+                                <td style="padding: 1rem; background: var(--brand-grey); color: white; font-weight: 600; border: 1px solid white;">0.057 &middot; NEGLIGIBLE</td>
+                                <td style="padding: 1rem; background: var(--brand-grey); color: white; font-weight: 600; border: 1px solid white;">0.076 &middot; NEGLIGIBLE</td>
+                                <td style="padding: 1rem; background: var(--brand-grey); color: white; font-weight: 600; border: 1px solid white;">0.078 &middot; NEGLIGIBLE</td>
+                                <td style="padding: 1rem; text-align: left; color: var(--text-muted-dark); border: 1px solid #e2e8f0; border-right: none;">Small but persistent &mdash; female workers retain better</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; text-align: left; font-weight: 700; color: #1C2B59; border: 1px solid #e2e8f0; border-bottom: none; border-left: none;">MaritalStatus</td>
+                                <td style="padding: 1rem; background: var(--brand-grey); color: white; font-weight: 600; border: 1px solid white;">0.031 &middot; NEGLIGIBLE</td>
+                                <td style="padding: 1rem; background: var(--brand-grey); color: white; font-weight: 600; border: 1px solid white;">0.038 &middot; NEGLIGIBLE</td>
+                                <td style="padding: 1rem; background: var(--brand-grey); color: white; font-weight: 600; border: 1px solid white;">0.039 &middot; NEGLIGIBLE</td>
+                                <td style="padding: 1rem; text-align: left; color: var(--text-muted-dark); border: 1px solid #e2e8f0; border-bottom: none; border-right: none;">Weakest signal; not a primary lever</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="background: #1C2B59; color: white; padding: 1.5rem 2rem; border-radius: 4px; font-size: 0.95rem; line-height: 1.5;">
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>WorkSkill</strong>'s value exploded from 0.19 &rarr; 0.45 in FY24-25: a wave of Semi-Skilled hiring with near-universal attrition (78.7%) is what shifted the entire risk profile of the workforce.</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Department</strong> is the single strongest predictor of attrition in FY23-24 (V=0.568) due production intensive departments concentrates higher risk</li>
+                            <li>Each categorical predictor is statistically significant to attrition risk</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-counter">14</div>
+            </section>
+
+            <!-- SLIDE 16: CORRELATION FINDINGS -->
+            <section class="slide">
+                <div class="top-label">Statistical Analysis</div>
+                <h2
+                    style="font-size: 2rem; text-transform: uppercase; color: #1C2B59; text-align: center; margin-bottom: 0.5rem;">
+                    Correlation Findings</h2>
+                
+                <div style="background: rgba(28, 43, 89, 0.05); border-left: 4px solid #1C2B59; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: #444;">
+                    <strong>What is Correlation?</strong> It measures the strength and direction of the linear relationship between variables and Attrition. A <strong>positive</strong> correlation (red) means the variable increases exit risk, while a <strong>negative</strong> correlation (cyan) indicates a protective factor that reduces exit risk.
+                </div>
+
+                <div
+                    style="width: 100%; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <div
+                        style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2.5fr; background: #1C2B59; color: white; font-weight: 600; padding: 1rem;">
+                        <div>Variable</div>
+                        <div style="text-align: center;">FY2023-24</div>
+                        <div style="text-align: center;">FY2024-25</div>
+                        <div style="text-align: center;">FY2025-26</div>
+                        <div style="padding-left: 1rem;">Direction & Note</div>
+                    </div>
+
+                    <!-- Row 1: Age at join -->
+                    <div
+                        style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2.5fr; font-weight: 600; font-size: 0.95rem; align-items: stretch; border-bottom: 1px solid #eaeaea;">
+                        <div style="padding: 1rem; background: #f8f9fa; display: flex; align-items: center;">Age at join
+                        </div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #A8E4EB; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            -0.103</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #A8E4EB; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            -0.134</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #A8E4EB; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            -0.096</div>
+                        <div
+                            style="padding: 1rem; font-weight: 400; font-style: italic; color: #555; display: flex; align-items: center;">
+                            Younger = exits more (all FYs)</div>
+                    </div>
+
+                    <!-- Row 2: Tenure -->
+                    <div
+                        style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2.5fr; font-weight: 600; font-size: 0.95rem; align-items: stretch; border-bottom: 1px solid #eaeaea;">
+                        <div style="padding: 1rem; background: #f8f9fa; display: flex; align-items: center;">Tenure
+                            (months)</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #00BCD4; color: white; display: flex; align-items: center; justify-content: center;">
+                            -0.160</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #E0F7FA; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            -0.050</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #E0F7FA; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            -0.049</div>
+                        <div
+                            style="padding: 1rem; font-weight: 400; font-style: italic; color: #555; display: flex; align-items: center;">
+                            Discriminating power has eroded</div>
+                    </div>
+
+                    <!-- Row 3: Gender -->
+                    <div
+                        style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2.5fr; font-weight: 600; font-size: 0.95rem; align-items: stretch; border-bottom: 1px solid #eaeaea;">
+                        <div style="padding: 1rem; background: #f8f9fa; display: flex; align-items: center;">Gender =
+                            Male</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #fcf4ec; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.058</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #FFB7A1; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.077</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #FFB7A1; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.078</div>
+                        <div
+                            style="padding: 1rem; font-weight: 400; font-style: italic; color: #555; display: flex; align-items: center;">
+                            Persistent male-exit bias</div>
+                    </div>
+
+                    <!-- Row 4: Married -->
+                    <div
+                        style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2.5fr; font-weight: 600; font-size: 0.95rem; align-items: stretch; border-bottom: 1px solid #eaeaea;">
+                        <div style="padding: 1rem; background: #f8f9fa; display: flex; align-items: center;">Married
+                        </div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #fcf4ec; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.021</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #E0F7FA; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            -0.038</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #E0F7FA; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            -0.039</div>
+                        <div
+                            style="padding: 1rem; font-weight: 400; font-style: italic; color: #555; display: flex; align-items: center;">
+                            Marriage flipped to protective</div>
+                    </div>
+
+                    <!-- Row 5: Semi-Skilled -->
+                    <div
+                        style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2.5fr; font-weight: 600; font-size: 0.95rem; align-items: stretch; border-bottom: 1px solid #eaeaea;">
+                        <div style="padding: 1rem; background: #f8f9fa; display: flex; align-items: center;">
+                            Semi-Skilled</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #E94B5E; color: white; display: flex; align-items: center; justify-content: center;">
+                            +0.173</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #FF9E80; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.114</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #FF9E80; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.117</div>
+                        <div
+                            style="padding: 1rem; font-weight: 400; font-style: italic; color: #555; display: flex; align-items: center;">
+                            Strongest single positive driver</div>
+                    </div>
+
+                    <!-- Row 6: Helper role -->
+                    <div
+                        style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2.5fr; font-weight: 600; font-size: 0.95rem; align-items: stretch; border-bottom: 1px solid #eaeaea;">
+                        <div style="padding: 1rem; background: #f8f9fa; display: flex; align-items: center;">Helper role
+                        </div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #E94B5E; color: white; display: flex; align-items: center; justify-content: center;">
+                            +0.173</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #FF9E80; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.111</div>
+                        <div
+                            style="padding: 1rem; text-align: center; background: #FF9E80; color: #1C2B59; display: flex; align-items: center; justify-content: center;">
+                            +0.119</div>
+                        <div
+                            style="padding: 1rem; font-weight: 400; font-style: italic; color: #555; display: flex; align-items: center;">
+                            Same segment as Semi-Skilled</div>
+                    </div>
+                </div>
+
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; font-size: 0.85rem; color: #666;">
+                    <div style="display: flex; gap: 2rem;">
+                        <span style="display:flex; align-items:center; gap: 8px;"><span
+                                style="display:inline-block; width:20px; height:20px; background:#E94B5E; border-radius: 4px;"></span>
+                            Positive r = increases exit risk</span>
+                        <span style="display:flex; align-items:center; gap: 8px;"><span
+                                style="display:inline-block; width:20px; height:20px; background:#00BCD4; border-radius: 4px;"></span>
+                            Negative r = protective (reduces exit)</span>
+                    </div>
+                    <div style="font-style: italic;">All correlations significant at p&lt;0.05; bold-shaded cells at
+                        p&lt;0.001</div>
+                </div>
+
+                <div class="dash-card"
+                    style="background: #1C2B59; color: white; margin-top: 1.5rem; padding: 1.5rem 2rem; border-left: 4px solid var(--brand-red);">
+                    <div
+                        style="font-size: 0.8rem; letter-spacing: 2px; color: var(--brand-red); margin-bottom: 0.5rem; font-weight: 600;">
+                        JOINT READ</div>
+                    <div style="font-size: 1.05rem; line-height: 1.6;">
+                        No single correlation exceeds |0.18|, yet <span style="text-decoration: underline;">every
+                            one</span> is significant. The exit profile is the joint outcome of multiple weak signals —
+                        exactly the situation where a composite Stay-Score model outperforms any single rule.
+                    </div>
+                </div>
+
+                <div class="slide-counter">15</div>
+            </section>
+
+            <!-- SLIDE 15: Attrition Concentration -->
+            <section class="slide">
+                <div class="top-label">Root Causes</div>
+                <h2>The Leak is Concentrated</h2>
+                <div class="grid-2" style="margin-top: 2rem; align-items: start;">
+                    <div>
+                        <h3 class="serif">Department Focus</h3>
+                        <p>Two departments CHPRD(Production) and CHSTR(Store) accounts for critical attrition risk wherein workers leave before settling in their work.</p>
+                        <div class="chart-container" style="border-bottom: 1px dashed #eaeaea; padding-bottom: 1rem;">
+                            <div class="bar-row">
+                                <div class="bar-label">CHPRD</div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="background: var(--text-dark); width: 46%;">46%</div>
+                                </div>
+                            </div>
+                            <div class="bar-row">
+                                <div class="bar-label">CHSTR</div>
+                                <div class="bar-track">
+                                    <div class="bar-fill" style="background: var(--text-muted-dark); width: 20%;">20%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="serif">Vendor Performance</h3>
+                        <p>AOT, SE and LASA are the vendors that are contributing to increased turnover out of 10 vendors.</p>
+                        <hr class="divider" style="margin: 1.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;"><span
+                                style="font-weight: 500;">Vendor AOT</span><span
+                                style="color: var(--text-muted-dark);">1.9 mo median tenure</span></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;"><span
+                                style="font-weight: 500;">Vendor SE</span><span
+                                style="color: var(--text-muted-dark);">2.7 mo median tenure</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span
+                                style="font-weight: 500;">Vendor LASA</span><span
+                                style="color: var(--text-muted-dark);">2.1 mo median tenure</span></div>
+                    </div>
+                </div>
+                <div class="slide-counter">16</div>
+            </section>
+
+
+
+            <!-- SLIDE 17: STRATEGIC INSIGHTS MATRIX -->
+            <section class="slide">
+                <div class="top-label">Interventions Summary</div>
+                <h2 style="font-size: 1.8rem; text-transform: uppercase; color: #1C2B59; margin-bottom: 1rem;">
+                    Strategic Insights &amp; Innovative Interventions Matrix
+                </h2>
+                <div style="font-size: 0.85rem; color: #555; margin-bottom: 1.5rem; max-width: 900px;">
+                    Each recommendation is anchored to a statistical finding from the analysis. Expected reduction in attrition rate is estimated based on historical segment elasticity.
+                </div>
+
+                <!-- Matrix Container -->
+                <div style="background: white; border: 1px solid #e0e4e8; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; height: calc(100% - 7rem);">
+                    
+                    <!-- Header Row -->
+                    <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1rem; background: #1C2B59; color: white; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                        <div>ID</div>
+                        <div>Insight Title</div>
+                        <div>Statistical Evidence</div>
+                        <div>Diagnostic Insight</div>
+                        <div>Recommended Action</div>
+                        <div>Impact / Owner</div>
+                    </div>
+
+                    <!-- Scrollable Body -->
+                    <div style="overflow-y: auto; flex: 1;">
+                        <!-- Row 1 -->
+                        <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid #edf0f2; font-size: 0.75rem; color: #333; background: #fcfdfe; align-items: start;">
+                            <div style="font-weight: 800; color: var(--brand-red); font-size: 0.9rem;">I-1</div>
+                            <div><strong style="color: #1C2B59; font-size: 0.8rem; display: block; margin-bottom: 4px;">THE 30-DAY CLIFF</strong>Onboarding Velocity Score to replace generic induction</div>
+                            <div>Chi&sup2; on Skill: V=0.446. &lt;1-month exits rose 10.1% &rarr; 35.8% in 3 years.</div>
+                            <div>Biggest driver of attrition growth is people leaving before finishing first month. Induction must be a moving score, not a calendar event.</div>
+                            <div>Build real-time "Onboarding Velocity Score" (OVS) combining: attendance, first-pay flag, supervisor 1:1, skill mismatch. OVS &lt; 60 triggers Day-12 chat.</div>
+                            <div><strong style="color: #27ae60;">Target: -20pp exit share</strong><br>Owner: HR Ops</div>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid #edf0f2; font-size: 0.75rem; color: #333; align-items: start;">
+                            <div style="font-weight: 800; color: var(--brand-orange); font-size: 0.9rem;">I-2</div>
+                            <div><strong style="color: #1C2B59; font-size: 0.8rem; display: block; margin-bottom: 4px;">VENDOR ACCOUNTABILITY</strong>Tiered SLA based on observed median tenure</div>
+                            <div>Top 5 contractors = 46% of exits. Contractors AOT, IE, SSE lose people in weeks.</div>
+                            <div>Extreme variance in retention between vendors. Contracts currently do not price for retention performance.</div>
+                            <div>Renegotiate SLAs to "Tenure-Adjusted Rates": full rate only if 90 days completed. 50% rate for 30-day exit. Quarterly league table.</div>
+                            <div><strong style="color: #27ae60;">Target: 25% Reduction</strong><br>Owner: Procurement</div>
+                        </div>
+
+                        <!-- Row 3 -->
+                        <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid #edf0f2; font-size: 0.75rem; color: #333; background: #fcfdfe; align-items: start;">
+                            <div style="font-weight: 800; color: var(--brand-cyan); font-size: 0.9rem;">I-3</div>
+                            <div><strong style="color: #1C2B59; font-size: 0.8rem; display: block; margin-bottom: 4px;">DEPARTMENT HEAT-ZONES</strong>Fix local workflow in CHPRD + CHSTR</div>
+                            <div>CHPRD + CHSTR = 66% of all attrition. Chi&sup2; on Dept V=0.57 in FY23-24.</div>
+                            <div>When two departments produce 2/3rds of exits, the problem is local (shift patterns, workload) not the general market.</div>
+                            <div>Commission 6-week diagnostic ONLY in CHPRD/CHSTR: ride-alongs, span-of-control audit, stay interviews with tenured staff.</div>
+                            <div><strong style="color: #27ae60;">Target: 10pp Drop</strong><br>Owner: Plant HR</div>
+                        </div>
+
+                        <!-- Row 4 -->
+                        <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid #edf0f2; font-size: 0.75rem; color: #333; align-items: start;">
+                            <div style="font-weight: 800; color: var(--brand-blue); font-size: 0.9rem;">I-4</div>
+                            <div><strong style="color: #1C2B59; font-size: 0.8rem; display: block; margin-bottom: 4px;">GENDER MIX LEVER</strong>Quadruple female representation</div>
+                            <div>Female attrition 57.8% vs male 76.6% &mdash; a massive 19pp retention advantage.</div>
+                            <div>Female contractors retain significantly better. Mix change alone has a leveraged effect on overall attrition rates.</div>
+                            <div>Move from 2.3% &rarr; 10% female share in non-restricted roles (Quality, Stores, Ops). Pair with female-supervisor mentoring.</div>
+                            <div><strong style="color: #27ae60;">Target: 1.5pp Overall</strong><br>Owner: CHRO</div>
+                        </div>
+
+                        <!-- Row 5 -->
+                        <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid #edf0f2; font-size: 0.75rem; color: #333; background: #fcfdfe; align-items: start;">
+                            <div style="font-weight: 800; color: #9C27B0; font-size: 0.9rem;">I-5</div>
+                            <div><strong style="color: #1C2B59; font-size: 0.8rem; display: block; margin-bottom: 4px;">PREDICTIVE STAY-SCORE</strong>Deployment screening and mentoring</div>
+                            <div>Male Semi-Skilled Helper &lt;21 at CHPRD via AOT has &gt;90% exit probability.</div>
+                            <div>Attrition is the joint outcome of a specific profile. The data can score this risk at the point of hiring.</div>
+                            <div>Build logistic-regression "Stay Score". Candidates in high-risk bands must be paired with senior mentors or re-routed to lower-attrition depts.</div>
+                            <div><strong style="color: #27ae60;">Target: 10pp Reduction</strong><br>Owner: Analytics</div>
+                        </div>
+
+                        <!-- Row 6 -->
+                        <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1.25rem 1rem; border-bottom: 1px solid #edf0f2; font-size: 0.75rem; color: #333; align-items: start;">
+                            <div style="font-weight: 800; color: #4CAF50; font-size: 0.9rem;">I-6</div>
+                            <div><strong style="color: #1C2B59; font-size: 0.8rem; display: block; margin-bottom: 4px;">SEASONAL DEFENSE</strong>Pre-empt Jan-Feb-May-Sep exit waves</div>
+                            <div>Jan, Feb, May, Sep hold ~60% of annual exits combined.</div>
+                            <div>Exits cluster around festive cycles and migration. These waves are predictable and can be mitigated.</div>
+                            <div>Run "Stay-bonus campaigns" 4 weeks BEFORE each peak. Completion bonuses paid in next salary cycle for those present during peak.</div>
+                            <div><strong style="color: #27ae60;">Target: 1,500 Retained</strong><br>Owner: C&amp;B</div>
+                        </div>
+
+                        <!-- Row 7 -->
+                        <div style="display: grid; grid-template-columns: 50px 1.5fr 1.5fr 2fr 2fr 1fr; gap: 1rem; padding: 1.25rem 1rem; border-bottom: none; font-size: 0.75rem; color: #333; background: #fcfdfe; align-items: start;">
+                            <div style="font-weight: 800; color: #795548; font-size: 0.9rem;">I-7</div>
+                            <div><strong style="color: #1C2B59; font-size: 0.8rem; display: block; margin-bottom: 4px;">DATA VISIBILITY</strong>Board-level median tenure tracking</div>
+                            <div>Exit count rose 65% over 3 FYs, but &lt;1-month exit share rose 254%.</div>
+                            <div>Static headcount/exit counts hide the velocity of deterioration. Tenure metrics provide better early warning.</div>
+                            <div>Add to monthly HR dashboard: Median tenure of exiters, % of exits within 30 days, Contractor Tenure-Adjusted Cost per Hire.</div>
+                            <div><strong style="color: #27ae60;">Enables Tracking</strong><br>Owner: COO</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slide-counter">17</div>
+            </section>
+
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="ctrl-btn" id="prevBtn">&larr;</button>
+        <button class="ctrl-btn" id="nextBtn">&rarr;</button>
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentSlide = 0;
+
+        function updateSlide() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+        }
+
+        function next() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlide();
+            }
+        }
+
+        function prev() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide();
+            }
+        }
+
+        nextBtn.addEventListener('click', next);
+        prevBtn.addEventListener('click', prev);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'ArrowDown') { e.preventDefault(); next(); }
+            else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+        });
+
+        updateSlide();
+    </script>
+</body>
+
+</html>
