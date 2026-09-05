@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Resource Planning (ERP) — Executive Master Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-canvas: #f8fafc;
+            --bg-canvas-subtle: #f1f5f9;
+            --glass-bg: rgba(255, 255, 255, 0.78);
+            --glass-bg-hover: rgba(255, 255, 255, 0.92);
+            --glass-border: rgba(226, 232, 240, 0.85);
+            --glass-border-highlight: rgba(255, 255, 255, 0.95);
+            --glass-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.04), 0 4px 12px -2px rgba(15, 23, 42, 0.02);
+            --glass-shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.03);
+            
+            --primary: #4338ca;
+            --primary-light: #e0e7ff;
+            --primary-dark: #312e81;
+            --accent: #0284c7;
+            --accent-light: #e0f2fe;
+            --success: #059669;
+            --success-light: #d1fae5;
+            --warning: #d97706;
+            --warning-light: #fef3c7;
+            --danger: #dc2626;
+            --danger-light: #fee2e2;
+            
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-subtle: #64748b;
+            --text-light: #94a3b8;
+            
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            
+            --sidebar-width: 320px;
+            --nav-height: 72px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            background-image: 
+                radial-gradient(at 15% 15%, rgba(67, 56, 202, 0.04) 0px, transparent 40%),
+                radial-gradient(at 85% 25%, rgba(2, 132, 199, 0.05) 0px, transparent 45%),
+                radial-gradient(at 50% 80%, rgba(5, 150, 105, 0.03) 0px, transparent 50%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
+            letter-spacing: -0.025em;
+            font-weight: 700;
+        }
+
+        code, pre, .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--glass-shadow);
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(67, 56, 202, 0.25);
+            box-shadow: var(--glass-shadow-lg);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.7);
+            border-radius: var(--radius-md);
+        }
+
+        /* App Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            padding: 24px 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px 20px 12px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.25);
+        }
+
+        .brand-title {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .brand-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--primary-light);
+            color: var(--primary);
+            letter-spacing: 0.05em;
+        }
+
+        .search-box {
+            margin: 16px 8px 8px 8px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px 10px 36px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: rgba(248, 250, 252, 0.8);
+            font-size: 13px;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: var(--text-light);
+            pointer-events: none;
+        }
+
+        .nav-scroller {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 4px;
+            margin-top: 4px;
+        }
+
+        .nav-scroller::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .nav-scroller::-webkit-scrollbar-thumb {
+            background: var(--text-light);
+            border-radius: 4px;
+        }
+
+        .nav-group-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-light);
+            font-weight: 700;
+            padding: 16px 12px 6px 12px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.15s ease;
+            margin-bottom: 2px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            background: rgba(67, 56, 202, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            background: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .nav-num {
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 0, 0, 0.04);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--text-subtle);
+        }
+
+        .nav-link.active .nav-num {
+            background: rgba(67, 56, 202, 0.15);
+            color: var(--primary-dark);
+        }
+
+        /* Main Content Container */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 40px 56px 100px 56px;
+            max-width: 1400px;
+        }
+
+        /* Hero Header */
+        .hero {
+            padding: 44px 40px;
+            margin-bottom: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(67, 56, 202, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .meta-pill {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: white;
+            border: 1px solid var(--glass-border);
+            color: var(--primary);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hero-title {
+            font-size: 40px;
+            line-height: 1.15;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #0f172a 30%, #312e81 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 860px;
+            line-height: 1.7;
+        }
+
+        /* Section Layout */
+        .content-section {
+            margin-bottom: 64px;
+            scroll-margin-top: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        /* Callout Cards */
+        .callout {
+            padding: 20px 24px;
+            border-radius: var(--radius-md);
+            margin: 20px 0;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .callout-info {
+            background: rgba(224, 242, 254, 0.45);
+            border-left: 4px solid var(--accent);
+        }
+
+        .callout-warning {
+            background: rgba(254, 243, 199, 0.45);
+            border-left: 4px solid var(--warning);
+        }
+
+        .callout-success {
+            background: rgba(209, 250, 229, 0.45);
+            border-left: 4px solid var(--success);
+        }
+
+        .callout-danger {
+            background: rgba(254, 226, 226, 0.45);
+            border-left: 4px solid var(--danger);
+        }
+
+        .callout-icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .callout-body h5 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .callout-body p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Data Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 24px 0;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+            background: white;
+            box-shadow: var(--glass-shadow);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-canvas-subtle);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            color: var(--text-main);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 13px;
+        }
+
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(248, 250, 252, 0.7);
+        }
+
+        /* Interactive Tabs */
+        .tab-container {
+            margin: 24px 0;
+        }
+
+        .tab-nav {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-subtle);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background: rgba(67, 56, 202, 0.05);
+        }
+
+        .tab-btn.active {
+            color: white;
+            background: var(--primary);
+            box-shadow: 0 4px 10px rgba(67, 56, 202, 0.25);
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Metric Highlights Grid */
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .metric-card {
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .metric-val {
+            font-size: 32px;
+            font-weight: 800;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--primary);
+            line-height: 1.1;
+            margin-bottom: 6px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-subtle);
+            margin-bottom: 4px;
+        }
+
+        .metric-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Interactive Simulator Panels */
+        .sim-box {
+            background: white;
+            border: 1px solid rgba(67, 56, 202, 0.2);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin: 28px 0;
+            box-shadow: 0 12px 32px rgba(67, 56, 202, 0.06);
+        }
+
+        .sim-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .sim-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 4px;
+        }
+
+        .slider-group {
+            margin-bottom: 16px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .slider-control {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--bg-canvas-subtle);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider-control::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(67, 56, 202, 0.3);
+        }
+
+        .sim-result-box {
+            background: var(--bg-canvas-subtle);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        /* Stepper Component */
+        .stepper {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .stepper::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            bottom: 24px;
+            left: 20px;
+            width: 2px;
+            background: var(--glass-border);
+            z-index: 0;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-badge {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .step-content {
+            background: white;
+            padding: 18px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+            flex: 1;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .step-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+
+        .step-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Collapsible Accordions */
+        .accordion-item {
+            background: white;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .accordion-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            background: white;
+            transition: background 0.15s;
+        }
+
+        .accordion-header:hover {
+            background: var(--bg-canvas-subtle);
+        }
+
+        .accordion-icon {
+            transition: transform 0.2s;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            background: white;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .accordion-item.active .accordion-body {
+            padding: 16px 20px 20px 20px;
+            max-height: 1000px;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* Flow Diagram Container */
+        .diagram-container {
+            background: white;
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+            overflow-x: auto;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            min-width: 700px;
+        }
+
+        .flow-node {
+            flex: 1;
+            padding: 14px 12px;
+            background: var(--bg-canvas-subtle);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .flow-node.highlight {
+            background: var(--primary-light);
+            border-color: rgba(67, 56, 202, 0.4);
+            color: var(--primary-dark);
+        }
+
+        .flow-arrow {
+            color: var(--text-light);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 80px;
+            padding: 32px 0;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-subtle);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            .mobile-menu-btn {
+                display: block;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 52px;
+                height: 52px;
+                border-radius: 50%;
+                background: var(--primary);
+                color: white;
+                border: none;
+                box-shadow: 0 6px 16px rgba(67, 56, 202, 0.35);
+                z-index: 1000;
+                cursor: pointer;
+            }
+        }
+        @media (min-width: 1025px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <div class="brand-icon">E</div>
+            <div>
+                <div class="brand-title">ERP Master Guide</div>
+                <div class="brand-badge">Executive MBA Series</div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search frameworks, cases, terms...">
+        </div>
+
+        <nav class="nav-scroller">
+            <div class="nav-group-label">Foundations & Architecture</div>
+            <a href="#section-silos" class="nav-link active">
+                <span class="nav-num">01</span> Pre-ERP & Silo Costs
+            </a>
+            <a href="#section-arch" class="nav-link">
+                <span class="nav-num">02</span> 3-Layer Architecture & Blocks
+            </a>
+            <a href="#section-database" class="nav-link">
+                <span class="nav-num">03</span> OLTP vs. OLAP & Master Data
+            </a>
+            <a href="#section-governance" class="nav-link">
+                <span class="nav-num">04</span> RBAC, SoD & Audit Trails
+            </a>
+
+            <div class="nav-group-label">Process Families & Frameworks</div>
+            <a href="#section-processes" class="nav-link">
+                <span class="nav-num">05</span> P2P, O2C, R2R & H2R
+            </a>
+            <a href="#section-controls" class="nav-link">
+                <span class="nav-num">06</span> 3-Way Match, SCOR & BANT
+            </a>
+            <a href="#section-mrp" class="nav-link">
+                <span class="nav-num">07</span> MRP Calculation Engine
+            </a>
+
+            <div class="nav-group-label">Vendors & Implementation</div>
+            <a href="#section-market" class="nav-link">
+                <span class="nav-num">08</span> Vendors: Commercial vs. Open
+            </a>
+            <a href="#section-implementation" class="nav-link">
+                <span class="nav-num">09</span> Implementation Strategies
+            </a>
+            <a href="#section-activate" class="nav-link">
+                <span class="nav-num">10</span> SAP Activate Methodology
+            </a>
+
+            <div class="nav-group-label">Industry 4.0 & Advanced AI</div>
+            <a href="#section-transformation" class="nav-link">
+                <span class="nav-num">11</span> Digital Transformation & Revolutions
+            </a>
+            <a href="#section-industry4" class="nav-link">
+                <span class="nav-num">12</span> Industry 4.0 & Smart Factory
+            </a>
+            <a href="#section-analytics" class="nav-link">
+                <span class="nav-num">13</span> Analytics & Decision Intelligence
+            </a>
+            <a href="#section-responsible-ai" class="nav-link">
+                <span class="nav-num">14</span> Responsible AI: 7 Pillars
+            </a>
+            <a href="#section-simulators" class="nav-link">
+                <span class="nav-num">15</span> Interactive Decision Sandboxes
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Header -->
+        <header class="hero glass-card">
+            <div class="hero-content">
+                <div class="hero-meta">
+                    <span class="meta-pill">📘 Term-4 Core Curriculum</span>
+                    <span class="meta-pill">⚡ Interactive Executive Reference</span>
+                    <span class="meta-pill">🎯 Pure Content & Frameworks</span>
+                </div>
+                <h1 class="hero-title">Enterprise Resource Planning & Digital Business</h1>
+                <p class="hero-desc">
+                    A comprehensive, interactive master reference bridging enterprise operating systems, cross-functional business processes, implementation methodologies, Industry 4.0 cyber-physical systems, and Decision Intelligence.
+                </p>
+            </div>
+        </header>
+
+        <!-- SECTION 1: PRE-ERP & SILO COSTS -->
+        <section id="section-silos" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 01</span>
+                    <h2 class="section-title">The Pre-ERP World: Functional Silos & Business Costs</h2>
+                </div>
+            </div>
+
+            <p class="mb-4">
+                Before the advent of Enterprise Resource Planning in the early 1990s, organizations operated in <strong>functional silos</strong>—commonly referred to as <em>islands of automation</em>. Departments deployed standalone software packages tailored exclusively for localized convenience: Finance used isolated desktop accounting (e.g., legacy ledgers or Tally), HR maintained standalone payroll spreadsheets, Sales kept isolated CRM records, and Manufacturing ran archaic inventory mainframes.
+            </p>
+
+            <div class="callout callout-warning">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-body">
+                    <h5>The Fundamental Dilemma: Departments vs. Value Streams</h5>
+                    <p>Organizations do not create value within isolated department boxes; they create value through <strong>cross-functional workflows</strong> flowing from supplier to customer. When systems are disconnected, every inter-departmental handoff becomes a catastrophic point of friction.</p>
+                </div>
+            </div>
+
+            <h3 class="font-heading text-xl mt-6 mb-3">The Quantifiable Cost of Disconnected Silos</h3>
+            <p>Disconnected software systems are not merely an IT inconvenience; they translate directly into massive, measurable commercial destruction:</p>
+
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-val">72 hrs</div>
+                    <div class="metric-label">Decision Delay</div>
+                    <div class="metric-desc">Average lag in cross-functional decisions. <strong>HUL Case</strong>: pricing updates stalled during commodity cost spikes due to decoupled sales and finance logs.</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val">$1.4B</div>
+                    <div class="metric-label">Inventory Write-Off</div>
+                    <div class="metric-desc"><strong>Kmart Disaster</strong>: Siloed purchasing systems ordered billions in un-tracked goods, culminating in bankruptcy.</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val">68%</div>
+                    <div class="metric-label">Customer Churn</div>
+                    <div class="metric-desc">Customers reporting poor service because support reps have zero real-time visibility into billing or warehouse dispatch.</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-val">40%</div>
+                    <div class="metric-label">Wasted Labor</div>
+                    <div class="metric-desc">Employee working hours squandered re-keying identical customer and order data into 3–4 disconnected systems.</div>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 mt-6">
+                <h4 class="font-heading text-lg mb-2">🧠 Mental Model: The Human Body Analogy</h4>
+                <p class="text-sm text-muted mb-4">An integrated enterprise functions exactly like a living organism:</p>
+                <div class="flow-row">
+                    <div class="flow-node"><strong>Brain</strong><br><small>ERP Core (Command & Rules)</small></div>
+                    <div class="flow-arrow">↔</div>
+                    <div class="flow-node"><strong>Eyes</strong><br><small>CRM (Customer Sight)</small></div>
+                    <div class="flow-arrow">↔</div>
+                    <div class="flow-node highlight"><strong>Memory</strong><br><small>Central Relational DB</small></div>
+                    <div class="flow-arrow">↔</div>
+                    <div class="flow-node"><strong>Nerves</strong><br><small>Integration APIs (Signals)</small></div>
+                    <div class="flow-arrow">↔</div>
+                    <div class="flow-node"><strong>Muscles</strong><br><small>Operations & SCM (Execution)</small></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: 3-LAYER ARCHITECTURE & BUILDING BLOCKS -->
+        <section id="section-arch" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 02</span>
+                    <h2 class="section-title">The Three-Layer Architecture & Core Building Blocks</h2>
+                </div>
+            </div>
+
+            <p>
+                Modern enterprise systems rely on a robust <strong>Three-Tier Client-Server Architecture</strong> that cleanly separates user presentation, business logic computation, and underlying data persistence.
+            </p>
+
+            <div class="tab-container">
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="switchTab(event, 'tab-arch-layers')">Three-Tier Architecture</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-arch-blocks')">Seven Core Building Blocks</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-arch-modules')">Eight Core Module Domains</button>
+                </div>
+
+                <div id="tab-arch-layers" class="tab-pane active">
+                    <div class="glass-panel p-6">
+                        <div class="stepper">
+                            <div class="step-item">
+                                <div class="step-badge">1</div>
+                                <div class="step-content">
+                                    <div class="step-title">Presentation Layer (User Interface GUI)</div>
+                                    <p class="step-desc">Web browsers, mobile tablet apps, role-based dashboards (e.g., SAP Fiori, Odoo Web). Captures user events, validates input formats, and renders data visualizations. <em>Zero business logic is executed here.</em></p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-badge">2</div>
+                                <div class="step-content">
+                                    <div class="step-title">Application Layer (Business Logic Engine)</div>
+                                    <p class="step-desc">The brains of the ERP. Houses functional modules (Finance, Sales, Production), approval routing rules, MRP calculation algorithms, and tax engines. Processes transactions and enforces company policies.</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-badge">3</div>
+                                <div class="step-content">
+                                    <div class="step-title">Database Layer (Single Source of Truth)</div>
+                                    <p class="step-desc">The central relational database management system (RDBMS) such as SAP HANA, Oracle DB, or PostgreSQL. Stores master records, transactional history, and immutable forensic audit logs.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="callout callout-info mt-4">
+                            <div class="callout-icon">💡</div>
+                            <div class="callout-body">
+                                <h5>Data Flow Principle</h5>
+                                <p><strong>Business Events flow Down</strong> (User clicks 'Confirm' in Presentation $\rightarrow$ Application validates $\rightarrow$ Database commits). <strong>Information flows Up</strong> (Database commit instantly updates stock alerts, ledger entries, and executive BI cockpits simultaneously).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-arch-blocks" class="tab-pane">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Building Block</th>
+                                    <th>Core Enterprise Function</th>
+                                    <th>Real-World Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1. Functional Modules</strong></td>
+                                    <td>Domain-specific applications (Finance, HR, SCM, CRM).</td>
+                                    <td>Executes specialized operational tasks per business function.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. Central Database</strong></td>
+                                    <td>Unified, normalized data repository.</td>
+                                    <td>Guarantees a Single Source of Truth; zero data duplication.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. Workflows</strong></td>
+                                    <td>Automated process orchestration engine.</td>
+                                    <td>Routes multi-tier purchase approvals, alerts, and escalations.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. Business Rules Engine</strong></td>
+                                    <td>Policy enforcement and programmatic logic.</td>
+                                    <td>Enforces credit limits, discount thresholds, and tax rules.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5. Reporting & BI</strong></td>
+                                    <td>Real-time analytics and management dashboards.</td>
+                                    <td>Provides live visibility into cash flow, margins, and backlogs.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>6. Security & Governance</strong></td>
+                                    <td>Access control and compliance mechanisms.</td>
+                                    <td>Enforces RBAC, Segregation of Duties, and audit tracking.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>7. Integration Layer</strong></td>
+                                    <td>Middleware, REST APIs, EDI, and web services.</td>
+                                    <td>Connects ERP to banks, payment gateways, logistics carriers, and IoT.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="tab-arch-modules" class="tab-pane">
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-label">FI / CO</div>
+                            <h4 class="font-heading text-base font-bold">Financials & Controlling</h4>
+                            <p class="metric-desc">General ledger, Accounts Payable (AP), Accounts Receivable (AR), cost center accounting, statutory tax filings.</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">SD</div>
+                            <h4 class="font-heading text-base font-bold">Sales & Distribution</h4>
+                            <p class="metric-desc">Lead pipeline, formal quotations, sales orders, shipping routes, billing, and pricing discount governance.</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">MM</div>
+                            <h4 class="font-heading text-base font-bold">Materials Management</h4>
+                            <p class="metric-desc">Purchase requisitions, vendor selection, purchase orders, goods receipt verification, and invoice matching.</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">PP</div>
+                            <h4 class="font-heading text-base font-bold">Production Planning</h4>
+                            <p class="metric-desc">Bills of Materials (BOM), master production schedules, work center capacity planning, shop-floor execution.</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">IM / WM</div>
+                            <h4 class="font-heading text-base font-bold">Inventory & Warehouse</h4>
+                            <p class="metric-desc">Stock valuation, batch and serial tracking, bin management, picking, packing, and automated cycle counting.</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">HCM</div>
+                            <h4 class="font-heading text-base font-bold">Human Capital Management</h4>
+                            <p class="metric-desc">Employee master records, biometric shift attendance, statutory payroll, performance appraisals, separation.</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">CRM</div>
+                            <h4 class="font-heading text-base font-bold">Customer Relationships</h4>
+                            <p class="metric-desc">Customer journey tracking, BANT lead scoring, sales pipeline forecasting, post-sale service ticketing.</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-label">SCM</div>
+                            <h4 class="font-heading text-base font-bold">Supply Chain Logistics</h4>
+                            <p class="metric-desc">Demand forecasting, multi-tier supplier collaboration, freight carrier routing, cross-docking.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DATABASE MECHANICS: OLTP VS OLAP & MASTER DATA -->
+        <section id="section-database" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 03</span>
+                    <h2 class="section-title">Database Foundations: OLTP vs. OLAP & Master Data</h2>
+                </div>
+            </div>
+
+            <p>
+                Enterprise information systems draw a fundamental boundary between executing transactions and analyzing strategic historical data.
+            </p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>OLTP (Online Transaction Processing)</th>
+                            <th>OLAP (Online Analytical Processing)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Primary Objective</strong></td>
+                            <td>Fast, reliable execution of day-to-day operational transactions.</td>
+                            <td>Multi-dimensional historical analysis to guide executive strategy.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Typical Users</strong></td>
+                            <td>Clerks, sales reps, buyers, accountants, warehouse workers.</td>
+                            <td>CXOs, financial analysts, supply chain planners, data scientists.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database Schema</strong></td>
+                            <td>Highly normalized (3NF) to maximize write speed and eliminate redundancy.</td>
+                            <td>Denormalized (Star or Snowflake schema) optimized for complex read queries.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Operations</strong></td>
+                            <td>High-frequency, rapid atomic writes, updates, and inserts (ACID compliant).</td>
+                            <td>Low-frequency, long-running queries scanning millions of records.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Scope</strong></td>
+                            <td>Current, live real-time operational snapshot.</td>
+                            <td>Multi-year aggregated historical trends from data warehouses.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Role in ERP</strong></td>
+                            <td><strong>The Core ERP Engine acts as an OLTP system.</strong></td>
+                            <td><strong>Enterprise BI dashboards query OLAP warehouses.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="font-heading text-xl mt-8 mb-3">Master Data vs. Transaction Data: Memory vs. Heartbeat</h3>
+            <p>
+                Every record in an enterprise belongs to one of two structural categories:
+            </p>
+
+            <div class="metric-grid">
+                <div class="metric-card" style="border-left: 4px solid var(--primary);">
+                    <div class="metric-label">Reference Core</div>
+                    <h4 class="font-heading text-lg font-bold text-primary">Master Data (The Memory)</h4>
+                    <p class="text-sm text-muted mt-2">
+                        Stable, long-term reference entities defining who the business transacts with and what it sells. Created once, referenced millions of times. Examples: Customer Master, Vendor Master, Product SKU, Bill of Materials, Chart of Accounts.
+                    </p>
+                </div>
+                <div class="metric-card" style="border-left: 4px solid var(--accent);">
+                    <div class="metric-label">Operational Log</div>
+                    <h4 class="font-heading text-lg font-bold text-accent">Transaction Data (The Heartbeat)</h4>
+                    <p class="text-sm text-muted mt-2">
+                        Dynamic records created continuously every second to document business exchanges. Always references underlying master data; becomes completely immutable once posted. Examples: Sales Order #1042, Tax Invoice, Purchase Order, Goods Receipt.
+                    </p>
+                </div>
+            </div>
+
+            <div class="callout callout-danger mt-4">
+                <div class="callout-icon">🚨</div>
+                <div class="callout-body">
+                    <h5>The FMCG Master Data Case: A ₹1.8 Crore Disaster</h5>
+                    <p>A regional distributor migrated 4,200 customer accounts from legacy spreadsheets without validating payment terms. 840 accounts defaulted to <strong>Net 90</strong> instead of <strong>Net 30</strong>. Retailers legally withheld payment for 3 months, locking up <strong>₹1.8 Crore in cash</strong>, triggering short-term debt borrowing, and forcing 6 weeks of emergency manual auditing. <em>Lesson: Master data quality is non-negotiable.</em></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GOVERNANCE, RBAC, SOD & FORENSIC AUDIT TRAILS -->
+        <section id="section-governance" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 04</span>
+                    <h2 class="section-title">Enterprise Governance: RBAC, SoD & Forensic Audit Trails</h2>
+                </div>
+            </div>
+
+            <p>
+                Because an ERP holds the complete financial and operational records of an enterprise, uncontrolled access invites catastrophic operational errors and multi-million-dollar fraud.
+            </p>
+
+            <div class="metric-grid">
+                <div class="glass-card p-6">
+                    <h4 class="font-heading text-base font-bold mb-2">1. Role-Based Access Control (RBAC)</h4>
+                    <p class="text-sm text-muted">
+                        Users receive permissions based strictly on their official job role. Enforces the <strong>Principle of Least Privilege</strong>:
+                    </p>
+                    <ul class="text-xs text-muted mt-3 space-y-1">
+                        <li>• <strong>Sales Rep</strong>: Can view product catalogs and create quotes; cannot see payroll or edit vendor bank accounts.</li>
+                        <li>• <strong>Warehouse Clerk</strong>: Can post Goods Receipts; cannot alter selling prices or release supplier payments.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-6">
+                    <h4 class="font-heading text-base font-bold mb-2 text-danger">2. Segregation of Duties (SoD)</h4>
+                    <p class="text-sm text-muted">
+                        The ultimate anti-fraud standard. Enforces that <strong>no single employee can execute, approve, and record conflicting transactional steps</strong>.
+                    </p>
+                    <div class="callout callout-warning p-3 mt-3 text-xs">
+                        <strong>Hard System Wall:</strong> The employee who creates a new vendor profile in the ERP <em>cannot be granted system permission</em> to approve invoices or release wire transfers to that vendor.
+                    </div>
+                </div>
+
+                <div class="glass-card p-6">
+                    <h4 class="font-heading text-base font-bold mb-2 text-success">3. Forensic Audit Trails</h4>
+                    <p class="text-sm text-muted">
+                        Every single insert, edit, or status change automatically creates an indelible, tamper-proof system log:
+                    </p>
+                    <div class="font-mono text-xs bg-slate-100 p-2 rounded mt-2 text-slate-700">
+                        { Timestamp, UserID, IP, Table, Field, OldValue, NewValue }
+                    </div>
+                    <p class="text-xs text-muted mt-2">
+                        Audit logs cannot be modified or deleted by anyone—even system DBAs. Mandated under <strong>SOX Section 404</strong>, <strong>CARO (India)</strong>, and <strong>Ind AS / IFRS</strong>.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: PROCESS FAMILIES (P2P, O2C, R2R, H2R) -->
+        <section id="section-processes" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 05</span>
+                    <h2 class="section-title">The Four Core Process Families That Run the Enterprise</h2>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Process Family</th>
+                            <th>Commercial Mission</th>
+                            <th>Departments Involved</th>
+                            <th>Typical End-to-End Sequence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>O2C (Order-to-Cash)</strong></td>
+                            <td>Generate revenue from market demand.</td>
+                            <td>Sales, Inventory, Logistics, Finance (AR).</td>
+                            <td>Lead $\rightarrow$ Opportunity $\rightarrow$ Quote $\rightarrow$ Sales Order $\rightarrow$ Pick/Pack $\rightarrow$ Dispatch $\rightarrow$ Invoice $\rightarrow$ Cash Receipt.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>P2P (Procure-to-Pay)</strong></td>
+                            <td>Acquire operational resources & pay suppliers.</td>
+                            <td>Department Buyer, Procurement, Warehouse, Finance (AP).</td>
+                            <td>Need Identified $\rightarrow$ Purchase Requisition (PR) $\rightarrow$ Purchase Order (PO) $\rightarrow$ Goods Receipt (GR) $\rightarrow$ 3-Way Match $\rightarrow$ Payment.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>R2R (Record-to-Report)</strong></td>
+                            <td>Provide financial visibility & statutory compliance.</td>
+                            <td>General Accounting, Controlling, Treasury, Tax.</td>
+                            <td>Transaction Journal Posting $\rightarrow$ General Ledger $\rightarrow$ Bank Reconciliation $\rightarrow$ Period Close $\rightarrow$ P&L & Balance Sheet.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>H2R (Hire-to-Retire)</strong></td>
+                            <td>Manage the human capital lifecycle.</td>
+                            <td>HR Talent, Department Heads, Payroll, IT.</td>
+                            <td>Job Requisition $\rightarrow$ Interview & Offer $\rightarrow$ Onboarding $\rightarrow$ Shift Attendance $\rightarrow$ Payroll Run $\rightarrow$ Retirement Benefits.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass-panel p-6 mt-6">
+                <h4 class="font-heading text-base font-bold mb-2">⚡ How They Interconnect: The 500-Unit Order Event</h4>
+                <p class="text-sm text-muted mb-3">
+                    When a customer orders 500 units, all four process families activate in real time:
+                </p>
+                <div class="flow-row">
+                    <div class="flow-node"><strong>1. O2C</strong><br><small>Books Order & Checks Stock</small></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node"><strong>2. P2P</strong><br><small>Auto-Buys Raw Material Deficit</small></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node"><strong>3. H2R</strong><br><small>Schedules Plant Labor Shifts</small></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node highlight"><strong>4. R2R</strong><br><small>Records Revenue & COGS Accruals</small></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: CONTROLS & FRAMEWORKS: 3-WAY MATCH, SCOR, BANT -->
+        <section id="section-controls" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 06</span>
+                    <h2 class="section-title">Operational Controls: 3-Way Match, SCOR & BANT</h2>
+                </div>
+            </div>
+
+            <div class="tab-container">
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="switchTab(event, 'tab-ctrl-3way')">The 3-Way Match</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-ctrl-scor')">SCOR Operating Model</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-ctrl-bant')">BANT Qualification Framework</button>
+                </div>
+
+                <div id="tab-ctrl-3way" class="tab-pane active">
+                    <div class="glass-panel p-6">
+                        <h4 class="font-heading text-lg mb-2">The Golden Rule: Purchase Order == Goods Receipt == Supplier Invoice</h4>
+                        <p class="text-sm text-muted mb-4">
+                            The 3-Way Match is the universal internal control mechanism enforced by ERP systems to prevent unauthorized payouts, fraudulent billing, and inventory ghosting.
+                        </p>
+                        <div class="flow-row mb-4">
+                            <div class="flow-node"><strong>1. Purchase Order (PO)</strong><br><small>Issued by Procurement<br>Agreed Price & Terms</small></div>
+                            <div class="flow-arrow">≡</div>
+                            <div class="flow-node"><strong>2. Goods Receipt (GR)</strong><br><small>Logged by Warehouse<br>Actual Delivered Quantity</small></div>
+                            <div class="flow-arrow">≡</div>
+                            <div class="flow-node"><strong>3. Supplier Invoice</strong><br><small>Billed by Vendor<br>Payment Claim</small></div>
+                        </div>
+                        <div class="callout callout-warning">
+                            <div class="callout-icon">🛑</div>
+                            <div class="callout-body">
+                                <h5>Automated System Hold</h5>
+                                <p>If a vendor bills for 100 units at ₹500, but the warehouse GR only confirms receipt of 80 units, the ERP <strong>automatically blocks the invoice</strong>. It flags a Quantity Variance and releases payment exclusively for the 80 verified units.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-ctrl-scor" class="tab-pane">
+                    <div class="glass-panel p-6">
+                        <h4 class="font-heading text-lg mb-2">The SCOR Framework (Supply Chain Operations Reference)</h4>
+                        <p class="text-sm text-muted mb-4">The global standard framework adopted by Gartner and Deloitte for end-to-end supply chain design:</p>
+                        <div class="metric-grid">
+                            <div class="metric-card">
+                                <div class="metric-label">Pillar 1</div>
+                                <h4 class="font-bold text-base">PLAN</h4>
+                                <p class="metric-desc">Demand sensing, inventory targets, production capacity planning, raw material requirements.</p>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Pillar 2</div>
+                                <h4 class="font-bold text-base">SOURCE</h4>
+                                <p class="metric-desc">Vendor selection, contract negotiation, PO issuance, and P2P procurement execution.</p>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Pillar 3</div>
+                                <h4 class="font-bold text-base">MAKE</h4>
+                                <p class="metric-desc">Shop floor production scheduling, manufacturing execution, assembly, and quality control.</p>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Pillar 4</div>
+                                <h4 class="font-bold text-base">DELIVER</h4>
+                                <p class="metric-desc">Warehouse picking, packing, fleet route optimization, freight forwarding, customer receipt.</p>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-label">Pillar 5</div>
+                                <h4 class="font-bold text-base">SUPPORT / RETURN</h4>
+                                <p class="metric-desc">Reverse logistics, warranty management, defective batch returns, customer service.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-ctrl-bant" class="tab-pane">
+                    <div class="glass-panel p-6">
+                        <h4 class="font-heading text-lg mb-2">The BANT Lead Qualification Framework</h4>
+                        <p class="text-sm text-muted mb-4">How elite B2B sales teams qualify incoming prospects before committing sales engineers:</p>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Letter</th>
+                                        <th>Criterion</th>
+                                        <th>Diagnostic Question Asked</th>
+                                        <th>Strategic Intent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>B</strong></td>
+                                        <td><strong>Budget</strong></td>
+                                        <td><em>"What capital has your leadership earmarked for this initiative?"</em></td>
+                                        <td>Eliminates tyre-kickers with zero purchasing power.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>A</strong></td>
+                                        <td><strong>Authority</strong></td>
+                                        <td><em>"Who else signs off on final legal and procurement contracts?"</em></td>
+                                        <td>Ensures engagement with economic buyers, not just junior staff.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>N</strong></td>
+                                        <td><strong>Need</strong></td>
+                                        <td><em>"What specific operational breakdown occurs if you do not solve this?"</em></td>
+                                        <td>Confirms genuine, urgent pain rather than passive curiosity.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>T</strong></td>
+                                        <td><strong>Timeline</strong></td>
+                                        <td><em>"What commercial deadline drives your go-live target?"</em></td>
+                                        <td>Separates 15-day urgent deals from vague 9-month inquiries.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 7: MRP ENGINE -->
+        <section id="section-mrp" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 07</span>
+                    <h2 class="section-title">The Material Requirements Planning (MRP) Engine</h2>
+                </div>
+            </div>
+
+            <p>
+                The MRP calculation engine removes human guesswork from manufacturing by mathematically back-calculating exactly what materials to purchase, how much to buy, and when purchase orders must be released based on confirmed demand.
+            </p>
+
+            <div class="glass-panel p-6 mt-4">
+                <h4 class="font-mono text-base font-bold text-primary mb-2">Net Requirement Formula:</h4>
+                <div class="font-mono text-sm bg-indigo-50 border border-indigo-200 text-indigo-950 p-4 rounded-md mb-4">
+                    Net Requirement = (Gross Demand + Safety Stock) − (Current Stock on Hand + Scheduled In-Transit POs)
+                </div>
+
+                <div class="diagram-container">
+                    <div class="flow-row">
+                        <div class="flow-node"><strong>MRP INPUTS</strong><br><small>• Confirmed Sales Orders<br>• Master Schedule<br>• Bill of Materials (BOM)<br>• Current Stock<br>• Supplier Lead Times</small></div>
+                        <div class="flow-arrow">⟹</div>
+                        <div class="flow-node highlight"><strong>CALCULATION ENGINE</strong><br><small>Explodes BOM hierarchy<br>Offsets vendor lead times<br>Calculates net deficits</small></div>
+                        <div class="flow-arrow">⟹</div>
+                        <div class="flow-node"><strong>MRP OUTPUTS</strong><br><small>• Purchase Requisitions (PR)<br>• Planned Production Orders<br>• Stockout Exception Alerts<br>• Cash Outflow Forecast</small></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 8: ERP MARKET & LEADING VENDORS -->
+        <section id="section-market" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 08</span>
+                    <h2 class="section-title">The ERP Market: Commercial Titans vs. Open-Source</h2>
+                </div>
+            </div>
+
+            <p>
+                Valued at over <strong>$50 Billion globally</strong>, the ERP landscape is defined by two primary philosophies: proprietary corporate suites and agile open-source platforms.
+            </p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Segment Focus</th>
+                            <th>Deployment</th>
+                            <th>Key Strategic Strengths</th>
+                            <th>Key Trade-Offs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>SAP S/4HANA</strong></td>
+                            <td>Global Conglomerates ($1B+)</td>
+                            <td>Cloud / On-Prem / Hybrid</td>
+                            <td>Undisputed market leader; deepest industry-specific best practices; unmatched scalability on HANA in-memory DB.</td>
+                            <td>Extremely high TCO; long 12–36 month implementation cycles; high organizational rigidity.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oracle Cloud ERP / NetSuite</strong></td>
+                            <td>Large Enterprise & Scaling Mid-Market</td>
+                            <td>Cloud-Native SaaS</td>
+                            <td>Gold standard in financial accounting ledgers; NetSuite provides fast time-to-value for scaling tech firms.</td>
+                            <td>Complex licensing structures; aggressive audit policies and vendor lock-in.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Microsoft Dynamics 365</strong></td>
+                            <td>Mid-Market & Large Enterprise</td>
+                            <td>Cloud (Azure)</td>
+                            <td>Flawless native synergy with Office 365, Teams, Azure, and Power BI; intuitive consumer-grade UX.</td>
+                            <td>Heavy reliance on third-party Value-Added Resellers (VARs) for deep manufacturing extensions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Infor CloudSuite</strong></td>
+                            <td>Industry Micro-Verticals</td>
+                            <td>Cloud-First (AWS)</td>
+                            <td>Pre-configured compliance for Healthcare, Aerospace, and Food & Beverage; eliminates custom code.</td>
+                            <td>Smaller ecosystem of trained implementation consultants compared to SAP.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Workday</strong></td>
+                            <td>HCM & Financial Planning</td>
+                            <td>Cloud-Native SaaS</td>
+                            <td>Industry leader in human capital management, talent planning, and agile workforce budgeting.</td>
+                            <td><strong>Not a manufacturing ERP</strong>; lacks shop-floor routing, BOMs, and plant logistics.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Odoo Enterprise</strong></td>
+                            <td>SMEs & Agile Fast-Growing Brands</td>
+                            <td>Open-Source Cloud / On-Prem</td>
+                            <td>Modular "App Store" model; pay only for apps used; open Python codebase; highly customizable; low TCO.</td>
+                            <td>Requires technical maturity to self-host; community vs. enterprise feature gating.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TallyPrime</strong></td>
+                            <td>Indian Micro & Small Businesses</td>
+                            <td>On-Premise / Hosted</td>
+                            <td>Dominates 70%+ of Indian SME accounting; instant keyboard navigation; effortless GST compliance.</td>
+                            <td>Lacks multi-tier governance, CRM pipelines, and complex production workflows.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass-panel p-6 mt-6">
+                <h4 class="font-heading text-lg font-bold mb-2">🌐 Architectural Strategy: Two-Tier ERP</h4>
+                <p class="text-sm text-muted mb-3">
+                    Multinationals face a common dilemma: forcing an agile 80-person startup or regional subsidiary to run corporate SAP S/4HANA is disastrously expensive and slow.
+                </p>
+                <div class="flow-row">
+                    <div class="flow-node"><strong>Tier 1: Corporate HQ</strong><br><small>SAP S/4HANA / Oracle<br>Global Consolidation & SOX</small></div>
+                    <div class="flow-arrow">⟷ [Bi-Directional APIs] ⟷</div>
+                    <div class="flow-node highlight"><strong>Tier 2: Agile Subsidiaries</strong><br><small>Odoo / NetSuite / Dynamics<br>Rapid deployment, local tax compliance</small></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: IMPLEMENTATION STRATEGIES -->
+        <section id="section-implementation" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 09</span>
+                    <h2 class="section-title">ERP Implementation Strategies: Big Bang vs. Phased</h2>
+                </div>
+            </div>
+
+            <p>
+                Choosing how to transition from legacy systems to a modern ERP is among the highest-risk decisions an executive committee will make:
+            </p>
+
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-label text-danger">High Risk / Fast</div>
+                    <h4 class="font-bold text-base">Big Bang Strategy</h4>
+                    <p class="metric-desc mt-2">The entire company switches from legacy systems to the new ERP simultaneously on a single cutover date.</p>
+                    <ul class="text-xs text-muted mt-2 space-y-1">
+                        <li>• <strong>Pros</strong>: Shortest rollout duration; eliminates dual-maintenance costs.</li>
+                        <li>• <strong>Cons</strong>: Immense operational risk; if cutover fails, the entire company halts.</li>
+                    </ul>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label text-success">Low Risk / Moderate</div>
+                    <h4 class="font-bold text-base">Phased Rollout</h4>
+                    <p class="metric-desc mt-2">Modules or business units are rolled out sequentially in structured stages over time.</p>
+                    <ul class="text-xs text-muted mt-2 space-y-1">
+                        <li>• <strong>By Module</strong>: Core Financials first, followed by Procurement, then Manufacturing.</li>
+                        <li>• <strong>By Geography</strong>: Plant 1 first, then Plant 2, then Global Units.</li>
+                        <li>• <strong>Trade-Off</strong>: Requires temporary middleware interfaces to bridge legacy and new systems.</li>
+                    </ul>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label text-accent">Maximum Safety / Costly</div>
+                    <h4 class="font-bold text-base">Parallel Adoption</h4>
+                    <p class="metric-desc mt-2">Both legacy and new ERP systems run simultaneously for 1–3 fiscal cycles.</p>
+                    <ul class="text-xs text-muted mt-2 space-y-1">
+                        <li>• <strong>Pros</strong>: Zero business disruption risk; legacy acts as a live backup.</li>
+                        <li>• <strong>Cons</strong>: Extreme workload; staff must enter every transaction twice; high cost.</li>
+                    </ul>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-label text-primary">Strategic Balance</div>
+                    <h4 class="font-bold text-base">Pilot / Hybrid Rollout</h4>
+                    <p class="metric-desc mt-2">ERP is deployed fully at a single, smaller subsidiary or retail location before enterprise-wide scaling.</p>
+                    <ul class="text-xs text-muted mt-2 space-y-1">
+                        <li>• Allows the implementation team to refine configurations and training in a contained environment.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 10: SAP ACTIVATE METHODOLOGY -->
+        <section id="section-activate" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 10</span>
+                    <h2 class="section-title">SAP Activate Methodology: The Implementation Lifecycle</h2>
+                </div>
+            </div>
+
+            <p>
+                Replacing the outdated, rigid waterfall ASAP methodology, <strong>SAP Activate</strong> is the modern, agile framework designed specifically for cloud and hybrid ERP implementations. It emphasizes <strong>Fit-to-Standard workshops</strong> over custom ground-up coding.
+            </p>
+
+            <div class="stepper">
+                <div class="step-item">
+                    <div class="step-badge">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Discover Phase</div>
+                        <p class="step-desc">Business case creation, executive alignment, cloud trial exploration, and high-level architectural roadmap definition.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Prepare Phase</div>
+                        <p class="step-desc">Project kick-off, team governance establishment, initial project charter, cloud environment provisioning, and kick-off workshops.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Explore Phase (Fit-to-Standard)</div>
+                        <p class="step-desc"><strong>The core differentiator.</strong> Consultants demonstrate pre-configured SAP best practice processes. Teams evaluate fit and log delta gaps. Customization is permitted only for strategic differentiators.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Realize Phase (Agile Sprints)</div>
+                        <p class="step-desc">Incremental agile sprints configure the system, develop critical integrations, conduct end-to-end user acceptance testing (UAT), and execute data cleansing.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">5</div>
+                    <div class="step-content">
+                        <div class="step-title">Deploy Phase (Cutover)</div>
+                        <p class="step-desc">Final production data migration, end-user training, cutover execution, formal sign-off, and production go-live.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-badge">6</div>
+                    <div class="step-content">
+                        <div class="step-title">Run Phase (Continuous Optimization)</div>
+                        <p class="step-desc">Post-go-live hypercare support, operational stabilization, quarterly cloud update adoption, and continuous business value optimization.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 11: DIGITAL TRANSFORMATION & FOUR INDUSTRIAL REVOLUTIONS -->
+        <section id="section-transformation" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 11</span>
+                    <h2 class="section-title">Digital Transformation Framework & The 4 Revolutions</h2>
+                </div>
+            </div>
+
+            <h3 class="font-heading text-lg mb-3">The Three-Tier Digital Transformation Framework</h3>
+            <div class="metric-grid">
+                <div class="metric-card" style="border-top: 4px solid #94a3b8;">
+                    <div class="metric-label">Stage 1</div>
+                    <h4 class="font-bold text-base">Digitization</h4>
+                    <p class="metric-desc">Converting analog information into digital bits. <em>Example: Scanning paper purchase invoices into PDF files. (Workflows remain manual).</em></p>
+                </div>
+                <div class="metric-card" style="border-top: 4px solid var(--accent);">
+                    <div class="metric-label">Stage 2</div>
+                    <h4 class="font-bold text-base">Digitalization</h4>
+                    <p class="metric-desc">Leveraging digital data to streamline and automate existing processes. <em>Example: Automated email approval workflows in ERP.</em></p>
+                </div>
+                <div class="metric-card" style="border-top: 4px solid var(--primary);">
+                    <div class="metric-label">Stage 3</div>
+                    <h4 class="font-bold text-base">Digital Transformation</h4>
+                    <p class="metric-desc">Reinventing the business and operating model. <em>Example: Domino’s becoming a tech platform selling pizza; Rolls-Royce selling 'Power-by-the-Hour' engines.</em></p>
+                </div>
+            </div>
+
+            <h3 class="font-heading text-lg mt-8 mb-3">The Five Stages of the Digital Maturity Model</h3>
+            <div class="flow-row">
+                <div class="flow-node"><strong>Level 1</strong><br><small>Manual<br>(Paper/Excel)</small></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node"><strong>Level 2</strong><br><small>Digitized<br>(Dept Silos)</small></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node highlight"><strong>Level 3</strong><br><small>ERP-Enabled<br>(Single Truth)</small></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node"><strong>Level 4</strong><br><small>Data-Driven<br>(Live BI)</small></div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node highlight"><strong>Level 5</strong><br><small>Intelligent<br>(AI & Autonomous)</small></div>
+            </div>
+            <p class="text-xs text-muted text-center mt-2"><em>Most large Indian enterprises operate at Level 3; global champions (Amazon, Apple, Tesla) push Level 5.</em></p>
+
+            <h3 class="font-heading text-lg mt-8 mb-3">The Four Industrial Revolutions</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Revolution</th>
+                            <th>Time Horizon</th>
+                            <th>Key Enabling Inventions</th>
+                            <th>Enterprise Paradigm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Industry 1.0</strong></td>
+                            <td>1760 – 1850</td>
+                            <td>Steam engine, textile mechanization, iron smelting.</td>
+                            <td>Manual craft to mechanized factory production.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industry 2.0</strong></td>
+                            <td>1870 – 1940</td>
+                            <td>Electricity, moving assembly line, division of labor, telephone.</td>
+                            <td>Mass manufacturing; Fordism; standardized products.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industry 3.0</strong></td>
+                            <td>1970 – 2010</td>
+                            <td>Computers, Programmable Logic Controllers (PLCs), IT, early ERP.</td>
+                            <td>Automated production; computer record-keeping.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industry 4.0</strong></td>
+                            <td>2010 – Present</td>
+                            <td>IoT, AI/ML, Cloud, Cyber-physical systems, Digital Twins.</td>
+                            <td><strong>Intelligent, autonomous, self-optimizing enterprises.</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 12: INDUSTRY 4.0 & SMART FACTORY -->
+        <section id="section-industry4" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 12</span>
+                    <h2 class="section-title">Industry 4.0: The Seven Converging Technologies</h2>
+                </div>
+            </div>
+
+            <p>
+                Industry 4.0 is not a single tool; it is the convergence of digital intelligence with physical shop-floor assets:
+            </p>
+
+            <div class="metric-grid">
+                <div class="glass-card p-5">
+                    <h5 class="font-bold text-sm text-primary mb-1">1. IoT Sensors</h5>
+                    <p class="text-xs text-muted">Continuous physical telemetry: temperature, vibration, throughput, power consumption.</p>
+                </div>
+                <div class="glass-card p-5">
+                    <h5 class="font-bold text-sm text-primary mb-1">2. Artificial Intelligence</h5>
+                    <p class="text-xs text-muted">Predictive maintenance, automated visual defect detection, dynamic demand sensing.</p>
+                </div>
+                <div class="glass-card p-5">
+                    <h5 class="font-bold text-sm text-primary mb-1">3. Cloud Computing</h5>
+                    <p class="text-xs text-muted">Elastic, infinite processing scale across geographically distributed enterprise networks.</p>
+                </div>
+                <div class="glass-card p-5">
+                    <h5 class="font-bold text-sm text-primary mb-1">4. Digital Twins</h5>
+                    <p class="text-xs text-muted">Virtual 3D dynamic simulations mirroring physical plant equipment in real time.</p>
+                </div>
+                <div class="glass-card p-5">
+                    <h5 class="font-bold text-sm text-primary mb-1">5. Advanced Robotics</h5>
+                    <p class="text-xs text-muted">Autonomous Guided Vehicles (AGVs) in warehouses and collaborative cobots on assembly lines.</p>
+                </div>
+                <div class="glass-card p-5">
+                    <h5 class="font-bold text-sm text-primary mb-1">6. Big Data & Analytics</h5>
+                    <p class="text-xs text-muted">High-velocity streaming data architectures parsing billions of shop-floor log events.</p>
+                </div>
+                <div class="glass-card p-5">
+                    <h5 class="font-bold text-sm text-primary mb-1">7. Cybersecurity</h5>
+                    <p class="text-xs text-muted">Zero-trust security perimeters protecting Operational Technology (OT) from cyber warfare.</p>
+                </div>
+            </div>
+
+            <div class="glass-panel p-6 mt-6">
+                <h4 class="font-heading text-base font-bold mb-2">⚡ The Smart Factory in Action: The 6-Step Autonomous Loop</h4>
+                <div class="stepper">
+                    <div class="step-item">
+                        <div class="step-badge">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Telemetry Anomaly Detection</div>
+                            <p class="step-desc">IoT sensor detects vibration anomaly 18% above normal running baseline on machine #4.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-badge">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Cloud Ingestion & Telemetry Aggregation</div>
+                            <p class="step-desc">Edge gateway streams raw sensor data to cloud analytics cluster.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-badge">3</div>
+                        <div class="step-content">
+                            <div class="step-title">ERP Plant Maintenance Query</div>
+                            <p class="step-desc">AI model queries ERP core for machine service logs, warranty status, and current operating hours.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-badge">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Predictive ML Failure Scoring</div>
+                            <p class="step-desc">Model calculates an 87% probability of bearing seizure within 48 operational hours.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-badge">5</div>
+                        <div class="step-content">
+                            <div class="step-title">Autonomous ERP Execution</div>
+                            <p class="step-desc">ERP auto-generates Maintenance Work Order and reserves replacement bearings in warehouse inventory.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-badge">6</div>
+                        <div class="step-content">
+                            <div class="step-title">Field Technician Dispatch</div>
+                            <p class="step-desc">Work order and step-by-step repair checklist dispatched to certified technician's mobile tablet before breakdown occurs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 13: ANALYTICS MATURITY & DECISION INTELLIGENCE -->
+        <section id="section-analytics" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 13</span>
+                    <h2 class="section-title">Analytics Maturity & Decision Intelligence Framework</h2>
+                </div>
+            </div>
+
+            <p>
+                How raw enterprise data matures into autonomous strategic action:
+            </p>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Maturity Stage</th>
+                            <th>Core Question</th>
+                            <th>Methodology & Tools</th>
+                            <th>Enterprise Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. Descriptive</strong></td>
+                            <td><em>"What happened?"</em></td>
+                            <td>Static reporting, SQL queries, BI scorecards.</td>
+                            <td>Monthly regional sales revenue report.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Diagnostic</strong></td>
+                            <td><em>"Why did it happen?"</em></td>
+                            <td>Drill-down analysis, correlation, root-cause mining.</td>
+                            <td>Discovering revenue dropped due to supplier delivery delays in Pune.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Predictive</strong></td>
+                            <td><em>"What will happen?"</em></td>
+                            <td>Machine learning models, regression, demand sensing.</td>
+                            <td>Forecasting a 30% surge in coffee bean demand for Diwali festival.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>4. Prescriptive</strong></td>
+                            <td><em>"What should we do?"</em></td>
+                            <td>Mathematical optimization, Monte Carlo simulation.</td>
+                            <td>Recommending optimal safety stock levels balancing carrying cost vs. stockout risk.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>5. Cognitive / Autonomous</strong></td>
+                            <td><em>"Self-optimizing execution"</em></td>
+                            <td>Autonomous AI agents, reinforcement learning.</td>
+                            <td>ERP autonomously adjusts factory schedules and issues purchase orders without human clicks.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass-panel p-6 mt-6">
+                <h4 class="font-heading text-lg font-bold mb-2">🧠 Decision Intelligence (DI) Framework</h4>
+                <p class="text-sm text-muted mb-4">
+                    Decision Intelligence bridges the gap between data science and actual business outcomes by engineering decisions as formalized processes:
+                </p>
+                <div class="flow-row">
+                    <div class="flow-node"><strong>1. Data & Context</strong><br><small>ERP logs, sensor feeds, market signals</small></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node"><strong>2. Decision Models</strong><br><small>Business rules, constraints, objectives</small></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node highlight"><strong>3. Augmented Execution</strong><br><small>Human-in-the-Loop or Autonomous Action</small></div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-node"><strong>4. Feedback Loop</strong><br><small>Outcome tracking & continuous learning</small></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 14: RESPONSIBLE AI: 7 PILLARS -->
+        <section id="section-responsible-ai" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 14</span>
+                    <h2 class="section-title">Responsible AI in Enterprise Systems: The Seven Pillars</h2>
+                </div>
+            </div>
+
+            <p>
+                As ERP platforms incorporate autonomous GenAI coworkers and predictive algorithms, enterprises must enforce the <strong>Seven Pillars of Responsible AI</strong> to protect stakeholder trust and ensure regulatory compliance:
+            </p>
+
+            <div class="metric-grid">
+                <div class="glass-card p-5" style="border-top: 3px solid var(--primary);">
+                    <h5 class="font-bold text-sm mb-1">1. Fairness & Equity</h5>
+                    <p class="text-xs text-muted">Ensures credit scoring, hiring algorithms, and pricing models are free from racial, gender, or geographic demographic bias.</p>
+                </div>
+                <div class="glass-card p-5" style="border-top: 3px solid var(--accent);">
+                    <h5 class="font-bold text-sm mb-1">2. Transparency & Explainability</h5>
+                    <p class="text-xs text-muted">No "black-box" decisions. An executive or regulator must be able to inspect why an algorithm rejected a vendor or flagged an invoice.</p>
+                </div>
+                <div class="glass-card p-5" style="border-top: 3px solid var(--success);">
+                    <h5 class="font-bold text-sm mb-1">3. Privacy & Governance</h5>
+                    <p class="text-xs text-muted">Strict compliance with GDPR and DPDP. Enforces data minimization, anonymization, and granular customer consent management.</p>
+                </div>
+                <div class="glass-card p-5" style="border-top: 3px solid var(--warning);">
+                    <h5 class="font-bold text-sm mb-1">4. Safety & Robustness</h5>
+                    <p class="text-xs text-muted">Resilience against adversarial cyber-attacks, sudden data drift, hallucination risks, and edge-case operational failures.</p>
+                </div>
+                <div class="glass-card p-5" style="border-top: 3px solid var(--danger);">
+                    <h5 class="font-bold text-sm mb-1">5. Accountability</h5>
+                    <p class="text-xs text-muted">Identifiable human owners for every AI workflow. Algorithms do not bear legal accountability—designated executives do.</p>
+                </div>
+                <div class="glass-card p-5" style="border-top: 3px solid #6366f1;">
+                    <h5 class="font-bold text-sm mb-1">6. Human Agency & Oversight</h5>
+                    <p class="text-xs text-muted">Enforces "Human-in-the-Loop" controls. High-stakes capital commitments and layoffs require human executive authorization.</p>
+                </div>
+                <div class="glass-card p-5" style="border-top: 3px solid #0d9488;">
+                    <h5 class="font-bold text-sm mb-1">7. Societal & Environmental</h5>
+                    <p class="text-xs text-muted">Minimizing computational carbon footprints, advancing sustainable ESG supply chains, and preventing workforce alienation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 15: INTERACTIVE SIMULATORS -->
+        <section id="section-simulators" class="content-section">
+            <div class="section-header">
+                <div>
+                    <span class="section-tag">Module 15</span>
+                    <h2 class="section-title">Executive Decision Sandboxes & Live Calculators</h2>
+                </div>
+            </div>
+
+            <!-- SIMULATOR 1: WORKING CAPITAL -->
+            <div class="sim-box">
+                <div class="sim-header">
+                    <div>
+                        <span class="sim-tag">Live Sandbox 01</span>
+                        <h4 class="font-heading text-lg font-bold mt-1">Working Capital & Cash Flow Simulator</h4>
+                    </div>
+                    <span class="font-mono text-xs text-muted">Formula: Inventory + AR − AP</span>
+                </div>
+                <p class="text-xs text-muted mb-4">Adjust operational parameters to see how ERP procurement and credit strategies free up trapped liquidity:</p>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>1. Inventory Holding (Trapped in Warehouses)</span>
+                        <span id="lbl-inv" class="font-mono font-bold text-primary">₹50 Lakh</span>
+                    </div>
+                    <input type="range" id="slider-inv" min="10" max="100" value="50" step="5" class="slider-control" oninput="calcWC()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>2. Accounts Receivable (Owed by Customers)</span>
+                        <span id="lbl-ar" class="font-mono font-bold text-primary">₹40 Lakh</span>
+                    </div>
+                    <input type="range" id="slider-ar" min="10" max="100" value="40" step="5" class="slider-control" oninput="calcWC()">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>3. Accounts Payable (Owed to Suppliers — Stretched Terms)</span>
+                        <span id="lbl-ap" class="font-mono font-bold text-success">₹30 Lakh</span>
+                    </div>
+                    <input type="range" id="slider-ap" min="10" max="100" value="30" step="5" class="slider-control" oninput="calcWC()">
+                </div>
+
+                <div class="sim-result-box">
+                    <div>
+                        <div class="text-xs text-muted uppercase font-bold">Net Working Capital Required</div>
+                        <div id="res-wc" class="text-3xl font-extrabold font-heading text-primary mt-1">₹60.0 Lakh</div>
+                    </div>
+                    <div style="border-left: 1px solid var(--glass-border); padding-left: 20px;">
+                        <div class="text-xs text-muted uppercase font-bold">Executive Strategic Recommendation</div>
+                        <div id="res-advice" class="text-sm font-semibold text-slate-700 mt-1">Adopt JIT purchasing to reduce inventory holding.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULATOR 2: 3-WAY MATCH VERIFIER -->
+            <div class="sim-box">
+                <div class="sim-header">
+                    <div>
+                        <span class="sim-tag">Live Sandbox 02</span>
+                        <h4 class="font-heading text-lg font-bold mt-1">3-Way Match Discrepancy Validator</h4>
+                    </div>
+                    <span class="font-mono text-xs text-muted">Internal Control Engine</span>
+                </div>
+                <p class="text-xs text-muted mb-4">Simulate how an ERP automated payment engine flags quantity and price variances:</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                    <div>
+                        <label class="text-xs font-bold text-muted block mb-1">Approved PO Qty</label>
+                        <input type="number" id="match-po-qty" value="100" class="search-input" oninput="run3WayMatch()">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-muted block mb-1">Approved PO Price (₹)</label>
+                        <input type="number" id="match-po-price" value="500" class="search-input" oninput="run3WayMatch()">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-muted block mb-1">Actual GR Qty Received</label>
+                        <input type="number" id="match-gr-qty" value="100" class="search-input" oninput="run3WayMatch()">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-muted block mb-1">Vendor Invoice Billed Qty</label>
+                        <input type="number" id="match-inv-qty" value="100" class="search-input" oninput="run3WayMatch()">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-muted block mb-1">Vendor Invoice Price (₹)</label>
+                        <input type="number" id="match-inv-price" value="500" class="search-input" oninput="run3WayMatch()">
+                    </div>
+                </div>
+
+                <div id="match-output" class="callout callout-success p-4 m-0">
+                    <div class="callout-icon">✅</div>
+                    <div class="callout-body">
+                        <h5 class="text-success font-bold">3-Way Match Passed (Zero Variance)</h5>
+                        <p class="text-xs">PO, GR, and Invoice match perfectly. System releases payment authorization automatically for ₹50,000.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIMULATOR 3: FUNNEL COMPOUNDING -->
+            <div class="sim-box">
+                <div class="sim-header">
+                    <div>
+                        <span class="sim-tag">Live Sandbox 03</span>
+                        <h4 class="font-heading text-lg font-bold mt-1">Sales Funnel Compounding Calculator</h4>
+                    </div>
+                    <span class="font-mono text-xs text-muted">+10% Conversion Leverage</span>
+                </div>
+                <p class="text-xs text-muted mb-4">See how a tiny +10% improvement at each CRM stage compounds into a 63% revenue surge:</p>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Total Inbound Leads</span>
+                        <span id="lbl-leads" class="font-mono font-bold text-primary">200 Leads</span>
+                    </div>
+                    <input type="range" id="slider-leads" min="50" max="1000" value="200" step="50" class="slider-control" oninput="calcFunnel()">
+                </div>
+
+                <div class="metric-grid">
+                    <div class="metric-card">
+                        <div class="metric-label">Standard Funnel (Baseline)</div>
+                        <div id="res-base-won" class="text-2xl font-bold text-slate-700">16 Customers</div>
+                        <div id="res-base-rev" class="font-mono text-sm text-muted mt-1">₹16.0 Lakh / mo</div>
+                    </div>
+                    <div class="metric-card" style="border: 2px solid var(--success);">
+                        <div class="metric-label text-success">+10% Optimized Funnel</div>
+                        <div id="res-opt-won" class="text-2xl font-bold text-success">26 Customers</div>
+                        <div id="res-opt-rev" class="font-mono text-sm text-success mt-1">₹25.9 Lakh / mo (+62%)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div>Enterprise Resource Planning (ERP) — Executive Reference & Study Hub</div>
+            <div>Light Glassmorphism Theme • Single-File Interactive Architecture</div>
+        </footer>
+    </main>
+</div>
+
+<!-- Mobile Drawer Button -->
+<button class="mobile-menu-btn" onclick="toggleMobileSidebar()" aria-label="Toggle Navigation">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24" style="margin: auto;">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+</button>
+
+<script>
+    // Tab Switching Functionality
+    function switchTab(event, tabId) {
+        const container = event.target.closest('.tab-container');
+        container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        container.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+        
+        event.target.classList.add('active');
+        const targetPane = document.getElementById(tabId);
+        if (targetPane) {
+            targetPane.classList.add('active');
+        }
+    }
+
+    // Mobile Sidebar Toggle
+    function toggleMobileSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('mobile-open');
+    }
+
+    // Scrollspy for Sidebar Links
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.content-section');
+        const scrollPos = window.scrollY + 100;
+
+        sections.forEach(section => {
+            const top = section.offsetTop;
+            const height = section.offsetHeight;
+            const id = section.getAttribute('id');
+
+            if (scrollPos >= top && scrollPos < top + height) {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    });
+
+    // Client-Side Topic Search
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const query = e.target.value.toLowerCase().trim();
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            const text = link.textContent.toLowerCase();
+            if (text.includes(query) || query === '') {
+                link.style.display = 'flex';
+            } else {
+                link.style.display = 'none';
+            }
+        });
+    });
+
+    // Simulator 1: Working Capital Calculator
+    function calcWC() {
+        const inv = parseFloat(document.getElementById('slider-inv').value);
+        const ar = parseFloat(document.getElementById('slider-ar').value);
+        const ap = parseFloat(document.getElementById('slider-ap').value);
+
+        document.getElementById('lbl-inv').textContent = `₹${inv} Lakh`;
+        document.getElementById('lbl-ar').textContent = `₹${ar} Lakh`;
+        document.getElementById('lbl-ap').textContent = `₹${ap} Lakh`;
+
+        const wc = inv + ar - ap;
+        document.getElementById('res-wc').textContent = `₹${wc.toFixed(1)} Lakh`;
+
+        const advice = document.getElementById('res-advice');
+        if (wc > 65) {
+            advice.textContent = "CRITICAL: Excessive working capital trapped! Stagger inventory and negotiate Net 60 supplier terms.";
+            advice.className = "text-sm font-semibold text-danger mt-1";
+        } else if (wc < 40) {
+            advice.textContent = "EXCELLENT: Highly optimized cash conversion cycle. Strong operational liquidity.";
+            advice.className = "text-sm font-semibold text-success mt-1";
+        } else {
+            advice.textContent = "MODERATE: Standard working capital balance. Consider cycle counting to reduce buffers.";
+            advice.className = "text-sm font-semibold text-slate-700 mt-1";
+        }
+    }
+
+    // Simulator 2: 3-Way Match Engine
+    function run3WayMatch() {
+        const poQty = parseFloat(document.getElementById('match-po-qty').value) || 0;
+        const poPrice = parseFloat(document.getElementById('match-po-price').value) || 0;
+        const grQty = parseFloat(document.getElementById('match-gr-qty').value) || 0;
+        const invQty = parseFloat(document.getElementById('match-inv-qty').value) || 0;
+        const invPrice = parseFloat(document.getElementById('match-inv-price').value) || 0;
+
+        const out = document.getElementById('match-output');
+
+        if (invQty > grQty) {
+            out.className = "callout callout-danger p-4 m-0";
+            out.innerHTML = `
+                <div class="callout-icon">🛑</div>
+                <div class="callout-body">
+                    <h5 class="text-danger font-bold">SYSTEM PAYMENT BLOCKED: Quantity Variance</h5>
+                    <p class="text-xs">Supplier billed for <strong>${invQty} units</strong>, but warehouse Goods Receipt only verified <strong>${grQty} units</strong>! System blocks payment for the missing ${invQty - grQty} units.</p>
+                </div>
+            `;
+        } else if (invPrice > poPrice) {
+            out.className = "callout callout-warning p-4 m-0";
+            out.innerHTML = `
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-body">
+                    <h5 class="text-warning font-bold">SYSTEM PAYMENT BLOCKED: Price Variance</h5>
+                    <p class="text-xs">Supplier billed at <strong>₹${invPrice}/unit</strong>, exceeding the approved Purchase Order price of <strong>₹${poPrice}/unit</strong>! Placed on managerial hold.</p>
+                </div>
+            `;
+        } else {
+            const total = invQty * invPrice;
+            out.className = "callout callout-success p-4 m-0";
+            out.innerHTML = `
+                <div class="callout-icon">✅</div>
+                <div class="callout-body">
+                    <h5 class="text-success font-bold">3-Way Match Passed (Zero Variance)</h5>
+                    <p class="text-xs">All three records align. System releases automated payment authorization for <strong>₹${total.toLocaleString('en-IN')}</strong>.</p>
+                </div>
+            `;
+        }
+    }
+
+    // Simulator 3: Sales Funnel Compounding
+    function calcFunnel() {
+        const leads = parseFloat(document.getElementById('slider-leads').value);
+        document.getElementById('lbl-leads').textContent = `${leads} Leads`;
+
+        // Baseline: 40% opp, 50% prop, 40% win
+        const baseWon = Math.round(leads * 0.40 * 0.50 * 0.40);
+        const baseRev = baseWon * 1.0;
+
+        // Optimized (+10% each stage): 48% opp, 55% prop, 49% win
+        const optWon = Math.round(leads * 0.48 * 0.55 * 0.49);
+        const optRev = optWon * 1.0;
+
+        const growth = Math.round(((optRev - baseRev) / baseRev) * 100);
+
+        document.getElementById('res-base-won').textContent = `${baseWon} Customers`;
+        document.getElementById('res-base-rev').textContent = `₹${baseRev.toFixed(1)} Lakh / mo`;
+
+        document.getElementById('res-opt-won').textContent = `${optWon} Customers`;
+        document.getElementById('res-opt-rev').textContent = `₹${optRev.toFixed(1)} Lakh / mo (+${growth}%)`;
+    }
+
+    // Initial calculation runs
+    calcWC();
+    calcFunnel();
+</script>
+
+</body>
+</html>
