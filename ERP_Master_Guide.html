@@ -50,6 +50,10 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-canvas);
@@ -61,7 +65,8 @@
                 radial-gradient(at 85% 25%, rgba(2, 132, 199, 0.05) 0px, transparent 45%),
                 radial-gradient(at 50% 80%, rgba(5, 150, 105, 0.03) 0px, transparent 50%);
             background-attachment: fixed;
-            overflow-x: auto;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         h1, h2, h3, h4, .font-heading {
@@ -104,7 +109,7 @@
             display: flex;
             min-height: 100vh;
             width: 100%;
-            position: relative;
+            align-items: flex-start;
         }
 
         /* Sidebar Navigation */
@@ -116,7 +121,7 @@
             position: sticky;
             top: 0;
             left: 0;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-right: 1px solid var(--glass-border);
@@ -125,6 +130,7 @@
             z-index: 50;
             padding: 20px 14px;
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .brand {
@@ -267,11 +273,11 @@
         /* Main Content Container */
         .main-content {
             flex: 1;
-            min-width: 0; /* Prevents flex children from blowing out width */
+            min-width: 0;
             padding: 36px 44px 100px 44px;
-            max-width: 1280px;
-            width: calc(100% - 285px);
-            margin-left: 0;
+            overflow-x: hidden;
+            overflow-y: visible;
+            box-sizing: border-box;
         }
 
         /* Hero Header */
@@ -789,7 +795,89 @@
             align-items: center;
             font-size: 13px;
             color: var(--text-subtle);
+            flex-wrap: wrap;
+            gap: 8px;
         }
+
+        /* ==========================================
+           UTILITY CLASSES (used throughout HTML)
+           ========================================== */
+        /* Spacing */
+        .mb-1 { margin-bottom: 4px; }
+        .mb-2 { margin-bottom: 8px; }
+        .mb-3 { margin-bottom: 12px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-5 { margin-bottom: 20px; }
+        .mb-6 { margin-bottom: 24px; }
+        .mt-1 { margin-top: 4px; }
+        .mt-2 { margin-top: 8px; }
+        .mt-3 { margin-top: 12px; }
+        .mt-4 { margin-top: 16px; }
+        .mt-5 { margin-top: 20px; }
+        .mt-6 { margin-top: 24px; }
+        .mt-8 { margin-top: 32px; }
+        .p-4 { padding: 16px; }
+        .p-6 { padding: 24px; }
+        .m-0 { margin: 0; }
+
+        /* Typography */
+        .text-xs  { font-size: 12px; line-height: 1.5; }
+        .text-sm  { font-size: 14px; line-height: 1.55; }
+        .text-base{ font-size: 16px; line-height: 1.6; }
+        .text-lg  { font-size: 18px; line-height: 1.4; }
+        .text-xl  { font-size: 20px; line-height: 1.35; }
+        .text-2xl { font-size: 24px; line-height: 1.3; }
+        .text-3xl { font-size: 30px; line-height: 1.25; }
+
+        .font-bold   { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .font-mono   { font-family: 'JetBrains Mono', monospace; }
+        .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* Color utilities */
+        .text-muted     { color: var(--text-muted); }
+        .text-subtle    { color: var(--text-subtle); }
+        .text-primary   { color: var(--primary); }
+        .text-success   { color: var(--success); }
+        .text-warning   { color: var(--warning); }
+        .text-danger    { color: var(--danger); }
+        .text-slate-700 { color: #334155; }
+        .text-white     { color: #ffffff; }
+
+        /* Display */
+        .block  { display: block; }
+        .flex   { display: flex; }
+        .hidden { display: none; }
+
+        /* Text Alignment */
+        .text-center { text-align: center; }
+
+        /* Text Transform */
+        .uppercase { text-transform: uppercase; }
+
+        /* Font Weight Extras */
+        .font-extrabold { font-weight: 800; }
+
+        /* Accent Color */
+        .text-accent { color: var(--accent); }
+
+        /* Background Utilities */
+        .bg-slate-100 { background-color: #f1f5f9; }
+        .bg-indigo-50 { background-color: #eef2ff; }
+
+        /* Border Utilities */
+        .border { border: 1px solid var(--glass-border); }
+        .border-indigo-200 { border-color: #c7d2fe; }
+
+        /* Border Radius Utilities */
+        .rounded { border-radius: var(--radius-sm); }
+        .rounded-md { border-radius: var(--radius-md); }
+
+        /* Indigo Text */
+        .text-indigo-950 { color: #1e1b4b; }
+
+        /* Space-Y Utility */
+        .space-y-1 > * + * { margin-top: 4px; }
 
         /* Responsive */
         @media (max-width: 1024px) {
@@ -1307,7 +1395,7 @@
                     </div>
                     <p class="text-xs text-muted mt-2">
                         Audit logs cannot be modified or deleted by anyone—even system DBAs. Mandated under <strong>SOX Section 404</strong>, <strong>CARO (India)</strong>, and <strong>Ind AS / IFRS</strong>.
-                    </div>
+                    </p>
                 </div>
             </div>
         </section>
